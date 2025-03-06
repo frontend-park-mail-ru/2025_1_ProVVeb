@@ -1,16 +1,16 @@
 import BaseComponent from "../../components/BaseComponent.js";
 import router from "../../modules/router.js";
 
-export default class LoginPage extends BaseComponent {
+export default class AuthPage extends BaseComponent {
 	constructor(parentElement) {
-		const templateHBS = Handlebars.templates['login.hbs'];
+		const templateHBS = Handlebars.templates['auth.hbs'];
 		const templateHTML = templateHBS();
 		super(templateHTML, parentElement);
 
 		this.addListener(
 			'click', 
-			'#authLink',
-			() => { console.log("Отладчик: перешел на авторизацию"); router.navigateTo('auth') } 
+			'#loginLink',
+			() => { console.log("Отладчик: перешел на регистрацию"); router.navigateTo('login') } 
 		);
 	}
 }
