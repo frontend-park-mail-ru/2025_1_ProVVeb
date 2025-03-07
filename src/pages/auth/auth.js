@@ -8,9 +8,19 @@ export default class AuthPage extends BaseComponent {
 		super(templateHTML, parentElement);
 
 		this.addListener(
-			'click', 
+			'click',
 			'#loginLink',
-			() => { console.log("Отладчик: перешел на регистрацию"); router.navigateTo('login') } 
+			() => { console.log("Отладчик: перешел на регистрацию"); router.navigateTo('login') }
 		);
 	}
+
+	// validate = () => {
+	// 	console.log("Сейчас валидация");
+	// 	// квериселектр логин контейнера = (1)
+	// 	// newLogin = new input(state = incorrect , parent = (1))
+	// 	// newLogin.render()
+
+
+	// 	router.navigateTo('login');
+	// }
 }

@@ -1,0 +1,23 @@
+:root {
+	--main-theme: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
+	--white-bg-color: #FFF;
+	--label: #7E8492;
+	--accent-font-color: #010710;
+	--font-color: #4A4A4A;
+	--placeholder: #898A8D80;
+	--danger: #FF4D4F;
+	--danger-placeholder: #FF7172;
+	--yellow-gradient: linear-gradient(151.29deg, #F1D373 -1.74%, rgba(244, 208, 92, 0.802083) 63.1%, rgba(255, 194, 0, 0) 166.49%);
+	--yellow-line: #F1D373;
+	--red-line: #EE4143;
+	--blue-gradient: background: linear-gradient(200.22deg, #63BCF2 39.69%, rgba(146, 214, 255, 0) 151.7%);
+	--blue-line: #65C3F2;
+	--green-gradient: background: linear-gradient(204.27deg, #6BE2A7 24.9%, rgba(107, 226, 167, 0) 120.92%);
+	--green-line: #6FE7C1;
+	--purple-gradient: background: linear-gradient(192.94deg, #A74DE9 38.38%, rgba(167, 77, 233, 0) 133.25%);
+	--purple-line: #A952EA;
+	--gray-line: #939393;
+	--vertical-line: #EAEDF1;
+	--light-grey-progress-bar-line: #D9D9D9;
+	--red-progress-bar-line: #EA5D6B;
+}
