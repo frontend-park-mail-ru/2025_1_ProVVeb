@@ -1,0 +1,37 @@
+.profile{
+    width: fit-content;
+    height: 70px;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+.profile p{
+    font-weight: 700;
+    font-size: 26px;
+    text-align: right;
+    color: var(--font);
+    margin-right: 16px;
+}
+
+.profile img{
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.profile .photo {
+    position: relative;
+}
+
+/* .profile .progress-ring {
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: conic-gradient(#FF7854 0%, #FE3675 33%, rgba(0, 0, 0, 0.1) 33%);
+    mask: radial-gradient(circle, transparent 65%, black 65%);
+    z-index: -1;
+} */

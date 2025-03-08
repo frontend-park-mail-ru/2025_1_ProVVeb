@@ -1,14 +1,16 @@
 import BaseComponent from "../../BaseComponent.js";
-import BaseComponent from "../logo.js";
 
-const DEFAULT_PARAMS_BUTTON = {
-	buttonText: 'КНОПКА',
+const DEFAULT_COMPONENTS = {
+	logotype: '',
+	profile: '',
+	isGreeting: false,
 }
 
-export default class Button extends BaseComponent {
-	constructor(parentElement, paramsHBS = DEFAULT_PARAMS_BUTTON) {
+export default class Header extends BaseComponent {
+	constructor(parentElement, paramsHBS = {}) {
+		const finalParamsHBS = Object.assign({}, DEFAULT_COMPONENTS, paramsHBS);
 		const templateHBS = Handlebars.templates['header.hbs'];
-		const templateHTML = templateHBS(paramsHBS);
+		const templateHTML = templateHBS(finalParamsHBS);
 		super(templateHTML, parentElement);
 	}
 }
