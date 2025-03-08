@@ -9,11 +9,10 @@ import HeaderMain from "./components/compound/headerMain/headerMain.js";
 // router.navigateTo('login');
 
 const root = document.getElementById('root');
-const el0 = new HeaderMain(root);
+const el0 = new HeaderGreeting(root);
 const el = new LoginInput(root);
 const el1 = new PasswordInput(root);
-// logo.renderInit();
-// profile.render();
+
 el0.renderInit();
 el.render();
 el1.render();
