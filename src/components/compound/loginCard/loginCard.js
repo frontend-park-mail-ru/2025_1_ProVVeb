@@ -7,6 +7,7 @@ import LoginButton from "../../simple/loginButton/loginButton.js";
 
 export default class LoginCard extends Card {
 	constructor(parentElement) {
+
 		const LOGIN_CARD_PARAMS_CARD = {
 			progressBar: new ProgressBar(parentElement, { progressPercent: 0 }).template,
 			cardTitle: 'Настроим твой вход 🔑',

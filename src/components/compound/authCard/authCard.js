@@ -7,6 +7,7 @@ import AuthButton from "../../simple/authButton/authButton.js";
 
 export default class AuthCard extends Card {
 	constructor(parentElement) {
+
 		const AUTH_CARD_PARAMS_CARD = {
 			progressBar: new ProgressBar(parentElement, { progressPercent: 100 }).template,
 			cardTitle: 'Продолжи свой поиск ❤️',

@@ -8,11 +8,11 @@ import HeaderMain from "./components/compound/headerMain/headerMain.js";
 
 router.navigateTo('auth');
 
-const root = document.getElementById('root');
-const el0 = new HeaderGreeting(root);
-const el = new LoginInput(root);
-const el1 = new PasswordInput(root);
+// const root = document.getElementById('root');
+// const el0 = new HeaderGreeting(root);
+// const el = new LoginInput(root);
+// const el1 = new PasswordInput(root);
 
-el0.render();
-el.render();
-el1.render();
+// el0.render();
+// el.render();
+// el1.render();
