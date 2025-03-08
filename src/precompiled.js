@@ -59,15 +59,17 @@ templates['input.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":function(con
     + "</label>\r\n</div>";
 },"useData":true});
 templates['linkTo.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
           return parent[propertyName];
         }
         return undefined
     };
 
-  return "<a href=\"\" class=\"linkTo\">"
-    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"linkText") || (depth0 != null ? lookupProperty(depth0,"linkText") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"linkText","hash":{},"data":data,"loc":{"start":{"line":1,"column":26},"end":{"line":1,"column":40}}}) : helper)))
+  return "<a class=\"linkTo\" id=\""
+    + alias4(((helper = (helper = lookupProperty(helpers,"idLink") || (depth0 != null ? lookupProperty(depth0,"idLink") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"idLink","hash":{},"data":data,"loc":{"start":{"line":1,"column":22},"end":{"line":1,"column":34}}}) : helper)))
+    + "\">"
+    + alias4(((helper = (helper = lookupProperty(helpers,"linkText") || (depth0 != null ? lookupProperty(depth0,"linkText") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"linkText","hash":{},"data":data,"loc":{"start":{"line":1,"column":36},"end":{"line":1,"column":50}}}) : helper)))
     + "</a>";
 },"useData":true});
 templates['progressBar.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
@@ -81,11 +83,5 @@ templates['progressBar.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":functi
   return "<div class=\"progressBarContainer\">\r\n	<div class=\"progressBarLine\" data-percent=\""
     + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"progressPercent") || (depth0 != null ? lookupProperty(depth0,"progressPercent") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"progressPercent","hash":{},"data":data,"loc":{"start":{"line":2,"column":44},"end":{"line":2,"column":65}}}) : helper)))
     + "\"></div>\r\n</div>";
-},"useData":true});
-templates['auth.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<h1>Авторизация</h1>\r\n<a id='loginLink'>Создать аккаунт</a>\r\n\r\n";
-},"useData":true});
-templates['login.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    return "<h1>Регистрация</h1>\r\n<a id='authLink'>Уже есть аккаунт? Войти</a>";
 },"useData":true});
 })();

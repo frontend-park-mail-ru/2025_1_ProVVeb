@@ -3,10 +3,10 @@ import LoginCard from "./components/compound/loginCard/loginCard.js";
 import AuthCard from "./components/compound/authCard/authCard.js";
 // если не авторизован решать куда идти
 
-// router.navigateTo('login');
+router.navigateTo('auth');
 
-const root = document.getElementById('root');
-const el = new LoginCard(root);
-const el1 = new AuthCard(root);
-el.render();
-el1.renderBefore();
+// const root = document.getElementById('root');
+// const el = new LoginCard(root);
+// const el1 = new AuthCard(root);
+// el.render();
+// el1.renderBefore();

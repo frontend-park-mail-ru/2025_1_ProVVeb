@@ -34,6 +34,7 @@ export default class BaseComponent {
 	attachListeners() {
 		this.listeners.forEach(listener => {
 			const element = this.parentElement.querySelector(listener.selector);
+			// console.log("Я АДУУУ", element, listener.selector, typeof (listener.selector));
 			if (element) {
 				element.addEventListener(listener.eventType, listener.callback);
 			}

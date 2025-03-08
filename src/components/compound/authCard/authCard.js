@@ -2,8 +2,8 @@ import Card from "../../pattern/card/card.js";
 import ProgressBar from "../../simple/progressBar/progressBar.js";
 import LoginInput from "../../simple/loginInput/loginInput.js";
 import PasswordInput from "../../simple/passwordInput/passwordInput.js";
-import AuthButton from "../../simple/authButton/authButton.js";
 import LinkToLogin from "../../simple/linkToLogin/linkToLogin.js";
+import AuthButton from "../../simple/authButton/authButton.js";
 
 export default class AuthCard extends Card {
 	constructor(parentElement) {
