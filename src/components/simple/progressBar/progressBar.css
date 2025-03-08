@@ -1,13 +1,13 @@
 @import './../../../styles/globals/colors.css';
 
 .progressBarContainer {
-	width: 300px;
-	/* 100% */
+	width: 100%;
 	background-color: var(--light-grey-progress-bar-line);
 	height: 4px;
 	border-radius: 15px;
 	overflow: hidden;
 	position: relative;
+	margin-bottom: 20px;
 }
 
 .progressBarLine {

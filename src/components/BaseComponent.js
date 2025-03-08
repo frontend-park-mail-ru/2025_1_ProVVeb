@@ -5,17 +5,13 @@ export default class BaseComponent {
 		this.listeners = [];
 	}
 
-	renderInit() {
-		this.parentElement.innerHTML = this.template;
-		this.attachListeners();
-	}
-
 	render() {
 		if (this.parentElement.innerHTML == '') {
 			this.parentElement.innerHTML = this.template;
 			this.attachListeners();
 			return;
 		}
+
 		this.parentElement.insertAdjacentHTML('beforeend', this.template);
 		this.attachListeners();
 	}
@@ -39,6 +35,7 @@ export default class BaseComponent {
 	attachListeners() {
 		this.listeners.forEach(listener => {
 			const element = this.parentElement.querySelector(listener.selector);
+			// console.log("Я АДУУУ", element, listener.selector, typeof (listener.selector));
 			if (element) {
 				element.addEventListener(listener.eventType, listener.callback);
 			}

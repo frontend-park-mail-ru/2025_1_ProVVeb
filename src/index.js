@@ -7,7 +7,7 @@ import Notification from "./components/simple/errorMessage/errorMessage.js"
 
 // если не авторизован решать куда идти
 
-// router.navigateTo('login');
+router.navigateTo('auth');
 
 const root = document.getElementById('root');
 const el0 = new HeaderGreeting(root);
@@ -19,3 +19,4 @@ error.render();
 el0.render();
 el.render();
 el1.render();
+
