@@ -11,14 +11,14 @@ class Router {
 	navigateTo(page) {
 		switch (page) {
 			case 'auth':
-				this.authPage.render();
+				this.authPage.rerender();
 				break;
 			case 'login':
-				this.loginPage.render();
+				this.loginPage.rerender();
 				break;
 			default:
 				alert("Такой страницы нет. Перенаправляю на логин");
-				this.loginPage.render();
+				this.loginPage.rerender();
 		}
 	}
 }

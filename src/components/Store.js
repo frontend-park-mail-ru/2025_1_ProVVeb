@@ -32,5 +32,5 @@ class Store {
 }
 
 const store = new Store();
-store.setState("linkHandlers", {});
+// store.setState("linkHandlers", {});
 export default store;

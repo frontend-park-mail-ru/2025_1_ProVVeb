@@ -16,6 +16,12 @@ export default class BaseComponent {
 		this.attachListeners();
 	}
 
+	// rerender() {
+	// 	this.removeListeners(); // Сначала удаляем слушатели
+	// 	this.parentElement.innerHTML = this.template; // Затем перезаписываем HTML
+	// 	this.attachListeners(); // Заново добавляем слушатели
+	// }
+
 	getRenderedComponent() {
 		return this.parentElement.innerHTML;
 	}
@@ -35,7 +41,7 @@ export default class BaseComponent {
 	attachListeners() {
 		this.listeners.forEach(listener => {
 			const element = this.parentElement.querySelector(listener.selector);
-			// console.log("Я АДУУУ", element, listener.selector, typeof (listener.selector));
+			console.log("Я в АДУУУ", element, listener.selector, typeof (listener.selector));
 			if (element) {
 				element.addEventListener(listener.eventType, listener.callback);
 			}

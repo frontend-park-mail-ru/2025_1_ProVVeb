@@ -5,115 +5,56 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Логотип</title>
+	<link rel="stylesheet" href="styles/globals/reset.css">
 	<style>
-		*{
-			margin: 0;
-			padding: 0;
-			box-sizing: border-box;
+		.personCard {
+			width: 400px;
+			height: 600px;
 		}
-		html{
-			/* background: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
-			background-repeat: no-repeat;
-			background-size: cover; */
-			height: 100%;
-			font-family: 'Gotham', sans-serif;
+
+		.innerPersonCard {
+			position: relative;
 		}
-		img{
-			width: 50px;
-			height: 50px;
-		}
-		p{
-			font-size: 45px;
-			font-weight: 500;
-			margin: 0;
-			margin-left: 9px;
-		}
-		.white{
-			color: white;
-		}
-		.main{
-			background: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
-			-webkit-background-clip: text;
-			background-clip: text;
-			color: transparent;
-		}
-		.logotypeBlock{
-			height: 56px;
-			width: fit-content;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-		.header{
+
+		.personFoto {
 			width: 100%;
-			/* height: 130px; */
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
-		.inner-header{
-			/* width: 1056px; */
-			height: 100%;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
-		.profile{
-			width: fit-content;
-			height: 70px;
-			display: flex;
-			position: relative;
-			justify-content: center;
-			align-items: center;
-		}
-		.profile p{
-			font-weight: 700;
-			font-size: 26px;
-			text-align: right;
-			color: var(--font);
-			margin-right: 16px;
-		}
-
-		.profile img{
-			width: 64px;
-			height: 64px;
+			height: auto;
 			object-fit: cover;
-			border-radius: 50%;
-		}
-		.profile .photo {
-			position: relative;
+			border-radius: 14px;
 		}
 
-		.profile .progress-ring {
+		.personCardBtns {
 			position: absolute;
-			top: -6px;
-			left: -6px;
-			width: 76px;
-			height: 76px;
-			border-radius: 50%;
-			background: conic-gradient(#FF7854 0%, #FE3675 33%, rgba(0, 0, 0, 0.1) 33%);
-			mask: radial-gradient(circle, transparent 65%, black 65%);
-			z-index: -1;
+			bottom: 10px;
+			left: 50%;
+			transform: translateX(-50%);
+			display: flex;
+			gap: 40px;
+		}
+
+		.personCardBtns .iconButton {
+			cursor: pointer;
+			transition: transform 0.3s ease-in-out;
+		}
+
+		.personCardBtns .iconButton:hover {
+			transform: scale(1.1);
 		}
 	</style>
 </head>
 
 <body>
-	<div class="header" style="height: 90px;">
-		<div class="inner-header" style="width: 1056px;">
-			<div class="logotypeBlock">
-				<img src="media/logo/logo main 50.png" alt="logo">
-				<p class="main">BeamEye</p>
-			</div>
-			<div class="profile">
-				<p>Владимир</p>
-				<div class="photo">
-					<img src="media/logo/logo main 50.png" alt="profile photo">
-					<div class="progress-ring"></div>
-				</div>
+	<div class="personCard">
+		<div class="innerPersonCard">
+			<img src="girl.jpg" alt="Фотография человека" class="personFoto">
+			<div class="personCardBtns">
+				<img class="iconButton" src="actionBtnDislike.svg" alt="Дизлайк" width="70" height="70">
+				<img class="iconButton" src="actionBtnLike.svg" alt="Лайк" width="70" height="70">
 			</div>
 		</div>
 	</div>
+
+
 
 </body>
 
