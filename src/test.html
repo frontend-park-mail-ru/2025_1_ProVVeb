@@ -4,47 +4,40 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Поле ввода</title>
+	<title>Логотип</title>
 	<style>
-		.input-container {
-			position: relative;
-			display: inline-block;
-			width: 250px;
+		html{
+			background: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
+			background-repeat: no-repeat;
+			background-size: cover;
+			height: 100%;
+			font-family: 'Gotham', sans-serif;
 		}
-
-		.input-container input {
-			width: 100%;
-			border: none;
-			border-bottom: 2px solid gray;
-			outline: none;
-			font-size: 16px;
-			padding: 5px 0;
+		img{
+			width: 50px;
+			height: 50px;
 		}
-
-		.input-container label {
-			position: absolute;
-			left: 0;
-			top: 5px;
-			color: lightgray;
-			font-size: 16px;
-			transition: 0.3s ease;
-			pointer-events: none;
+		p{
+			color: white;
+			font-size: 45px;
+			font-weight: 500;
+			margin: 0;
+			margin-left: 9px;
 		}
-
-		.input-container input:focus+label,
-		.input-container input:not(:placeholder-shown)+label {
-			top: -15px;
-			font-size: 12px;
-			color: gray;
+		.logotypeWhite{
+			height: 56px;
+			display: flex;
+			align-items: center;
+			justify-self: center;
 		}
 	</style>
 </head>
 
 <body>
 
-	<div class="input-container">
-		<input type="password" id="password" placeholder=" " required>
-		<label for="password">Пароль</label>
+	<div class="logotypeWhite">
+		<img src="media/logo/Icon 50.png" alt="logo">
+		<p>BeamEye</p>
 	</div>
 
 </body>

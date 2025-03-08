@@ -5,12 +5,12 @@ export default class BaseComponent {
 		this.listeners = [];
 	}
 
-	render() {
+	renderInit() {
 		this.parentElement.innerHTML = this.template;
 		this.attachListeners();
 	}
 
-	renderBefore() {
+	render() {
 		this.parentElement.insertAdjacentHTML('beforeend', this.template);
 		this.attachListeners();
 	}
