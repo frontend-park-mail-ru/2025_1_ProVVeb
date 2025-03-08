@@ -1,0 +1,31 @@
+@import './../../../styles/globals/colors.css';
+
+.card {
+	height: 500px;
+	width: fit-content;
+	padding: 40px;
+	background-color: var(--white-bg-color);
+	border-radius: 12px;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.innerCard {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.headerCard {
+	width: 100%;
+	text-align: center;
+}
+
+.fieldsCard {
+	width: 85%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 32px;
+}

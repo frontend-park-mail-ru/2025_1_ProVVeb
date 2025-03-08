@@ -3,7 +3,7 @@
 .inputContainer {
 	position: relative;
 	display: inline-block;
-	width: 250px;
+	width: 100%;
 }
 
 .inputContainer input {
@@ -35,4 +35,12 @@
 	top: -15px;
 	font-size: 12px;
 	color: var(--gray-line);
+}
+
+.inputContainer.incorrect>input {
+	border-bottom: 2px solid var(--danger);
+}
+
+.inputContainer.incorrect>label {
+	color: var(--danger-placeholder);
 }

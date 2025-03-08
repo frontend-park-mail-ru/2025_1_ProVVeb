@@ -1,11 +1,12 @@
 import Button from "../../pattern/button/button.js";
 
-const AUTH_PARAMS_BUTTON = {
+const DEFAULT_AUTH_PARAMS_BUTTON = {
 	buttonText: 'Войти',
 }
 
 export default class AuthButton extends Button {
-	constructor(parentElement) {
-		super(parentElement, AUTH_PARAMS_BUTTON);
+	constructor(parentElement, paramsHBS = {}) {
+		const finalParamsHBS = Object.assign({}, DEFAULT_AUTH_PARAMS_BUTTON, paramsHBS);
+		super(parentElement, finalParamsHBS);
 	}
 }

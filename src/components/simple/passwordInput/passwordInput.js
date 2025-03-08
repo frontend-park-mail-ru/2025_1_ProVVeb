@@ -1,6 +1,6 @@
 import Input from "../../pattern/input/input.js";
 
-const PASSWORD_PARAMS_INPUT = {
+const DEFAULT_PASSWORD_PARAMS_INPUT = {
 	typeInput: 'password',
 	idInput: 'passwordInput',
 	nameInput: 'password',
@@ -8,7 +8,8 @@ const PASSWORD_PARAMS_INPUT = {
 }
 
 export default class PasswordInput extends Input {
-	constructor(parentElement) {
-		super(parentElement, PASSWORD_PARAMS_INPUT);
+	constructor(parentElement, paramsHBS = {}) {
+		const finalParamsHBS = Object.assign({}, DEFAULT_PASSWORD_PARAMS_INPUT, paramsHBS);
+		super(parentElement, finalParamsHBS);
 	}
 }
