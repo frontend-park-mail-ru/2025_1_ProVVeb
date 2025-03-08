@@ -1,16 +1,18 @@
-import BaseComponent from "../../components/BaseComponent.js";
-import router from "../../modules/router.js";
+import BasePage from "../BasePage.js";
 import LoginCard from "../../components/compound/loginCard/loginCard.js";
+import HeaderGreeting from "../../components/compound/headerGreeting/headerGreeting.js";
 
-export default class LoginPage extends BaseComponent {
+export default class LoginPage extends BasePage {
 	constructor(parentElement) {
-		const loginCard = new LoginCard(parentElement).template;
-		super(loginCard, parentElement);
+		super(parentElement);
 
-		// this.addListener(
-		// 	'click',
-		// 	'#authLink',
-		// 	() => { console.log("Отладчик: перешел на авторизацию"); router.navigateTo('auth') }
-		// );
+		this.components = [
+			new HeaderGreeting(parentElement),
+			new LoginCard(parentElement),
+		];
+	}
+
+	render() {
+		this.components.forEach(component => component.render());
 	}
 }

@@ -25,7 +25,10 @@ export default class AuthCard extends Card {
 			progressBar: components.progressBar.template,
 			cardTitle: "Продолжи свой поиск ❤️",
 			linkToPage: components.linkToPage.template,
-			fields: [components.loginInput.template, components.passwordInput.template],
+			fields: [
+				components.loginInput.template,
+				components.passwordInput.template
+			],
 			button: components.authButton.template,
 		});
 
