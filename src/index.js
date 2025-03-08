@@ -13,6 +13,6 @@ const el0 = new HeaderGreeting(root);
 const el = new LoginInput(root);
 const el1 = new PasswordInput(root);
 
-el0.renderInit();
+el0.render();
 el.render();
 el1.render();

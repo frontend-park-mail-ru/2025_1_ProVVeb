@@ -11,6 +11,11 @@ export default class BaseComponent {
 	}
 
 	render() {
+		if (this.parentElement.innerHTML == '') {
+			this.parentElement.innerHTML = this.template;
+			this.attachListeners();
+			return;
+		}
 		this.parentElement.insertAdjacentHTML('beforeend', this.template);
 		this.attachListeners();
 	}
