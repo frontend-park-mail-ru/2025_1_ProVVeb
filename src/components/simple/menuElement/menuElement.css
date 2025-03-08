@@ -1,0 +1,22 @@
+.menuElement{
+    width: fit-content;
+    height: 24px;
+    display: flex;
+    align-items: center;
+}
+.menuElement .icon{
+    width: 25px;
+    height: fit-content;
+}
+.menuElement p{
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    color: var(--font-accent);
+}
+.menuElement:hover p{
+    color: var(--main-theme);
+}
+.menuElement:hover .icon{
+    content: url();
+}
