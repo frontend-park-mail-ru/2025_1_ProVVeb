@@ -1,2 +1,9 @@
 @import './styles/globals.css';
 @import './components/components.css';
+
+html{
+    background: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+}

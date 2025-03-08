@@ -1,4 +1,9 @@
 @import './button/button.css';
 @import './input/input.css';
+<<<<<<< HEAD
 @import './card/card.css';
 @import './linkTo/linkTo.css';
+=======
+@import './logo/logo.css';
+@import './header/header.css';
+>>>>>>> origin/dev/pages

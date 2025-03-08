@@ -5,12 +5,17 @@ export default class BaseComponent {
 		this.listeners = [];
 	}
 
-	render() {
+	renderInit() {
 		this.parentElement.innerHTML = this.template;
 		this.attachListeners();
 	}
 
-	renderBefore() {
+	render() {
+		if (this.parentElement.innerHTML == '') {
+			this.parentElement.innerHTML = this.template;
+			this.attachListeners();
+			return;
+		}
 		this.parentElement.insertAdjacentHTML('beforeend', this.template);
 		this.attachListeners();
 	}
