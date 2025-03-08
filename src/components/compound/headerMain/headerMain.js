@@ -1,6 +1,6 @@
-import LogoMain from '../../simple/logoMain/logoMain.js'
-import Profile from '../../simple/profile/profile.js'
-import Header from '../../pattern/header/header.js'
+import LogoMain from '../../simple/logoMain/logoMain.js';
+import Profile from '../../simple/profile/profile.js';
+import Header from '../../pattern/header/header.js';
 
 export default class HeaderMain extends Header {
     constructor(parentElement) {
