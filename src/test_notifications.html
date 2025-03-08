@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Логотип</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		html{
+			background: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
+			background-repeat: no-repeat;
+			background-size: cover;
+			height: 100%;
+			font-family: 'Gotham', sans-serif;
+		}
+        .notification{
+            width: 345px;
+            height: 60px;
+            border-radius: 10px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            position: fixed;
+            top:100px;
+        }
+        .notification .error-message{
+            margin-left: 10px;
+            display: flex;
+            align-items: left;
+            flex-direction: column;
+        }
+        .notification h1{
+            font-size: 14px;
+            font-weight: 500;
+            background: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .notification p{
+            font-size: 12px;
+            font-weight: 500;
+            background: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .notification .cross{
+            position: absolute;
+            top: 15px;
+            right: 10px;
+        }
+		
+	</style>
+</head>
+
+<body>
+	<div class="notification">
+        <div class="error-message">
+            <h1>Ошибка!</h1>
+            <p>Такой логин и пароль не зарегистрированы</p>
+        </div>
+        <div class="cross"><img src="media/icons/cross.svg" alt="cross"></div>
+    </div>
+</body>
+
+</html>
