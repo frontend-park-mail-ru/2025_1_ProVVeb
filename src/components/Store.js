@@ -32,6 +32,6 @@ class Store {
 }
 
 const store = new Store();
-store.setState("notif_layer", document.getElementById('notif_layer'));
+store.setState('notif_layer', document.getElementById('notif_layer'));
 // store.setState("linkHandlers", {});
 export default store;

@@ -9,7 +9,7 @@ export default class AuthPage extends BasePage {
             new HeaderGreeting(parentElement),
             new AuthCard(parentElement),
         ];
-        
+
     }
 
     render() {

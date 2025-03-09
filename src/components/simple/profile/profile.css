@@ -13,6 +13,14 @@
 	text-align: right;
 	color: var(--font);
 	margin-right: 16px;
+	cursor: pointer;
+}
+
+.profile:hover p {
+	background: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .profile img {
@@ -20,6 +28,7 @@
 	height: auto;
 	object-fit: cover;
 	border-radius: 50%;
+	cursor: pointer;
 }
 
 .profile .photo {

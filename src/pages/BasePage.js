@@ -8,7 +8,7 @@ export default class BasePage {
     }
 
     rerender() {
-        this.parentElement.innerHTML = ''; 
-        this.render(); 
+        this.parentElement.innerHTML = '';
+        this.render();
     }
 }

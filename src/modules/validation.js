@@ -1,4 +1,4 @@
-import router from '../modules/router.js';
+import router from './router.js';
 import Notification from '../components/simple/notification/notification.js';
 
 export const validator = (data, rules) => {
@@ -12,88 +12,87 @@ export const checkLogin = (loginValue, passwordValue, passwordAgainValue) => {
 	const loginValidation = validator(loginValue, LOGIN_RULES);
 	const passwordValidation = validator(passwordValue, PASSWORD_RULES);
 
-	const loginElement = document.querySelectorAll(".inputContainer")[0];
-	const passwordElement = document.querySelectorAll(".inputContainer")[1];
-	const passwordAgainElement = document.querySelectorAll(".inputContainer")[2];
+	const loginElement = document.querySelectorAll('.inputContainer')[0];
+	const passwordElement = document.querySelectorAll('.inputContainer')[1];
+	const passwordAgainElement = document.querySelectorAll('.inputContainer')[2];
 
 	if (passwordValue != passwordAgainValue) {
-		const error = new Notification({ isWarning: true, isWithButton: true, title: "Пароли не совпадают!" });
+		const error = new Notification({ isWarning: true, isWithButton: true, title: 'Пароли не совпадают!' });
 		error.render();
-		passwordElement.classList.add("incorrect");
-		passwordAgainElement.classList.add("incorrect");
-		return
-	} else {
-		passwordElement.classList.remove("incorrect");
-		passwordAgainElement.classList.remove("incorrect");
+		passwordElement.classList.add('incorrect');
+		passwordAgainElement.classList.add('incorrect');
+		return;
 	}
+	passwordElement.classList.remove('incorrect');
+	passwordAgainElement.classList.remove('incorrect');
 
 	if (loginValue == undefined) {
-		const error = new Notification({ isWarning: true, isWithButton: true, title: "Логин не может быть!" });
+		const error = new Notification({ isWarning: true, isWithButton: true, title: 'Логин не может быть пустым!' });
 		error.render();
-		loginElement.classList.add("incorrect");
+		loginElement.classList.add('incorrect');
 		return;
 	}
 	if (passwordValue == undefined) {
-		const error = new Notification({ isWarning: true, isWithButton: true, title: "Пароль не может быть!" });
+		const error = new Notification({ isWarning: true, isWithButton: true, title: 'Пароль не может быть пустым!' });
 		error.render();
-		passwordElement.classList.add("incorrect");
+		passwordElement.classList.add('incorrect');
 		return;
 	}
 
 	if (!loginValidation.isOK) {
 		const error = new Notification({ isWarning: true, isWithButton: true, title: loginValidation.message });
 		error.render();
-		loginElement.classList.add("incorrect");
+		loginElement.classList.add('incorrect');
 	} else if (!passwordValidation.isOK) {
 		const error = new Notification({ isWarning: true, isWithButton: true, title: passwordValidation.message });
 		error.render();
-		passwordElement.classList.add("incorrect");
+		passwordElement.classList.add('incorrect');
 	} else {
-		loginElement.classList.remove("incorrect");
-		passwordElement.classList.remove("incorrect");
-		passwordAgainElement.classList.remove("incorrect");
-		router.navigateTo("feed");
-		//BACKEND;
+		loginElement.classList.remove('incorrect');
+		passwordElement.classList.remove('incorrect');
+		passwordAgainElement.classList.remove('incorrect');
+		router.navigateTo('feed');
+		// BACKEND;
 	}
-}
+};
 
 export const checkAuth = (loginValue, passwordValue) => {
 	const loginValidation = validator(loginValue, LOGIN_RULES);
 	const passwordValidation = validator(passwordValue, PASSWORD_RULES);
 
-	const loginElement = document.querySelectorAll(".inputContainer")[0];
-	const passwordElement = document.querySelectorAll(".inputContainer")[1];
+	const loginElement = document.querySelectorAll('.inputContainer')[0];
+	const passwordElement = document.querySelectorAll('.inputContainer')[1];
 
 	if (loginValue == undefined) {
-		const error = new Notification({ isWarning: true, isWithButton: true, title: "Логин не может быть!" });
+		const error = new Notification({ isWarning: true, isWithButton: true, title: 'Логин не может быть пустым!' });
 		error.render();
-		loginElement.classList.add("incorrect");
+		loginElement.classList.add('incorrect');
 		return;
 	}
 	if (passwordValue == undefined) {
-		const error = new Notification({ isWarning: true, isWithButton: true, title: "Пароль не может быть!" });
+		const error = new Notification({ isWarning: true, isWithButton: true, title: 'Пароль не может быть пустым!' });
 		error.render();
-		passwordElement.classList.add("incorrect");
+		passwordElement.classList.add('incorrect');
 		return;
 	}
 
 	if (!loginValidation.isOK) {
 		const error = new Notification({ isWarning: true, isWithButton: true, title: loginValidation.message });
 		error.render();
-		loginElement.classList.add("incorrect");
+		loginElement.classList.add('incorrect');
 	} else if (!passwordValidation.isOK) {
 		const error = new Notification({ isWarning: true, isWithButton: true, title: passwordValidation.message });
 		error.render();
-		passwordElement.classList.add("incorrect");
+		passwordElement.classList.add('incorrect');
 	} else {
-		loginElement.classList.remove("incorrect");
-		passwordElement.classList.remove("incorrect");
-		router.navigateTo("feed");
-		//BACKEND;
+		loginElement.classList.remove('incorrect');
+		passwordElement.classList.remove('incorrect');
+		router.navigateTo('feed');
+		// BACKEND;
 	}
-}
+};
 
-const EMOJI = /^[^\p{Emoji}]*$/u;
+const EMOJI = /^[^\p{Extended_Pictographic}]*$/u;
 
 export const LOGIN_RULES = [
 	{
