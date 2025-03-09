@@ -1,31 +1,53 @@
 {
     "env": {
-        "browser": true
+		// Устанавливает окружение как браузер (document, window и т.д. доступны)
+        "browser": true 
     },
-    "extends": "airbnb-base",
+	// Наследует настройки стиля кода от AirBnb для базовых JavaScript файлов
+    "extends": "airbnb-base", 
     "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module"
+        "ecmaVersion": "latest", // Указывает ESLint использовать последнюю версию ECMAScript
+        "sourceType": "module" // Указывает, что код будет использовать модули (import/export)
     },
     "rules": {
-        "linebreak-style": "off",
-        "indent": ["warn", 4],
+		// Отключает правило для стиля перевода строки
+        "linebreak-style": "off", 
+		// Предупреждение при использовании неправильного отступа, требуя tab
+        "indent": ["warn", "tab"], 
+		// Устанавливает макc. длину строки кода и комментариев 
         "max-len": ["warn", {"code": 200, "comments": 200}],
-        "function-paren-newline": "off",
-        "import/prefer-default-export": "off",
+		// Отключает правило, требующее новой строки для закрывающей скобки в функциях 
+        "function-paren-newline": "off", 
+		// Отключает требование использования export default при экспорте только одного элемента
+        "import/prefer-default-export": "off", 
+		// Запятая в конце строки только в многострочных объектах или массивах
         "comma-dangle": ["error", "only-multiline"],
-        "import/extensions": "off",
-        "padded-blocks": "off",
+		// Включает правило, требующее указания расширения файлов в импортах
+        "import/extensions": "on",
+		// Отключает требование пустых строк внутри блоков кода
+        "padded-blocks": "off", 
+		// Отключает правило, запрещающее использование "return await" (необязательно в большинстве случаев)
         "no-return-await": "off",
-        "no-console": "off",
+		// Предупреждение при использовании console.log и других методов консоли 
+        "no-console": "on",
+		// Отключает правило, требующее, чтобы методы классов использовали ключевое слово this
         "class-methods-use-this": "off",
-        "no-param-reassign": "off",
+		// Отключает правило, запрещающее переопределение параметров функции
+        "no-param-reassign": "off", 
+		// Отключает правило, требующее, чтобы параметры по умолчанию стояли в конце списка параметров
         "default-param-last": "off",
-        "no-unused-vars": ["warn", { "vars": "local", "args": "none" }],
+		// Выдает предупреждение о неиспользуемых переменных, но игнорирует неиспользуемые аргументы
+        "no-unused-vars": ["warn", { "vars": "local", "args": "none" }], 
+		// Требует использования одинарных кавычек для строк
         "quotes": ["error", "single"],
-        "import/no-unresolved": "off"
+		// Отключает правило, предупреждающее о неразрешенных импортах (например, неверных путях)
+        "import/no-unresolved": "off",
+		// Требовать фигурные скобки во всех конструкциях
+		"curly": ["error", "all"]
+
     },
     "globals": {
+		// Указывает ESLint, что глобальная переменная Handlebars доступна, но не может быть изменена
         "Handlebars": "readonly"
     }
 }

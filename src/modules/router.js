@@ -4,21 +4,24 @@ import FeedPage from "../pages/feedPage/feedPage.js";
 
 class Router {
 	constructor() {
-		const root = document.getElementById('root');
-		this.authPage = new AuthPage(root);
-		this.loginPage = new LoginPage(root);
-		this.feedPage = new FeedPage(root);
+		this.root = document.getElementById('root');
+		this.authPage = new AuthPage(this.root);
+		this.loginPage = new LoginPage(this.root);
+		this.feedPage = new FeedPage(this.root);
 	}
 
 	navigateTo(page) {
 		switch (page) {
 			case 'auth':
+				this.root.classList.add('greeting');
 				this.authPage.rerender();
 				break;
 			case 'login':
+				this.root.classList.add('greeting');
 				this.loginPage.rerender();
 				break;
 			case 'feed':
+				this.root.classList.remove('greeting');
 				this.feedPage.rerender();
 				break;
 			default:

@@ -6,26 +6,26 @@ const BASE_URL = 'http://localhost:8080';
  * @returns {Promise} - Промис с результатом запроса
  */
 const createUser = async (userData) => {
-    const url = `${BASE_URL}/users`;
+	const url = `${BASE_URL}/users`;
 
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userData),
-        });
+	try {
+		const response = await fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(userData),
+		});
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
 
-        return await response.json();
-    } catch (error) {
-        console.error('Error creating user:', error);
-        throw error;
-    }
+		return await response.json();
+	} catch (error) {
+		console.error('Error creating user:', error);
+		throw error;
+	}
 };
 
 /**
@@ -34,22 +34,22 @@ const createUser = async (userData) => {
  * @returns {Promise} - Промис с результатом запроса
  */
 const deleteUser = async (userId) => {
-    const url = `${BASE_URL}/users`;
+	const url = `${BASE_URL}/users`;
 
-    try {
-        const response = await fetch(url, {
-            method: 'DELETE',
-        });
+	try {
+		const response = await fetch(url, {
+			method: 'DELETE',
+		});
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
 
-        return await response.json();
-    } catch (error) {
-        console.error('Error deleting user:', error);
-        throw error;
-    }
+		return await response.json();
+	} catch (error) {
+		console.error('Error deleting user:', error);
+		throw error;
+	}
 };
 
 /**
@@ -59,24 +59,24 @@ const deleteUser = async (userId) => {
  * @returns {Promise} - Промис с результатом запроса
  */
 const loginUser = async (email, password) => {
-    const url = new URL(`${BASE_URL}/users/login`);
-    url.searchParams.append('email', email);
-    url.searchParams.append('password', password);
+	const url = new URL(`${BASE_URL}/users/login`);
+	url.searchParams.append('email', email);
+	url.searchParams.append('password', password);
 
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-        });
+	try {
+		const response = await fetch(url, {
+			method: 'POST',
+		});
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
 
-        return await response.json();
-    } catch (error) {
-        console.error('Error logging in:', error);
-        throw error;
-    }
+		return await response.json();
+	} catch (error) {
+		console.error('Error logging in:', error);
+		throw error;
+	}
 };
 
 /**
@@ -86,22 +86,22 @@ const loginUser = async (email, password) => {
  * @returns {Promise} - Промис с результатом запроса
  */
 const logoutUser = async (rateLimit, expiresAfter) => {
-    const url = `${BASE_URL}/users/logout`;
+	const url = `${BASE_URL}/users/logout`;
 
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-        });
+	try {
+		const response = await fetch(url, {
+			method: 'POST',
+		});
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
 
-        return await response.json();
-    } catch (error) {
-        console.error('Error logging out:', error);
-        throw error;
-    }
+		return await response.json();
+	} catch (error) {
+		console.error('Error logging out:', error);
+		throw error;
+	}
 };
 
 /**
@@ -110,28 +110,28 @@ const logoutUser = async (rateLimit, expiresAfter) => {
  * @returns {Promise} - Промис с результатом запроса
  */
 const getProfiles = async (userId) => {
-    const url = `${BASE_URL}/profiles/${userId}`;
+	const url = `${BASE_URL}/profiles/${userId}`;
 
-    try {
-        const response = await fetch(url, {
-            method: 'GET',
-        });
+	try {
+		const response = await fetch(url, {
+			method: 'GET',
+		});
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+		if (!response.ok) {
+			throw new Error(`HTTP error! status: ${response.status}`);
+		}
 
-        return await response.json();
-    } catch (error) {
-        console.error('Error fetching profiles:', error);
-        throw error;
-    }
+		return await response.json();
+	} catch (error) {
+		console.error('Error fetching profiles:', error);
+		throw error;
+	}
 };
 
 export default {
-    createUser,
-    deleteUser,
-    loginUser,
-    logoutUser,
-    getProfiles,
+	createUser,
+	deleteUser,
+	loginUser,
+	logoutUser,
+	getProfiles,
 };

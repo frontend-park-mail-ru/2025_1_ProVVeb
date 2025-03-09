@@ -8,15 +8,17 @@ templates['personCard.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":functio
         return undefined
     };
 
-  return "<div class=\"personCard\" style=\"background-image: url('"
-    + alias4(((helper = (helper = lookupProperty(helpers,"srcPersonPicture") || (depth0 != null ? lookupProperty(depth0,"srcPersonPicture") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"srcPersonPicture","hash":{},"data":data,"loc":{"start":{"line":1,"column":54},"end":{"line":1,"column":76}}}) : helper)))
+  return "<div class=\"personCard\" style=\"background-image: \r\n	url('"
+    + alias4(((helper = (helper = lookupProperty(helpers,"srcPersonPicture") || (depth0 != null ? lookupProperty(depth0,"srcPersonPicture") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"srcPersonPicture","hash":{},"data":data,"loc":{"start":{"line":2,"column":6},"end":{"line":2,"column":28}}}) : helper)))
+    + "'), \r\n	url('"
+    + alias4(((helper = (helper = lookupProperty(helpers,"srcPersonPictureError") || (depth0 != null ? lookupProperty(depth0,"srcPersonPictureError") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"srcPersonPictureError","hash":{},"data":data,"loc":{"start":{"line":3,"column":6},"end":{"line":3,"column":33}}}) : helper)))
     + "');\">\r\n	<div class=\"personInfo\">\r\n		<p class=\"personalData\">"
-    + alias4(((helper = (helper = lookupProperty(helpers,"personName") || (depth0 != null ? lookupProperty(depth0,"personName") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"personName","hash":{},"data":data,"loc":{"start":{"line":3,"column":26},"end":{"line":3,"column":42}}}) : helper)))
+    + alias4(((helper = (helper = lookupProperty(helpers,"personName") || (depth0 != null ? lookupProperty(depth0,"personName") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"personName","hash":{},"data":data,"loc":{"start":{"line":5,"column":26},"end":{"line":5,"column":42}}}) : helper)))
     + " "
-    + alias4(((helper = (helper = lookupProperty(helpers,"personAge") || (depth0 != null ? lookupProperty(depth0,"personAge") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"personAge","hash":{},"data":data,"loc":{"start":{"line":3,"column":43},"end":{"line":3,"column":58}}}) : helper)))
+    + alias4(((helper = (helper = lookupProperty(helpers,"personAge") || (depth0 != null ? lookupProperty(depth0,"personAge") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"personAge","hash":{},"data":data,"loc":{"start":{"line":5,"column":43},"end":{"line":5,"column":58}}}) : helper)))
     + " лет</p>\r\n		<p class=\"personDescription\">"
-    + alias4(((helper = (helper = lookupProperty(helpers,"personDescription") || (depth0 != null ? lookupProperty(depth0,"personDescription") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"personDescription","hash":{},"data":data,"loc":{"start":{"line":4,"column":31},"end":{"line":4,"column":54}}}) : helper)))
-    + "</p>\r\n	</div>\r\n	<div class=\"personCardBtns\">\r\n		<button class=\"iconButton\">\r\n			<img src=\"media/btn/actionBtnRepeat.svg\" alt=\"Кнопка Повтор\" width=\"56\" height=\"56\">\r\n		</button>\r\n		<button class=\"iconButton\">\r\n			<img src=\"media/btn/actionBtnDislike.svg\" alt=\"Кнопка Дизлайк\" width=\"70\" height=\"70\">\r\n		</button>\r\n		<button class=\"iconButton\">\r\n			<img src=\"media/btn/actionBtnStar.svg\" alt=\"Кнопка Звезда\" width=\"56\" height=\"56\">\r\n		</button>\r\n		<button class=\"iconButton\">\r\n			<img src=\"media/btn/actionBtnLike.svg\" alt=\"Кнопка Лайк\" width=\"70\" height=\"70\">\r\n		</button>\r\n		<button class=\"iconButton\">\r\n			<img src=\"media/btn/actionBtnLightning.svg\" alt=\"Кнопка Молния\" width=\"56\" height=\"56\">\r\n		</button>\r\n\r\n	</div>\r\n</div>";
+    + alias4(((helper = (helper = lookupProperty(helpers,"personDescription") || (depth0 != null ? lookupProperty(depth0,"personDescription") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"personDescription","hash":{},"data":data,"loc":{"start":{"line":6,"column":31},"end":{"line":6,"column":54}}}) : helper)))
+    + "</p>\r\n	</div>\r\n	<div class=\"personCardBtns\">\r\n		<button class=\"iconButton\" id=\"repeatButton\">\r\n			<img src=\"media/btn/actionBtnRepeat.svg\" alt=\"Кнопка Повтор\" width=\"56\" height=\"56\">\r\n		</button>\r\n		<button class=\"iconButton\" id=\"dislikeButton\">\r\n			<img src=\"media/btn/actionBtnDislike.svg\" alt=\"Кнопка Дизлайк\" width=\"70\" height=\"70\">\r\n		</button>\r\n		<button class=\"iconButton\" id=\"starButton\">\r\n			<img src=\"media/btn/actionBtnStar.svg\" alt=\"Кнопка Звезда\" width=\"56\" height=\"56\">\r\n		</button>\r\n		<button class=\"iconButton\" id=\"likeButton\">\r\n			<img src=\"media/btn/actionBtnLike.svg\" alt=\"Кнопка Лайк\" width=\"70\" height=\"70\">\r\n		</button>\r\n		<button class=\"iconButton\" id=\"lightningButton\">\r\n			<img src=\"media/btn/actionBtnLightning.svg\" alt=\"Кнопка Молния\" width=\"56\" height=\"56\">\r\n		</button>\r\n	</div>\r\n</div>";
 },"useData":true});
 templates['button.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, lookupProperty = container.lookupProperty || function(parent, propertyName) {
@@ -58,8 +60,6 @@ templates['formCard.hbs'] = template({"1":function(container,depth0,helpers,part
 },"useData":true});
 templates['header.hbs'] = template({"1":function(container,depth0,helpers,partials,data) {
     return "greeting";
-},"3":function(container,depth0,helpers,partials,data) {
-    return "''";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", lookupProperty = container.lookupProperty || function(parent, propertyName) {
         if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
@@ -69,14 +69,14 @@ templates['header.hbs'] = template({"1":function(container,depth0,helpers,partia
     };
 
   return "<div class=\"header "
-    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"isGreeting") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data,"loc":{"start":{"line":1,"column":19},"end":{"line":1,"column":62}}})) != null ? stack1 : "")
-    + "\">\r\n    <div class=\"inner-header "
-    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"isGreeting") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data,"loc":{"start":{"line":2,"column":29},"end":{"line":2,"column":72}}})) != null ? stack1 : "")
-    + "\">\r\n        "
-    + ((stack1 = ((helper = (helper = lookupProperty(helpers,"logotype") || (depth0 != null ? lookupProperty(depth0,"logotype") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"logotype","hash":{},"data":data,"loc":{"start":{"line":3,"column":8},"end":{"line":3,"column":24}}}) : helper))) != null ? stack1 : "")
-    + "\r\n        "
-    + ((stack1 = ((helper = (helper = lookupProperty(helpers,"profile") || (depth0 != null ? lookupProperty(depth0,"profile") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"profile","hash":{},"data":data,"loc":{"start":{"line":4,"column":8},"end":{"line":4,"column":23}}}) : helper))) != null ? stack1 : "")
-    + "\r\n    </div>\r\n</div>";
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"isGreeting") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":19},"end":{"line":1,"column":52}}})) != null ? stack1 : "")
+    + "\">\r\n	<div class=\"inner-header "
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"isGreeting") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":2,"column":26},"end":{"line":2,"column":59}}})) != null ? stack1 : "")
+    + "\">\r\n		"
+    + ((stack1 = ((helper = (helper = lookupProperty(helpers,"logotype") || (depth0 != null ? lookupProperty(depth0,"logotype") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"logotype","hash":{},"data":data,"loc":{"start":{"line":3,"column":2},"end":{"line":3,"column":18}}}) : helper))) != null ? stack1 : "")
+    + "\r\n		"
+    + ((stack1 = ((helper = (helper = lookupProperty(helpers,"profile") || (depth0 != null ? lookupProperty(depth0,"profile") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"profile","hash":{},"data":data,"loc":{"start":{"line":4,"column":2},"end":{"line":4,"column":17}}}) : helper))) != null ? stack1 : "")
+    + "\r\n	</div>\r\n</div>";
 },"useData":true});
 templates['input.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {

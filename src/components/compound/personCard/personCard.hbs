@@ -1,22 +1,24 @@
-<div class="personCard" style="background-image: url('{{ srcPersonPicture }}');">
+<div class="personCard" style="background-image: 
+	url('{{ srcPersonPicture }}'), 
+	url('{{ srcPersonPictureError }}');">
 	<div class="personInfo">
 		<p class="personalData">{{ personName }} {{ personAge }} лет</p>
 		<p class="personDescription">{{ personDescription }}</p>
 	</div>
 	<div class="personCardBtns">
-		<button class="iconButton">
+		<button class="iconButton" id="repeatButton">
 			<img src="media/btn/actionBtnRepeat.svg" alt="Кнопка Повтор" width="56" height="56">
 		</button>
-		<button class="iconButton">
+		<button class="iconButton" id="dislikeButton">
 			<img src="media/btn/actionBtnDislike.svg" alt="Кнопка Дизлайк" width="70" height="70">
 		</button>
-		<button class="iconButton">
+		<button class="iconButton" id="starButton">
 			<img src="media/btn/actionBtnStar.svg" alt="Кнопка Звезда" width="56" height="56">
 		</button>
-		<button class="iconButton">
+		<button class="iconButton" id="likeButton">
 			<img src="media/btn/actionBtnLike.svg" alt="Кнопка Лайк" width="70" height="70">
 		</button>
-		<button class="iconButton">
+		<button class="iconButton" id="lightningButton">
 			<img src="media/btn/actionBtnLightning.svg" alt="Кнопка Молния" width="56" height="56">
 		</button>
 	</div>
