@@ -93,7 +93,7 @@ export const checkAuth = (loginValue, passwordValue) => {
     }
 }
 
-const EMOJI = /^[^\p{Emoji}]*$/u;
+const EMOJI = /^[^\p{Extended_Pictographic}]*$/u;
 
 export const LOGIN_RULES = [
     {
