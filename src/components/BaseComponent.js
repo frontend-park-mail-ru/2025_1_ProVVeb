@@ -6,15 +6,12 @@ export default class BaseComponent {
 	}
 
 	render() {
-		console.log(this.template);
-		console.log('я перед проверкой');
 		if (this.parentElement.innerHTML == '') {
 			this.parentElement.innerHTML = this.template;
 			this.attachListeners();
-			console.log('я внутри проверки');
 			return;
 		}
-		console.log('я пропустил проверку');
+
 		this.parentElement.insertAdjacentHTML('beforeend', this.template);
 		this.attachListeners();
 	}
@@ -42,8 +39,8 @@ export default class BaseComponent {
 	}
 
 	attachListeners() {
-		this.listeners.forEach(listener => {
-			const element = this.parentElement.querySelector(listener.selector)
+		this.listeners.forEach((listener) => {
+			const element = this.parentElement.querySelector(listener.selector);
 			if (element) {
 				element.addEventListener(listener.eventType, listener.callback);
 			}

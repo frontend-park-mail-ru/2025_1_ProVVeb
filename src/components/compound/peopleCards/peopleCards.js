@@ -9,13 +9,13 @@ const MOKS_PERSON_CARDS = [
 		personDescription: 'Ого...',
 	},
 	{
-		srcPersonPicture: '/girl.jpg',
+		srcPersonPicture: '/123.jpg',
 		personName: 'Макс',
 		personAge: 21,
 		personDescription: 'Люблю путешествовать и играть в игры.',
 	},
 	{
-		srcPersonPicture: '/girl.jpg',
+		srcPersonPicture: '/sofia.jpg',
 		personName: 'Анна',
 		personAge: 25,
 		personDescription: 'Фотографирую закаты и пеку вкусные пироги.',
@@ -24,27 +24,42 @@ const MOKS_PERSON_CARDS = [
 
 export default class PeopleCards extends BaseComponent {
 	constructor(parentElement) {
-		console.log(parentElement, 'перед конструктором');
 		super('', parentElement);
-		console.log(parentElement, 'после конструктором');
 		this.currentIndex = 0;
-		this.renderCard();
 	}
 
-	renderCard() {
+	render() {
 		if (this.currentCard) {
-			this.parentElement = '';
+			document.getElementById('idPersonCard').outerHTML = '';
 		}
-		console.log(this.parentElement);
-		this.currentCard = new PersonCard(this.parentElement, MOKS_PERSON_CARDS[this.currentIndex]);
-		console.log(this.currentCard);
+
+		this.currentCard = new PersonCard(this.parentElement, MOKS_PERSON_CARDS[this.currentIndex],
+			[
+				{
+					event: 'click', selector: '#dislikeButton', callback: () => this.handleDislike()
+				},
+				{
+					event: 'click', selector: '#likeButton', callback: () => this.handleLike()
+				}
+			]
+		);
+
 		this.currentCard.render();
 
-		// this.currentCard.addListener('click', '#dislikeButton', () => this.handleDislike());
+		this.currentCard.addListener('click', '#dislikeButton', () => this.handleDislike());
+		this.currentCard.addListener('click', '#likeButton', () => this.handleLike());
+		this.currentCard.attachListeners();
 	}
 
 	handleDislike() {
 		this.currentIndex = (this.currentIndex + 1) % MOKS_PERSON_CARDS.length;
-		this.renderCard();
+		console.log('dislike');
+		this.render();
+	}
+
+	handleLike() {
+		this.currentIndex = (this.currentIndex + 1) % MOKS_PERSON_CARDS.length;
+		console.log('like');
+		this.render();
 	}
 }

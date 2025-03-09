@@ -17,3 +17,7 @@
 	margin: 0;
 	margin-left: 9px;
 }
+
+.logotypeBlock .white{
+	color: var(--white-bg-color);
+}

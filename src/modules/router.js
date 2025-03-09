@@ -1,6 +1,6 @@
-import LoginPage from "../pages/loginPage/loginPage.js";
-import AuthPage from "../pages/authPage/authPage.js";
-import FeedPage from "../pages/feedPage/feedPage.js";
+import LoginPage from '../pages/loginPage/loginPage.js';
+import AuthPage from '../pages/authPage/authPage.js';
+import FeedPage from '../pages/feedPage/feedPage.js';
 
 class Router {
 	constructor() {

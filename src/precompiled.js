@@ -8,7 +8,7 @@ templates['personCard.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":functio
         return undefined
     };
 
-  return "<div class=\"personCard\" style=\"background-image: \r\n	url('"
+  return "<div id=\"idPersonCard\" class=\"personCard\" style=\"background-image: \r\n	url('"
     + alias4(((helper = (helper = lookupProperty(helpers,"srcPersonPicture") || (depth0 != null ? lookupProperty(depth0,"srcPersonPicture") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"srcPersonPicture","hash":{},"data":data,"loc":{"start":{"line":2,"column":6},"end":{"line":2,"column":28}}}) : helper)))
     + "'), \r\n	url('"
     + alias4(((helper = (helper = lookupProperty(helpers,"srcPersonPictureError") || (depth0 != null ? lookupProperty(depth0,"srcPersonPictureError") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"srcPersonPictureError","hash":{},"data":data,"loc":{"start":{"line":3,"column":6},"end":{"line":3,"column":33}}}) : helper)))
@@ -28,8 +28,8 @@ templates['button.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":function(co
         return undefined
     };
 
-  return "<button class=\"button\">"
-    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"buttonText") || (depth0 != null ? lookupProperty(depth0,"buttonText") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"buttonText","hash":{},"data":data,"loc":{"start":{"line":1,"column":23},"end":{"line":1,"column":39}}}) : helper)))
+  return "<button type=\"button\" class=\"button\">"
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"buttonText") || (depth0 != null ? lookupProperty(depth0,"buttonText") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"buttonText","hash":{},"data":data,"loc":{"start":{"line":1,"column":37},"end":{"line":1,"column":53}}}) : helper)))
     + "</button>";
 },"useData":true});
 templates['formCard.hbs'] = template({"1":function(container,depth0,helpers,partials,data) {
@@ -127,6 +127,45 @@ templates['logo.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":function(cont
     + "\" alt=\"Логотип\">\r\n	<p class="
     + alias4(((helper = (helper = lookupProperty(helpers,"type") || (depth0 != null ? lookupProperty(depth0,"type") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"type","hash":{},"data":data,"loc":{"start":{"line":3,"column":10},"end":{"line":3,"column":20}}}) : helper)))
     + ">BeamEye</p>\r\n</div>";
+},"useData":true});
+templates['notification.hbs'] = template({"1":function(container,depth0,helpers,partials,data) {
+    return "";
+},"3":function(container,depth0,helpers,partials,data) {
+    return "success";
+},"5":function(container,depth0,helpers,partials,data) {
+    return "Ошибка!";
+},"7":function(container,depth0,helpers,partials,data) {
+    return "Успех!";
+},"9":function(container,depth0,helpers,partials,data) {
+    var stack1, lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<div class=\"cross\"><img src=\"../../../media/icons/cross"
+    + ((stack1 = lookupProperty(helpers,"if").call(depth0 != null ? depth0 : (container.nullContext || {}),(depth0 != null ? lookupProperty(depth0,"isWarning") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(10, data, 0),"data":data,"loc":{"start":{"line":6,"column":79},"end":{"line":6,"column":117}}})) != null ? stack1 : "")
+    + ".svg\" alt=\"cross\"></div>";
+},"10":function(container,depth0,helpers,partials,data) {
+    return " white";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), lookupProperty = container.lookupProperty || function(parent, propertyName) {
+        if (Object.prototype.hasOwnProperty.call(parent, propertyName)) {
+          return parent[propertyName];
+        }
+        return undefined
+    };
+
+  return "<div class=\"notification "
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"isWarning") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data,"loc":{"start":{"line":1,"column":25},"end":{"line":1,"column":64}}})) != null ? stack1 : "")
+    + "\">\r\n    <div class=\"error-message\">\r\n        <h1>"
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"isWarning") : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.program(7, data, 0),"data":data,"loc":{"start":{"line":3,"column":12},"end":{"line":3,"column":57}}})) != null ? stack1 : "")
+    + "</h1>\r\n        <p>"
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"title") || (depth0 != null ? lookupProperty(depth0,"title") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"title","hash":{},"data":data,"loc":{"start":{"line":4,"column":11},"end":{"line":4,"column":20}}}) : helper)))
+    + "</p>\r\n    </div>\r\n    "
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"isWithButton") : depth0),{"name":"if","hash":{},"fn":container.program(9, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":6,"column":4},"end":{"line":6,"column":148}}})) != null ? stack1 : "")
+    + "\r\n</div>";
 },"useData":true});
 templates['profile.hbs'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=container.hooks.helperMissing, alias3="function", alias4=container.escapeExpression, lookupProperty = container.lookupProperty || function(parent, propertyName) {
