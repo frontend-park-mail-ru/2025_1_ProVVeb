@@ -1,5 +1,5 @@
-import BaseComponent from "../../BaseComponent.js";
-import store from "../../Store.js";
+import BaseComponent from '../../BaseComponent.js';
+import store from '../../Store.js';
 
 export default class Notification extends BaseComponent {
     constructor(paramsHBS) {
@@ -9,14 +9,12 @@ export default class Notification extends BaseComponent {
 
         this.addListener(
             'click',
-            `.cross`,
+            '.cross',
             (event) => {
                 event.target.parentElement.parentElement.remove();
             }
         );
     }
-
-    
 
     render() {
         this.parentElement.innerHTML = this.template;

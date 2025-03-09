@@ -14,10 +14,10 @@ export default class LoginCard extends FormCard {
             { key: 'progressBar', class: ProgressBar, options: { progressPercent: 0 } },
             { key: 'linkToPage', class: LinkToAuth },
             { key: 'loginInput', class: LoginInput },
-            { 
-                key: 'passwordInput', 
-                class: PasswordInput, 
-                options: { 
+            {
+                key: 'passwordInput',
+                class: PasswordInput,
+                options: {
                     typeInput: 'password',
                     nameInput: 'password',
                     idInput: 'passwordInput_01',
@@ -25,34 +25,34 @@ export default class LoginCard extends FormCard {
                     autocompleteInput: 'new-password',
                     listenInput: {
                         eventType: 'input',
-                        selector: `#passwordInput_01`,
+                        selector: '#passwordInput_01',
                         callback: (event) => {
-                            if(store.getState("passwordInput")!=event.target.value){
-                                event.target.parentElement.nextElementSibling.classList.remove("incorrect");
-                                event.target.parentElement.classList.remove("incorrect");
+                            if (store.getState('passwordInput') != event.target.value) {
+                                event.target.parentElement.nextElementSibling.classList.remove('incorrect');
+                                event.target.parentElement.classList.remove('incorrect');
                             }
-                            store.setState("passwordInput", event.target.value);
+                            store.setState('passwordInput', event.target.value);
                         },
                     },
                     listenFocus: {
                         eventType: 'blur',
-                        selector: `#passwordInput_01`,
+                        selector: '#passwordInput_01',
                         callback: () => {
-                    
-                            const passwordValue = store.getState("passwordInput");
-                            const passwordElement = document.querySelectorAll(".inputContainer")[1];
+
+                            const passwordValue = store.getState('passwordInput');
+                            const passwordElement = document.querySelectorAll('.inputContainer')[1];
                             const passwordValidation = validator(passwordValue, PASSWORD_BRIEF_RULES);
-                    
-                            if(!passwordValidation.isOK && passwordValue!=''){
-                                const error = new Notification({isWarning: true, isWithButton: true, title: passwordValidation.message});
+
+                            if (!passwordValidation.isOK && passwordValue != '') {
+                                const error = new Notification({ isWarning: true, isWithButton: true, title: passwordValidation.message });
                                 error.render();
-                                passwordElement.classList.add("incorrect");
+                                passwordElement.classList.add('incorrect');
                             } else {
-                                passwordElement.classList.remove("incorrect");
+                                passwordElement.classList.remove('incorrect');
                             }
                         },
                     },
-                } 
+                }
             },
             {
                 key: 'repeatPasswordInput',
@@ -64,30 +64,30 @@ export default class LoginCard extends FormCard {
                     autocompleteInput: 'new-password',
                     listenInput: {
                         eventType: 'input',
-                        selector: `#passwordInput_02`,
+                        selector: '#passwordInput_02',
                         callback: (event) => {
-                            if(store.getState("passwordInputAgain")!=event.target.value){
-                                event.target.parentElement.previousElementSibling.classList.remove("incorrect");
-                                event.target.parentElement.classList.remove("incorrect");
+                            if (store.getState('passwordInputAgain') != event.target.value) {
+                                event.target.parentElement.previousElementSibling.classList.remove('incorrect');
+                                event.target.parentElement.classList.remove('incorrect');
                             }
-                            store.setState("passwordInputAgain", event.target.value);
+                            store.setState('passwordInputAgain', event.target.value);
                         },
                     },
                     listenFocus: {
                         eventType: 'blur',
-                        selector: `#passwordInput_02`,
+                        selector: '#passwordInput_02',
                         callback: () => {
-                    
-                            const passwordValue = store.getState("passwordInputAgain");
-                            const passwordElement = document.querySelectorAll(".inputContainer")[2];
+
+                            const passwordValue = store.getState('passwordInputAgain');
+                            const passwordElement = document.querySelectorAll('.inputContainer')[2];
                             const passwordValidation = validator(passwordValue, PASSWORD_BRIEF_RULES);
-                    
-                            if(!passwordValidation.isOK && passwordValue!=''){
-                                const error = new Notification({isWarning: true, isWithButton: true, title: passwordValidation.message});
+
+                            if (!passwordValidation.isOK && passwordValue != '') {
+                                const error = new Notification({ isWarning: true, isWithButton: true, title: passwordValidation.message });
                                 error.render();
-                                passwordElement.classList.add("incorrect");
+                                passwordElement.classList.add('incorrect');
                             } else {
-                                passwordElement.classList.remove("incorrect");
+                                passwordElement.classList.remove('incorrect');
                             }
                         },
                     },
