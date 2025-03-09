@@ -1,18 +1,18 @@
 @import './../../../styles/globals/colors.css';
 
-.card {
+.formCard {
 	height: 500px;
-	width: fit-content;
+	/* width: fit-content; */
+	width: 410px;
 	padding: 40px;
 	background-color: var(--white-bg-color);
 	border-radius: 12px;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 20px;
 }
 
-.innerCard {
+.innerFormCard {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -20,12 +20,12 @@
 	align-items: center;
 }
 
-.headerCard {
+.headerFormCard {
 	width: 100%;
 	text-align: center;
 }
 
-.fieldsCard {
+.fieldsFormCard {
 	width: 252px;
 	display: flex;
 	flex-direction: column;

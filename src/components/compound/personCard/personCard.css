@@ -1,0 +1,58 @@
+.personCard {
+	margin-left: auto;
+	margin-right: auto;
+	width: 400px;
+	height: 600px;
+	border-radius: 14px;
+	padding: 0 8px 20px 8px;
+	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	overflow: hidden;
+
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+.personInfo {
+	font-size: 22px;
+	color: #fff;
+
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.personDescription {
+	font-size: 14px;
+}
+
+.personCardBtns {
+	margin-top: 20px;
+	order: -1;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.personCardBtns .iconButton {
+	cursor: pointer;
+	transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.personCardBtns .iconButton>img {
+	user-select: none;
+	pointer-events: none;
+}
+
+.personCardBtns .iconButton:hover {
+	transform: scale(1.1);
+}
+
+.personCardBtns .iconButton:active {
+	transform: scale(0.95);
+	opacity: 0.85;
+}
