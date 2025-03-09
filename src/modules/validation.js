@@ -1,48 +1,172 @@
+import router from '../modules/router.js';
+import Notification from '../components/simple/notification/notification.js';
+
 export const validator = (data, rules) => {
     let error = '';
-    for(let rule of rules)
-        if(!rule.reg.test(data))
-            error=rule.message;
+    for (const rule of rules) if (!rule.reg.test(data)) error = rule.message;
 
-    return error=='' ? {isOK: true, message: null} : {isOK: false, message: error}; 
+    return error == '' ? { isOK: true, message: null } : { isOK: false, message: error };
+};
+
+export const checkLogin = (loginValue, passwordValue, passwordAgainValue) => {
+    const loginValidation = validator(loginValue, LOGIN_RULES); 
+    const passwordValidation = validator(passwordValue, PASSWORD_RULES);
+
+    const loginElement = document.querySelectorAll(".inputContainer")[0];
+    const passwordElement = document.querySelectorAll(".inputContainer")[1];
+    const passwordAgainElement = document.querySelectorAll(".inputContainer")[2];
+
+    if (passwordValue != passwordAgainValue) {
+        const error = new Notification({isWarning: true, isWithButton: true, title: "Пароли не совпадают!"});
+        error.render();
+        passwordElement.classList.add("incorrect");
+        passwordAgainElement.classList.add("incorrect");
+        return
+    }else{
+        passwordElement.classList.remove("incorrect");
+        passwordAgainElement.classList.remove("incorrect");
+    }
+
+    if(loginValue==undefined){
+        const error = new Notification({isWarning: true, isWithButton: true, title: "Логин не может быть!"});
+        error.render();
+        loginElement.classList.add("incorrect");
+        return;
+    }
+    if(passwordValue==undefined){
+        const error = new Notification({isWarning: true, isWithButton: true, title: "Пароль не может быть!"});
+        error.render();
+        passwordElement.classList.add("incorrect");
+        return;
+    }
+
+    if(!loginValidation.isOK){
+        const error = new Notification({isWarning: true, isWithButton: true, title: loginValidation.message});
+        error.render();
+        loginElement.classList.add("incorrect");
+    }else if (!passwordValidation.isOK) {
+        const error = new Notification({isWarning: true, isWithButton: true, title: passwordValidation.message});
+        error.render();
+        passwordElement.classList.add("incorrect");
+    } else {
+        loginElement.classList.remove("incorrect");
+        passwordElement.classList.remove("incorrect");
+        passwordAgainElement.classList.remove("incorrect");
+        router.navigateTo("feed");
+        //BACKEND;
+    }
 }
 
-const EMOJI = /^[\u0000-\u1F5FF\u1F680-\u1F6FF\u1F900-\u1F9FF]+$/;
+export const checkAuth = (loginValue, passwordValue) => {
+    const loginValidation = validator(loginValue, LOGIN_RULES); 
+    const passwordValidation = validator(passwordValue, PASSWORD_RULES);
+
+    const loginElement = document.querySelectorAll(".inputContainer")[0];
+    const passwordElement = document.querySelectorAll(".inputContainer")[1];
+
+    if(loginValue==undefined){
+        const error = new Notification({isWarning: true, isWithButton: true, title: "Логин не может быть!"});
+        error.render();
+        loginElement.classList.add("incorrect");
+        return;
+    }
+    if(passwordValue==undefined){
+        const error = new Notification({isWarning: true, isWithButton: true, title: "Пароль не может быть!"});
+        error.render();
+        passwordElement.classList.add("incorrect");
+        return;
+    }
+
+    if(!loginValidation.isOK){
+        const error = new Notification({isWarning: true, isWithButton: true, title: loginValidation.message});
+        error.render();
+        loginElement.classList.add("incorrect");
+    }else if (!passwordValidation.isOK) {
+        const error = new Notification({isWarning: true, isWithButton: true, title: passwordValidation.message});
+        error.render();
+        passwordElement.classList.add("incorrect");
+    } else {
+        loginElement.classList.remove("incorrect");
+        passwordElement.classList.remove("incorrect");
+        router.navigateTo("feed");
+        //BACKEND;
+    }
+}
+
+const EMOJI = /^[^\p{Emoji}]*$/u;
 
 export const LOGIN_RULES = [
     {
-        reg: EMOJI,
-        message: "Пароль не может содержать эмоджи!",
+        reg: /^[a-zA-Z0-9._]+$/,
+        message: 'Логин может содержать только латинские буква, цифры, точку и нижнее подчеркивание!',
     },
     {
-        reg: /^.{10,}$/,
-        message: "Логин не может быть меньше 10 символов!",
+        reg: EMOJI,
+        message: 'Логин не может содержать эмоджи!',
+    },
+    {
+        reg: /^.{7,}$/,
+        message: 'Логин не может быть меньше 10 символов!',
     },
     {
         reg: /^.{1,15}$/,
-        message: "Логин не может быть больше 15 символов!",
+        message: 'Логин не может быть больше 15 символов!',
     },
     {
-        reg: /^[a-zA-Z0-9._%+-]{4,}@[a-zA-Z0-9.-]{3,}\.[a-zA-Z]{2,}$/,
-        message: "Недопустимые символы!",
+        reg: /^[a-zA-Z]/,
+        message: 'Перый символ должен быть латинской буквой!',
     }
-]
+];
+
+export const LOGIN_BRIEF_RULES = [
+    {
+        reg: /^[a-zA-Z0-9._]+$/,
+        message: 'Логин может содержать только латинские буква, цифры, точку и нижнее подчеркивание!',
+    },
+    {
+        reg: EMOJI,
+        message: 'Логин не может содержать эмоджи!',
+    },
+    {
+        reg: /^.{1,15}$/,
+        message: 'Логин не может быть больше 15 символов!',
+    },
+    {
+        reg: /^[a-zA-Z]/,
+        message: 'Перый символ должен быть латинской буквой!',
+    }
+];
 
 export const PASSWORD_RULES = [
     {
+        message: 'Пароль должен содержать только латинские буквы и цифры',
+        reg: /^[a-zA-Z0-9]*$/,
+    },
+    {
         reg: EMOJI,
-        message: "Пароль не может содержать эмоджи!",
+        message: 'Пароль не может содержать эмоджи!',
     },
     {
         reg: /^.{8,}$/,
-        message: "Пароль не может быть меньше 8 символов!",
+        message: 'Пароль не может быть меньше 8 символов!',
     },
     {
         reg: /^.{1,64}$/,
-        message: "Пароль не может быть больше 64 символов!",
-    }, 
+        message: 'Пароль не может быть больше 64 символов!',
+    },
+];
+
+export const PASSWORD_BRIEF_RULES = [
     {
         message: 'Пароль должен содержать только латинские буквы и цифры',
-        regex: /^[a-zA-Z0-9]*$/,
+        reg: /^[a-zA-Z0-9]*$/,
     },
-]
+    {
+        reg: EMOJI,
+        message: 'Пароль не может содержать эмоджи!',
+    },
+    {
+        reg: /^.{1,64}$/,
+        message: 'Пароль не может быть больше 64 символов!',
+    },
+];

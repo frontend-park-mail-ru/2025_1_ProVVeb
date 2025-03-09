@@ -38,6 +38,11 @@
 	color: var(--gray-line);
 }
 
+.inputContainer.incorrect input:focus+label,
+.inputContainer.incorrect input:not(:placeholder-shown)+label {
+	color: var(--danger-placeholder);
+}
+
 .inputContainer.incorrect>input {
 	border-bottom: 2px solid var(--danger);
 }

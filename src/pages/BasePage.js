@@ -8,7 +8,7 @@ export default class BasePage {
     }
 
     rerender() {
-        this.parentElement.innerHTML = ''; // Очищаем содержимое страницы
-        this.render(); // Вызываем render() заново
+        this.parentElement.innerHTML = ''; 
+        this.render(); 
     }
 }

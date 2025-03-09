@@ -1,0 +1,7 @@
+<div class="notification {{#if isWarning}}{{else}}success{{/if}}">
+    <div class="error-message">
+        <h1>{{#if isWarning}}Ошибка!{{else}}Успех!{{/if}}</h1>
+        <p>{{title}}</p>
+    </div>
+    {{#if isWithButton}}<div class="cross"><img src="../../../media/icons/cross{{#if isWarning}}{{else}} white{{/if}}.svg" alt="cross"></div>{{/if}}
+</div>

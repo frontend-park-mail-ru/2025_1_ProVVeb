@@ -5,11 +5,11 @@ import HeaderGreeting from '../../components/compound/headerGreeting/headerGreet
 export default class AuthPage extends BasePage {
     constructor(parentElement) {
         super(parentElement);
-
         this.components = [
             new HeaderGreeting(parentElement),
             new AuthCard(parentElement),
         ];
+        
     }
 
     render() {
