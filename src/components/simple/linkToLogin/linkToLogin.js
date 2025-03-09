@@ -10,7 +10,7 @@ DEFAULT_LINK_TO_LOGIN_PARAMS_BUTTON.listenRoute = {
 	eventType: "click",
 	selector: `#${DEFAULT_LINK_TO_LOGIN_PARAMS_BUTTON.idLink}`,
 	callback: () => {
-		console.log("Отладчик: перешел на регистрацию");
+		// console.log("Отладчик: перешел на регистрацию");
 		router.navigateTo("login");
 	},
 };

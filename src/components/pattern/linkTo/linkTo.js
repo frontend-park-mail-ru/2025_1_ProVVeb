@@ -23,7 +23,6 @@ export default class LinkTo extends BaseComponent {
 		const templateHTML = templateHBS(finalParamsHBS);
 		super(templateHTML, parentElement);
 
-		console.log("Я ЛИНК", this);
 		this.addListener(
 			finalParamsHBS.listenRoute.eventType,
 			finalParamsHBS.listenRoute.selector,

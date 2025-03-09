@@ -1,18 +1,25 @@
-import Card from "../../pattern/card/card.js";
+import FormCard from "../../pattern/formCard/formCard.js";
 import ProgressBar from "../../simple/progressBar/progressBar.js";
 import LoginInput from "../../simple/loginInput/loginInput.js";
 import PasswordInput from "../../simple/passwordInput/passwordInput.js";
 import LinkToAuth from "../../simple/linkToAuth/linkToAuth.js";
 import LoginButton from "../../simple/loginButton/loginButton.js";
 
-export default class LoginCard extends Card {
+export default class LoginCard extends FormCard {
 	constructor(parentElement) {
 		const componentConfigs = [
 			{ key: "progressBar", class: ProgressBar, options: { progressPercent: 0 } },
 			{ key: "linkToPage", class: LinkToAuth },
 			{ key: "loginInput", class: LoginInput },
-			{ key: "passwordInput", class: PasswordInput },
-			{ key: "repeatPasswordInput", class: PasswordInput, options: { labelText: "Повторите пароль" } },
+			{ key: "passwordInput", class: PasswordInput, options: { autocompleteInput: 'new-password' } },
+			{
+				key: "repeatPasswordInput", class: PasswordInput, options: {
+					nameInput: 'repeatPassword',
+					idInput: 'passwordInput_02',
+					labelText: "Повторите пароль",
+					autocompleteInput: 'new-password',
+				}
+			},
 			{ key: "authButton", class: LoginButton },
 		];
 

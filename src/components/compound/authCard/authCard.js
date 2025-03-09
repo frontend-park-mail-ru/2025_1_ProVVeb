@@ -1,4 +1,4 @@
-import Card from "../../pattern/card/card.js";
+import FormCard from "../../pattern/formCard/formCard.js";
 import ProgressBar from "../../simple/progressBar/progressBar.js";
 import LoginInput from "../../simple/loginInput/loginInput.js";
 import PasswordInput from "../../simple/passwordInput/passwordInput.js";
@@ -6,7 +6,7 @@ import LinkToLogin from "../../simple/linkToLogin/linkToLogin.js";
 import AuthButton from "../../simple/authButton/authButton.js";
 
 // Подтягивать из стора
-export default class AuthCard extends Card {
+export default class AuthCard extends FormCard {
 	constructor(parentElement) {
 		const componentConfigs = [
 			{ key: "progressBar", class: ProgressBar, options: { progressPercent: 100 } },

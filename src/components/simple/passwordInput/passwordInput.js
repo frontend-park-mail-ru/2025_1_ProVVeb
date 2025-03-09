@@ -2,9 +2,10 @@ import Input from "../../pattern/input/input.js";
 
 const DEFAULT_PASSWORD_PARAMS_INPUT = {
 	typeInput: 'password',
-	idInput: 'passwordInput',
 	nameInput: 'password',
+	idInput: 'passwordInput_01',
 	labelText: 'Пароль',
+	autocompleteInput: 'current-password',
 }
 
 export default class PasswordInput extends Input {

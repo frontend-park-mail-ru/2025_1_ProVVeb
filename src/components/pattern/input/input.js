@@ -6,6 +6,7 @@ const DEFAULT_PARAMS_INPUT = {
 	idInput: '',
 	nameInput: '',
 	labelText: 'Поле ввода',
+	autocompleteInput: 'off',
 }
 
 export default class Input extends BaseComponent {
