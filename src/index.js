@@ -5,16 +5,15 @@ import HeaderGreeting from './components/compound/headerGreeting/headerGreeting.
 import HeaderMain from './components/compound/headerMain/headerMain.js';
 import PersonCard from './components/compound/personCard/personCard.js';
 import store from './components/Store.js';
-import authUser from './modules/network.js';
+import api from './modules/network.js'
 
 // если не авторизован решать куда идти
 
-router.navigateTo('feed');
+router.navigateTo('auth');
 // router.navigateTo('auth');
-
+// console.log(await api.getProfile(1));
 // kostritsy
 // StrongPass2
-// authUser('kostritsy', 'StrongPass2');
 
 // const root = document.getElementById('root');
 // const el = new PersonCard(root, {

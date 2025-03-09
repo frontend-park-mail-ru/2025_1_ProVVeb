@@ -21,7 +21,7 @@ export const checkLogin = (loginValue, passwordValue, passwordAgainValue) => {
 		error.render();
 		passwordElement.classList.add('incorrect');
 		passwordAgainElement.classList.add('incorrect');
-		return;
+		return false;
 	}
 	passwordElement.classList.remove('incorrect');
 	passwordAgainElement.classList.remove('incorrect');
@@ -30,29 +30,30 @@ export const checkLogin = (loginValue, passwordValue, passwordAgainValue) => {
 		const error = new Notification({ isWarning: true, isWithButton: true, title: 'Логин не может быть пустым!' });
 		error.render();
 		loginElement.classList.add('incorrect');
-		return;
+		return false;
 	}
 	if (passwordValue == undefined) {
 		const error = new Notification({ isWarning: true, isWithButton: true, title: 'Пароль не может быть пустым!' });
 		error.render();
 		passwordElement.classList.add('incorrect');
-		return;
+		return false;
 	}
 
 	if (!loginValidation.isOK) {
 		const error = new Notification({ isWarning: true, isWithButton: true, title: loginValidation.message });
 		error.render();
 		loginElement.classList.add('incorrect');
+		return false;
 	} else if (!passwordValidation.isOK) {
 		const error = new Notification({ isWarning: true, isWithButton: true, title: passwordValidation.message });
 		error.render();
 		passwordElement.classList.add('incorrect');
+		return false;
 	} else {
 		loginElement.classList.remove('incorrect');
 		passwordElement.classList.remove('incorrect');
 		passwordAgainElement.classList.remove('incorrect');
-		router.navigateTo('feed');
-		// BACKEND;
+		return true;
 	}
 };
 
@@ -67,28 +68,29 @@ export const checkAuth = (loginValue, passwordValue) => {
 		const error = new Notification({ isWarning: true, isWithButton: true, title: 'Логин не может быть пустым!' });
 		error.render();
 		loginElement.classList.add('incorrect');
-		return;
+		return false;
 	}
 	if (passwordValue == undefined) {
 		const error = new Notification({ isWarning: true, isWithButton: true, title: 'Пароль не может быть пустым!' });
 		error.render();
 		passwordElement.classList.add('incorrect');
-		return;
+		return false;
 	}
 
 	if (!loginValidation.isOK) {
 		const error = new Notification({ isWarning: true, isWithButton: true, title: loginValidation.message });
 		error.render();
 		loginElement.classList.add('incorrect');
+		return false;
 	} else if (!passwordValidation.isOK) {
 		const error = new Notification({ isWarning: true, isWithButton: true, title: passwordValidation.message });
 		error.render();
 		passwordElement.classList.add('incorrect');
+		return false;
 	} else {
 		loginElement.classList.remove('incorrect');
 		passwordElement.classList.remove('incorrect');
-		router.navigateTo('feed');
-		// BACKEND;
+		return true;
 	}
 };
 

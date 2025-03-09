@@ -1,7 +1,7 @@
-import BasePage from "../BasePage.js";
+import BasePage from '../BasePage.js';
 // import PersonCard from "../../components/compound/personCard/personCard.js";
-import PeopleCards from "../../components/compound/peopleCards/peopleCards.js";
-import HeaderMain from "../../components/compound/headerMain/headerMain.js";
+import PeopleCards from '../../components/compound/peopleCards/peopleCards.js';
+import HeaderMain from '../../components/compound/headerMain/headerMain.js';
 
 export default class FeedPage extends BasePage {
 	constructor(parentElement) {

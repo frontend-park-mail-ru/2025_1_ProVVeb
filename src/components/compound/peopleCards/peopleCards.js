@@ -1,5 +1,5 @@
-import BaseComponent from "../../BaseComponent.js";
-import PersonCard from "../personCard/personCard.js";
+import BaseComponent from '../../BaseComponent.js';
+import PersonCard from '../personCard/personCard.js';
 
 const MOKS_PERSON_CARDS = [
 	{
@@ -33,15 +33,14 @@ export default class PeopleCards extends BaseComponent {
 			document.getElementById('idPersonCard').outerHTML = '';
 		}
 
-		this.currentCard = new PersonCard(this.parentElement, MOKS_PERSON_CARDS[this.currentIndex],
-			[
-				{
-					event: 'click', selector: '#dislikeButton', callback: () => this.handleDislike()
-				},
-				{
-					event: 'click', selector: '#likeButton', callback: () => this.handleLike()
-				}
-			]
+		this.currentCard = new PersonCard(this.parentElement, MOKS_PERSON_CARDS[this.currentIndex], [
+			{
+				event: 'click', selector: '#dislikeButton', callback: () => this.handleDislike()
+			},
+			{
+				event: 'click', selector: '#likeButton', callback: () => this.handleLike()
+			}
+		]
 		);
 
 		this.currentCard.render();

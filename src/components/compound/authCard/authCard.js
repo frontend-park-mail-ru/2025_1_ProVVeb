@@ -7,38 +7,38 @@ import AuthButton from '../../simple/authButton/authButton.js';
 
 // Подтягивать из стора
 export default class AuthCard extends FormCard {
-    constructor(parentElement) {
-        const componentConfigs = [
-            { key: 'progressBar', class: ProgressBar, options: { progressPercent: 100 } },
-            { key: 'linkToPage', class: LinkToLogin },
-            { key: 'loginInput', class: LoginInput },
-            { key: 'passwordInput', class: PasswordInput },
-            { key: 'authButton', class: AuthButton },
-        ];
+	constructor(parentElement) {
+		const componentConfigs = [
+			{ key: 'progressBar', class: ProgressBar, options: { progressPercent: 100 } },
+			{ key: 'linkToPage', class: LinkToLogin },
+			{ key: 'loginInput', class: LoginInput },
+			{ key: 'passwordInput', class: PasswordInput },
+			{ key: 'authButton', class: AuthButton },
+		];
 
-        const components = {};
-        for (const { key, class: ComponentClass, options } of componentConfigs) {
-            components[key] = new ComponentClass(parentElement, options);
-        }
+		const components = {};
+		for (const { key, class: ComponentClass, options } of componentConfigs) {
+			components[key] = new ComponentClass(parentElement, options);
+		}
 
-        super(parentElement, {
-            progressBar: components.progressBar.template,
-            cardTitle: 'Продолжи свой поиск ❤️',
-            linkToPage: components.linkToPage.template,
-            fields: [
-                components.loginInput.template,
-                components.passwordInput.template
-            ],
-            button: components.authButton.template,
-        });
+		super(parentElement, {
+			progressBar: components.progressBar.template,
+			cardTitle: 'Продолжи свой поиск ❤️',
+			linkToPage: components.linkToPage.template,
+			fields: [
+				components.loginInput.template,
+				components.passwordInput.template
+			],
+			button: components.authButton.template,
+		});
 
-        this.components = components;
-    }
+		this.components = components;
+	}
 
-    render() {
-        super.render();
-        Object.values(this.components).forEach((component) => component.attachListeners());
-    }
+	render() {
+		super.render();
+		Object.values(this.components).forEach((component) => component.attachListeners());
+	}
 }
 
 // export default class AuthCard extends Card {
