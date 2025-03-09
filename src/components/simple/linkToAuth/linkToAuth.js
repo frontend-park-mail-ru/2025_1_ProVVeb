@@ -1,9 +1,9 @@
-import LinkTo from "../../pattern/linkTo/linkTo.js";
-import router from "../../../modules/router.js";
+import LinkTo from '../../pattern/linkTo/linkTo.js';
+import router from '../../../modules/router.js';
 
 const DEFAULT_LINK_TO_AUTH_PARAMS_BUTTON = {
-	idLink: "linkToAuth",
-	linkText: "Уже есть аккаунт? Войти",
+	idLink: 'linkToAuth',
+	linkText: 'Уже есть аккаунт? Войти',
 };
 
 DEFAULT_LINK_TO_AUTH_PARAMS_BUTTON.listenRoute = {
@@ -17,7 +17,7 @@ DEFAULT_LINK_TO_AUTH_PARAMS_BUTTON.listenRoute = {
 
 export default class LinkToLogin extends LinkTo {
 	constructor(parentElement, paramsHBS = {}) {
-		const finalParamsHBS = Object.assign({}, DEFAULT_LINK_TO_AUTH_PARAMS_BUTTON, paramsHBS);
+		const finalParamsHBS = { ...DEFAULT_LINK_TO_AUTH_PARAMS_BUTTON, ...paramsHBS };
 		super(parentElement, finalParamsHBS);
 	}
 }

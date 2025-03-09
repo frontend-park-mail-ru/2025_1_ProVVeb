@@ -1,4 +1,4 @@
-import BaseComponent from "../../BaseComponent.js";
+import BaseComponent from '../../BaseComponent.js';
 
 const DEFAULT_PARAMS_FORM_CARD = {
 	progressBar: '',

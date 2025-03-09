@@ -31,7 +31,7 @@ export default class BaseComponent {
 	}
 
 	removeListeners() {
-		this.listeners.forEach(listener => {
+		this.listeners.forEach((listener) => {
 			this.parentElement.querySelector(listener.selector)
 				.removeEventListener(listener.eventType, listener.callback);
 		});

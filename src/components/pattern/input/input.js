@@ -1,4 +1,4 @@
-import BaseComponent from "../../BaseComponent.js";
+import BaseComponent from '../../BaseComponent.js';
 import store from '../../Store.js';
 
 const DEFAULT_PARAMS_INPUT = {
@@ -10,9 +10,9 @@ const DEFAULT_PARAMS_INPUT = {
 }
 
 export default class Input extends BaseComponent {
-	//, [{.., .., ..}] - обработчики // id передавать чтобы понять 
+	// , [{.., .., ..}] - обработчики // id передавать чтобы понять
 	constructor(parentElement, paramsHBS = {}) {
-		const finalParamsHBS = Object.assign({}, DEFAULT_PARAMS_INPUT, paramsHBS);
+		const finalParamsHBS = { ...DEFAULT_PARAMS_INPUT, ...paramsHBS };
 		const templateHBS = Handlebars.templates['input.hbs'];
 		const templateHTML = templateHBS(finalParamsHBS);
 		super(templateHTML, parentElement);

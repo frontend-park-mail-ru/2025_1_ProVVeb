@@ -23,7 +23,7 @@ export default class AuthCard extends FormCard {
 
 		super(parentElement, {
 			progressBar: components.progressBar.template,
-			cardTitle: "Продолжи свой поиск ❤️",
+			cardTitle: 'Продолжи свой поиск ❤️',
 			linkToPage: components.linkToPage.template,
 			fields: [
 				components.loginInput.template,
@@ -37,14 +37,9 @@ export default class AuthCard extends FormCard {
 
 	render() {
 		super.render();
-		Object.values(this.components).forEach(component => component.attachListeners());
+		Object.values(this.components).forEach((component) => component.attachListeners());
 	}
 }
-
-
-
-
-
 
 // export default class AuthCard extends Card {
 

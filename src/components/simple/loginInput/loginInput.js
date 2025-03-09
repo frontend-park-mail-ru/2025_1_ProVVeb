@@ -1,4 +1,4 @@
-import Input from "../../pattern/input/input.js";
+import Input from '../../pattern/input/input.js';
 
 const DEFAULT_LOGIN_PARAMS_INPUT = {
 	typeInput: 'text',
@@ -10,7 +10,7 @@ const DEFAULT_LOGIN_PARAMS_INPUT = {
 
 export default class LoginInput extends Input {
 	constructor(parentElement, paramsHBS = {}) {
-		const finalParamsHBS = Object.assign({}, DEFAULT_LOGIN_PARAMS_INPUT, paramsHBS);
+		const finalParamsHBS = { ...DEFAULT_LOGIN_PARAMS_INPUT, ...paramsHBS };
 		super(parentElement, finalParamsHBS);
 	}
 }

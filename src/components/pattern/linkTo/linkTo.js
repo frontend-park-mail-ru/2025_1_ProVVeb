@@ -1,25 +1,25 @@
-import BaseComponent from "../../BaseComponent.js";
+import BaseComponent from '../../BaseComponent.js';
 
 const DEFAULT_PARAMS_LINK = {
-	idLink: "",
-	linkText: "Ссылка",
+	idLink: '',
+	linkText: 'Ссылка',
 };
 
 DEFAULT_PARAMS_LINK.listenRoute = {
-	eventType: "",
-	selector: "",
+	eventType: '',
+	selector: '',
 	callback: () => { },
 };
 
 export default class LinkTo extends BaseComponent {
 	constructor(parentElement, paramsHBS = {}) {
-		const finalParamsHBS = Object.assign({}, DEFAULT_PARAMS_LINK, paramsHBS);
+		const finalParamsHBS = { ...DEFAULT_PARAMS_LINK, ...paramsHBS };
 
 		if (finalParamsHBS.idLink) {
 			finalParamsHBS.listenRoute.selector = `#${finalParamsHBS.idLink}`;
 		}
 
-		const templateHBS = Handlebars.templates["linkTo.hbs"];
+		const templateHBS = Handlebars.templates['linkTo.hbs'];
 		const templateHTML = templateHBS(finalParamsHBS);
 		super(templateHTML, parentElement);
 

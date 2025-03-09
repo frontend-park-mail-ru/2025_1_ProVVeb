@@ -30,7 +30,7 @@ export default class LoginCard extends FormCard {
 
 		const LOGIN_CARD_PARAMS_CARD = {
 			progressBar: components.progressBar.template,
-			cardTitle: "Настроим твой вход 🔑",
+			cardTitle: 'Настроим твой вход 🔑',
 			linkToPage: components.linkToPage.template,
 			fields: [
 				components.loginInput.template,
@@ -47,6 +47,6 @@ export default class LoginCard extends FormCard {
 
 	render() {
 		super.render();
-		Object.values(this.components).forEach(component => component.attachListeners());
+		Object.values(this.components).forEach((component) => component.attachListeners());
 	}
 }
