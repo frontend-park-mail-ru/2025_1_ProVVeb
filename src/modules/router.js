@@ -16,26 +16,27 @@ class Router {
 		console.log(sessionResult);
 
 		if (sessionResult.success) {
-			switch (page) {
-				case 'auth':
-					this.root.classList.add('greeting');
-					this.authPage.rerender();
-					break;
-				case 'login':
-					this.root.classList.add('greeting');
-					this.loginPage.rerender();
-					break;
-				case 'feed':
-					this.root.classList.remove('greeting');
-					this.feedPage.rerender();
-					break;
-				default:
-					alert('Такой страницы нет. Перенаправляю на логин');
-					this.loginPage.rerender();
-			}
-		} else {
-			alert('Сессия не найдена. Перенаправляю на страницу логина');
-			this.loginPage.rerender(); // Перенаправляем на страницу логина, если сессия не найдена
+			this.root.classList.remove('greeting');
+			this.feedPage.rerender();
+			return;
+		}
+
+		switch (page) {
+			case 'auth':
+				this.root.classList.add('greeting');
+				this.authPage.rerender();
+				break;
+			case 'login':
+				this.root.classList.add('greeting');
+				this.loginPage.rerender();
+				break;
+			case 'feed':
+				this.root.classList.remove('greeting');
+				this.feedPage.rerender();
+				break;
+			default:
+				alert('Такой страницы нет. Перенаправляю на логин');
+				this.loginPage.rerender();
 		}
 	}
 }
