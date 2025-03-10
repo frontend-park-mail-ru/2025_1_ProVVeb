@@ -1,5 +1,5 @@
-import BaseComponent from "../../BaseComponent.js";
-import PersonCard from "../personCard/personCard.js";
+import BaseComponent from '../../BaseComponent.js';
+import PersonCard from '../personCard/personCard.js';
 
 const MOCK_PERSON_CARDS = [
 	{
