@@ -4,7 +4,7 @@ async function sendRequest(url, method, data = null) {
 	try {
 		const options = {
 			method: method,
-			// credentials: 'include',
+			credentials: 'include',
 			headers: {
 				'Content-Type': 'application/json'
 			}
@@ -75,6 +75,7 @@ async function deleteUser(userId) {
 // export default getProfile;
 
 export default {
+	BASE_URL,
 	getProfiles,
 	authUser,
 	loginUser,
