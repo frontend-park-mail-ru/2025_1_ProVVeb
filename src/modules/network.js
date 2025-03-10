@@ -66,7 +66,7 @@ async function logoutUser() {
 }
 
 async function deleteUser(userId) {
-	const url = `${BASE_URL}/users${userId}`;
+	const url = `${BASE_URL}/users/${userId}`;
 
 	const result = await sendRequest(url, 'DELETE');
 	return result;
