@@ -9,7 +9,19 @@ import api from './modules/network.js';
 
 // если не авторизован решать куда идти
 
+// router.navigateTo('feed');
 router.navigateTo('auth');
+
+function isUserAuthenticated() {
+	return document.cookie.split('; ').some(cookie => cookie.startsWith('session_id='));
+}
+
+if (isUserAuthenticated()) {
+	console.log("Пользователь авторизован");
+} else {
+	console.log("Гость");
+}
+
 
 // router.navigateTo('auth');
 // console.log(await api.authUser("kostritsy", "StrongPass2"));
