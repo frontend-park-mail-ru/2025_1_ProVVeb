@@ -1,37 +1,53 @@
 import BaseComponent from '../../BaseComponent.js';
 import PersonCard from '../personCard/personCard.js';
+import api from '../../../modules/network.js'
+import store from '../../Store.js';
 
-const MOCK_PERSON_CARDS = [
-	{
-		srcPersonPicture: '/mock/girl.jpg',
-		personName: 'Катя',
-		personAge: 19,
-		personDescription: 'Ого...',
-	},
-	{
-		srcPersonPicture: '/mock/pudg.jpg',
-		personName: 'Макс',
-		personAge: 21,
-		personDescription: 'Люблю путешествовать и играть в игры.',
-	},
-	{
-		srcPersonPicture: '/mock/sofia.jpg',
-		personName: 'Анна',
-		personAge: 25,
-		personDescription: 'Фотографирую закаты и пеку вкусные пироги.',
-	}
-];
+// const MOCK_PERSON_CARDS = [
+// 	{
+// 		srcPersonPicture: '/mock/girl.jpg',
+// 		personName: 'Катя',
+// 		personAge: 19,
+// 		personDescription: 'Ого...',
+// 	},
+// 	{
+// 		srcPersonPicture: '/mock/pudg.jpg',
+// 		personName: 'Макс',
+// 		personAge: 21,
+// 		personDescription: 'Люблю путешествовать и играть в игры.',
+// 	},
+// 	{
+// 		srcPersonPicture: '/mock/sofia.jpg',
+// 		personName: 'Анна',
+// 		personAge: 25,
+// 		personDescription: 'Фотографирую закаты и пеку вкусные пироги.',
+// 	}
+// ];
+
+const currentYear = new Date().getFullYear();
 
 export default class PeopleCards extends BaseComponent {
 	constructor(parentElement) {
 		super('', parentElement);
 		this.currentIndex = 0;
+		this.CARDS = []; // Массив для хранения данных
+		this.isDataLoaded = false; // Флаг для отслеживания, были ли данные загружены
 	}
 
-	render() {
+	// Метод для асинхронной загрузки данных
+	async loadData() {
+		if (!this.isDataLoaded) {
+			const response = await api.getProfiles(store.getState("myID"));
+			this.CARDS = response.data || [];
+			this.isDataLoaded = true;
+		}
+	}
+
+	async render() {
 		if (this.currentCard) {
 			document.getElementById('idPersonCard').outerHTML = '';
 		}
+		await this.loadData();
 
 		const LISTENERS_ACTION_BTNS = [
 			{
@@ -63,7 +79,11 @@ export default class PeopleCards extends BaseComponent {
 
 		this.currentCard = new PersonCard(
 			this.parentElement,
-			MOCK_PERSON_CARDS[this.currentIndex],
+			{
+				personName: this.CARDS[this.currentIndex].firstName,
+				personAge: currentYear - Number(this.CARDS[this.currentIndex].Birthday.year),
+				personDescription: this.CARDS[this.currentIndex].description,
+			},
 			LISTENERS_ACTION_BTNS,
 		);
 
@@ -71,13 +91,13 @@ export default class PeopleCards extends BaseComponent {
 	}
 
 	handleDislike() {
-		this.currentIndex = (this.currentIndex + 1) % MOCK_PERSON_CARDS.length;
+		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
 		console.log('Тык дизлайк');
 		this.render();
 	}
 
 	handleLike() {
-		this.currentIndex = (this.currentIndex + 1) % MOCK_PERSON_CARDS.length;
+		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
 		console.log('Тык лайк');
 		this.render();
 	}
@@ -89,6 +109,7 @@ export default class PeopleCards extends BaseComponent {
 	handleStar() {
 		console.log('Тык звезда');
 	}
+
 	handleLightning() {
 		console.log('Тык молния');
 	}
