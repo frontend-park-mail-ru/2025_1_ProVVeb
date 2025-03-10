@@ -23,6 +23,7 @@ export default class PeopleCards extends BaseComponent {
 
 	async render() {
 		if (this.currentCard) {
+			console.log(this.currentCard, this.parentElement);
 			document.getElementById('idPersonCard').outerHTML = '';
 		}
 		await this.loadData();
