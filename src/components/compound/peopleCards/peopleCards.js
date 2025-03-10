@@ -3,38 +3,16 @@ import PersonCard from '../personCard/personCard.js';
 import api from '../../../modules/network.js'
 import store from '../../Store.js';
 
-// const MOCK_PERSON_CARDS = [
-// 	{
-// 		srcPersonPicture: '/mock/girl.jpg',
-// 		personName: 'Катя',
-// 		personAge: 19,
-// 		personDescription: 'Ого...',
-// 	},
-// 	{
-// 		srcPersonPicture: '/mock/pudg.jpg',
-// 		personName: 'Макс',
-// 		personAge: 21,
-// 		personDescription: 'Люблю путешествовать и играть в игры.',
-// 	},
-// 	{
-// 		srcPersonPicture: '/mock/sofia.jpg',
-// 		personName: 'Анна',
-// 		personAge: 25,
-// 		personDescription: 'Фотографирую закаты и пеку вкусные пироги.',
-// 	}
-// ];
-
 const currentYear = new Date().getFullYear();
 
 export default class PeopleCards extends BaseComponent {
 	constructor(parentElement) {
 		super('', parentElement);
 		this.currentIndex = 0;
-		this.CARDS = []; // Массив для хранения данных
-		this.isDataLoaded = false; // Флаг для отслеживания, были ли данные загружены
+		this.CARDS = [];
+		this.isDataLoaded = false;
 	}
 
-	// Метод для асинхронной загрузки данных
 	async loadData() {
 		if (!this.isDataLoaded) {
 			const response = await api.getProfiles(store.getState("myID"));
@@ -117,3 +95,25 @@ export default class PeopleCards extends BaseComponent {
 		console.log('Тык молния');
 	}
 }
+
+
+// const MOCK_PERSON_CARDS = [
+// 	{
+// 		srcPersonPicture: '/mock/girl.jpg',
+// 		personName: 'Катя',
+// 		personAge: 19,
+// 		personDescription: 'Ого...',
+// 	},
+// 	{
+// 		srcPersonPicture: '/mock/pudg.jpg',
+// 		personName: 'Макс',
+// 		personAge: 21,
+// 		personDescription: 'Люблю путешествовать и играть в игры.',
+// 	},
+// 	{
+// 		srcPersonPicture: '/mock/sofia.jpg',
+// 		personName: 'Анна',
+// 		personAge: 25,
+// 		personDescription: 'Фотографирую закаты и пеку вкусные пироги.',
+// 	}
+// ];

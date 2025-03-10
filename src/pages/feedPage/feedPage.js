@@ -7,7 +7,6 @@ import store from '../../components/Store.js';
 export default class FeedPage extends BasePage {
 	constructor(parentElement) {
 		super(parentElement);
-		console.log(store.getState("myID"));
 		this.components = [
 			new HeaderMain(parentElement),
 			new PeopleCards(parentElement),
@@ -15,6 +14,7 @@ export default class FeedPage extends BasePage {
 	}
 
 	render() {
+		console.log(store.getState("myID"));
 		this.components.forEach((component) => component.render());
 	}
 }
