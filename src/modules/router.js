@@ -15,7 +15,7 @@ class Router {
 	async navigateTo(page) {
 		const sessionResult = await api.checkSession();
 		console.log(sessionResult);
-		console.log(api.BASE_URL)
+
 		if (sessionResult.data.inSession) {
 			store.setState('myID', sessionResult.data.id);
 			this.root.classList.remove('greeting');

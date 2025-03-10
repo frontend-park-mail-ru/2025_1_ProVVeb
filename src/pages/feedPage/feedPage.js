@@ -2,11 +2,12 @@ import BasePage from '../BasePage.js';
 // import PersonCard from "../../components/compound/personCard/personCard.js";
 import PeopleCards from '../../components/compound/peopleCards/peopleCards.js';
 import HeaderMain from '../../components/compound/headerMain/headerMain.js';
+import store from '../../components/Store.js';
 
 export default class FeedPage extends BasePage {
 	constructor(parentElement) {
 		super(parentElement);
-
+		console.log(store.getState("myID"));
 		this.components = [
 			new HeaderMain(parentElement),
 			new PeopleCards(parentElement),
