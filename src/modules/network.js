@@ -72,6 +72,14 @@ async function deleteUser(userId) {
 	return result;
 }
 
+async function checkSession() {
+	const url = `${BASE_URL}/checkSession`
+
+	const result = await sendRequest(url, 'GET');
+	return result;
+}
+
+
 // export default getProfile;
 
 export default {
@@ -81,7 +89,8 @@ export default {
 	loginUser,
 	getProfile,
 	logoutUser,
-	deleteUser
+	deleteUser,
+	checkSession,
 };
 
 // // Пример использования
