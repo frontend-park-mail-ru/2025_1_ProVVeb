@@ -12,8 +12,8 @@ class Router {
 	}
 
 	async navigateTo(page) {
-		const sessionResult = await api.checkSession();
-		console.log(sessionResult);
+		// const sessionResult = await api.checkSession();
+		// console.log(sessionResult);
 
 		// if (sessionResult.success) {
 		// 	this.root.classList.remove('greeting');
