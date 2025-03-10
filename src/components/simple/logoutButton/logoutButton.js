@@ -1,4 +1,6 @@
 import Button from "../../pattern/button/button.js";
+import api from "../../../modules/network.js"
+import router from '../../../modules/router.js';
 
 const DEFAULT_LOGOUT_PARAMS_BUTTON = {
 	idButton: 'logoutButton',
@@ -9,7 +11,15 @@ DEFAULT_LOGOUT_PARAMS_BUTTON.listenButton = {
 	eventType: 'click',
 	selector: `#${DEFAULT_LOGOUT_PARAMS_BUTTON.idButton}`,
 	callback: () => {
-		console.log("ВЫЙТИ из сессии");
+		// console.log("ВЫЙТИ из сессии");
+		api.logoutUser()
+			.then(response => {
+				console.log('Выход выполнен успешно:', response);
+				window.location.href = '/login';
+			})
+			.catch(error => {
+				console.error('Ошибка при выходе:', error);
+			});
 	},
 };
 
