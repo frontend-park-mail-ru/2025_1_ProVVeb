@@ -1,4 +1,3 @@
-import router from './router.js';
 import Notification from '../components/simple/notification/notification.js';
 
 export const validator = (data, rules) => {

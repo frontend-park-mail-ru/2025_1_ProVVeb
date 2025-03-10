@@ -1,6 +1,7 @@
 import Button from '../../pattern/button/button.js';
 import store from '../../Store.js';
 import { checkLogin } from '../../../modules/validation.js';
+import router from '../../../modules/router.js';
 
 const DEFAULT_LOGIN_PARAMS_BUTTON = {
 	buttonText: 'Продолжить',
@@ -14,10 +15,11 @@ DEFAULT_LOGIN_PARAMS_BUTTON.listenButton = {
 		const passwordValue = store.getState('passwordInput');
 		const passwordAgainValue = store.getState('passwordInputAgain');
 
-		if(checkLogin(loginValue, passwordValue, passwordAgainValue)){
+		if (checkLogin(loginValue, passwordValue, passwordAgainValue)) {
 			const respond = api.loginUser(loginValue, passwordValue);
-			if(respond.success){
-				router.navigateTo('auth');
+			if (respond.success) {
+				store.setState('profile_name', loginValue);
+				router.navigateTo('feed');
 			} else {
 				const error = new Notification({ isWarning: true, isWithButton: true, title: respond.data.message });
 				error.render();
