@@ -1,26 +1,32 @@
 import BaseComponent from '../../BaseComponent.js';
 
 const DEFAULT_PARAMS_BUTTON = {
-    buttonText: 'Кнопка',
+	idButton: '',
+	buttonText: 'Кнопка',
 };
 
 DEFAULT_PARAMS_BUTTON.listenButton = {
-    eventType: '',
-    selector: '',
-    callback: () => { },
+	eventType: '',
+	selector: '',
+	callback: () => { },
 };
 
 export default class Button extends BaseComponent {
-    constructor(parentElement, paramsHBS = {}) {
-        const finalParamsHBS = { ...DEFAULT_PARAMS_BUTTON, ...paramsHBS };
-        const templateHBS = Handlebars.templates['button.hbs'];
-        const templateHTML = templateHBS(finalParamsHBS);
-        super(templateHTML, parentElement);
+	constructor(parentElement, paramsHBS = {}) {
+		const finalParamsHBS = { ...DEFAULT_PARAMS_BUTTON, ...paramsHBS };
 
-        this.addListener(
-            finalParamsHBS.listenButton.eventType,
-            finalParamsHBS.listenButton.selector,
-            finalParamsHBS.listenButton.callback
-        );
-    }
+		if (finalParamsHBS.idButton) {
+			finalParamsHBS.listenButton.selector = `#${finalParamsHBS.idButton}`;
+		}
+
+		const templateHBS = Handlebars.templates['button.hbs'];
+		const templateHTML = templateHBS(finalParamsHBS);
+		super(templateHTML, parentElement);
+
+		this.addListener(
+			finalParamsHBS.listenButton.eventType,
+			finalParamsHBS.listenButton.selector,
+			finalParamsHBS.listenButton.callback
+		);
+	}
 }
