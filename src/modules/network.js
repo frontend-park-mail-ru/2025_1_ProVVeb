@@ -73,7 +73,7 @@ async function deleteUser(userId) {
 }
 
 async function checkSession() {
-	const url = `${BASE_URL}/checkSession`
+	const url = `${BASE_URL}/users/checkSession`
 
 	const result = await sendRequest(url, 'GET');
 	return result;

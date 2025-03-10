@@ -15,7 +15,7 @@ DEFAULT_LOGOUT_PARAMS_BUTTON.listenButton = {
 		api.logoutUser()
 			.then(response => {
 				console.log('Выход выполнен успешно:', response);
-				router.navigateTo('login');
+				router.navigateTo('auth');
 			})
 			.catch(error => {
 				console.error('Ошибка при выходе:', error);
