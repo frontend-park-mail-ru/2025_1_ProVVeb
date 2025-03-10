@@ -23,5 +23,4 @@ router.navigateTo('auth');
 // });
 
 // console.log(el);
-
 // el.render();
