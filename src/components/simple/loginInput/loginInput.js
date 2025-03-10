@@ -43,5 +43,9 @@ export default class LoginInput extends Input {
 	constructor(parentElement, paramsHBS = {}) {
 		const finalParamsHBS = { ...DEFAULT_LOGIN_PARAMS_INPUT, ...paramsHBS };
 		super(parentElement, finalParamsHBS);
+
+		store.subscribe("my_new_login", (data)=>{
+			document.querySelector("#loginInput_01").value=data;
+		})
 	}
 }
