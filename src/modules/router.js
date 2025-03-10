@@ -16,8 +16,8 @@ class Router {
 		const sessionResult = await api.checkSession();
 		console.log(sessionResult);
 
-		if (sessionResult.success) {
-			store.setState('myID', sessionResult.data.id);
+		if (sessionResult.data.inSession) {
+			store.setState('myID', sessionResult.data.UserId);
 			this.root.classList.remove('greeting');
 			this.feedPage.rerender();
 			return;
