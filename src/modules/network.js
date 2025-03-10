@@ -1,4 +1,6 @@
-const BASE_URL = 'http://213.219.214.83:8080';
+// const BASE_URL = 'http://213.219.214.83:8080';
+const LOCATION = window.location.href;
+const BASE_URL = LOCATION.endsWith('/') ? LOCATION.slice(0, -1) : LOCATION;
 
 async function sendRequest(url, method, data = null) {
 	try {
@@ -79,9 +81,6 @@ async function checkSession() {
 	return result;
 }
 
-
-// export default getProfile;
-
 export default {
 	BASE_URL,
 	getProfiles,
@@ -92,6 +91,3 @@ export default {
 	deleteUser,
 	checkSession,
 };
-
-// // Пример использования
-// getProfiles('123'); // Здесь 123 - это id пользователя
