@@ -17,7 +17,7 @@ class Router {
 		console.log(sessionResult);
 
 		if (sessionResult.data.inSession) {
-			store.setState('myID', sessionResult.data.UserId);
+			store.setState('myID', sessionResult.data.id);
 			this.root.classList.remove('greeting');
 			this.feedPage.rerender();
 			return;
