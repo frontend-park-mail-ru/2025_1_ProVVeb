@@ -8,12 +8,10 @@ const DEFAULT_PARAMS_PROGRESS_BAR = {
 export default class Profile extends BaseComponent {
 	constructor(parentElement, paramsHBS = DEFAULT_PARAMS_PROGRESS_BAR) {
 		const templateHBS = Handlebars.templates['profile.hbs'];
-
-		// const profile_name = store.getState("profile_name");
-		// console.log(profile_name)
-		// if(profile_name!=undefined){
-		// 	paramsHBS.profile_name = profile_name;
-		// }
+		
+		store.subscribe("profile_name", (newName)=>{
+			document.querySelector(".profile").children[0].innerHTML=newName;
+		});
 
 		const templateHTML = templateHBS(paramsHBS);
 		super(templateHTML, parentElement);

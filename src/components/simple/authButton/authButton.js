@@ -19,15 +19,15 @@ DEFAULT_AUTH_PARAMS_BUTTON.listenButton = {
 		if (checkAuth(loginValue, passwordValue)) {
 			api.authUser(loginValue, passwordValue).then((respond) => {
 				if (respond.success) {
-					store.setState('profile_name', loginValue);
 					store.setState('myID', respond.data.id);
 					router.navigateTo('feed');
+					store.setState('profile_name', loginValue);
 				} else {
-					const answer = JSON.parse(respond.message);
+					// const answer = JSON.parse(respond.message);
 					const error = new Notification({
 						isWarning: true,
 						isWithButton: true,
-						title: answer.message || 'Invalid credentials',
+						title: respond.message || 'Invalid credentials',
 					});
 					error.render();
 				}
