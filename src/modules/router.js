@@ -2,6 +2,7 @@ import LoginPage from '../pages/loginPage/loginPage.js';
 import AuthPage from '../pages/authPage/authPage.js';
 import FeedPage from '../pages/feedPage/feedPage.js';
 import api from './network.js';
+import store from '../components/Store.js';
 
 class Router {
 	constructor() {
@@ -16,6 +17,7 @@ class Router {
 		console.log(sessionResult);
 
 		if (sessionResult.success) {
+			store.setState('myID', sessionResult.data.id);
 			this.root.classList.remove('greeting');
 			this.feedPage.rerender();
 			return;
