@@ -15,11 +15,11 @@ class Router {
 		const sessionResult = await api.checkSession();
 		console.log(sessionResult);
 
-		if (sessionResult.success) {
-			this.root.classList.remove('greeting');
-			this.feedPage.rerender();
-			return;
-		}
+		// if (sessionResult.success) {
+		// 	this.root.classList.remove('greeting');
+		// 	this.feedPage.rerender();
+		// 	return;
+		// }
 
 		switch (page) {
 			case 'auth':
