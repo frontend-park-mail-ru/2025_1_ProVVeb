@@ -1,6 +1,6 @@
-// const BASE_URL = 'http://213.219.214.83:8080';
-const LOCATION = window.location.href;
-const BASE_URL = LOCATION.endsWith('/') ? LOCATION.slice(0, -1) : LOCATION;
+const BASE_URL = 'http://213.219.214.83:8080';
+// const LOCATION = window.location.href;
+// const BASE_URL = LOCATION.endsWith('/') ? LOCATION.slice(0, -1) : LOCATION;
 
 async function sendRequest(url, method, data = null) {
 	try {
