@@ -9,18 +9,9 @@ export default class AuthPage extends BasePage {
 			new HeaderGreeting(parentElement),
 			new AuthCard(parentElement),
 		];
-
 	}
 
 	render() {
 		this.components.forEach((component) => component.render());
 	}
 }
-
-// validate = () => {
-// 	console.log("Сейчас валидация");
-// 	// квериселектр логин контейнера = (1)
-// 	// newLogin = new input(state = incorrect , parent = (1))
-// 	// newLogin.render()
-// 	router.navigateTo('login');
-// }

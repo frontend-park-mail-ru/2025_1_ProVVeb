@@ -11,7 +11,6 @@ DEFAULT_LOGOUT_PARAMS_BUTTON.listenButton = {
 	eventType: 'click',
 	selector: `#${DEFAULT_LOGOUT_PARAMS_BUTTON.idButton}`,
 	callback: () => {
-		// console.log("ВЫЙТИ из сессии");
 		api.logoutUser()
 			.then(response => {
 				console.log('Выход выполнен успешно:', response);

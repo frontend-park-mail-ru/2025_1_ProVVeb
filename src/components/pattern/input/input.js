@@ -22,7 +22,6 @@ DEFAULT_PARAMS_INPUT.listenFocus = {
 };
 
 export default class Input extends BaseComponent {
-	// , [{.., .., ..}] - обработчики // id передавать чтобы понять
 	constructor(parentElement, paramsHBS = {}) {
 		const finalParamsHBS = { ...DEFAULT_PARAMS_INPUT, ...paramsHBS };
 		const templateHBS = Handlebars.templates['input.hbs'];
@@ -40,19 +39,4 @@ export default class Input extends BaseComponent {
 			finalParamsHBS.listenFocus.callback
 		);
 	}
-
-	// this.addListener('click', '#submitButton', this.handleSubmit.bind(this));
-
-	// store.subscribe('inputValue', (value) => {
-	// 	this.parentElement.querySelector('#displayText').textContent = value;
-	// });
-
-	// Store.subscribe('loginInputValue', (value) => {
-	// 	this.parentElement.querySelector('.login').textContent = value;
-	// });
-
-	// handleSubmit() {
-	// 	const inputValue = this.parentElement.querySelector('#inputField').value;
-	// 	store.setState('inputValue', inputValue); // Обновляем состояние
-	// }
 }

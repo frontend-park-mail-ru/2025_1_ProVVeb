@@ -43,7 +43,7 @@ async function authUser(login, password) {
 	const data = { login, password };
 
 	const result = await sendRequest(url, 'POST', data);
-	return result; // id
+	return result;
 }
 
 async function getProfiles(id) {

@@ -10,7 +10,6 @@ DEFAULT_LINK_TO_AUTH_PARAMS_BUTTON.listenRoute = {
 	eventType: 'click',
 	selector: `#${DEFAULT_LINK_TO_AUTH_PARAMS_BUTTON.idLink}`,
 	callback: () => {
-		// console.log("Отладчик: перешел на вход");
 		router.navigateTo('auth');
 	},
 };

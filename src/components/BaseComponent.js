@@ -16,12 +16,6 @@ export default class BaseComponent {
 		this.attachListeners();
 	}
 
-	// rerender() {
-	// 	this.removeListeners(); // Сначала удаляем слушатели
-	// 	this.parentElement.innerHTML = this.template; // Затем перезаписываем HTML
-	// 	this.attachListeners(); // Заново добавляем слушатели
-	// }
-
 	getRenderedComponent() {
 		return this.parentElement.innerHTML;
 	}

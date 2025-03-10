@@ -40,39 +40,3 @@ export default class AuthCard extends FormCard {
 		Object.values(this.components).forEach((component) => component.attachListeners());
 	}
 }
-
-// export default class AuthCard extends Card {
-
-// 	constructor(parentElement) {
-// 		const progressBar = new ProgressBar(parentElement, { progressPercent: 100 });
-// 		const linkToPage = new LinkToLogin(parentElement);
-// 		const loginInput = new LoginInput(parentElement);
-// 		const passwordInput = new PasswordInput(parentElement);
-// 		const authButton = new AuthButton(parentElement);
-
-// 		const AUTH_CARD_PARAMS_CARD = {
-// 			progressBar: progressBar.template,
-// 			cardTitle: 'Продолжи свой поиск ❤️',
-// 			linkToPage: linkToPage.template,
-// 			fields: [loginInput.template, passwordInput.template],
-// 			button: authButton.template,
-// 		};
-
-// 		super(parentElement, AUTH_CARD_PARAMS_CARD);
-
-// 		this.progressBar = progressBar;
-// 		this.linkToPage = linkToPage;
-// 		this.loginInput = loginInput;
-// 		this.passwordInput = passwordInput;
-// 		this.authButton = authButton;
-// 	}
-
-// 	render() {
-// 		super.render();
-// 		this.progressBar.attachListeners();
-// 		this.linkToPage.attachListeners();
-// 		this.loginInput.attachListeners();
-// 		this.passwordInput.attachListeners()
-// 		this.authButton.attachListeners();
-// 	}
-// }
