@@ -1,0 +1,21 @@
+@import './styles/globals.css';
+@import './components/components.css';
+
+#root {
+	background-color: var(--white-bg-color);
+}
+
+#root.greeting {
+	background: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: 100vh;
+}
+#notification{
+	z-index: 999;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+}

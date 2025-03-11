@@ -1,0 +1,30 @@
+@import './../../../styles/globals/colors.css';
+
+.progressBarContainer {
+	width: 100%;
+	background-color: var(--light-grey-progress-bar-line);
+	height: 4px;
+	border-radius: 15px;
+	overflow: hidden;
+	position: relative;
+	margin-bottom: 20px;
+}
+
+.progressBarLine {
+	height: 100%;
+	width: 0;
+	background-color: var(--red-progress-bar-line);
+	transition: width 0.5s ease-in-out;
+}
+
+.progressBarLine[data-percent] {
+	width: calc(min(var(--percent), 100) * 1%);
+}
+
+.progressBarLine[data-percent="0"] {
+	--percent: 0;
+}
+
+.progressBarLine[data-percent="100"] {
+	--percent: 100;
+}

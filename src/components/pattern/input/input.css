@@ -1,0 +1,52 @@
+@import './../../../styles/globals/colors.css';
+
+.inputContainer {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+}
+
+.inputContainer input {
+	width: 100%;
+	border: none;
+	border-bottom: 2px solid var(--gray-line);
+	outline: none;
+	font-size: 16px;
+	padding: 5px 0;
+	background-color: transparent;
+}
+
+.inputContainer label {
+	font-weight: 500;
+	font-size: 20px;
+	line-height: 28px;
+
+
+	position: absolute;
+	left: 0;
+	top: 5px;
+	color: var(--placeholder);
+	font-size: 16px;
+	transition: 0.3s ease;
+	pointer-events: none;
+}
+
+.inputContainer input:focus+label,
+.inputContainer input:not(:placeholder-shown)+label {
+	top: -15px;
+	font-size: 12px;
+	color: var(--gray-line);
+}
+
+.inputContainer.incorrect input:focus+label,
+.inputContainer.incorrect input:not(:placeholder-shown)+label {
+	color: var(--danger-placeholder);
+}
+
+.inputContainer.incorrect>input {
+	border-bottom: 2px solid var(--danger);
+}
+
+.inputContainer.incorrect>label {
+	color: var(--danger-placeholder);
+}
