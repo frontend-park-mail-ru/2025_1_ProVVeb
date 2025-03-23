@@ -4,7 +4,6 @@ import { createRequire } from 'module'; // Импортируем createRequire
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import { precompile } from 'handlebars';
 
 // Создаём аналог __dirname для ES модулей
 const __filename = fileURLToPath(import.meta.url);
