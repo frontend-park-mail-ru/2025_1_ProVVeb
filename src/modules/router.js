@@ -10,6 +10,7 @@ class Router {
 		this.authPage = new AuthPage(this.root);
 		this.loginPage = new LoginPage(this.root);
 		this.feedPage = new FeedPage(this.root);
+		// this.isLogin = false;
 	}
 
 	async navigateTo(page) {

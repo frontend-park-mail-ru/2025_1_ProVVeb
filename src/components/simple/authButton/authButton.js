@@ -17,10 +17,10 @@ DEFAULT_AUTH_PARAMS_BUTTON.listenButton = {
 		const passwordValue = store.getState('passwordInput');
 
 		if (checkAuth(loginValue, passwordValue)) {
-			api.authUser(loginValue, passwordValue).then((respond) => {
+			api.authUser(loginValue, passwordValue).then(async (respond) => {
 				if (respond.success) {
 					store.setState('myID', respond.data.id);
-					router.navigateTo('feed');
+					await router.navigateTo('feed');
 					store.setState('profile_name', loginValue);
 				} else {
 					// const answer = JSON.parse(respond.message);
