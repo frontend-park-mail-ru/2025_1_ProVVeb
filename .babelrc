@@ -1,0 +1,7 @@
+{
+    "presets": [
+      "@babel/preset-env", // Поддержка современного JavaScript
+      "@babel/preset-typescript" // Поддержка TypeScript
+    ],
+    "sourceType": "module"
+}

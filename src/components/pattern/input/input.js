@@ -1,5 +1,5 @@
 import BaseComponent from '../../BaseComponent.js';
-import store from '../../Store.js';
+import templateHBS from './input.hbs';
 
 const DEFAULT_PARAMS_INPUT = {
 	typeInput: 'text',
@@ -24,7 +24,6 @@ DEFAULT_PARAMS_INPUT.listenFocus = {
 export default class Input extends BaseComponent {
 	constructor(parentElement, paramsHBS = {}) {
 		const finalParamsHBS = { ...DEFAULT_PARAMS_INPUT, ...paramsHBS };
-		const templateHBS = Handlebars.templates['input.hbs'];
 		const templateHTML = templateHBS(finalParamsHBS);
 		super(templateHTML, parentElement);
 

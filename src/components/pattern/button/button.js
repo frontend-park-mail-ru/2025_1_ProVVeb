@@ -1,4 +1,5 @@
 import BaseComponent from '../../BaseComponent.js';
+import templateHBS from './button.hbs';
 
 const DEFAULT_PARAMS_BUTTON = {
 	idButton: '',
@@ -19,7 +20,6 @@ export default class Button extends BaseComponent {
 			finalParamsHBS.listenButton.selector = `#${finalParamsHBS.idButton}`;
 		}
 
-		const templateHBS = Handlebars.templates['button.hbs'];
 		const templateHTML = templateHBS(finalParamsHBS);
 		super(templateHTML, parentElement);
 

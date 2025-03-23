@@ -1,4 +1,5 @@
 import BaseComponent from '../../BaseComponent.js';
+import templateHBS from './linkTo.hbs';
 
 const DEFAULT_PARAMS_LINK = {
 	idLink: '',
@@ -19,7 +20,6 @@ export default class LinkTo extends BaseComponent {
 			finalParamsHBS.listenRoute.selector = `#${finalParamsHBS.idLink}`;
 		}
 
-		const templateHBS = Handlebars.templates['linkTo.hbs'];
 		const templateHTML = templateHBS(finalParamsHBS);
 		super(templateHTML, parentElement);
 

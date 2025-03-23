@@ -1,4 +1,5 @@
 import BaseComponent from '../../BaseComponent.js';
+import templateHBS from './personCard.hbs';
 
 const DEFAULT_PARAMS_PERSON_CARD = {
 	srcPersonPictureError: 'media/error/400x600.jpg',
@@ -11,7 +12,6 @@ const DEFAULT_PARAMS_PERSON_CARD = {
 export default class PersonCard extends BaseComponent {
 	constructor(parentElement, paramsHBS = {}, callbacks = []) {
 		const finalParamsHBS = { ...DEFAULT_PARAMS_PERSON_CARD, ...paramsHBS };
-		const templateHBS = Handlebars.templates['personCard.hbs'];
 		const templateHTML = templateHBS(finalParamsHBS);
 		super(templateHTML, parentElement);
 

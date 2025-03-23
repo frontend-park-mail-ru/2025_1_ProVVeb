@@ -1,0 +1,29 @@
+{
+    "compilerOptions": {
+      "target": "ES6", // Целевая версия JavaScript
+      "module": "ESNext", // Использование модулей ES
+      "moduleResolution": "node", // Разрешение модулей как в Node.js
+      "strict": true, // Включение строгой проверки типов
+      "esModuleInterop": true, // Упрощение импорта CommonJS-модулей
+      "skipLibCheck": true, // Пропуск проверки типов в библиотеках
+      "forceConsistentCasingInFileNames": true, // Единообразие в именах файлов
+      "outDir": "./dist", // Папка для скомпилированных файлов (опционально)
+      "rootDir": "./src", // Корневая папка с исходным кодом
+      "baseUrl": ".", // Базовый путь для алиасов
+      "paths": { // Алиасы для путей
+        "@media/*": ["src/media/*"],
+        "@store": ["src/components/Store.js"],
+        "@basecomp": ["src/components/BaseComponent.js"],
+        "@compound/*": ["src/components/compound/*"],
+        "@pattern/*": ["src/components/pattern/*"],
+        "@simple/*": ["src/components/simple/*"],
+        "@network": ["src/modules/network.js"],
+        "@validation": ["src/modules/validation.js"],
+        "@router/*": ["src/modules/router/*"],
+        "@mock/*": ["src/mock/*"],
+        "@pages/*": ["src/pages/*"]
+      }
+    },
+    "include": ["src/**/*"], // Какие файлы обрабатывать
+    "exclude": ["node_modules"] // Какие файлы игнорировать
+  }

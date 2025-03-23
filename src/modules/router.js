@@ -14,15 +14,15 @@ class Router {
 	}
 
 	async navigateTo(page) {
-		const sessionResult = await api.checkSession();
-		console.log(sessionResult);
+		// const sessionResult = await api.checkSession();
+		// console.log(sessionResult);
 
-		if (sessionResult.data.inSession) {
-			store.setState('myID', sessionResult.data.id);
-			this.root.classList.remove('greeting');
-			this.feedPage.rerender();
-			return;
-		}
+		// if (sessionResult.data.inSession) {
+		// 	store.setState('myID', sessionResult.data.id);
+		// 	this.root.classList.remove('greeting');
+		// 	this.feedPage.rerender();
+		// 	return;
+		// }
 
 		switch (page) {
 			case 'auth':

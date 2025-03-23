@@ -1,4 +1,5 @@
 import BaseComponent from '../../BaseComponent.js';
+import templateHBS from './logo.hbs';
 
 const DEFAULT_PARAMS_BUTTON = {
 	type: 'white',
@@ -7,7 +8,6 @@ const DEFAULT_PARAMS_BUTTON = {
 
 export default class Logo extends BaseComponent {
 	constructor(parentElement, paramsHBS = DEFAULT_PARAMS_BUTTON) {
-		const templateHBS = Handlebars.templates['logo.hbs'];
 		const templateHTML = templateHBS(paramsHBS);
 		super(templateHTML, parentElement);
 	}
