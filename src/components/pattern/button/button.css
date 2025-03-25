@@ -1,4 +1,4 @@
-@import './../../../styles/globals/colors.css';
+@import '@styles/colors.scss';
 
 .button {
 	font-weight: 500;

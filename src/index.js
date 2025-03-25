@@ -1,4 +1,4 @@
 import router from './modules/router.js';
-import './index.css';
+import './index.scss';
 
 router.navigateTo('auth');

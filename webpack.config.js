@@ -28,6 +28,7 @@ export default {
 			'@router': path.resolve(__dirname, 'src/modules/router'),
 			'@mock': path.resolve(__dirname, 'src/mock'),
 			'@pages': path.resolve(__dirname, 'src/pages'),
+			'@styles': path.resolve(__dirname, 'src/styles/globals')
 		},
 	},
 	entry: {

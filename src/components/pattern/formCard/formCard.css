@@ -1,4 +1,4 @@
-@import './../../../styles/globals/colors.css';
+@import '@styles/colors.scss';
 
 .formCard {
 	height: 500px;

@@ -1,4 +1,4 @@
-@import './../../../styles/globals/colors.css';
+@import '@styles/colors.scss';
 
 .inputContainer {
 	position: relative;
