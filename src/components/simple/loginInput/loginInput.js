@@ -15,7 +15,7 @@ DEFAULT_LOGIN_PARAMS_INPUT.listenInput = {
 	eventType: 'input',
 	selector: `#${DEFAULT_LOGIN_PARAMS_INPUT.idInput}`,
 	callback: (event) => {
-		if (store.getState('loginInput') != event.target.value) { event.target.parentElement.classList.remove('incorrect'); }
+		if (store.getState('loginInput') !== event.target.value) { event.target.parentElement.classList.remove('incorrect'); }
 		store.setState('loginInput', event.target.value);
 	},
 };
@@ -29,7 +29,7 @@ DEFAULT_LOGIN_PARAMS_INPUT.listenFocus = {
 		const loginElement = document.querySelectorAll('.inputContainer')[0];
 		const loginValidation = validator(loginValue, LOGIN_BRIEF_RULES);
 
-		if (!loginValidation.isOK && loginValue != '') {
+		if (!loginValidation.isOK && loginValue !== '') {
 			const error = new Notification({ isWarning: true, isWithButton: true, title: loginValidation.message });
 			error.render();
 			loginElement.classList.add('incorrect');
@@ -44,8 +44,8 @@ export default class LoginInput extends Input {
 		const finalParamsHBS = { ...DEFAULT_LOGIN_PARAMS_INPUT, ...paramsHBS };
 		super(parentElement, finalParamsHBS);
 
-		store.subscribe("my_new_login", (data)=>{
-			document.querySelector("#loginInput_01").value=data;
-		})
+		store.subscribe('my_new_login', (data) => {
+			document.querySelector('#loginInput_01').value = data;
+		});
 	}
 }

@@ -1,6 +1,6 @@
 import BaseComponent from '../../BaseComponent.js';
 import PersonCard from '../personCard/personCard.js';
-import api from '../../../modules/network.js'
+import api from '../../../modules/network.js';
 import store from '../../Store.js';
 
 const currentYear = new Date().getFullYear();
@@ -15,7 +15,7 @@ export default class PeopleCards extends BaseComponent {
 
 	async loadData() {
 		if (!this.isDataLoaded) {
-			const response = await api.getProfiles(store.getState("myID"));
+			const response = await api.getProfiles(store.getState('myID'));
 			this.CARDS = response.data || [];
 			this.isDataLoaded = true;
 		}
@@ -96,7 +96,6 @@ export default class PeopleCards extends BaseComponent {
 		console.log('Тык молния');
 	}
 }
-
 
 // const MOCK_PERSON_CARDS = [
 // 	{

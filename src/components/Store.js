@@ -6,12 +6,11 @@ class Store {
 	 * Создаёт экземпляр хранилища или возвращает уже существующий.
 	 */
 	constructor() {
-		if (Store.instance) {
-			return Store.instance;
+		if (!Store.instance) {
+			this.state = {};
+			this.listeners = {};
+			Store.instance = this;
 		}
-		this.state = {};
-		this.listeners = {};
-		Store.instance = this;
 	}
 
 	/**

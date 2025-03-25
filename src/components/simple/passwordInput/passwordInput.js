@@ -15,7 +15,7 @@ DEFAULT_PASSWORD_PARAMS_INPUT.listenInput = {
 	eventType: 'input',
 	selector: `#${DEFAULT_PASSWORD_PARAMS_INPUT.idInput}`,
 	callback: (event) => {
-		if (store.getState('passwordInput') != event.target.value) { event.target.parentElement.classList.remove('incorrect'); }
+		if (store.getState('passwordInput') !== event.target.value) { event.target.parentElement.classList.remove('incorrect'); }
 		store.setState('passwordInput', event.target.value);
 	},
 };
@@ -29,7 +29,7 @@ DEFAULT_PASSWORD_PARAMS_INPUT.listenFocus = {
 		const passwordElement = document.querySelectorAll('.inputContainer')[1];
 		const passwordValidation = validator(passwordValue, PASSWORD_BRIEF_RULES);
 
-		if (!passwordValidation.isOK && passwordValue != '') {
+		if (!passwordValidation.isOK && passwordValue !== '') {
 			const error = new Notification({ isWarning: true, isWithButton: true, title: passwordValidation.message });
 			error.render();
 			passwordElement.classList.add('incorrect');

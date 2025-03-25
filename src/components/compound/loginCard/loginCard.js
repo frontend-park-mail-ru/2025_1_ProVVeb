@@ -27,7 +27,7 @@ export default class LoginCard extends FormCard {
 						eventType: 'input',
 						selector: '#passwordInput_01',
 						callback: (event) => {
-							if (store.getState('passwordInput') != event.target.value) {
+							if (store.getState('passwordInput') !== event.target.value) {
 								event.target.parentElement.nextElementSibling.classList.remove('incorrect');
 								event.target.parentElement.classList.remove('incorrect');
 							}
@@ -43,7 +43,7 @@ export default class LoginCard extends FormCard {
 							const passwordElement = document.querySelectorAll('.inputContainer')[1];
 							const passwordValidation = validator(passwordValue, PASSWORD_BRIEF_RULES);
 
-							if (!passwordValidation.isOK && passwordValue != '') {
+							if (!passwordValidation.isOK && passwordValue !== '') {
 								const error = new Notification({ isWarning: true, isWithButton: true, title: passwordValidation.message });
 								error.render();
 								passwordElement.classList.add('incorrect');
@@ -66,7 +66,7 @@ export default class LoginCard extends FormCard {
 						eventType: 'input',
 						selector: '#passwordInput_02',
 						callback: (event) => {
-							if (store.getState('passwordInputAgain') != event.target.value) {
+							if (store.getState('passwordInputAgain') !== event.target.value) {
 								event.target.parentElement.previousElementSibling.classList.remove('incorrect');
 								event.target.parentElement.classList.remove('incorrect');
 							}
@@ -82,7 +82,7 @@ export default class LoginCard extends FormCard {
 							const passwordElement = document.querySelectorAll('.inputContainer')[2];
 							const passwordValidation = validator(passwordValue, PASSWORD_BRIEF_RULES);
 
-							if (!passwordValidation.isOK && passwordValue != '') {
+							if (!passwordValidation.isOK && passwordValue !== '') {
 								const error = new Notification({ isWarning: true, isWithButton: true, title: passwordValidation.message });
 								error.render();
 								passwordElement.classList.add('incorrect');
@@ -97,9 +97,9 @@ export default class LoginCard extends FormCard {
 		];
 
 		const components = {};
-		for (const { key, class: ComponentClass, options = {} } of componentConfigs) {
+		componentConfigs.forEach(({ key, class: ComponentClass, options }) => {
 			components[key] = new ComponentClass(parentElement, options);
-		}
+		});
 
 		const LOGIN_CARD_PARAMS_CARD = {
 			progressBar: components.progressBar.template,

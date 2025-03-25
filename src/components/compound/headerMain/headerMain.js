@@ -6,7 +6,7 @@ import store from '../../Store.js';
 
 export default class HeaderMain extends Header {
 	constructor(parentElement) {
-		console.log(store.getState("myID"));
+		console.log(store.getState('myID'));
 		const componentConfigs = [
 			{ key: 'logotype', class: LogoMain },
 			{ key: 'logoutSessionBtn', class: LogoutButton },
@@ -14,9 +14,9 @@ export default class HeaderMain extends Header {
 		];
 
 		const components = {};
-		for (const { key, class: ComponentClass, options } of componentConfigs) {
+		componentConfigs.forEach(({ key, class: ComponentClass, options }) => {
 			components[key] = new ComponentClass(parentElement, options);
-		}
+		});
 
 		super(parentElement, {
 			logotype: components.logotype.template,

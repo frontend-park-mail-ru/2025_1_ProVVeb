@@ -20,12 +20,12 @@ DEFAULT_LOGIN_PARAMS_BUTTON.listenButton = {
 			api.loginUser(loginValue, passwordValue).then((respond) => {
 				if (respond.success) {
 					router.navigateTo('auth');
-					store.setState("my_new_login", loginValue)
+					store.setState('my_new_login', loginValue);
 				} else {
-					const error = new Notification({ 
-						isWarning: true, 
-						isWithButton: true, 
-						title: respond.message || 'Invalid credentials', 
+					const error = new Notification({
+						isWarning: true,
+						isWithButton: true,
+						title: respond.message || 'Invalid credentials',
 					});
 					error.render();
 				}

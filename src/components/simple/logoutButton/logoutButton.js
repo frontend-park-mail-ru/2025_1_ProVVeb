@@ -1,5 +1,5 @@
-import Button from "../../pattern/button/button.js";
-import api from "../../../modules/network.js"
+import Button from '../../pattern/button/button.js';
+import api from '../../../modules/network.js';
 import router from '../../../modules/router.js';
 
 const DEFAULT_LOGOUT_PARAMS_BUTTON = {
@@ -12,11 +12,11 @@ DEFAULT_LOGOUT_PARAMS_BUTTON.listenButton = {
 	selector: `#${DEFAULT_LOGOUT_PARAMS_BUTTON.idButton}`,
 	callback: () => {
 		api.logoutUser()
-			.then(response => {
+			.then((response) => {
 				console.log('Выход выполнен успешно:', response);
 				router.navigateTo('auth');
 			})
-			.catch(error => {
+			.catch((error) => {
 				console.error('Ошибка при выходе:', error);
 			});
 	},

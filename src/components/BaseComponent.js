@@ -6,7 +6,7 @@ export default class BaseComponent {
 	}
 
 	render() {
-		if (this.parentElement.innerHTML == '') {
+		if (this.parentElement.innerHTML === '') {
 			this.parentElement.innerHTML = this.template;
 			this.attachListeners();
 			return;

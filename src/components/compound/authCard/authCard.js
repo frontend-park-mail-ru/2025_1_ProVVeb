@@ -17,9 +17,9 @@ export default class AuthCard extends FormCard {
 		];
 
 		const components = {};
-		for (const { key, class: ComponentClass, options } of componentConfigs) {
+		componentConfigs.forEach(({ key, class: ComponentClass, options }) => {
 			components[key] = new ComponentClass(parentElement, options);
-		}
+		});
 
 		super(parentElement, {
 			progressBar: components.progressBar.template,
