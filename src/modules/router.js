@@ -17,12 +17,13 @@ class Router {
 		const sessionResult = await api.checkSession();
 		console.log(sessionResult);
 
-		if (sessionResult.data.inSession) {
-			store.setState('myID', sessionResult.data.id);
-			this.root.classList.remove('greeting');
-			this.feedPage.rerender();
-			return;
-		}
+		// ПРОВЕРЯТЬ НА УСПЕх
+		// if (sessionResult.data.inSession) {
+		// 	store.setState('myID', sessionResult.data.id);
+		// 	this.root.classList.remove('greeting');
+		// 	this.feedPage.rerender();
+		// 	return;
+		// }
 
 		switch (page) {
 			case 'auth':

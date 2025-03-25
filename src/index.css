@@ -11,7 +11,8 @@
 	background-size: cover;
 	height: 100vh;
 }
-#notification{
+
+#notification {
 	z-index: 999;
 	position: absolute;
 	top: 0;
