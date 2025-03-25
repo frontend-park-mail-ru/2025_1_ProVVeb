@@ -1,5 +1,5 @@
 @use './styles/globals';
-@import './components/components.css';
+@use './components/components';
 
 #root {
 	background-color: var(--white-bg-color);
