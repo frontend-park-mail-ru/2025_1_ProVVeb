@@ -1,34 +1,29 @@
-@use '@styles/colors.scss';
+@use '@styles/mixins';
 
 .formCard {
 	height: 500px;
 	/* width: fit-content; */
 	width: 410px;
+	@include mixins.center-horizontal;
 	padding: 40px;
 	background-color: var(--white-bg-color);
 	border-radius: 12px;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-	margin-left: auto;
-	margin-right: auto;
-}
 
-.innerFormCard {
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-}
+	&__inner {
+		height: 100%;
+		@include mixins.flex-column-center;
+		justify-content: space-between;
+	}
 
-.headerFormCard {
-	width: 100%;
-	text-align: center;
-}
+	&__header {
+		width: 100%;
+		text-align: center;
+	}
 
-.fieldsFormCard {
-	width: 252px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 32px;
+	&__fields {
+		width: 252px;
+		@include mixins.flex-column-center;
+		gap: 32px;
+	}
 }

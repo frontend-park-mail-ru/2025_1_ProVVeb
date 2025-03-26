@@ -13,7 +13,7 @@ export default class FeedPage extends BasePage {
 	}
 
 	render() {
-		console.log(store.getState('myID'));
+		// console.log(store.getState('myID'));
 		this.components.forEach((component) => component.render());
 	}
 }

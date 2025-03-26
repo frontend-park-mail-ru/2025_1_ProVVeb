@@ -1,25 +1,30 @@
 <div id="idPersonCard" class="personCard" style="background-image: 
 	url('{{ srcPersonPicture }}'), 
 	url('{{ srcPersonPictureError }}');">
-	<div class="personInfo">
-		<p class="personalData">{{ personName }} {{ personAge }} лет</p>
-		<p class="personDescription">{{ personDescription }}</p>
+	<div class="personCard__info">
+		<p class="personCard__data">{{ personName }} {{ personAge }} лет</p>
+		<p class="personCard__description">{{ personDescription }}</p>
 	</div>
-	<div class="personCardBtns">
-		<button class="iconButton" id="repeatButton">
-			<img src="media/btn/actionBtnRepeat.svg" alt="Кнопка Повтор" width="56" height="56">
+	<div class="personCard__btns">
+		<button class="personCard__iconButton" id="repeatButton">
+			<img class="personCard__imgButton" src="media/btn/actionBtnRepeat.svg" alt="Кнопка Повтор" width="56"
+				height="56">
 		</button>
-		<button class="iconButton" id="dislikeButton">
-			<img src="media/btn/actionBtnDislike.svg" alt="Кнопка Дизлайк" width="70" height="70">
+		<button class="personCard__iconButton" id="dislikeButton">
+			<img class="personCard__imgButton" src="media/btn/actionBtnDislike.svg" alt="Кнопка Дизлайк" width="70"
+				height="70">
 		</button>
-		<button class="iconButton" id="starButton">
-			<img src="media/btn/actionBtnStar.svg" alt="Кнопка Звезда" width="56" height="56">
+		<button class="personCard__iconButton" id="starButton">
+			<img class="personCard__imgButton" src="media/btn/actionBtnStar.svg" alt="Кнопка Звезда" width="56"
+				height="56">
 		</button>
-		<button class="iconButton" id="likeButton">
-			<img src="media/btn/actionBtnLike.svg" alt="Кнопка Лайк" width="70" height="70">
+		<button class="personCard__iconButton" id="likeButton">
+			<img class="personCard__imgButton" src="media/btn/actionBtnLike.svg" alt="Кнопка Лайк" width="70"
+				height="70">
 		</button>
-		<button class="iconButton" id="lightningButton">
-			<img src="media/btn/actionBtnLightning.svg" alt="Кнопка Молния" width="56" height="56">
+		<button class="personCard__iconButton" id="lightningButton">
+			<img class="personCard__imgButton" src="media/btn/actionBtnLightning.svg" alt="Кнопка Молния" width="56"
+				height="56">
 		</button>
 	</div>
 </div>

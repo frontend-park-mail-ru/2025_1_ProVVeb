@@ -1,48 +1,48 @@
+@use '@styles/mixins';
+
 .profile {
 	width: fit-content;
 	height: 70px;
-	display: flex;
+	@include mixins.flex-center;
 	position: relative;
-	justify-content: center;
-	align-items: center;
-}
 
-.profile p {
-	font-weight: 700;
-	font-size: 24px;
-	text-align: right;
-	color: var(--font);
-	margin-right: 16px;
-	cursor: pointer;
-}
+	&__name {
+		font-weight: 700;
+		font-size: 24px;
+		color: var(--accent-font-color);
+		text-align: right;
+		margin-right: 16px;
+		cursor: pointer;
 
-.profile:hover p {
-	background: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
+		&:hover {
+			background: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
+			background-clip: text;
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+		}
+	}
 
-.profile img {
-	width: 48px;
-	height: auto;
-	object-fit: cover;
-	border-radius: 50%;
-	cursor: pointer;
-}
+	&__photo {
+		width: 48px;
+		height: auto;
+		border-radius: 50%;
+		object-fit: cover;
+		cursor: pointer;
+	}
 
-.profile .photo {
-	position: relative;
-}
+	&__photoBlock {
+		position: relative;
+	}
 
-/* .profile .progress-ring {
-    position: absolute;
-    top: -6px;
-    left: -6px;
-    width: 76px;
-    height: 76px;
-    border-radius: 50%;
-    background: conic-gradient(#FF7854 0%, #FE3675 33%, rgba(0, 0, 0, 0.1) 33%);
-    mask: radial-gradient(circle, transparent 65%, black 65%);
-    z-index: -1;
-} */
+	// &__progressRing {
+	// 	position: absolute;
+	// 	top: -6px;
+	// 	left: -6px;
+	// 	width: 76px;
+	// 	height: 76px;
+	// 	border-radius: 50%;
+	// 	background: conic-gradient(#FF7854 0%, #FE3675 33%, rgba(0, 0, 0, 0.1) 33%);
+	// 	mask: radial-gradient(circle, transparent 65%, black 65%);
+	// 	z-index: -1;
+	// }
+}

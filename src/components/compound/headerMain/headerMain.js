@@ -6,7 +6,6 @@ import store from '../../Store.js';
 
 export default class HeaderMain extends Header {
 	constructor(parentElement) {
-		console.log(store.getState('myID'));
 		const componentConfigs = [
 			{ key: 'logotype', class: LogoMain },
 			{ key: 'logoutSessionBtn', class: LogoutButton },

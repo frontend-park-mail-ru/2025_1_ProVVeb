@@ -23,7 +23,7 @@ export default class PeopleCards extends BaseComponent {
 
 	async render() {
 		if (this.currentCard) {
-			console.log(this.currentCard, this.parentElement);
+			// console.log(this.currentCard, this.parentElement);
 			document.getElementById('idPersonCard')?.remove();
 		}
 		await this.loadData();

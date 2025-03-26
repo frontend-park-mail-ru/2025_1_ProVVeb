@@ -1,8 +1,9 @@
+@use '@styles/mixins';
+
 .personCard {
-	margin-left: auto;
-	margin-right: auto;
 	width: 400px;
 	height: 600px;
+	@include mixins.center-horizontal;
 	border-radius: 14px;
 	padding: 0 8px 20px 8px;
 	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
@@ -14,49 +15,49 @@
 
 	display: flex;
 	flex-direction: column-reverse;
-}
 
-.personInfo {
-	font-size: 22px;
-	color: #fff;
-	background: rgba(0, 0, 0, 0.6);
-	padding: 12px;
-	border-radius: 10px;
-	display: flex;
-	flex-direction: column;
-	gap: 4px;
-	backdrop-filter: blur(5px);
-}
+	&__info {
+		padding: 12px;
+		border-radius: 10px;
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		background: rgba(0, 0, 0, 0.6);
+		backdrop-filter: blur(5px);
+		font-size: 22px;
+		color: var(--white-bg-color);
+	}
 
-.personDescription {
-	font-size: 14px;
-	color: #f0f0f0;
-}
+	&__description {
+		font-size: 14px;
+		color: #f0f0f0;
+	}
 
-.personCardBtns {
-	margin-top: 20px;
-	order: -1;
+	&__btns {
+		margin-top: 20px;
+		order: -1;
 
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
 
-.personCardBtns .iconButton {
-	cursor: pointer;
-	transition: transform 0.3s ease, opacity 0.3s ease;
-}
+	&__iconButton {
+		cursor: pointer;
+		transition: transform 0.3s ease, opacity 0.3s ease;
 
-.personCardBtns .iconButton>img {
-	user-select: none;
-	pointer-events: none;
-}
+		&:hover {
+			transform: scale(1.1);
+		}
 
-.personCardBtns .iconButton:hover {
-	transform: scale(1.1);
-}
+		&:active {
+			transform: scale(0.95);
+			opacity: 0.85;
+		}
+	}
 
-.personCardBtns .iconButton:active {
-	transform: scale(0.95);
-	opacity: 0.85;
+	&__imgButton {
+		user-select: none;
+		pointer-events: none;
+	}
 }

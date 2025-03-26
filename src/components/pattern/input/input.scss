@@ -1,52 +1,52 @@
-@use '@styles/colors.scss';
+@use '@styles/mixins';
 
 .inputContainer {
 	position: relative;
 	display: inline-block;
 	width: 100%;
-}
 
-.inputContainer input {
-	width: 100%;
-	border: none;
-	border-bottom: 2px solid var(--gray-line);
-	outline: none;
-	font-size: 16px;
-	padding: 5px 0;
-	background-color: transparent;
-}
+	$block: &;
 
-.inputContainer label {
-	font-weight: 500;
-	font-size: 20px;
-	line-height: 28px;
+	&__input {
+		width: 100%;
+		border: none;
+		border-bottom: 2px solid var(--gray-line);
+		outline: none;
+		font-size: 16px;
+		padding: 5px 0;
+		background-color: transparent;
 
+		&:focus+#{$block}__label,
+		&:not(:placeholder-shown)+#{$block}__label {
+			top: -15px;
+			font-size: 12px;
+			color: var(--gray-line);
+		}
+	}
 
-	position: absolute;
-	left: 0;
-	top: 5px;
-	color: var(--placeholder);
-	font-size: 16px;
-	transition: 0.3s ease;
-	pointer-events: none;
-}
+	&__label {
+		@include mixins.user-select-item-font(16px);
 
-.inputContainer input:focus+label,
-.inputContainer input:not(:placeholder-shown)+label {
-	top: -15px;
-	font-size: 12px;
-	color: var(--gray-line);
-}
+		position: absolute;
+		left: 0;
+		top: 5px;
+		color: var(--placeholder);
+		transition: 0.3s ease;
+		pointer-events: none;
+	}
 
-.inputContainer.incorrect input:focus+label,
-.inputContainer.incorrect input:not(:placeholder-shown)+label {
-	color: var(--danger-placeholder);
-}
+	&.incorrect {
+		&>#{$block}__input {
+			border-bottom: 2px solid var(--danger);
+		}
 
-.inputContainer.incorrect>input {
-	border-bottom: 2px solid var(--danger);
-}
+		&>#{$block}__label {
+			color: var(--danger-placeholder);
+		}
 
-.inputContainer.incorrect>label {
-	color: var(--danger-placeholder);
+		& #{$block}__input:focus+#{$block}__label,
+		& #{$block}__input:not(:placeholder-shown)+#{$block}__label {
+			color: var(--danger-placeholder);
+		}
+	}
 }

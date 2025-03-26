@@ -1,24 +1,25 @@
+@use '@styles/mixins';
+
 .header {
 	width: 100%;
 	height: 90px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	@include mixins.flex-center;
 	margin-bottom: 20px;
-}
 
-.inner-header {
-	height: 100%;
-	width: 70%;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-}
+	&.greeting {
+		height: 90px;
+	}
 
-.header.greeting {
-	height: 90px;
-}
+	&__inner {
+		height: 100%;
+		width: 70%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
 
-.inner-header.greeting {
-	width: 95%;
+		&.greeting {
+			width: 95%;
+		}
+	}
+
 }
