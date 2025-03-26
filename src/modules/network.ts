@@ -6,11 +6,6 @@ interface ApiResponse<T = any> {
 	message?: string;
 }
 
-interface User {
-	login: string;
-	password: string;
-}
-
 interface Birthday {
 	year: number;
 	month: number;

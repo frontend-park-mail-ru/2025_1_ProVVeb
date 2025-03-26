@@ -12,8 +12,10 @@ const DEFAULT_PARAMS_BUTTON: LogoParams = {
 };
 
 export default class Logo extends BaseComponent {
-	constructor(parentElement: HTMLElement, paramsHBS: LogoParams = DEFAULT_PARAMS_BUTTON) {
-		const templateHTML = templateHBS(paramsHBS);
+	constructor(parentElement: HTMLElement, paramsHBS: Partial<LogoParams> = {}) {
+		const finalParamsHBS = { ...DEFAULT_PARAMS_BUTTON, ...paramsHBS };
+
+		const templateHTML = templateHBS(finalParamsHBS);
 		super(templateHTML, parentElement);
 	}
 }

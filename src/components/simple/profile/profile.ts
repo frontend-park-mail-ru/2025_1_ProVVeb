@@ -3,17 +3,17 @@ import store from '../../Store';
 import templateHBS from './profile.hbs';
 
 interface ProfileParams {
-	profileName?: string;
-	photoSrc?: string;
+	profileName: string;
+	photoSrc: string;
 }
 
-const DEFAULT_PARAMS_PROFILE: Readonly<ProfileParams> = {
+const DEFAULT_PARAMS_PROFILE: ProfileParams = {
 	profileName: 'Имя человека',
 	photoSrc: 'media/logo/logoMain.png',
 };
 
 export default class Profile extends BaseComponent {
-	constructor(parentElement: HTMLElement, paramsHBS: ProfileParams = {}) {
+	constructor(parentElement: HTMLElement, paramsHBS: Partial<ProfileParams> = {}) {
 		const finalParamsHBS = { ...DEFAULT_PARAMS_PROFILE, ...paramsHBS };
 
 		store.subscribe('profileName', (newName: unknown) => {

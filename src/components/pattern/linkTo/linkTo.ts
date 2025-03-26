@@ -7,7 +7,7 @@ interface ListenerParams {
 	callback: () => void;
 }
 
-interface LinkToParams {
+export interface LinkToParams {
 	idLink: string;
 	linkText: string;
 	listenRoute: ListenerParams;

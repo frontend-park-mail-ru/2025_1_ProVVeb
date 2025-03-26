@@ -4,17 +4,17 @@ import Notification from '../notification/notification';
 import { PASSWORD_BRIEF_RULES, validator } from '../../../modules/validation';
 
 interface PasswordInputParams {
-	typeInput?: string;
-	nameInput?: string;
-	idInput?: string;
-	labelText?: string;
-	autocompleteInput?: string;
-	listenInput?: {
+	typeInput: string;
+	nameInput: string;
+	idInput: string;
+	labelText: string;
+	autocompleteInput: string;
+	listenInput: {
 		eventType: string;
 		selector: string;
 		callback: (event: Event) => void;
 	};
-	listenFocus?: {
+	listenFocus: {
 		eventType: string;
 		selector: string;
 		callback: () => void;
@@ -22,7 +22,7 @@ interface PasswordInputParams {
 }
 
 
-const DEFAULT_PASSWORD_PARAMS_INPUT: PasswordInputParams = {
+const DEFAULT_PASSWORD_PARAMS_INPUT: Partial<PasswordInputParams> = {
 	typeInput: 'password',
 	nameInput: 'password',
 	idInput: 'passwordInput_01',
@@ -54,7 +54,7 @@ DEFAULT_PASSWORD_PARAMS_INPUT.listenFocus = {
 			const error = new Notification({
 				isWarning: true,
 				isWithButton: true,
-				title: passwordValidation.message || '' // Убедитесь, что message — это строка
+				title: passwordValidation.message || 'Бубубу я не нашел' // Убедитесь, что message — это строка
 			});
 			error.render();
 			passwordElement.classList.add('incorrect');
@@ -65,7 +65,7 @@ DEFAULT_PASSWORD_PARAMS_INPUT.listenFocus = {
 };
 
 export default class PasswordInput extends Input {
-	constructor(parentElement: HTMLElement, paramsHBS: PasswordInputParams = {}) {
+	constructor(parentElement: HTMLElement, paramsHBS: Partial<PasswordInputParams> = {}) {
 		const finalParamsHBS = { ...DEFAULT_PASSWORD_PARAMS_INPUT, ...paramsHBS };
 		super(parentElement, finalParamsHBS);
 	}
