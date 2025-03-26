@@ -16,7 +16,6 @@ class Router {
 	async navigateTo(page) {
 		if(!this.isChecked){
 			const sessionResult = await api.checkSession();
-			console.log(sessionResult);
 
 			if(sessionResult.success && sessionResult.data.InSession){
 				store.setState('myID', sessionResult.data.id);
