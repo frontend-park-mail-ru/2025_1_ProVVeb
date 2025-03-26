@@ -23,7 +23,7 @@ export default class AuthCard extends FormCard {
 
 		super(parentElement, {
 			progressBar: components.progressBar.template,
-			cardTitle: 'Продолжи свой поиск ❤️',
+			cardTitle: 'Здесь начнется поиск ❤️',
 			linkToPage: components.linkToPage.template,
 			fields: [
 				components.loginInput.template,

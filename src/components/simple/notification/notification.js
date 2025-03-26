@@ -9,7 +9,7 @@ export default class Notification extends BaseComponent {
 
 		this.addListener(
 			'click',
-			'.cross',
+			'.notification__cross',
 			(event) => {
 				event.target.parentElement.parentElement.remove();
 			}

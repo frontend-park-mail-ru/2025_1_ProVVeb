@@ -10,20 +10,23 @@ class Router {
 		this.authPage = new AuthPage(this.root);
 		this.loginPage = new LoginPage(this.root);
 		this.feedPage = new FeedPage(this.root);
-		// this.isLogin = false;
+		this.isChecked = false;
 	}
 
 	async navigateTo(page) {
-		const sessionResult = await api.checkSession();
-		console.log(sessionResult);
+		if(!this.isChecked){
+			const sessionResult = await api.checkSession();
+			console.log(sessionResult);
 
-		// ПРОВЕРЯТЬ НА УСПЕх
-		// if (sessionResult.data.inSession) {
-		// 	store.setState('myID', sessionResult.data.id);
-		// 	this.root.classList.remove('greeting');
-		// 	this.feedPage.rerender();
-		// 	return;
-		// }
+			if(sessionResult.success && sessionResult.data.InSession){
+				store.setState('myID', sessionResult.data.id);
+				this.root.classList.remove('greeting');
+				this.feedPage.rerender();
+				return;
+			}
+
+			this.isChecked = true; 
+		}
 
 		switch (page) {
 			case 'auth':
