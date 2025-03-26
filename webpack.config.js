@@ -32,7 +32,7 @@ export default {
 		},
 	},
 	entry: {
-		app: ['./src/index.js'], // Потом поменять на .ts
+		app: ['./src/index.ts'],
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),

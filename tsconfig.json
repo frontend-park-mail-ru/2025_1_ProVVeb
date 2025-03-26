@@ -12,18 +12,21 @@
       "baseUrl": ".", // Базовый путь для алиасов
       "paths": { // Алиасы для путей
         "@media/*": ["src/media/*"],
-        "@store": ["src/components/Store.js"],
-        "@basecomp": ["src/components/BaseComponent.js"],
+        "@store": ["src/components/Store.ts"],
+        "@basecomp": ["src/components/BaseComponent.ts"],
         "@compound/*": ["src/components/compound/*"],
         "@pattern/*": ["src/components/pattern/*"],
         "@simple/*": ["src/components/simple/*"],
-        "@network": ["src/modules/network.js"],
-        "@validation": ["src/modules/validation.js"],
+        "@network": ["src/modules/network.ts"],
+        "@validation": ["src/modules/validation.ts"],
         "@router/*": ["src/modules/router/*"],
         "@mock/*": ["src/mock/*"],
         "@pages/*": ["src/pages/*"]
       }
     },
-    "include": ["src/**/*"], // Какие файлы обрабатывать
+    "include": [
+		"custom.d.ts",
+		"src/**/*"
+	], // Какие файлы обрабатывать
     "exclude": ["node_modules"] // Какие файлы игнорировать
 }
