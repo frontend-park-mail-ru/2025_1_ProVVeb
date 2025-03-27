@@ -1,7 +1,7 @@
 import BaseComponent from '@basecomp';
 import templateHBS from './input.hbs';
 
-interface ListenerParams {
+export interface ListenerParams {
 	eventType: string;
 	selector: string;
 	callback: (event: Event) => void;
@@ -13,8 +13,7 @@ export interface InputParams {
 	nameInput: string;
 	labelText: string;
 	autocompleteInput: string;
-	listenInput: ListenerParams;
-	listenFocus: ListenerParams;
+	listeners: ListenerParams[];
 }
 
 const DEFAULT_PARAMS_INPUT: InputParams = {
@@ -23,16 +22,7 @@ const DEFAULT_PARAMS_INPUT: InputParams = {
 	nameInput: '',
 	labelText: 'Поле ввода',
 	autocompleteInput: 'off',
-	listenInput: {
-		eventType: '',
-		selector: '',
-		callback: () => { },
-	},
-	listenFocus: {
-		eventType: '',
-		selector: '',
-		callback: () => { },
-	},
+	listeners: []
 };
 
 export default class Input extends BaseComponent {
@@ -41,17 +31,13 @@ export default class Input extends BaseComponent {
 
 		const templateHTML = templateHBS(finalParamsHBS);
 		super(templateHTML, parentElement);
-
-		this.addListener(
-			finalParamsHBS.listenInput.eventType,
-			finalParamsHBS.listenInput.selector,
-			finalParamsHBS.listenInput.callback
-		);
-
-		this.addListener(
-			finalParamsHBS.listenFocus.eventType,
-			finalParamsHBS.listenFocus.selector,
-			finalParamsHBS.listenFocus.callback
-		);
+		
+		finalParamsHBS.listeners.forEach(listener => {
+			this.addListener(
+				listener.eventType,
+				listener.selector,
+				listener.callback
+			);
+		});
 	}
 }

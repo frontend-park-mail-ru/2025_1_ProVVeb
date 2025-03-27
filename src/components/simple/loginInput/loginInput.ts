@@ -9,38 +9,40 @@ const DEFAULT_LOGIN_PARAMS_INPUT: InputParams = {
 	nameInput: 'login',
 	labelText: 'Логин',
 	autocompleteInput: 'username',
-	listenInput: {
-		eventType: 'input',
-		selector: `#${'loginInput_01'}`,
-		callback: (event: Event) => {
-			const target = event.target as HTMLInputElement;
-			if (store.getState('loginInput') !== target.value) {
-				target.parentElement?.classList.remove('incorrect');
-			}
-			store.setState('loginInput', target.value);
+	listeners: [
+		{
+			eventType: 'input',
+			selector: `#${'loginInput_01'}`,
+			callback: (event: Event) => {
+				const target = event.target as HTMLInputElement;
+				if (store.getState('loginInput') !== target.value) {
+					target.parentElement?.classList.remove('incorrect');
+				}
+				store.setState('loginInput', target.value);
+			},
 		},
-	},
-	listenFocus: {
-		eventType: 'blur',
-		selector: `#${'loginInput_01'}`,
-		callback: () => {
-			const loginValue = store.getState('loginInput') as string;
-			const loginElement = document.querySelectorAll('.inputContainer')[0];
-			const loginValidation = validator(loginValue, LOGIN_BRIEF_RULES);
+		{
+			eventType: 'blur',
+			selector: `#${'loginInput_01'}`,
+			callback: () => {
+				const loginValue = store.getState('loginInput') as string;
+				const loginElement = document.querySelectorAll('.inputContainer')[0];
+				const loginValidation = validator(loginValue, LOGIN_BRIEF_RULES);
 
-			if (!loginValidation.isOK && loginValue !== '') {
-				const error = new Notification({
-					isWarning: true,
-					isWithButton: true,
-					title: loginValidation.message || 'Ну типа упал',
-				});
-				error.render();
-				loginElement.classList.add('incorrect');
-			} else {
-				loginElement.classList.remove('incorrect');
-			}
+				if (!loginValidation.isOK && loginValue !== '') {
+					const error = new Notification({
+						isWarning: true,
+						isWithButton: true,
+						title: loginValidation.message || 'Технические неполадки...',
+					});
+					error.render();
+					loginElement.classList.add('incorrect');
+				} else {
+					loginElement.classList.remove('incorrect');
+				}
+			},
 		},
-	},
+	]
 };
 
 export default class LoginInput extends Input {
