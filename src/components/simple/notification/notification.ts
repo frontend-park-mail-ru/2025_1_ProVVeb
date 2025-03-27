@@ -1,5 +1,5 @@
-import BaseComponent from '../../BaseComponent';
-import store from '../../Store';
+import BaseComponent from '@basecomp';
+import store from '@store';
 import templateHBS from './notification.hbs';
 
 interface NotificationParams {

@@ -1,6 +1,6 @@
-import Button from '../../pattern/button/button';
-import api from '../../../modules/network';
-import router from '../../../modules/router';
+import Button from '@pattern/button/button';
+import api from '@network';
+import router from '@router';
 
 interface ButtonListenParams {
 	eventType: string;

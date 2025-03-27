@@ -1,7 +1,7 @@
-import Input, { InputParams } from '../../pattern/input/input';
-import store from '../../Store';
-import Notification from '../notification/notification';
-import { LOGIN_BRIEF_RULES, validator } from '../../../modules/validation';
+import Input, { InputParams } from '@pattern/input/input';
+import store from '@store';
+import Notification from '@notification';
+import { LOGIN_BRIEF_RULES, validator } from '@validation';
 
 const DEFAULT_LOGIN_PARAMS_INPUT: InputParams = {
 	typeInput: 'text',

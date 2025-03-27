@@ -1,7 +1,7 @@
-import LogoMain from '../../simple/logoMain/logoMain';
-import Profile from '../../simple/profile/profile';
-import Header from '../../pattern/header/header';
-import LogoutButton from '../../simple/logoutButton/logoutButton';
+import LogoMain from '@simple/logoMain/logoMain';
+import Profile from '@simple/profile/profile';
+import Header from '@pattern/header/header';
+import LogoutButton from '@simple/logoutButton/logoutButton';
 
 interface ComponentConfig {
 	key: string;

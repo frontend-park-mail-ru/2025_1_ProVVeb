@@ -18,17 +18,18 @@ export default {
 		extensions: ['.js', '.ts'],
 		alias: {
 			'@media': path.resolve(__dirname, 'src/media'),
-			'@store': path.resolve(__dirname, 'src/components/Store.js'),
-			'@basecomp': path.resolve(__dirname, 'src/components/BaseComponent.js'),
+			'@store': path.resolve(__dirname, 'src/components/Store.ts'),
+			'@basecomp': path.resolve(__dirname, 'src/components/BaseComponent.ts'),
 			'@compound': path.resolve(__dirname, 'src/components/compound'),
 			'@pattern': path.resolve(__dirname, 'src/components/pattern'),
 			'@simple': path.resolve(__dirname, 'src/components/simple'),
-			'@network': path.resolve(__dirname, 'src/modules/network.js'),
-			'@validation': path.resolve(__dirname, 'src/modules/validation.js'),
-			'@router': path.resolve(__dirname, 'src/modules/router'),
+			'@network': path.resolve(__dirname, 'src/modules/network.ts'),
+			'@validation': path.resolve(__dirname, 'src/modules/validation.ts'),
+			'@router': path.resolve(__dirname, 'src/modules/router.ts'),
 			'@mock': path.resolve(__dirname, 'src/mock'),
 			'@pages': path.resolve(__dirname, 'src/pages'),
-			'@styles': path.resolve(__dirname, 'src/styles/globals')
+			'@styles': path.resolve(__dirname, 'src/styles/globals'),
+			'@notification': path.resolve(__dirname, 'src/components/simple/notification/notification.ts')
 		},
 	},
 	entry: {

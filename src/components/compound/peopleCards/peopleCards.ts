@@ -1,7 +1,7 @@
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '@basecomp';
 import PersonCard from '../personCard/personCard';
-import api, { Profile } from '../../../modules/network';
-import store from '../../Store';
+import api, { Profile } from '@network';
+import store from '@store';
 
 interface Listener {
 	event: string;
@@ -119,7 +119,7 @@ export default class PeopleCards extends BaseComponent {
 // 		personDescription: 'Ого...',
 // 	},
 // 	{
-// 		srcPersonPicture: '/mock/pudg.jpg',
+// 		srcPersonPicture: '/mock/man.jpg',
 // 		personName: 'Макс',
 // 		personAge: 21,
 // 		personDescription: 'Люблю путешествовать и играть в игры.',

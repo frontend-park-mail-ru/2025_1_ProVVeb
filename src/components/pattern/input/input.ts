@@ -1,4 +1,4 @@
-import BaseComponent from '../../BaseComponent';
+import BaseComponent from '@basecomp';
 import templateHBS from './input.hbs';
 
 interface ListenerParams {

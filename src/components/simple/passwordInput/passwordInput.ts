@@ -1,7 +1,7 @@
-import Input from '../../pattern/input/input';
-import store from '../../Store';
-import Notification from '../notification/notification';
-import { PASSWORD_BRIEF_RULES, validator } from '../../../modules/validation';
+import Input from '@pattern/input/input';
+import store from '@store';
+import Notification from '@notification';
+import { PASSWORD_BRIEF_RULES, validator } from '@validation';
 
 interface PasswordInputParams {
 	typeInput: string;

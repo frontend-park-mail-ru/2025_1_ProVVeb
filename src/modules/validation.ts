@@ -1,4 +1,4 @@
-import Notification from '../components/simple/notification/notification';
+import Notification from '@simple/notification/notification';
 
 interface ValidatorRule {
 	reg: RegExp;

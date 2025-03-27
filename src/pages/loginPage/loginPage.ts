@@ -1,6 +1,6 @@
 import BasePage from '../BasePage';
-import LoginCard from '../../components/compound/loginCard/loginCard';
-import HeaderGreeting from '../../components/compound/headerGreeting/headerGreeting';
+import LoginCard from '@compound/loginCard/loginCard';
+import HeaderGreeting from '@compound/headerGreeting/headerGreeting';
 
 export default class LoginPage extends BasePage {
 	private components: Array<HeaderGreeting | LoginCard>;

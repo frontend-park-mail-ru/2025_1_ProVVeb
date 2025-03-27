@@ -1,4 +1,4 @@
-import Logo, { LogoParams } from '../../pattern/logo/logo';
+import Logo, { LogoParams } from '@pattern/logo/logo';
 
 const LOGO_MAIN: LogoParams = {
 	type: 'main',

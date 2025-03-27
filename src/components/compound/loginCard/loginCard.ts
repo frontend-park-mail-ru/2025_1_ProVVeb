@@ -1,12 +1,12 @@
-import FormCard from '../../pattern/formCard/formCard';
-import ProgressBar from '../../simple/progressBar/progressBar';
-import LoginInput from '../../simple/loginInput/loginInput';
-import PasswordInput from '../../simple/passwordInput/passwordInput';
-import LinkToAuth from '../../simple/linkToAuth/linkToAuth';
-import LoginButton from '../../simple/loginButton/loginButton';
-import store from '../../Store';
-import { PASSWORD_BRIEF_RULES, validator } from '../../../modules/validation';
-import Notification from '../../simple/notification/notification';
+import FormCard from '@pattern/formCard/formCard';
+import ProgressBar from '@simple/progressBar/progressBar';
+import LoginInput from '@simple/loginInput/loginInput';
+import PasswordInput from '@simple/passwordInput/passwordInput';
+import LinkToAuth from '@simple/linkToAuth/linkToAuth';
+import LoginButton from '@simple/loginButton/loginButton';
+import store from '@store';
+import { PASSWORD_BRIEF_RULES, validator } from '@validation';
+import Notification from '@notification';
 
 interface LoginCardParams {
 	progressBar: string;

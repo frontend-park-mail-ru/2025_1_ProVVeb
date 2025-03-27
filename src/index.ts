@@ -1,4 +1,4 @@
 import './index.scss';
-import router from './modules/router';
+import router from '@router';
 
 router.navigateTo('auth');

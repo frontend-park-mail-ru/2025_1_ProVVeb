@@ -1,5 +1,5 @@
-import Logo from '../../pattern/logo/logo';
-import Header from '../../pattern/header/header';
+import Logo from '@pattern/logo/logo';
+import Header from '@pattern/header/header';
 
 interface HeaderComponents {
 	logotype: string;

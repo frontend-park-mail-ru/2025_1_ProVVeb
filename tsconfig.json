@@ -19,9 +19,10 @@
         "@simple/*": ["src/components/simple/*"],
         "@network": ["src/modules/network.ts"],
         "@validation": ["src/modules/validation.ts"],
-        "@router/*": ["src/modules/router/*"],
+        "@router": ["src/modules/router.ts"],
         "@mock/*": ["src/mock/*"],
-        "@pages/*": ["src/pages/*"]
+        "@pages/*": ["src/pages/*"],
+        "@notification": ["src/components/simple/notification/notification.ts"]
       }
     },
     "include": [

@@ -1,9 +1,9 @@
-import Button from '../../pattern/button/button';
-import store from '../../Store';
-import { checkLogin } from '../../../modules/validation';
-import router from '../../../modules/router';
-import api from '../../../modules/network';
-import Notification from '../notification/notification';
+import Button from '@pattern/button/button';
+import store from '@store';
+import { checkLogin } from '@validation';
+import router from '@router';
+import api from '@network';
+import Notification from '@notification';
 
 interface LoginButtonParams {
 	buttonText: string;

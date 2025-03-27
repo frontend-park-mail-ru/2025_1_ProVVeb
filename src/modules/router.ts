@@ -1,8 +1,8 @@
-import LoginPage from '../pages/loginPage/loginPage';
-import AuthPage from '../pages/authPage/authPage';
-import FeedPage from '../pages/feedPage/feedPage';
-import api from './network';
-import store from '../components/Store';
+import LoginPage from '@pages/loginPage/loginPage';
+import AuthPage from '@pages/authPage/authPage';
+import FeedPage from '@pages/feedPage/feedPage';
+import api from '@network';
+import store from '@store';
 
 class Router {
 	private root: HTMLElement;

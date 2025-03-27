@@ -1,5 +1,5 @@
-import LinkTo from '../../pattern/linkTo/linkTo';
-import router from '../../../modules/router';
+import LinkTo from '@pattern/linkTo/linkTo';
+import router from '@router';
 
 interface LinkToParams {
 	idLink: string;

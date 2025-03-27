@@ -1,9 +1,9 @@
-import FormCard from '../../pattern/formCard/formCard';
-import ProgressBar from '../../simple/progressBar/progressBar';
-import LoginInput from '../../simple/loginInput/loginInput';
-import PasswordInput from '../../simple/passwordInput/passwordInput';
-import LinkToLogin from '../../simple/linkToLogin/linkToLogin';
-import AuthButton from '../../simple/authButton/authButton';
+import FormCard from '@pattern/formCard/formCard';
+import ProgressBar from '@simple/progressBar/progressBar';
+import LoginInput from '@simple/loginInput/loginInput';
+import PasswordInput from '@simple/passwordInput/passwordInput';
+import LinkToLogin from '@simple/linkToLogin/linkToLogin';
+import AuthButton from '@simple/authButton/authButton';
 
 interface ComponentConfig {
 	key: string;
