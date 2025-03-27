@@ -9,7 +9,7 @@ interface ProfileParams {
 
 const DEFAULT_PARAMS_PROFILE: ProfileParams = {
 	profileName: 'Имя человека',
-	photoSrc: 'media/logo/logoMain.png',
+	photoSrc: 'media/logo/logoMain.svg',
 };
 
 export default class Profile extends BaseComponent {

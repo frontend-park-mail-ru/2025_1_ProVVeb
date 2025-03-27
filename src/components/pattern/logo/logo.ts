@@ -8,7 +8,7 @@ export interface LogoParams {
 
 const DEFAULT_PARAMS_BUTTON: LogoParams = {
 	type: 'white',
-	logoSrc: 'media/logo/logoSecondary.png',
+	logoSrc: 'media/logo/logoWhite.svg',
 };
 
 export default class Logo extends BaseComponent {
