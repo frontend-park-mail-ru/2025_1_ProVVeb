@@ -32,10 +32,16 @@ DEFAULT_AUTH_PARAMS_BUTTON.listenButton = {
 					await router.navigateTo('feed');
 					store.setState('profileName', loginValue);
 				} else {
+					const JSONans = JSON.parse(respond.message as string);
+					let ans = '';
+					if(JSONans.message == 'No such user')
+						ans = 'Такого аккаунта не существует';
+					else
+						ans = 'Неверный логин или пароль';
 					const error = new Notification({
 						isWarning: true,
 						isWithButton: true,
-						title: respond.message || 'Invalid credentials',
+						title: ans,
 					});
 					error.render();
 				}

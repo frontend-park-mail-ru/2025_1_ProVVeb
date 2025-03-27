@@ -9,6 +9,7 @@ class Router {
 	private authPage: AuthPage;
 	private loginPage: LoginPage;
 	private feedPage: FeedPage;
+	private isChecked: boolean;
 
 	constructor() {
 		const rootElement = document.getElementById('root');
@@ -20,20 +21,23 @@ class Router {
 		this.authPage = new AuthPage(this.root);
 		this.loginPage = new LoginPage(this.root);
 		this.feedPage = new FeedPage(this.root);
+		this.isChecked = false;
 	}
 
 	async navigateTo(page: 'auth' | 'login' | 'feed'): Promise<void> {
 		try {
-			const sessionResult = await api.checkSession();
-			console.log(sessionResult);
+			if(this.isChecked){
+				const sessionResult = await api.checkSession();
 
-			// ПРОВЕРЯТЬ НА УСПЕХ
-			// if (sessionResult.data.inSession) {
-			// 	store.setState('myID', sessionResult.data.id);
-			// 	this.root.classList.remove('greeting');
-			// 	this.feedPage.rerender();
-			// 	return;
-			// }
+				if(sessionResult.success && sessionResult.data.InSession){
+					store.setState('myID', sessionResult.data.id);
+					this.root.classList.remove('greeting');
+					this.feedPage.rerender();
+					return;
+				}
+	
+				this.isChecked = true; 
+			}
 
 			switch (page) {
 				case 'auth':

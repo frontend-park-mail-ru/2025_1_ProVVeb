@@ -15,7 +15,7 @@ export default class Notification extends BaseComponent {
 
 		this.addListener(
 			'click',
-			'.cross',
+			'.notification__cross',
 			(event: Event) => {
 				const target = event.target as HTMLElement;
 				target.parentElement?.parentElement?.remove();
