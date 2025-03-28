@@ -39,39 +39,41 @@ export default class LoginCard extends FormCard {
 					idInput: 'passwordInput_01',
 					labelText: 'Пароль',
 					autocompleteInput: 'new-password',
-					listenInput: {
-						eventType: 'input',
-						selector: '#passwordInput_01',
-						callback: (event: Event) => {
-							const target = event.target as HTMLInputElement;
-							if (store.getState('passwordInput') !== target.value) {
-								target.parentElement?.nextElementSibling?.classList.remove('incorrect');
-								target.parentElement?.classList.remove('incorrect');
-							}
-							store.setState('passwordInput', target.value);
+					listeners: [
+						{
+							eventType: 'input',
+							selector: '#passwordInput_01',
+							callback: (event: Event) => {
+								const target = event.target as HTMLInputElement;
+								if (store.getState('passwordInput') !== target.value) {
+									target.parentElement?.nextElementSibling?.classList.remove('incorrect');
+									target.parentElement?.classList.remove('incorrect');
+								}
+								store.setState('passwordInput', target.value);
+							},
 						},
-					},
-					listenFocus: {
-						eventType: 'blur',
-						selector: '#passwordInput_01',
-						callback: () => {
-							const passwordValue = store.getState('passwordInput') as string;
-							const passwordElement = document.querySelectorAll('.inputContainer')[1] as HTMLElement;
-							const passwordValidation = validator(passwordValue, PASSWORD_BRIEF_RULES);
+						{
+							eventType: 'blur',
+							selector: '#passwordInput_01',
+							callback: () => {
+								const passwordValue = store.getState('passwordInput') as string;
+								const passwordElement = document.querySelectorAll('.inputContainer')[1] as HTMLElement;
+								const passwordValidation = validator(passwordValue, PASSWORD_BRIEF_RULES);
 
-							if (!passwordValidation.isOK && passwordValue !== '') {
-								const error = new Notification({
-									isWarning: true,
-									isWithButton: true,
-									title: passwordValidation.message || 'Ааа Хватит падать',
-								});
-								error.render();
-								passwordElement.classList.add('incorrect');
-							} else {
-								passwordElement.classList.remove('incorrect');
-							}
+								if (!passwordValidation.isOK && passwordValue !== '') {
+									const error = new Notification({
+										isWarning: true,
+										isWithButton: true,
+										title: passwordValidation.message || 'Ааа Хватит падать',
+									});
+									error.render();
+									passwordElement.classList.add('incorrect');
+								} else {
+									passwordElement.classList.remove('incorrect');
+								}
+							},
 						},
-					},
+					]
 				},
 			},
 			{
@@ -82,39 +84,41 @@ export default class LoginCard extends FormCard {
 					idInput: 'passwordInput_02',
 					labelText: 'Повторите пароль',
 					autocompleteInput: 'new-password',
-					listenInput: {
-						eventType: 'input',
-						selector: '#passwordInput_02',
-						callback: (event: Event) => {
-							const target = event.target as HTMLInputElement;
-							if (store.getState('passwordInputAgain') !== target.value) {
-								target.parentElement?.previousElementSibling?.classList.remove('incorrect');
-								target.parentElement?.classList.remove('incorrect');
-							}
-							store.setState('passwordInputAgain', target.value);
+					listeners: [
+						{
+							eventType: 'input',
+							selector: '#passwordInput_02',
+							callback: (event: Event) => {
+								const target = event.target as HTMLInputElement;
+								if (store.getState('passwordInputAgain') !== target.value) {
+									target.parentElement?.previousElementSibling?.classList.remove('incorrect');
+									target.parentElement?.classList.remove('incorrect');
+								}
+								store.setState('passwordInputAgain', target.value);
+							},
 						},
-					},
-					listenFocus: {
-						eventType: 'blur',
-						selector: '#passwordInput_02',
-						callback: () => {
-							const passwordValue = store.getState('passwordInputAgain') as string;
-							const passwordElement = document.querySelectorAll('.inputContainer')[2] as HTMLElement;
-							const passwordValidation = validator(passwordValue, PASSWORD_BRIEF_RULES);
+						{
+							eventType: 'blur',
+							selector: '#passwordInput_02',
+							callback: () => {
+								const passwordValue = store.getState('passwordInputAgain') as string;
+								const passwordElement = document.querySelectorAll('.inputContainer')[2] as HTMLElement;
+								const passwordValidation = validator(passwordValue, PASSWORD_BRIEF_RULES);
 
-							if (!passwordValidation.isOK && passwordValue !== '') {
-								const error = new Notification({
-									isWarning: true,
-									isWithButton: true,
-									title: passwordValidation.message || 'Падать больно',
-								});
-								error.render();
-								passwordElement.classList.add('incorrect');
-							} else {
-								passwordElement.classList.remove('incorrect');
-							}
-						},
-					},
+								if (!passwordValidation.isOK && passwordValue !== '') {
+									const error = new Notification({
+										isWarning: true,
+										isWithButton: true,
+										title: passwordValidation.message || 'Падать больно',
+									});
+									error.render();
+									passwordElement.classList.add('incorrect');
+								} else {
+									passwordElement.classList.remove('incorrect');
+								}
+							},
+						}
+					]	
 				},
 			},
 			{ key: 'authButton', class: LoginButton },
