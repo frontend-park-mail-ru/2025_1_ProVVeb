@@ -43,6 +43,7 @@
 	}
 
 	&__iconButton {
+		height: 100%; // Для tooltip
 		cursor: pointer;
 		transition: transform 0.3s ease, opacity 0.3s ease;
 
