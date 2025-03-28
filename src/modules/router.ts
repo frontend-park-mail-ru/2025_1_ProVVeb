@@ -16,6 +16,7 @@ class Router {
 		if (!rootElement) {
 			throw new Error("Root element with id 'root' not found");
 		}
+
 		this.root = rootElement;
 
 		this.authPage = new AuthPage(this.root);
@@ -26,17 +27,17 @@ class Router {
 
 	async navigateTo(page: 'auth' | 'login' | 'feed'): Promise<void> {
 		try {
-			if(this.isChecked){
+			if (this.isChecked) {
 				const sessionResult = await api.checkSession();
 
-				if(sessionResult.success && sessionResult.data.InSession){
+				if (sessionResult.success && sessionResult.data.InSession) {
 					store.setState('myID', sessionResult.data.id);
 					this.root.classList.remove('greeting');
 					this.feedPage.rerender();
 					return;
 				}
-	
-				this.isChecked = true; 
+
+				this.isChecked = true;
 			}
 
 			switch (page) {
