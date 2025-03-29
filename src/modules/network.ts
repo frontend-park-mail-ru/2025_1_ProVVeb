@@ -6,11 +6,11 @@ interface ApiResponse<T = any> {
 	message?: string;
 }
 
-interface Birthday {
-	year: number;
-	month: number;
-	day: number;
-}
+// interface Birthday {
+// 	year: number;
+// 	month: number;
+// 	day: number;
+// }
 
 export interface Profile {
 	profileId: number;
@@ -18,7 +18,7 @@ export interface Profile {
 	lastName: string;
 	description: string;
 	card: string;
-	Birthday: Birthday;
+	birthday: string;
 }
 
 async function sendRequest<T>(url: string, method: string, data: object | null = null): Promise<ApiResponse<T>> {

@@ -17,6 +17,7 @@
         "@compound/*": ["src/components/compound/*"],
         "@pattern/*": ["src/components/pattern/*"],
         "@simple/*": ["src/components/simple/*"],
+		"@modules/*": ["src/modules/*"], 
         "@network": ["src/modules/network.ts"],
         "@validation": ["src/modules/validation.ts"],
         "@router": ["src/modules/router.ts"],

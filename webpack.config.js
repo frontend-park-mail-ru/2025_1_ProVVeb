@@ -23,6 +23,7 @@ export default {
 			'@compound': path.resolve(__dirname, 'src/components/compound'),
 			'@pattern': path.resolve(__dirname, 'src/components/pattern'),
 			'@simple': path.resolve(__dirname, 'src/components/simple'),
+			'@modules': path.resolve(__dirname, 'src/modules'),
 			'@network': path.resolve(__dirname, 'src/modules/network.ts'),
 			'@validation': path.resolve(__dirname, 'src/modules/validation.ts'),
 			'@router': path.resolve(__dirname, 'src/modules/router.ts'),

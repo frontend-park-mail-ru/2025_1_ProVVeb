@@ -1,7 +1,8 @@
-import BaseComponent from '@basecomp';
 import PersonCard from '../personCard/personCard';
+import BaseComponent from '@basecomp';
 import api, { Profile } from '@network';
 import store from '@store';
+import { parseBirthday } from '@modules/tools';
 
 interface Listener {
 	event: string;
@@ -10,6 +11,7 @@ interface Listener {
 }
 
 const currentYear = new Date().getFullYear();
+const ageMajority = 18;
 
 export default class PeopleCards extends BaseComponent {
 	private currentIndex: number;
@@ -74,7 +76,7 @@ export default class PeopleCards extends BaseComponent {
 			this.parentElement,
 			{
 				personName: this.CARDS[this.currentIndex].firstName,
-				personAge: currentYear - Number(this.CARDS[this.currentIndex].Birthday.year),
+				personAge: currentYear - (parseBirthday(this.CARDS[this.currentIndex].birthday)?.year ?? ageMajority),
 				personDescription: this.CARDS[this.currentIndex].description,
 				srcPersonPicture: this.CARDS[this.currentIndex].card !== api.BASE_URL
 					? this.CARDS[this.currentIndex].card
