@@ -3,6 +3,7 @@
 .logotypeBlock {
 	height: 56px;
 	width: fit-content;
+	margin-right: auto;
 	@include mixins.flex-center;
 	user-select: none;
 	cursor: pointer;

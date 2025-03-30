@@ -3,6 +3,5 @@ import router from '@router';
 import store from '@store';
 
 // DEBUG 
-// store.setState('myID', 2);
-
-router.navigateTo('auth');
+store.setState('myID', 2);
+router.navigateTo('feed');

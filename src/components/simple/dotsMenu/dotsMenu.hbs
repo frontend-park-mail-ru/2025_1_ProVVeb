@@ -1,0 +1,10 @@
+<div id="{{ idDotsMenu }}" class="dotsMenu">
+	<div class="dotsMenu__imgContainer">
+		<img src="/media/icons/verticalDots.svg" alt="Меню" class="dotsMenu__img">
+	</div>
+	<nav class="dotsMenu__links">
+		{{#each links}}
+		<a href="#" id="{{this.id}}" class="dotsMenu__link">{{this.title}}</a>
+		{{/each}}
+	</nav>
+</div>

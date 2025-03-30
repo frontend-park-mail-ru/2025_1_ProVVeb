@@ -2,16 +2,18 @@ import BaseComponent from '@basecomp';
 import templateHBS from './header.hbs';
 
 interface HeaderParams {
+	isGreeting: boolean;
 	logotype: string;
 	profile: string;
-	isGreeting: boolean;
-	logoutSessionBtn?: string;
+	// logoutSessionBtn: string;
+	dotsMenu: string;
 }
 
 const DEFAULT_COMPONENTS: HeaderParams = {
+	isGreeting: false,
 	logotype: '',
 	profile: '',
-	isGreeting: false,
+	dotsMenu: '',
 };
 
 export default class Header extends BaseComponent {
