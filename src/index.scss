@@ -20,3 +20,44 @@
 	width: 100vw;
 	height: 100vh;
 }
+
+.mainContent {
+	max-width: var(--widthInner);
+	margin-left: auto;
+	margin-right: auto;
+
+	display: grid;
+	grid-template-columns:
+		minmax(180px, 20%) // Навигация (20% ширины)
+		40% // Карточки
+		1fr; // Данные (оставшееся)
+	gap: 30px;
+	justify-content: center; // Центрирование сетки
+	padding: 20px;
+	position: relative;
+
+	&> :first-child {
+		border-right: var(--vertical-line) 2px solid;
+	}
+
+	&> :last-child {
+		border-left: var(--vertical-line) 2px solid;
+	}
+
+	// Адаптация
+	// @media (max-width: 1024px) {
+	// 	grid-template-columns: repeat(2, minmax(250px, 1fr));
+
+	// 	&>*:nth-child(2n)::after {
+	// 		display: none;
+	// 	}
+	// }
+
+	// @media (max-width: 600px) {
+	// 	grid-template-columns: minmax(250px, 1fr);
+
+	// 	&>*::after {
+	// 		display: none;
+	// 	}
+	// }
+}

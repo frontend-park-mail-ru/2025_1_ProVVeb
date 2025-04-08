@@ -1,7 +1,7 @@
 import templateHBS from './dotsMenu.hbs';
 import BaseComponent from '@basecomp';
 import api from '@network';
-import router from '@router';
+import router, { AppPage } from '@router';
 
 interface DotsMenuParams {
 	idDotsMenu: string;
@@ -32,7 +32,7 @@ const LINKS: LinkConfig[] = [
 				api.logoutUser()
 					.then((response) => {
 						console.log('Выход выполнен успешно:', response);
-						router.navigateTo('auth');
+						router.navigateTo(AppPage.Auth);
 					})
 					.catch((error) => {
 						console.error('Ошибка при выходе:', error);

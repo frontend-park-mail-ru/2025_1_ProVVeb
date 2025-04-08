@@ -21,6 +21,11 @@
 	align-items: center;
 }
 
+@mixin flex-center-horizontal {
+	display: flex;
+	align-items: center;
+}
+
 @mixin gradient-text {
 	background: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
 	background-clip: text;

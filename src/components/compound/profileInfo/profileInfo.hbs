@@ -1,0 +1,33 @@
+<div class="profileInfo">
+	<div class="profileInfo__inner">
+		<section class="profileInfo__aboutMe aboutMe">
+			<h3 class="aboutMe__title">{{aboutMeTitle}}</h3>
+			<p class="aboutMe__text">{{ aboutMeText }}</p>
+		</section>
+		<section class="profileInfo__interests interests">
+			<h3 class="interests__title">{{aboutMeTitle}}</h3>
+			<p class="interests__container">
+				{{#each interests}}
+			<div class="interests__item">{{this}}</div>
+			{{/each}}
+			</p>
+		</section>
+		<section class="profileInfo__data data">
+			<h3 class="data__title">{{dataTitle}}</h3>
+			<p class="data__container">
+				{{#each data}}
+			<div class="data__field">
+				<p>{{this.title}}</p>
+				<p>{{this.content}}</p>
+			</div>
+			{{/each}}
+			</p>
+		</section>
+		<section class="profileInfo__pictures pictures">
+			<form action="">
+
+			</form>
+		</section>
+	</div>
+
+</div>

@@ -1,0 +1,12 @@
+<div class="navMenu">
+	<nav class="navMenu__inner">
+		<div class="navMenu__links">
+			{{#each links}}
+			<div id="{{this.id}}" class="navMenu__link">
+				<img src="{{this.srcIcon}}" alt="Иконка {{this.title}}">
+				<a class="">{{this.title}}</a>
+			</div>
+			{{/each}}
+		</div>
+	</nav>
+</div>

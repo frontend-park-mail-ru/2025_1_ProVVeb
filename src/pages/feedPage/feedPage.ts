@@ -1,19 +1,33 @@
 import BasePage from '../BasePage';
 import PeopleCards from '@compound/peopleCards/peopleCards';
 import HeaderMain from '@compound/headerMain/headerMain';
+import NavMenu from '@compound/navMenu/navMenu';
 
 export default class FeedPage extends BasePage {
-	private components: Array<HeaderMain | PeopleCards>;
+	private components: Array<HeaderMain | PeopleCards | NavMenu>;
+	private contentWrapper: HTMLElement;
 
 	constructor(parentElement: HTMLElement) {
 		super(parentElement);
+
+		this.contentWrapper = document.createElement('div');
+		this.contentWrapper.className = 'mainContent';
+
 		this.components = [
 			new HeaderMain(parentElement),
-			new PeopleCards(parentElement),
+			new NavMenu(this.contentWrapper),
+			new PeopleCards(this.contentWrapper),
 		];
 	}
 
 	render(): void {
-		this.components.forEach((component) => component.render());
+		this.components[0].render(); // HeaderMain
+
+		this.parentElement.appendChild(this.contentWrapper);
+		for (let i = 1; i < this.components.length; i++) {
+			this.components[i].render();
+		}
+
+		this.contentWrapper.style.border = '1px solid red'; // Уберите это в продакшене
 	}
 }
