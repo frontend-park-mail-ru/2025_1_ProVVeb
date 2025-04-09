@@ -21,6 +21,7 @@ export default class FeedPage extends BasePage {
 	}
 
 	render(): void {
+		this.contentWrapper.innerHTML = '';
 		this.components[0].render(); // HeaderMain
 
 		this.parentElement.appendChild(this.contentWrapper);
