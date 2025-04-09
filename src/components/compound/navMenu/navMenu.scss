@@ -13,5 +13,20 @@
 		cursor: pointer;
 		font-weight: 500;
 		user-select: none;
+
+		img {
+			transition: opacity 0.3s, transform 0.3s;
+		}
+
+		&:hover{
+			a {
+				color: #FF575F;
+			}
+
+			img {
+				opacity: 0.9;
+				transform: scale(1.05);
+			}
+		}
 	}
 }

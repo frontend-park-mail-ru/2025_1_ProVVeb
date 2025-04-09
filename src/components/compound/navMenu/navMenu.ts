@@ -1,5 +1,6 @@
 import templateHBS from './navMenu.hbs';
 import BaseComponent from '@basecomp';
+import store from '@store';
 import api from '@network';
 import router, { AppPage } from '@router';
 
@@ -14,11 +15,12 @@ const DEFAULT_PARAMS_NAV_MENU: NavMenuParams = {
 interface LinkConfig {
 	title: string;
 	srcIcon: string;
+	srcIconHover: string;
 	id: string;
 	listener: {
 		eventType: string;
 		selector: string;
-		callback: () => void;
+		callback: (event: Event) => void;
 	};
 }
 
@@ -28,11 +30,22 @@ const LINKS: LinkConfig[] = [
 	{
 		title: 'Лента',
 		srcIcon: 'media/navMenu/fire.svg',
+		srcIconHover: 'media/navMenu/fire_active.svg',
 		id: 'fire' + uniqId,
 		listener: {
 			eventType: 'click',
 			selector: '#{id}',
-			callback: () => {
+			callback: (event) => {
+				const targetElement = event.currentTarget as HTMLElement;
+				const img = targetElement.querySelector('img');
+				
+				if (img) {
+					img.src = 'media/navMenu/fire_active.svg'; 
+					console.log(img);
+				}
+
+				targetElement.style.color = '#FE3675';
+				(store.getState("currentPage") as string[]).push("fire");
 				console.log('fire');
 			},
 		},
@@ -40,11 +53,21 @@ const LINKS: LinkConfig[] = [
 	{
 		title: 'Настройки',
 		srcIcon: 'media/navMenu/settings.svg',
+		srcIconHover: 'media/navMenu/settings_active.svg',
 		id: 'settings' + uniqId,
 		listener: {
 			eventType: 'click',
 			selector: '#{id}',
-			callback: () => {
+			callback: (event) => {
+				const targetElement = event.currentTarget as HTMLElement;
+				const img = targetElement.querySelector('img');
+				
+				if (img) {
+					img.src = 'media/navMenu/settings_active.svg'; 
+				}
+
+				targetElement.style.color = '#FE3675';
+				(store.getState("currentPage") as string[]).push("settings");
 				console.log('settings');
 			},
 		},
@@ -52,11 +75,21 @@ const LINKS: LinkConfig[] = [
 	{
 		title: 'Поиск',
 		srcIcon: 'media/navMenu/search.svg',
+		srcIconHover: 'media/navMenu/search_active.svg',
 		id: 'search' + uniqId,
 		listener: {
 			eventType: 'click',
 			selector: '#{id}',
-			callback: () => {
+			callback: (event) => {
+				const targetElement = event.currentTarget as HTMLElement;
+				const img = targetElement.querySelector('img');
+				
+				if (img) {
+					img.src = 'media/navMenu/search_active.svg'; 
+				}
+
+				targetElement.style.color = '#FE3675';
+				(store.getState("currentPage") as string[]).push("search");
 				console.log('search');
 			},
 		},
@@ -64,11 +97,21 @@ const LINKS: LinkConfig[] = [
 	{
 		title: 'Мессенджер',
 		srcIcon: 'media/navMenu/messenger.svg',
+		srcIconHover: 'media/navMenu/messenger_active.svg',
 		id: 'messenger' + uniqId,
 		listener: {
 			eventType: 'click',
 			selector: '#{id}',
-			callback: () => {
+			callback: (event) => {
+				const targetElement = event.currentTarget as HTMLElement;
+				const img = targetElement.querySelector('img');
+				
+				if (img) {
+					img.src = 'media/navMenu/messenger_active.svg'; 
+				}
+
+				targetElement.style.color = '#FE3675';
+				(store.getState("currentPage") as string[]).push("messenger");
 				console.log('messenger');
 			},
 		},
@@ -76,11 +119,21 @@ const LINKS: LinkConfig[] = [
 	{
 		title: 'Безопасность',
 		srcIcon: 'media/navMenu/security.svg',
+		srcIconHover: 'media/navMenu/security_active.svg',
 		id: 'security' + uniqId,
 		listener: {
 			eventType: 'click',
 			selector: '#{id}',
-			callback: () => {
+			callback: (event) => {
+				const targetElement = event.currentTarget as HTMLElement;
+				const img = targetElement.querySelector('img');
+				
+				if (img) {
+					img.src = 'media/navMenu/security_active.svg'; 
+				}
+
+				targetElement.style.color = '#FE3675';
+				(store.getState("currentPage") as string[]).push("security");
 				console.log('security');
 			},
 		},
@@ -88,11 +141,21 @@ const LINKS: LinkConfig[] = [
 	{
 		title: 'Магазин',
 		srcIcon: 'media/navMenu/shop.svg',
+		srcIconHover: 'media/navMenu/shop_active.svg',
 		id: 'shop' + uniqId,
 		listener: {
 			eventType: 'click',
 			selector: '#{id}',
-			callback: () => {
+			callback: (event) => {
+				const targetElement = event.currentTarget as HTMLElement;
+				const img = targetElement.querySelector('img');
+				
+				if (img) {
+					img.src = 'media/navMenu/shop_active.svg'; 
+				}
+
+				targetElement.style.color = '#FE3675';
+				(store.getState("currentPage") as string[]).push("shop");
 				console.log('shop');
 			},
 		},
@@ -100,11 +163,21 @@ const LINKS: LinkConfig[] = [
 	{
 		title: 'Список мэтчей',
 		srcIcon: 'media/navMenu/feature.svg',
+		srcIconHover: 'media/navMenu/feature_active.svg',
 		id: 'feature' + uniqId,
 		listener: {
 			eventType: 'click',
 			selector: '#{id}',
-			callback: () => {
+			callback: (event) => {
+				const targetElement = event.currentTarget as HTMLElement;
+				const img = targetElement.querySelector('img');
+				
+				if (img) {
+					img.src = 'media/navMenu/feature_active.svg'; 
+				}
+
+				targetElement.style.color = '#FE3675';
+				(store.getState("currentPage") as string[]).push("feature");
 				console.log('feature');
 			},
 		},
@@ -118,10 +191,73 @@ export default class NavMenu extends BaseComponent {
 		super(templateHTML, parentElement);
 
 		LINKS.forEach((link) => {
+			// const element = document.querySelector(`#${link.id}`) as HTMLElement;
+      		// const img = element.querySelector('img') as HTMLImageElement;
+
+      		// element.addEventListener('mouseenter', () => {
+        	// 	img.src = link.srcIconHover;
+      		// });
+
+      		// element.addEventListener('mouseleave', () => {
+        	// 	img.src = link.srcIcon;
+      		// });
+
+			this.addListener(
+				'mouseenter',
+				link.listener.selector.replace('#{id}', `#${link.id}`),
+				(event) => {
+					const targetElement = event.currentTarget as HTMLElement;
+					const img = targetElement.querySelector('img');
+					if (img) {
+						img.src = link.srcIconHover;
+					}
+				}
+			);
+
+			this.addListener(
+				'mouseleave',
+				link.listener.selector.replace('#{id}', `#${link.id}`),
+				(event) => {
+					if((store.getState("currentPage") as string[]).at(-1) == link.id.split("_")[0])
+						return;
+					const targetElement = event.currentTarget as HTMLElement;
+					const img = targetElement.querySelector('img');
+					if (img) {
+						img.src = link.srcIcon;
+					}
+					targetElement.style.color = '#000';
+		
+				}
+			);
+
+
 			this.addListener(
 				link.listener.eventType,
 				link.listener.selector.replace('#{id}', `#${link.id}`),
-				link.listener.callback
+				(event) => {
+					const targetElement = event.currentTarget as HTMLElement;
+					
+					// Сбрасываем состояние у всех пунктов
+					LINKS.forEach((otherLink) => {
+					  const otherElement = document.querySelector(`#${otherLink.id}`) as HTMLElement;
+					  if (otherElement && otherElement !== targetElement) {
+						otherElement.style.color = '#000';
+						const otherImg = otherElement.querySelector('img');
+						if (otherImg) otherImg.src = otherLink.srcIcon;
+					  }
+					});
+			  
+					// Устанавливаем активное состояние текущему пункту
+					targetElement.style.color = '#FE3675';
+					const img = targetElement.querySelector('img');
+					if (img) img.src = link.srcIconHover;
+					
+					// Обновляем состояние в store
+					(store.getState("currentPage") as string[]).push(link.id.split("_")[0]);
+					
+					// Вызываем оригинальный callback если нужно
+					link.listener.callback(event);
+				  }
 			);
 		});
 	}
