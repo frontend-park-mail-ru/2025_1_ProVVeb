@@ -9,12 +9,6 @@ interface ProfileInfoParams {
 	personDescription: string;
 }
 
-interface Callback {
-	event: string;
-	selector: string;
-	callback: (event: Event) => void;
-}
-
 const DEFAULT_PARAMS_PROFILE_INFO: ProfileInfoParams = {
 	srcPersonPictureError: 'media/error/400x600.jpg',
 	srcPersonPicture: '',
@@ -23,11 +17,17 @@ const DEFAULT_PARAMS_PROFILE_INFO: ProfileInfoParams = {
 	personDescription: 'Краткое описание человека...',
 };
 
+interface Callback {
+	event: string;
+	selector: string;
+	callback: (event: Event) => void;
+}
+
 export default class PersonCard extends BaseComponent {
 	private callbacks: Callback[];
 
-	constructor(parentElement: HTMLElement, paramsHBS: Partial<PersonCardParams> = {}, callbacks: Callback[] = []) {
-		const finalParamsHBS = { ...DEFAULT_PARAMS_PERSON_CARD, ...paramsHBS };
+	constructor(parentElement: HTMLElement, paramsHBS: Partial<ProfileInfoParams> = {}, callbacks: Callback[] = []) {
+		const finalParamsHBS = { ...DEFAULT_PARAMS_PROFILE_INFO, ...paramsHBS };
 		const templateHTML = templateHBS(finalParamsHBS);
 		super(templateHTML, parentElement);
 

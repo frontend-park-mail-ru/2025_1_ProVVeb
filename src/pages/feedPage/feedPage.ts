@@ -1,10 +1,10 @@
 import BasePage from '../BasePage';
-import PeopleCards from '@compound/peopleCards/peopleCards';
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
+import PeopleCards from '@compound/peopleCards/peopleCards';
 
 export default class FeedPage extends BasePage {
-	private components: Array<HeaderMain | PeopleCards | NavMenu>;
+	private components: Array<HeaderMain | NavMenu | PeopleCards>;
 	private contentWrapper: HTMLElement;
 
 	constructor(parentElement: HTMLElement) {
