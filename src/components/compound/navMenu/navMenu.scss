@@ -1,7 +1,5 @@
 @use '@styles/mixins';
 
-// color: #FF575F;
-// color: #0066cc;
 .navMenu {
 	&__links {
 		display: flex;
@@ -43,6 +41,7 @@
 
 			a {
 				color: #1a73e8;
+				// color: #0066cc;
 			}
 		}
 
