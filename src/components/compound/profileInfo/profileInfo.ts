@@ -2,26 +2,32 @@ import BaseComponent from '@basecomp';
 import templateHBS from './profileInfo.hbs';
 import api from '@network';
 import store from '@store';
+import { parseBirthday } from '@modules/tools';
 
 interface ProfileInfoParams {
-	srcPersonPictureError: string;
-	srcPersonPicture: string;
-	personName: string;
-	personAge: number;
+	srcPictureError: string;
+	srcPicture: string;
+	firstName: string;
+	lastName: string;
+	age: number | '≥ 18';
 	aboutMeTitle: string;
 	aboutMeText: string;
 	interestsTitle: string;
 	interests: string[];
 	dataTitle: string;
 	data: Array<{ title: string, content: string }>;
-	isLoading?: boolean;
+	picturesTitle: string;
+	isLoading: boolean;
+	isError: boolean;
+	errorMessage: string;
 }
 
 const DEFAULT_PARAMS_PROFILE_INFO: ProfileInfoParams = {
-	srcPersonPictureError: 'media/error/400x600.jpg',
-	srcPersonPicture: '',
-	personName: 'Имя',
-	personAge: 16,
+	srcPictureError: 'media/error/400x600.jpg',
+	srcPicture: '',
+	firstName: 'Имя',
+	lastName: 'Фамилия',
+	age: 16,
 	aboutMeTitle: 'Обо мне',
 	aboutMeText: 'Краткое описание обо мне...',
 	interestsTitle: 'Мои интересы',
@@ -29,9 +35,11 @@ const DEFAULT_PARAMS_PROFILE_INFO: ProfileInfoParams = {
 	dataTitle: 'Мои данные',
 	data: [
 		{ title: 'Поле 1', content: 'Значение 1' },
-		{ title: 'Поле 2', content: 'Значение 2' }
 	],
-	isLoading: false
+	picturesTitle: 'Мои фото',
+	isLoading: false,
+	isError: false,
+	errorMessage: ''
 };
 
 interface Callback {
@@ -43,7 +51,7 @@ interface Callback {
 export default class ProfileInfoCard extends BaseComponent {
 	private callbacks: Callback[];
 	private initialParams: Partial<ProfileInfoParams>;
-	private profileContainer: HTMLElement | null;
+	private retryCallback: (() => void) | null;
 
 	constructor(
 		parentElement: HTMLElement,
@@ -56,55 +64,86 @@ export default class ProfileInfoCard extends BaseComponent {
 
 		this.callbacks = callbacks;
 		this.initialParams = paramsHBS;
-		this.profileContainer = null;
+		this.retryCallback = null;
 	}
 
 	private showLoadingState(): void {
-		if (!this.profileContainer) return;
-
 		const loadingParams: ProfileInfoParams = {
 			...DEFAULT_PARAMS_PROFILE_INFO,
-			isLoading: true
+			isLoading: true,
+			isError: false
 		};
 
-		this.profileContainer.innerHTML = templateHBS(loadingParams);
+		this.replaceContent(templateHBS(loadingParams));
+	}
+
+	private showErrorState(message: string = 'Не удалось загрузить данные', retryCallback?: () => void): void {
+		this.retryCallback = retryCallback || null;
+
+		const errorParams: ProfileInfoParams = {
+			...DEFAULT_PARAMS_PROFILE_INFO,
+			isLoading: false,
+			isError: true,
+			errorMessage: message
+		};
+
+		this.replaceContent(templateHBS(errorParams));
+
+		if (retryCallback) {
+			const retryButton = this.parentElement.querySelector('.profile-retry-button');
+			if (retryButton) {
+				retryButton.addEventListener('click', () => {
+					this.showLoadingState();
+					retryCallback();
+				});
+			}
+		}
 	}
 
 	private updateTemplate(data: any): void {
-		if (!this.profileContainer) {
-			console.error('Profile container not found');
-			return;
-		}
+		const { year, month, day } = parseBirthday(data.birthday) || {};
+		const currentYear = new Date().getFullYear();
+		const formattedBirthday = (day && month && year)
+			? `${String(day).padStart(2, '0')}.${String(month).padStart(2, '0')}.${currentYear - year}`
+			: 'Не указан';
 
 		const templateParams: ProfileInfoParams = {
 			...DEFAULT_PARAMS_PROFILE_INFO,
 			...this.initialParams,
-			srcPersonPicture: data.card,
-			personName: data.firstName,
-			personAge: data.age,
+			srcPicture: data.card,
+			firstName: data.firstName,
+			lastName: data.lastName,
+			age: year ?? '≥ 18',
 			aboutMeText: data.description,
 			interests: data.interests || DEFAULT_PARAMS_PROFILE_INFO.interests,
 			data: [
 				{ title: 'Рост', content: data.height || 'Не указан' },
 				{ title: 'Локация', content: data.location || 'Не указан' },
+				{ title: 'Гендер', content: data.isMale ? 'Мужчина' : 'Женщина' },
+				{ title: 'Дата рождения', content: formattedBirthday },
 			],
-			isLoading: false
+			isLoading: false,
+			isError: false
 		};
-
-		const newHTML = templateHBS(templateParams);
-		this.profileContainer.innerHTML = newHTML;
+		this.replaceContent(templateHBS(templateParams));
 		this.attachListeners();
 	}
 
-	async render(): Promise<void> {
-		super.render();
+	private replaceContent(newHTML: string): void {
+		const existingProfile = this.parentElement.querySelector('.profileInfo');
 
-		this.profileContainer = this.parentElement.querySelector('.profileInfo');
-		if (!this.profileContainer) {
-			console.error('Failed to find profile container');
-			return;
+		const tempDiv = document.createElement('div');
+		tempDiv.innerHTML = newHTML;
+		const newProfile = tempDiv.firstChild as HTMLElement;
+
+		if (existingProfile) {
+			this.parentElement.replaceChild(newProfile, existingProfile);
+		} else {
+			this.parentElement.appendChild(newProfile);
 		}
+	}
 
+	async render(): Promise<void> {
 		this.showLoadingState();
 
 		this.callbacks.forEach((callback) => {
@@ -114,10 +153,8 @@ export default class ProfileInfoCard extends BaseComponent {
 
 		try {
 			const userId = store.getState('myID');
-			console.log('Current user ID from store:', userId);
-
 			if (userId === undefined) {
-				console.warn('User ID is undefined in store');
+				this.showErrorState('ID пользователя не найден');
 				return;
 			}
 
@@ -128,14 +165,10 @@ export default class ProfileInfoCard extends BaseComponent {
 				console.log('Profile data loaded:', response.data);
 				this.updateTemplate(response.data);
 			} else {
-				console.warn('Failed to load profile:', response.message);
-				// Можно показать состояние ошибки
-				this.showLoadingState(); // Или создать метод showErrorState()
+				this.showErrorState('Ошибка загрузки профиля', () => this.render());
 			}
 		} catch (error) {
-			console.error('Error loading profile:', error);
-			// Показываем состояние ошибки
-			this.showLoadingState(); // Или создать метод showErrorState()
+			this.showErrorState('Ошибка соединения', () => this.render());
 		}
 	}
 }

@@ -8,27 +8,27 @@ export default class ProfilePage extends BasePage {
 	private contentWrapper: HTMLElement;
 
 	constructor(parentElement: HTMLElement) {
-			super(parentElement);
-	
-			this.contentWrapper = document.createElement('div');
-			this.contentWrapper.className = 'mainContent';
-	
-			this.components = [
-				new HeaderMain(parentElement),
-				new NavMenu(this.contentWrapper),
-				new ProfileInfo(this.contentWrapper),
-			];
+		super(parentElement);
+
+		this.contentWrapper = document.createElement('div');
+		this.contentWrapper.className = 'mainContent';
+
+		this.components = [
+			new HeaderMain(parentElement),
+			new NavMenu(this.contentWrapper),
+			new ProfileInfo(this.contentWrapper),
+		];
+	}
+
+	render(): void {
+		this.contentWrapper.innerHTML = '';
+		this.components[0].render(); // HeaderMain
+
+		this.parentElement.appendChild(this.contentWrapper);
+		for (let i = 1; i < this.components.length; i++) {
+			this.components[i].render();
 		}
-	
-		render(): void {
-			this.contentWrapper.innerHTML = '';
-			this.components[0].render(); // HeaderMain
-	
-			this.parentElement.appendChild(this.contentWrapper);
-			for (let i = 1; i < this.components.length; i++) {
-				this.components[i].render();
-			}
-	
-			this.contentWrapper.style.border = '1px solid blue'; // Уберите это в продакшене
-		}
+
+		this.contentWrapper.style.border = '1px solid blue'; // Уберите это в продакшене
+	}
 }

@@ -32,7 +32,7 @@
 		40% // Карточки
 		1fr; // Данные (оставшееся)
 	gap: 30px;
-	justify-content: center; // Центрирование сетки
+	justify-content: center;
 	padding: 20px;
 	position: relative;
 
@@ -40,24 +40,7 @@
 		border-right: var(--vertical-line) 2px solid;
 	}
 
-	&> :last-child {
-		border-left: var(--vertical-line) 2px solid;
+	&:has(> :nth-child(3))> :nth-child(2) {
+		border-right: var(--vertical-line) 2px solid;
 	}
-
-	// Адаптация
-	// @media (max-width: 1024px) {
-	// 	grid-template-columns: repeat(2, minmax(250px, 1fr));
-
-	// 	&>*:nth-child(2n)::after {
-	// 		display: none;
-	// 	}
-	// }
-
-	// @media (max-width: 600px) {
-	// 	grid-template-columns: minmax(250px, 1fr);
-
-	// 	&>*::after {
-	// 		display: none;
-	// 	}
-	// }
 }

@@ -5,7 +5,7 @@ interface PersonCardParams {
 	srcPersonPictureError: string;
 	srcPersonPicture: string;
 	personName: string;
-	personAge: number;
+	personAge: number | '≥ 18';
 	personDescription: string;
 }
 

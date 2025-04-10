@@ -4,7 +4,17 @@
 		<div class="profileInfo__loading">
 			<span>Загрузка данных</span>
 		</div>
+		{{else if isError}}
+		<div class="profileInfo__error">
+			<p class="profile-error-message">{{ errorMessage }}</p>
+			<button class="profile-retry-button">Попробовать снова</button>
+		</div>
 		{{else}}
+		<div class="profileInfo__firstInfo firstInfo">
+			<span class="firstInfo__firstName">{{ firstName }} </span>
+			<span class="firstInfo__lastName">{{ lastName }} </span>
+			<span class="firstInfo__age">{{ age }}</span>
+		</div>
 		<section class="profileInfo__aboutMe aboutMe">
 			<h3 class="aboutMe__title">{{ aboutMeTitle }}</h3>
 			<p class="aboutMe__text">{{ aboutMeText }}</p>
@@ -13,23 +23,24 @@
 			<h3 class="interests__title">{{ interestsTitle }}</h3>
 			<div class="interests__container">
 				{{#each interests}}
-				<div class="interests__item">{{ this }}</div>
+				<span class="interests__item">{{ this }}</span>
 				{{/each}}
 			</div>
 		</section>
-		<section class="profileInfo__data data">
-			<h3 class="data__title">{{ dataTitle }}</h3>
-			<div class="data__container">
+		<section class="profileInfo__personData personData">
+			<h3 class="personData__title">{{ dataTitle }}</h3>
+			<div class="personData__container">
 				{{#each data}}
-				<div class="data__field">
-					<p>{{ this.title }}</p>
-					<p>{{ this.content }}</p>
+				<div class="personData__item">
+					<p class="personData__field">{{ this.title }}</p>
+					<p class="personData__content">{{ this.content }}</p>
 				</div>
 				{{/each}}
 			</div>
 		</section>
 		<section class="profileInfo__pictures pictures">
-			<form action="">
+			<h3 class="pictures__title">{{ picturesTitle }}</h3>
+			<form action="" class="pictures__form">
 				<!-- Форма загрузки изображений -->
 			</form>
 		</section>
