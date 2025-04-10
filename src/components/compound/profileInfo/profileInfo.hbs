@@ -1,33 +1,38 @@
 <div class="profileInfo">
-	<div class="profileInfo__inner">
-		<section class="profileInfo__aboutMe aboutMe">
-			<h3 class="aboutMe__title">{{ aboutMeTitle }}</h3>
-			<p class="aboutMe__text">{{ aboutMeText }}</p>
-		</section>
-		<section class="profileInfo__interests interests">
-			<h3 class="interests__title">{{ aboutMeTitle }}</h3>
-			<p class="interests__container">
-				{{#each interests}}
-			<div class="interests__item">{{ this }}</div>
-			{{/each}}
-			</p>
-		</section>
-		<section class="profileInfo__data data">
-			<h3 class="data__title">{{ dataTitle }}</h3>
-			<p class="data__container">
-				{{#each data}}
-			<div class="data__field">
-				<p>{{ this.title }}</p>
-				<p>{{ this.content }}</p>
-			</div>
-			{{/each}}
-			</p>
-		</section>
-		<section class="profileInfo__pictures pictures">
-			<form action="">
-				БЕДА
-			</form>
-		</section>
-	</div>
-
+    <div class="profileInfo__inner">
+        {{#if isLoading}}
+            <div class="profileInfo__loading">
+                <p>Загрузка данных...</p>
+            </div>
+        {{else}}
+            <section class="profileInfo__aboutMe aboutMe">
+                <h3 class="aboutMe__title">{{ aboutMeTitle }}</h3>
+                <p class="aboutMe__text">{{ aboutMeText }}</p>
+            </section>
+            <section class="profileInfo__interests interests">
+                <h3 class="interests__title">{{ interestsTitle }}</h3>
+                <div class="interests__container">
+                    {{#each interests}}
+                        <div class="interests__item">{{ this }}</div>
+                    {{/each}}
+                </div>
+            </section>
+            <section class="profileInfo__data data">
+                <h3 class="data__title">{{ dataTitle }}</h3>
+                <div class="data__container">
+                    {{#each data}}
+                        <div class="data__field">
+                            <p>{{ this.title }}</p>
+                            <p>{{ this.content }}</p>
+                        </div>
+                    {{/each}}
+                </div>
+            </section>
+            <section class="profileInfo__pictures pictures">
+                <form action="">
+                    <!-- Форма загрузки изображений -->
+                </form>
+            </section>
+        {{/if}}
+    </div>
 </div>
