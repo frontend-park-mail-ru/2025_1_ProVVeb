@@ -4,12 +4,14 @@ import LoginPage from '@pages/loginPage/loginPage';
 import AuthPage from '@pages/authPage/authPage';
 import FeedPage from '@pages/feedPage/feedPage';
 import ProfilePage from '@pages/profilePage/profilePage';
+import MathesPage from '@pages/matchesPage/matchesPage';
 
 enum AppPage {
 	Auth = 'auth',
 	Login = 'login',
 	Feed = 'feed',
 	Profile = 'profile',
+	Matches = 'matches',
 }
 
 class Router {
@@ -19,6 +21,7 @@ class Router {
 	private loginPage: LoginPage;
 	private feedPage: FeedPage;
 	private profilePage: ProfilePage;
+	private matchesPage: MathesPage;
 
 	constructor() {
 		const rootElement = document.getElementById('root');
@@ -32,6 +35,7 @@ class Router {
 		this.loginPage = new LoginPage(this.root);
 		this.feedPage = new FeedPage(this.root);
 		this.profilePage = new ProfilePage(this.root);
+		this.matchesPage = new MathesPage(this.root);
 	}
 
 	async navigateTo(page: AppPage): Promise<void> {
@@ -65,6 +69,10 @@ class Router {
 				case AppPage.Profile:
 					this.root.classList.remove('greeting');
 					this.profilePage.rerender();
+					break;
+				case AppPage.Matches:
+					this.root.classList.remove('greeting');
+					this.matchesPage.rerender();
 					break;
 				default:
 					alert('Такой страницы нет. Перенаправляю на логин');

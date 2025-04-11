@@ -6,4 +6,4 @@ import store from '@store';
 store.setState('currentPage', []);
 
 store.setState('myID', 2);
-router.navigateTo(AppPage.Feed);
+router.navigateTo(AppPage.Matches);
