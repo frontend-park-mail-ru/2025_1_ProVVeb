@@ -1,0 +1,39 @@
+<div class="matchCard">
+    <div class="matchCard__foto">
+        <div class="matchCard__shadow"></div>
+        <img 
+            src="{{#if srcPersonPicture}}{{srcPersonPicture}}{{else}}{{srcPersonPictureError}}{{/if}}" 
+            alt="Фото профиля"
+            class="matchCard__img"
+        >
+        <div class="matchCard__info">
+            <span class="matchCard__name">{{personName}}</span>
+            <span class="matchCard__age">{{personAge}}</span>
+        </div>
+    </div>
+  
+    <div class="matchCard__main">
+        <div class="matchCard__text">
+            <h2 class="matchCard__title">Обо мне</h2>
+            <p class="matchCard__desc">{{personDescription}}</p>
+        </div>
+    
+        <div class="matchCard__tags">
+            {{#each personInterests}}
+                <span class="matchCard__tag">{{this}}</span>
+            {{/each}}
+        </div>
+    </div>
+  
+    <div class="matchCard__actions">
+        <button class="matchCard__btn" aria-label="Удалить" id="matchDeleteBtn{{id}}">
+            <img src="media/match/matchBtnDelete.svg" alt="" class="matchCard__icon">
+        </button>
+        <button class="matchCard__btn" aria-label="Лайк" id="matchLikeBtn{{id}}">
+            <img src="media/match/matchBtnLike.svg" alt="" class="matchCard__icon">
+        </button>
+        <button class="matchCard__btn" aria-label="Сообщение" id="matchMessageBtn{{id}}">
+            <img src="media/match/matchBtnMessage.svg" alt="" class="matchCard__icon">
+        </button>
+    </div>
+</div>

@@ -5,6 +5,7 @@ import AuthPage from '@pages/authPage/authPage';
 import FeedPage from '@pages/feedPage/feedPage';
 import ProfilePage from '@pages/profilePage/profilePage';
 import MathesPage from '@pages/matchesPage/matchesPage';
+import EmptyPage from '@pages/emptyPage/emptyPage';
 
 enum AppPage {
 	Auth = 'auth',
@@ -12,6 +13,11 @@ enum AppPage {
 	Feed = 'feed',
 	Profile = 'profile',
 	Matches = 'matches',
+	Settings = 'settings',
+	Search = 'search',
+	Messenger = 'messenger',
+	Security = 'security',
+	Shop = 'shop',
 }
 
 class Router {
@@ -22,6 +28,7 @@ class Router {
 	private feedPage: FeedPage;
 	private profilePage: ProfilePage;
 	private matchesPage: MathesPage;
+	private emptyPage: EmptyPage;
 
 	constructor() {
 		const rootElement = document.getElementById('root');
@@ -36,6 +43,7 @@ class Router {
 		this.feedPage = new FeedPage(this.root);
 		this.profilePage = new ProfilePage(this.root);
 		this.matchesPage = new MathesPage(this.root);
+		this.emptyPage = new EmptyPage(this.root);
 	}
 
 	async navigateTo(page: AppPage): Promise<void> {
@@ -53,6 +61,7 @@ class Router {
 				this.isChecked = true;
 			}
 
+
 			switch (page) {
 				case AppPage.Auth:
 					this.root.classList.add('greeting');
@@ -65,6 +74,7 @@ class Router {
 				case AppPage.Feed:
 					this.root.classList.remove('greeting');
 					this.feedPage.rerender();
+					this.feedPage.getNavMenu().setActiveLink('feed');
 					break;
 				case AppPage.Profile:
 					this.root.classList.remove('greeting');
@@ -73,7 +83,33 @@ class Router {
 				case AppPage.Matches:
 					this.root.classList.remove('greeting');
 					this.matchesPage.rerender();
+					this.matchesPage.getNavMenu().setActiveLink('matches');
 					break;
+				case AppPage.Settings:
+					this.root.classList.remove('greeting');
+					this.emptyPage.rerender();
+					this.emptyPage.getNavMenu().setActiveLink('settings');
+					break;
+				case AppPage.Search:
+					this.root.classList.remove('greeting');
+					this.emptyPage.rerender();
+					this.emptyPage.getNavMenu().setActiveLink('search');
+					break;
+				case AppPage.Messenger:
+					this.root.classList.remove('greeting');
+					this.emptyPage.rerender();
+					this.emptyPage.getNavMenu().setActiveLink('messenger');
+					break;	
+				case AppPage.Security:
+					this.root.classList.remove('greeting');
+					this.emptyPage.rerender();
+					this.emptyPage.getNavMenu().setActiveLink('security');
+					break;	
+				case AppPage.Shop:
+					this.root.classList.remove('greeting');
+					this.emptyPage.rerender();
+					this.emptyPage.getNavMenu().setActiveLink('shop');
+					break;			
 				default:
 					alert('Такой страницы нет. Перенаправляю на логин');
 					this.loginPage.rerender();

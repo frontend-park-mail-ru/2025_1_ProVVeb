@@ -31,4 +31,8 @@ export default class FeedPage extends BasePage {
 
 		this.contentWrapper.style.border = '1px solid red'; // Уберите это в продакшене
 	}
+
+	public getNavMenu() : NavMenu{
+		return this.components[1] as NavMenu;
+	}
 }

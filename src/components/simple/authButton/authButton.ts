@@ -2,7 +2,7 @@ import Button from '@pattern/button/button';
 import store from '@store';
 import { checkAuth } from '@validation';
 import api from '@network';
-import router from '@router';
+import router, { AppPage } from '@router';
 import Notification from '@notification';
 
 interface AuthButtonParams {
@@ -28,8 +28,8 @@ DEFAULT_AUTH_PARAMS_BUTTON.listenButton = {
 		if (checkAuth(loginValue, passwordValue)) {
 			api.authUser(loginValue, passwordValue).then(async (respond) => {
 				if (respond.success) {
-					store.setState('myID', respond.data.id);
-					await router.navigateTo('feed');
+					store.setState('myID', respond.data.user_id);
+					await router.navigateTo(AppPage.Feed);
 					store.setState('profileName', loginValue);
 				} else {
 					const JSONans = JSON.parse(respond.message as string);

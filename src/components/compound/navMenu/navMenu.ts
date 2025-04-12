@@ -1,7 +1,6 @@
 import templateHBS from './navMenu.hbs';
 import BaseComponent from '@basecomp';
 import store from '@store';
-import api from '@network';
 import router, { AppPage } from '@router';
 
 interface NavMenuParams {
@@ -31,21 +30,21 @@ const LINKS: LinkConfig[] = [
 		title: 'Лента',
 		srcIcon: 'media/navMenu/fire.svg',
 		srcIconHover: 'media/navMenu/fire_active.svg',
-		id: 'fire' + uniqId,
+		id: 'feed' + uniqId,
 		listener: {
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				const targetElement = event.currentTarget as HTMLElement;
-				const img = targetElement.querySelector('img');
+				// const targetElement = event.currentTarget as HTMLElement;
+				// const img = targetElement.querySelector('img');
 				
-				if (img) {
-					img.src = 'media/navMenu/fire_active.svg'; 
-					console.log(img);
-				}
+				// if (img) {
+				// 	img.src = 'media/navMenu/fire_active.svg'; 
+				// 	console.log(img);
+				// }
 
-				targetElement.style.color = '#FE3675';
-				(store.getState("currentPage") as string[]).push("fire");
+				// targetElement.style.color = '#FE3675';
+				// (store.getState("currentPage") as string[]).push("fire");
 				console.log('fire');
 			},
 		},
@@ -59,15 +58,15 @@ const LINKS: LinkConfig[] = [
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				const targetElement = event.currentTarget as HTMLElement;
-				const img = targetElement.querySelector('img');
+				// const targetElement = event.currentTarget as HTMLElement;
+				// const img = targetElement.querySelector('img');
 				
-				if (img) {
-					img.src = 'media/navMenu/settings_active.svg'; 
-				}
+				// if (img) {
+				// 	img.src = 'media/navMenu/settings_active.svg'; 
+				// }
 
-				targetElement.style.color = '#FE3675';
-				(store.getState("currentPage") as string[]).push("settings");
+				// targetElement.style.color = '#FE3675';
+				// (store.getState("currentPage") as string[]).push("settings");
 				console.log('settings');
 			},
 		},
@@ -81,15 +80,15 @@ const LINKS: LinkConfig[] = [
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				const targetElement = event.currentTarget as HTMLElement;
-				const img = targetElement.querySelector('img');
+				// const targetElement = event.currentTarget as HTMLElement;
+				// const img = targetElement.querySelector('img');
 				
-				if (img) {
-					img.src = 'media/navMenu/search_active.svg'; 
-				}
+				// if (img) {
+				// 	img.src = 'media/navMenu/search_active.svg'; 
+				// }
 
-				targetElement.style.color = '#FE3675';
-				(store.getState("currentPage") as string[]).push("search");
+				// targetElement.style.color = '#FE3675';
+				// (store.getState("currentPage") as string[]).push("search");
 				console.log('search');
 			},
 		},
@@ -103,15 +102,15 @@ const LINKS: LinkConfig[] = [
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				const targetElement = event.currentTarget as HTMLElement;
-				const img = targetElement.querySelector('img');
+				// const targetElement = event.currentTarget as HTMLElement;
+				// const img = targetElement.querySelector('img');
 				
-				if (img) {
-					img.src = 'media/navMenu/messenger_active.svg'; 
-				}
+				// if (img) {
+				// 	img.src = 'media/navMenu/messenger_active.svg'; 
+				// }
 
-				targetElement.style.color = '#FE3675';
-				(store.getState("currentPage") as string[]).push("messenger");
+				// targetElement.style.color = '#FE3675';
+				// (store.getState("currentPage") as string[]).push("messenger");
 				console.log('messenger');
 			},
 		},
@@ -125,15 +124,15 @@ const LINKS: LinkConfig[] = [
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				const targetElement = event.currentTarget as HTMLElement;
-				const img = targetElement.querySelector('img');
+				// const targetElement = event.currentTarget as HTMLElement;
+				// const img = targetElement.querySelector('img');
 				
-				if (img) {
-					img.src = 'media/navMenu/security_active.svg'; 
-				}
+				// if (img) {
+				// 	img.src = 'media/navMenu/security_active.svg'; 
+				// }
 
-				targetElement.style.color = '#FE3675';
-				(store.getState("currentPage") as string[]).push("security");
+				// targetElement.style.color = '#FE3675';
+				// (store.getState("currentPage") as string[]).push("security");
 				console.log('security');
 			},
 		},
@@ -147,15 +146,15 @@ const LINKS: LinkConfig[] = [
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				const targetElement = event.currentTarget as HTMLElement;
-				const img = targetElement.querySelector('img');
+				// const targetElement = event.currentTarget as HTMLElement;
+				// const img = targetElement.querySelector('img');
 				
-				if (img) {
-					img.src = 'media/navMenu/shop_active.svg'; 
-				}
+				// if (img) {
+				// 	img.src = 'media/navMenu/shop_active.svg'; 
+				// }
 
-				targetElement.style.color = '#FE3675';
-				(store.getState("currentPage") as string[]).push("shop");
+				// targetElement.style.color = '#FE3675';
+				// (store.getState("currentPage") as string[]).push("shop");
 				console.log('shop');
 			},
 		},
@@ -164,20 +163,20 @@ const LINKS: LinkConfig[] = [
 		title: 'Список мэтчей',
 		srcIcon: 'media/navMenu/feature.svg',
 		srcIconHover: 'media/navMenu/feature_active.svg',
-		id: 'feature' + uniqId,
+		id: 'matches' + uniqId,
 		listener: {
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				const targetElement = event.currentTarget as HTMLElement;
-				const img = targetElement.querySelector('img');
+				// const targetElement = event.currentTarget as HTMLElement;
+				// const img = targetElement.querySelector('img');
 				
-				if (img) {
-					img.src = 'media/navMenu/feature_active.svg'; 
-				}
+				// if (img) {
+				// 	img.src = 'media/navMenu/feature_active.svg'; 
+				// }
 
-				targetElement.style.color = '#FE3675';
-				(store.getState("currentPage") as string[]).push("feature");
+				// targetElement.style.color = '#FE3675';
+				// (store.getState("currentPage") as string[]).push("feature");
 				console.log('feature');
 			},
 		},
@@ -235,30 +234,51 @@ export default class NavMenu extends BaseComponent {
 				link.listener.eventType,
 				link.listener.selector.replace('#{id}', `#${link.id}`),
 				(event) => {
-					const targetElement = event.currentTarget as HTMLElement;
+					// const targetElement = event.currentTarget as HTMLElement;
 					
-					// Сбрасываем состояние у всех пунктов
-					LINKS.forEach((otherLink) => {
-					  const otherElement = document.querySelector(`#${otherLink.id}`) as HTMLElement;
-					  if (otherElement && otherElement !== targetElement) {
-						otherElement.style.color = '#000';
-						const otherImg = otherElement.querySelector('img');
-						if (otherImg) otherImg.src = otherLink.srcIcon;
-					  }
-					});
+					// this.resetAllLinks();
 			  
-					// Устанавливаем активное состояние текущему пункту
-					targetElement.style.color = '#FE3675';
-					const img = targetElement.querySelector('img');
-					if (img) img.src = link.srcIconHover;
+					// // Устанавливаем активное состояние текущему пункту
+					// targetElement.style.color = '#FE3675';
+					// const img = targetElement.querySelector('img');
+					// if (img) img.src = link.srcIconHover;
 					
-					// Обновляем состояние в store
-					(store.getState("currentPage") as string[]).push(link.id.split("_")[0]);
+					// // Обновляем состояние в store
+					// (store.getState("currentPage") as string[]).push(link.id.split("_")[0]);
+					router.navigateTo(link.id.split("_")[0] as AppPage);
 					
 					// Вызываем оригинальный callback если нужно
 					link.listener.callback(event);
 				  }
 			);
+		});
+	}
+
+	public setActiveLink(linkID: string): void {
+		this.resetAllLinks();
+
+		const activeLink = LINKS.find(link => link.id.startsWith(linkID + uniqId));
+        if (!activeLink) return;
+
+        const element = document.querySelector(`#${activeLink.id}`) as HTMLElement;
+        if (!element) return;
+
+        const img = element.querySelector('img');
+        
+        element.style.color = '#FE3675';
+        if (img) img.src = activeLink.srcIconHover;
+
+        (store.getState("currentPage") as string[]).push(linkID);
+	}
+
+	private resetAllLinks(): void {
+		LINKS.forEach((otherLink) => {
+			const otherElement = document.querySelector(`#${otherLink.id}`) as HTMLElement;
+			if (otherElement) {
+			  otherElement.style.color = '#000';
+			  const otherImg = otherElement.querySelector('img');
+			  if (otherImg) otherImg.src = otherLink.srcIcon;
+			}
 		});
 	}
 }

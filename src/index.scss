@@ -61,3 +61,12 @@
 	// 	}
 	// }
 }
+
+.mainContent__central{
+	padding: 10px;
+	width: 520px;
+	height: fit-content;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}

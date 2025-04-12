@@ -1,10 +1,10 @@
 import BasePage from '../BasePage';
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
-import Interest from '@simple/interest/interest';
+import MatchesCards from '@compound/matchesCards/matchesCards';
 
-export default class FeedPage extends BasePage {
-	private components: Array<HeaderMain | NavMenu | Interest>;
+export default class MatchesPage extends BasePage {
+	private components: Array<HeaderMain | NavMenu | MatchesCards>;
 	private contentWrapper: HTMLElement;
 
 	constructor(parentElement: HTMLElement) {
@@ -16,7 +16,7 @@ export default class FeedPage extends BasePage {
 		this.components = [
 			new HeaderMain(parentElement),
 			new NavMenu(this.contentWrapper),
-            new Interest(this.contentWrapper, {title: "Спорт"}),
+			new MatchesCards(this.contentWrapper),
 		];
 	}
 
@@ -30,5 +30,9 @@ export default class FeedPage extends BasePage {
 		}
 
 		this.contentWrapper.style.border = '1px solid red'; // Уберите это в продакшене
+	}
+
+	public getNavMenu() : NavMenu{
+		return this.components[1] as NavMenu;
 	}
 }

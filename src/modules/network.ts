@@ -19,6 +19,7 @@ export interface Profile {
 	description: string;
 	card: string;
 	birthday: string;
+	interests?: string[];
 }
 
 async function sendRequest<T>(url: string, method: string, data: object | null = null): Promise<ApiResponse<T>> {
@@ -87,6 +88,13 @@ async function checkSession(): Promise<ApiResponse> {
 	return sendRequest(url, 'GET');
 }
 
+//-----------------getMatches
+async function getMatches(userId: number): Promise<ApiResponse<Profile[]>> {
+	const url = `${BASE_URL}/profiles?forUser=${userId}`; //<---- ТУТ ИСПРАВИТЬ РУЧКУ
+	return sendRequest(url, 'GET');
+}
+//-----------------
+
 export default {
 	BASE_URL,
 	getProfiles,
@@ -96,4 +104,5 @@ export default {
 	logoutUser,
 	deleteUser,
 	checkSession,
+	getMatches,
 };
