@@ -49,6 +49,7 @@ export default class MatchesCards extends BaseComponent{
 
         for(let data of this.DATA as Profile[]){
             currentID++;
+            console.log(data);
 
             const currentCard = new MatchesCard(
                 this.centralElement, 
@@ -57,7 +58,7 @@ export default class MatchesCards extends BaseComponent{
                                         ? data.card
                                         : '',
                     personName: data.firstName,
-                    personAge: currentYear - (parseBirthday(data.birthday)?.year ?? ageMajority),
+                    personAge: (parseBirthday(data.birthday)?.year ?? ageMajority),
                     personDescription: data.description,
                     personInterests: data.interests,
                     id: currentID,
