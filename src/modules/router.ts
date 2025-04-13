@@ -114,6 +114,9 @@ class Router {
 					alert('Такой страницы нет. Перенаправляю на логин');
 					this.loginPage.rerender();
 			}
+
+			store.update('profileName');
+
 		} catch (error) {
 			console.error('Ошибка при проверке сессии:', error);
 			alert('Ошибка сети. Перенаправляю на логин');

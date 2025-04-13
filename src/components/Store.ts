@@ -31,6 +31,11 @@ class Store {
 		this.listeners[key].push(callback);
 	}
 
+	public update(key: string): void {
+		const value = this.getState(key);
+		if(value) this.setState(key, value);
+	}
+
 	private notify(key: string): void {
 		if (this.listeners[key]) {
 			this.listeners[key].forEach((callback) => callback(this.state[key]));
