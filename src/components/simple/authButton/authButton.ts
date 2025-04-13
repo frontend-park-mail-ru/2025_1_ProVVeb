@@ -28,11 +28,12 @@ DEFAULT_AUTH_PARAMS_BUTTON.listenButton = {
 		if (checkAuth(loginValue, passwordValue)) {
 			api.authUser(loginValue, passwordValue).then(async (respond) => {
 				if (respond.success) {
-					store.setState('myID', respond.data.id);
+					store.setState('myID', respond.data.user_id);
+					console.log(respond);
 					await router.navigateTo(AppPage.Feed);
 					store.setState('profileName', loginValue);
 					
-					const data = await api.getProfile(2); //<- respond.data.id
+					const data = await api.getProfile(respond.data.user_id); //<- respond.data.user_id
 					const ava = data?.data?.avatar;
 					if(ava) store.setState('ava', ava);
 				} else {
