@@ -47,10 +47,14 @@ class Router {
 	}
 
 	async navigateTo(page: AppPage): Promise<void> {
+		console.log('1');
 		try {
-			if (this.isChecked) {
+			console.log('2');
+			if (!this.isChecked) {
+				console.log('3');
 				const sessionResult = await api.checkSession();
-
+				console.log('sessionResult', sessionResult);
+				console.log('4', 4);
 				if (sessionResult.success && sessionResult.data.InSession) {
 					store.setState('myID', sessionResult.data.id);
 					this.root.classList.remove('greeting');
@@ -60,7 +64,6 @@ class Router {
 
 				this.isChecked = true;
 			}
-
 
 			switch (page) {
 				case AppPage.Auth:
