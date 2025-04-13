@@ -1,6 +1,7 @@
 import BaseComponent from '@basecomp';
 import store from '@store';
 import templateHBS from './profile.hbs';
+import router, { AppPage } from '@modules/router';
 
 interface ProfileParams {
 	profileName: string;
@@ -25,8 +26,24 @@ export default class Profile extends BaseComponent {
 				}
 			}
 		});
+		store.subscribe('ava', (newAva: unknown) => {
+			const profileElement = parentElement.querySelector('.profile');
+			if (profileElement) {
+				const avaElement = profileElement.children[1] as HTMLElement;
+				const imgElement = avaElement.querySelector('img');
+				if (imgElement) imgElement.src = newAva as string;
+			}
+		});
 
 		const templateHTML = templateHBS(finalParamsHBS);
 		super(templateHTML, parentElement);
+
+		this.addListener(
+			'click',
+			'.profile',
+			() => {
+				router.navigateTo(AppPage.Settings); //<-AppPage.Profile
+			}
+		);
 	}
 }

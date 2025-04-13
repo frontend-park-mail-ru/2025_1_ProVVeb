@@ -83,7 +83,6 @@ export default class MatchesCards extends BaseComponent{
 
             currentCard.render();
         }
-        console.log(this.parentElement.innerHTML);
     }
 
     private handleDelete(e: Event): void{

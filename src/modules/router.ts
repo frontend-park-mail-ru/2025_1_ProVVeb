@@ -116,6 +116,7 @@ class Router {
 			}
 
 			store.update('profileName');
+			store.update('ava');
 
 		} catch (error) {
 			console.error('Ошибка при проверке сессии:', error);

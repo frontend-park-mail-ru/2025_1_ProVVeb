@@ -20,6 +20,7 @@ export interface Profile {
 	card: string;
 	birthday: string;
 	interests?: string[];
+	avatar?: string;
 }
 
 async function sendRequest<T>(url: string, method: string, data: object | null = null): Promise<ApiResponse<T>> {
