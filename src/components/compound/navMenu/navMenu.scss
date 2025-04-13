@@ -49,5 +49,10 @@
 			transform: translateX(2px);
 			transition-duration: 0.1s;
 		}
+
+		&:active {
+			transform: translateX(2px);
+			transition-duration: 0.1s;
+		}
 	}
 }

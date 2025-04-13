@@ -6,7 +6,8 @@ export function parseBirthday(dateStr: string): { year: number; month: number; d
 			return null;
 		}
 
-		const year = date.getUTCFullYear();
+		const currentYear = new Date().getFullYear();
+		const year = currentYear - date.getUTCFullYear();
 		const month = date.getUTCMonth() + 1;
 		const day = date.getUTCDate();
 

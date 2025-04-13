@@ -28,13 +28,14 @@ DEFAULT_AUTH_PARAMS_BUTTON.listenButton = {
 		if (checkAuth(loginValue, passwordValue)) {
 			api.authUser(loginValue, passwordValue).then(async (respond) => {
 				if (respond.success) {
-					store.setState('myID', respond.data.user_id);
+					store.setState('myID', respond.data.id);
+					console.log('respond.data.user_id: ', respond.data.id);
 					await router.navigateTo(AppPage.Feed);
 					store.setState('profileName', loginValue);
 				} else {
 					const JSONans = JSON.parse(respond.message as string);
 					let ans = '';
-					if(JSONans.message == 'No such user')
+					if (JSONans.message == 'No such user')
 						ans = 'Такого аккаунта не существует';
 					else
 						ans = 'Неверный логин или пароль';

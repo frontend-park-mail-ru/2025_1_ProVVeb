@@ -1,0 +1,4 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+<path d="M10 0L9.59653 1.07593C8.12002 5.01329 5.01329 8.12002 1.07593 9.59653L0 10L1.07593 10.4035C5.01329 11.88 8.12002 14.9867 9.59653 18.9241L10 20L10.4035 18.9241C11.88 14.9867 14.9867 11.88 18.9241 10.4035L20 10L18.9241 9.59653C14.9867 8.12002 11.88 5.01329 10.4035 1.07593L10 0Z" fill="url(#paint0_linear)" />
+<defs><linearGradient id="paint0_linear" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#FF7854" /><stop offset="100%" stop-color="#FE3675" /></linearGradient></defs></svg>

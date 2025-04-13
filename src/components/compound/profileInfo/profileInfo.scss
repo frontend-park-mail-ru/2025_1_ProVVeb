@@ -1,1 +1,304 @@
-.profileInfo {}
+.profileInfo {
+	color: var(--gray-line);
+	font-weight: 500;
+
+	&__inner {
+		display: flex;
+		flex-direction: column;
+		gap: 13px;
+	}
+
+	&__aboutMe {
+		padding-top: 13px;
+		border-top: 1px solid var(--vertical-line);
+	}
+
+	&__interests {
+		padding-top: 13px;
+		border-top: 1px solid var(--vertical-line);
+	}
+
+	&__personData {
+		padding-top: 13px;
+		border-top: 1px solid var(--vertical-line);
+	}
+
+	&__pictures {
+		padding-top: 13px;
+		border-top: 1px solid var(--vertical-line);
+	}
+
+	&__loading {
+		color: #666;
+
+		&:after {
+			content: '...';
+			animation: dots 1.5s steps(5, end) infinite;
+		}
+	}
+}
+
+.firstInfo {
+	font-size: 26px;
+	font-weight: 700;
+	color: var(--font-color);
+
+	&__age {
+		font-weight: 500;
+		font-size: 24px;
+	}
+}
+
+.aboutMe {
+	display: flex;
+	flex-direction: column;
+	gap: 13px;
+
+	&__title {
+		font-weight: 700;
+		color: var(--font-color);
+	}
+}
+
+.interests {
+	display: flex;
+	flex-direction: column;
+	gap: 13px;
+
+	&__title {
+		font-weight: 700;
+		color: var(--font-color);
+	}
+
+	&__container {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 10px;
+	}
+
+	&__item {
+		font-size: 14px;
+		font-weight: 500;
+		padding: 8px 10px;
+		border-radius: 25px;
+		border: 2px solid var(--gray-line);
+	}
+}
+
+.personData {
+	display: flex;
+	flex-direction: column;
+	gap: 13px;
+
+	&__title {
+		font-weight: 700;
+		color: var(--font-color);
+	}
+
+	&__container {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	&__item {
+		display: flex;
+		justify-content: space-between;
+	}
+
+	&__field {
+		font-weight: 700;
+		font-style: italic;
+		color: var(--font-color);
+	}
+
+}
+
+.pictures {
+	display: flex;
+	flex-direction: column;
+	gap: 13px;
+
+	&__title {
+		font-weight: 700;
+		color: var(--font-color);
+	}
+}
+
+@keyframes dots {
+
+	0%,
+	40% {
+		content: '...';
+	}
+
+	60% {
+		content: '..';
+	}
+
+	80%,
+	100% {
+		content: '.';
+	}
+}
+
+.profile-error-message {
+	margin-bottom: 16px;
+}
+
+.profile-retry-button {
+	background: #f0f0f0;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	padding: 10px 20px;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.2s ease;
+
+	&:hover {
+		background: #e6e6e6;
+		border-color: rgba(0, 0, 0, 0.15);
+		color: #333;
+	}
+
+	&:active {
+		background: #ddd;
+	}
+}
+
+/* Базовые стили */
+.profile-photo-upload {
+	max-width: 800px;
+	margin: 2rem auto;
+	padding: 2rem;
+	background: white;
+	border-radius: 8px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	font-family: Arial, sans-serif;
+}
+
+.upload-title {
+	text-align: center;
+	color: #333;
+	margin-bottom: 2rem;
+	font-size: 1.5rem;
+}
+
+/* Сетка фотографий */
+.photos-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 1rem;
+	margin-bottom: 1.5rem;
+}
+
+/* Стили для фотографий */
+.photo-item {
+	position: relative;
+	width: 100%;
+	aspect-ratio: 1/1;
+	border-radius: 6px;
+	overflow: hidden;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.photo-item img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.photo-item .remove-btn {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	background: rgba(255, 68, 68, 0.8);
+	color: white;
+	border: none;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	opacity: 0;
+	transition: opacity 0.2s;
+	font-size: 14px;
+	line-height: 1;
+}
+
+.photo-item:hover .remove-btn {
+	opacity: 1;
+}
+
+/* Стиль для пустого слота */
+.add-photo-slot {
+	border: 2px dashed #e0e0e0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	background-color: #f9f9f9;
+}
+
+.add-photo-slot:hover {
+	border-color: #4285f4;
+	background: rgba(66, 133, 244, 0.05);
+}
+
+.add-photo-btn {
+	font-size: 2rem;
+	color: #4285f4;
+	font-weight: bold;
+}
+
+.hidden-input {
+	display: none;
+}
+
+/* Кнопки формы */
+.form-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid #e0e0e0;
+	margin-top: 1rem;
+}
+
+.cancel-btn,
+.submit-btn {
+	padding: 0.75rem 1.5rem;
+	border-radius: 4px;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.2s;
+	font-size: 1rem;
+}
+
+.cancel-btn {
+	background: white;
+	border: 1px solid #e0e0e0;
+	color: #333;
+}
+
+.cancel-btn:hover {
+	background: #f5f5f5;
+}
+
+.submit-btn {
+	background: #4285f4;
+	color: white;
+	border: none;
+}
+
+.submit-btn:hover:not(:disabled) {
+	background: #3367d6;
+}
+
+.submit-btn:disabled {
+	background: #cccccc;
+	cursor: not-allowed;
+	opacity: 0.7;
+}

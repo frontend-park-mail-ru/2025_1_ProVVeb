@@ -76,10 +76,10 @@ class Router {
 					this.feedPage.rerender();
 					this.feedPage.getNavMenu().setActiveLink('feed');
 					break;
-				case AppPage.Profile:
-					this.root.classList.remove('greeting');
-					this.profilePage.rerender();
-					break;
+				// case AppPage.Profile:
+				// 	this.root.classList.remove('greeting');
+				// 	this.profilePage.rerender();
+				// 	break;
 				case AppPage.Matches:
 					this.root.classList.remove('greeting');
 					this.matchesPage.rerender();
@@ -87,8 +87,8 @@ class Router {
 					break;
 				case AppPage.Settings:
 					this.root.classList.remove('greeting');
-					this.emptyPage.rerender();
-					this.emptyPage.getNavMenu().setActiveLink('settings');
+					this.profilePage.rerender();
+					this.profilePage.getNavMenu().setActiveLink('settings');
 					break;
 				case AppPage.Search:
 					this.root.classList.remove('greeting');
@@ -99,17 +99,17 @@ class Router {
 					this.root.classList.remove('greeting');
 					this.emptyPage.rerender();
 					this.emptyPage.getNavMenu().setActiveLink('messenger');
-					break;	
+					break;
 				case AppPage.Security:
 					this.root.classList.remove('greeting');
 					this.emptyPage.rerender();
 					this.emptyPage.getNavMenu().setActiveLink('security');
-					break;	
+					break;
 				case AppPage.Shop:
 					this.root.classList.remove('greeting');
 					this.emptyPage.rerender();
 					this.emptyPage.getNavMenu().setActiveLink('shop');
-					break;			
+					break;
 				default:
 					alert('Такой страницы нет. Перенаправляю на логин');
 					this.loginPage.rerender();

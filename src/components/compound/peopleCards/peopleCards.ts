@@ -10,9 +10,6 @@ interface Listener {
 	callback: () => void;
 }
 
-const currentYear = new Date().getFullYear();
-const ageMajority = 18;
-
 export default class PeopleCards extends BaseComponent {
 	private currentIndex: number;
 	private CARDS: Profile[];
@@ -76,7 +73,7 @@ export default class PeopleCards extends BaseComponent {
 			this.parentElement,
 			{
 				personName: this.CARDS[this.currentIndex].firstName,
-				personAge: currentYear - (parseBirthday(this.CARDS[this.currentIndex].birthday)?.year ?? ageMajority),
+				personAge: parseBirthday(this.CARDS[this.currentIndex].birthday)?.year ?? '≥ 18',
 				personDescription: this.CARDS[this.currentIndex].description,
 				srcPersonPicture: this.CARDS[this.currentIndex].card !== api.BASE_URL
 					? this.CARDS[this.currentIndex].card

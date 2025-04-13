@@ -24,71 +24,31 @@ interface LinkConfig {
 }
 
 const uniqId = '_navMenu'
+const colorOnSelect = '#1a73e8'
 
 const LINKS: LinkConfig[] = [
 	{
 		title: 'Лента',
 		srcIcon: 'media/navMenu/fire.svg',
-		srcIconHover: 'media/navMenu/fire_active.svg',
+		srcIconHover: 'media/navMenu/active/fire_gradient.svg',
 		id: 'feed' + uniqId,
 		listener: {
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				// const targetElement = event.currentTarget as HTMLElement;
-				// const img = targetElement.querySelector('img');
-				
-				// if (img) {
-				// 	img.src = 'media/navMenu/fire_active.svg'; 
-				// 	console.log(img);
-				// }
-
-				// targetElement.style.color = '#FE3675';
-				// (store.getState("currentPage") as string[]).push("fire");
 				console.log('fire');
-			},
-		},
-	},
-	{
-		title: 'Настройки',
-		srcIcon: 'media/navMenu/settings.svg',
-		srcIconHover: 'media/navMenu/settings_active.svg',
-		id: 'settings' + uniqId,
-		listener: {
-			eventType: 'click',
-			selector: '#{id}',
-			callback: (event) => {
-				// const targetElement = event.currentTarget as HTMLElement;
-				// const img = targetElement.querySelector('img');
-				
-				// if (img) {
-				// 	img.src = 'media/navMenu/settings_active.svg'; 
-				// }
-
-				// targetElement.style.color = '#FE3675';
-				// (store.getState("currentPage") as string[]).push("settings");
-				console.log('settings');
 			},
 		},
 	},
 	{
 		title: 'Поиск',
 		srcIcon: 'media/navMenu/search.svg',
-		srcIconHover: 'media/navMenu/search_active.svg',
+		srcIconHover: 'media/navMenu/active/search_gradient.svg',
 		id: 'search' + uniqId,
 		listener: {
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				// const targetElement = event.currentTarget as HTMLElement;
-				// const img = targetElement.querySelector('img');
-				
-				// if (img) {
-				// 	img.src = 'media/navMenu/search_active.svg'; 
-				// }
-
-				// targetElement.style.color = '#FE3675';
-				// (store.getState("currentPage") as string[]).push("search");
 				console.log('search');
 			},
 		},
@@ -96,21 +56,12 @@ const LINKS: LinkConfig[] = [
 	{
 		title: 'Мессенджер',
 		srcIcon: 'media/navMenu/messenger.svg',
-		srcIconHover: 'media/navMenu/messenger_active.svg',
+		srcIconHover: 'media/navMenu/active/messenger_gradient.svg',
 		id: 'messenger' + uniqId,
 		listener: {
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				// const targetElement = event.currentTarget as HTMLElement;
-				// const img = targetElement.querySelector('img');
-				
-				// if (img) {
-				// 	img.src = 'media/navMenu/messenger_active.svg'; 
-				// }
-
-				// targetElement.style.color = '#FE3675';
-				// (store.getState("currentPage") as string[]).push("messenger");
 				console.log('messenger');
 			},
 		},
@@ -118,21 +69,12 @@ const LINKS: LinkConfig[] = [
 	{
 		title: 'Безопасность',
 		srcIcon: 'media/navMenu/security.svg',
-		srcIconHover: 'media/navMenu/security_active.svg',
+		srcIconHover: 'media/navMenu/active/security_gradient.svg',
 		id: 'security' + uniqId,
 		listener: {
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				// const targetElement = event.currentTarget as HTMLElement;
-				// const img = targetElement.querySelector('img');
-				
-				// if (img) {
-				// 	img.src = 'media/navMenu/security_active.svg'; 
-				// }
-
-				// targetElement.style.color = '#FE3675';
-				// (store.getState("currentPage") as string[]).push("security");
 				console.log('security');
 			},
 		},
@@ -140,21 +82,12 @@ const LINKS: LinkConfig[] = [
 	{
 		title: 'Магазин',
 		srcIcon: 'media/navMenu/shop.svg',
-		srcIconHover: 'media/navMenu/shop_active.svg',
+		srcIconHover: 'media/navMenu/active/shop_gradient.svg',
 		id: 'shop' + uniqId,
 		listener: {
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				// const targetElement = event.currentTarget as HTMLElement;
-				// const img = targetElement.querySelector('img');
-				
-				// if (img) {
-				// 	img.src = 'media/navMenu/shop_active.svg'; 
-				// }
-
-				// targetElement.style.color = '#FE3675';
-				// (store.getState("currentPage") as string[]).push("shop");
 				console.log('shop');
 			},
 		},
@@ -162,22 +95,26 @@ const LINKS: LinkConfig[] = [
 	{
 		title: 'Список мэтчей',
 		srcIcon: 'media/navMenu/feature.svg',
-		srcIconHover: 'media/navMenu/feature_active.svg',
+		srcIconHover: 'media/navMenu/active/feature_gradient.svg',
 		id: 'matches' + uniqId,
 		listener: {
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				// const targetElement = event.currentTarget as HTMLElement;
-				// const img = targetElement.querySelector('img');
-				
-				// if (img) {
-				// 	img.src = 'media/navMenu/feature_active.svg'; 
-				// }
-
-				// targetElement.style.color = '#FE3675';
-				// (store.getState("currentPage") as string[]).push("feature");
 				console.log('feature');
+			},
+		},
+	},
+	{
+		title: 'Настройки',
+		srcIcon: 'media/navMenu/settings.svg',
+		srcIconHover: 'media/navMenu/active/settings_gradient.svg',
+		id: 'settings' + uniqId,
+		listener: {
+			eventType: 'click',
+			selector: '#{id}',
+			callback: (event) => {
+				console.log('settings');
 			},
 		},
 	},
@@ -191,15 +128,15 @@ export default class NavMenu extends BaseComponent {
 
 		LINKS.forEach((link) => {
 			// const element = document.querySelector(`#${link.id}`) as HTMLElement;
-      		// const img = element.querySelector('img') as HTMLImageElement;
+			// const img = element.querySelector('img') as HTMLImageElement;
 
-      		// element.addEventListener('mouseenter', () => {
-        	// 	img.src = link.srcIconHover;
-      		// });
+			// element.addEventListener('mouseenter', () => {
+			// 	img.src = link.srcIconHover;
+			// });
 
-      		// element.addEventListener('mouseleave', () => {
-        	// 	img.src = link.srcIcon;
-      		// });
+			// element.addEventListener('mouseleave', () => {
+			// 	img.src = link.srcIcon;
+			// });
 
 			this.addListener(
 				'mouseenter',
@@ -217,7 +154,7 @@ export default class NavMenu extends BaseComponent {
 				'mouseleave',
 				link.listener.selector.replace('#{id}', `#${link.id}`),
 				(event) => {
-					if((store.getState("currentPage") as string[]).at(-1) == link.id.split("_")[0])
+					if ((store.getState("currentPage") as string[]).at(-1) == link.id.split("_")[0])
 						return;
 					const targetElement = event.currentTarget as HTMLElement;
 					const img = targetElement.querySelector('img');
@@ -225,7 +162,7 @@ export default class NavMenu extends BaseComponent {
 						img.src = link.srcIcon;
 					}
 					targetElement.style.color = '#000';
-		
+
 				}
 			);
 
@@ -234,22 +171,10 @@ export default class NavMenu extends BaseComponent {
 				link.listener.eventType,
 				link.listener.selector.replace('#{id}', `#${link.id}`),
 				(event) => {
-					// const targetElement = event.currentTarget as HTMLElement;
-					
-					// this.resetAllLinks();
-			  
-					// // Устанавливаем активное состояние текущему пункту
-					// targetElement.style.color = '#FE3675';
-					// const img = targetElement.querySelector('img');
-					// if (img) img.src = link.srcIconHover;
-					
-					// // Обновляем состояние в store
-					// (store.getState("currentPage") as string[]).push(link.id.split("_")[0]);
 					router.navigateTo(link.id.split("_")[0] as AppPage);
-					
-					// Вызываем оригинальный callback если нужно
-					link.listener.callback(event);
-				  }
+
+					link.listener.callback(event); // Вызываем оригинальный callback если нужно
+				}
 			);
 		});
 	}
@@ -258,26 +183,26 @@ export default class NavMenu extends BaseComponent {
 		this.resetAllLinks();
 
 		const activeLink = LINKS.find(link => link.id.startsWith(linkID + uniqId));
-        if (!activeLink) return;
+		if (!activeLink) return;
 
-        const element = document.querySelector(`#${activeLink.id}`) as HTMLElement;
-        if (!element) return;
+		const element = document.querySelector(`#${activeLink.id}`) as HTMLElement;
+		if (!element) return;
 
-        const img = element.querySelector('img');
-        
-        element.style.color = '#FE3675';
-        if (img) img.src = activeLink.srcIconHover;
+		const img = element.querySelector('img');
 
-        (store.getState("currentPage") as string[]).push(linkID);
+		element.style.color = '#FE3675';
+		if (img) img.src = activeLink.srcIconHover;
+
+		(store.getState("currentPage") as string[]).push(linkID);
 	}
 
 	private resetAllLinks(): void {
 		LINKS.forEach((otherLink) => {
 			const otherElement = document.querySelector(`#${otherLink.id}`) as HTMLElement;
 			if (otherElement) {
-			  otherElement.style.color = '#000';
-			  const otherImg = otherElement.querySelector('img');
-			  if (otherImg) otherImg.src = otherLink.srcIcon;
+				otherElement.style.color = '#000';
+				const otherImg = otherElement.querySelector('img');
+				if (otherImg) otherImg.src = otherLink.srcIcon;
 			}
 		});
 	}
