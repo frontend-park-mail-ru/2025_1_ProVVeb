@@ -74,7 +74,8 @@ class Router {
 		try {
 			if (!this.isChecked) {
 				const sessionResult = await api.checkSession();
-
+				console.log('sessionResult', sessionResult);
+				console.log('4', 4);
 				if (sessionResult.success && sessionResult.data.InSession) {
 					store.setState('myID', sessionResult.data.id);
 					this.root.classList.remove('greeting');
