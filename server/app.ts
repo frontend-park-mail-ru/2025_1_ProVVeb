@@ -5,6 +5,7 @@ const app: Express = express();
 
 app.use('/', express.static(path.resolve(__dirname, '../src')));
 app.use('/', express.static(path.resolve(__dirname, '../node_modules')));
+// app.use('/', express.static(path.resolve(__dirname, '../dist')));
 
 const port: number = 8000;
 

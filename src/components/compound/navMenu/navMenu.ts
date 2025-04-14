@@ -106,7 +106,7 @@ const LINKS: LinkConfig[] = [
 		},
 	},
 	{
-		title: 'Настройки',
+		title: 'Мои данные',
 		srcIcon: 'media/navMenu/settings.svg',
 		srcIconHover: 'media/navMenu/active/settings_gradient.svg',
 		id: 'settings' + uniqId,

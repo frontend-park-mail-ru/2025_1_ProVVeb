@@ -76,18 +76,11 @@ class Router {
 				this.isChecked = true;
 
 				const sessionResult = await api.checkSession();
-				console.log('sessionResult', sessionResult);
-				console.log('4', 4);
-				console.log('sessionResult.success', sessionResult.success)
-				console.log('sessionResult.data.inSession', sessionResult.data.inSession)
 				if (sessionResult.success && sessionResult.data.inSession) {
-					console.log('5', 5);
-					console.log('sessionResult.success', sessionResult.success)
 					store.setState('myID', sessionResult.data.id);
 					store.setState('isSession', true);
 					// this.root.classList.remove('greeting');
 					// this.feedPage.rerender();
-					console.log('6', 6);
 					return true;
 				}
 			}

@@ -35,10 +35,15 @@ export default {
 	},
 	entry: {
 		app: ['./src/index.ts'],
+		sw: {
+			import: './src/sw.ts',
+			filename: 'sw.js' // Фиксированное имя для Service Worker
+		}
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		filename: '[name].[contenthash].js',
+		chunkFilename: '[name].[contenthash].js', // Фиксированное имя для Service Worker
 		publicPath: '/',
 		clean: true,
 	},
