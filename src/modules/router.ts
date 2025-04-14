@@ -20,7 +20,7 @@ enum AppPage {
 	Shop = 'shop',
 }
 
-interface PathStructure{
+interface PathStructure {
 	path: string;
 	callback: (state: any) => void;
 }
@@ -56,7 +56,7 @@ class Router {
 
 		window.addEventListener('popstate', (event) => {
 			const path = window.location.pathname.split('/')[1];
-      		this.navigateTo(path as AppPage, event.state, true);
+			this.navigateTo(path as AppPage, event.state, true);
 		});
 
 		this.register("feed", this.handlerFeed.bind(this));
@@ -70,42 +70,54 @@ class Router {
 		this.register("shop", this.handlerShop.bind(this));
 	}
 
-	async checkSession(): Promise<void>{
+	async checkSession(): Promise<boolean> {
 		try {
 			if (!this.isChecked) {
+				this.isChecked = true;
+
 				const sessionResult = await api.checkSession();
 				console.log('sessionResult', sessionResult);
 				console.log('4', 4);
-				if (sessionResult.success && sessionResult.data.InSession) {
+				console.log('sessionResult.success', sessionResult.success)
+				console.log('sessionResult.data.inSession', sessionResult.data.inSession)
+				if (sessionResult.success && sessionResult.data.inSession) {
+					console.log('5', 5);
+					console.log('sessionResult.success', sessionResult.success)
 					store.setState('myID', sessionResult.data.id);
-					this.root.classList.remove('greeting');
-					this.feedPage.rerender();
-					return;
+					store.setState('isSession', true);
+					// this.root.classList.remove('greeting');
+					// this.feedPage.rerender();
+					console.log('6', 6);
+					return true;
 				}
-
-				this.isChecked = true;
 			}
 		} catch (error) {
 			console.error('Ошибка при проверке сессии:', error);
 			alert('Ошибка сети. Перенаправляю на логин');
 			this.loginPage.rerender();
 		}
+
+		return false;
 	}
 
-	public register(path: string, callback: (state: any)=>void): void{
+	public register(path: string, callback: (state: any) => void): void {
 		this.PATHS.push({ path, callback });
 	}
 
-	public async renderPage(path: string, state={}){
-		await this.checkSession();
-
-		this.PATHS.forEach(data => {
-			if(data.path == path) data.callback(state);
-		})
+	public async renderPage(path: string, state = {}) {
+		if (await this.checkSession()) {
+			this.PATHS.forEach(data => {
+				if (data.path == AppPage.Feed) data.callback(state);
+			})
+		} else {
+			this.PATHS.forEach(data => {
+				if (data.path == path) data.callback(state);
+			})
+		}
 	}
 
-	public async navigateTo(page: AppPage, state: any = {}, isReplace = false): Promise<void>{
-		if(isReplace)
+	public async navigateTo(page: AppPage, state: any = {}, isReplace = false): Promise<void> {
+		if (isReplace)
 			window.history.replaceState(state, '', page);
 		else
 			window.history.pushState(state, '', page);
@@ -116,136 +128,57 @@ class Router {
 		store.update('ava');
 	}
 
-	private handlerAuth(state: any): void{
+	private handlerAuth(state: any): void {
 		this.root.classList.add('greeting');
 		this.authPage.rerender();
 	}
 
-	private handlerLogin(state: any): void{
+	private handlerLogin(state: any): void {
 		this.root.classList.add('greeting');
 		this.loginPage.rerender();
 	}
 
-	private handlerFeed(state: any): void{
+	private handlerFeed(state: any): void {
 		this.root.classList.remove('greeting');
 		this.feedPage.rerender();
 		this.feedPage.getNavMenu().setActiveLink('feed');
 	}
-	
-	private handlerMatches(state: any): void{
+
+	private handlerMatches(state: any): void {
 		this.root.classList.remove('greeting');
 		this.matchesPage.rerender();
 		this.matchesPage.getNavMenu().setActiveLink('matches');
 	}
 
-	private handlerSettings(state: any): void{
+	private handlerSettings(state: any): void {
 		this.root.classList.remove('greeting');
 		this.profilePage.rerender();
 		this.profilePage.getNavMenu().setActiveLink('settings');
 	}
 
-	private handlerSearch(state: any): void{
+	private handlerSearch(state: any): void {
 		this.root.classList.remove('greeting');
 		this.emptyPage.rerender();
 		this.emptyPage.getNavMenu().setActiveLink('search');
 	}
 
-	private handlerMessenger(state: any): void{
+	private handlerMessenger(state: any): void {
 		this.root.classList.remove('greeting');
 		this.emptyPage.rerender();
 		this.emptyPage.getNavMenu().setActiveLink('messenger');
 	}
 
-	private handlerSecurity(state: any): void{
+	private handlerSecurity(state: any): void {
 		this.root.classList.remove('greeting');
 		this.emptyPage.rerender();
 		this.emptyPage.getNavMenu().setActiveLink('security');
 	}
 
-	private handlerShop(state: any): void{
+	private handlerShop(state: any): void {
 		this.root.classList.remove('greeting');
 		this.emptyPage.rerender();
 		this.emptyPage.getNavMenu().setActiveLink('shop');
 	}
-
-	// async navigateTo(page: AppPage): Promise<void> {
-	// 	try {
-	// 		if (!this.isChecked) {
-	// 			const sessionResult = await api.checkSession();
-
-	// 			if (sessionResult.success && sessionResult.data.InSession) {
-	// 				store.setState('myID', sessionResult.data.id);
-	// 				this.root.classList.remove('greeting');
-	// 				this.feedPage.rerender();
-	// 				return;
-	// 			}
-
-	// 			this.isChecked = true;
-	// 		}
-
-
-	// 		switch (page) {
-	// 			case AppPage.Auth:
-	// 				this.root.classList.add('greeting');
-	// 				this.authPage.rerender();
-	// 				break;
-	// 			case AppPage.Login:
-	// 				this.root.classList.add('greeting');
-	// 				this.loginPage.rerender();
-	// 				break;
-	// 			case AppPage.Feed:
-	// 				this.root.classList.remove('greeting');
-	// 				this.feedPage.rerender();
-	// 				this.feedPage.getNavMenu().setActiveLink('feed');
-	// 				break;
-	// 			// case AppPage.Profile:
-	// 			// 	this.root.classList.remove('greeting');
-	// 			// 	this.profilePage.rerender();
-	// 			// 	break;
-	// 			case AppPage.Matches:
-	// 				this.root.classList.remove('greeting');
-	// 				this.matchesPage.rerender();
-	// 				this.matchesPage.getNavMenu().setActiveLink('matches');
-	// 				break;
-	// 			case AppPage.Settings:
-	// 				this.root.classList.remove('greeting');
-	// 				this.profilePage.rerender();
-	// 				this.profilePage.getNavMenu().setActiveLink('settings');
-	// 				break;
-	// 			case AppPage.Search:
-	// 				this.root.classList.remove('greeting');
-	// 				this.emptyPage.rerender();
-	// 				this.emptyPage.getNavMenu().setActiveLink('search');
-	// 				break;
-	// 			case AppPage.Messenger:
-	// 				this.root.classList.remove('greeting');
-	// 				this.emptyPage.rerender();
-	// 				this.emptyPage.getNavMenu().setActiveLink('messenger');
-	// 				break;
-	// 			case AppPage.Security:
-	// 				this.root.classList.remove('greeting');
-	// 				this.emptyPage.rerender();
-	// 				this.emptyPage.getNavMenu().setActiveLink('security');
-	// 				break;
-	// 			case AppPage.Shop:
-	// 				this.root.classList.remove('greeting');
-	// 				this.emptyPage.rerender();
-	// 				this.emptyPage.getNavMenu().setActiveLink('shop');
-	// 				break;
-	// 			default:
-	// 				alert('Такой страницы нет. Перенаправляю на логин');
-	// 				this.loginPage.rerender();
-	// 		}
-
-	// 		store.update('profileName');
-	// 		store.update('ava');
-
-	// 	} catch (error) {
-	// 		console.error('Ошибка при проверке сессии:', error);
-	// 		alert('Ошибка сети. Перенаправляю на логин');
-	// 		this.loginPage.rerender();
-	// 	}
-	// }
 }
 
 const router = new Router();

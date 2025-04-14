@@ -1,5 +1,5 @@
 // const BASE_URL = 'http://213.219.214.83:8080';
-const BASE_URL = 'http://localhost:8080/';
+const BASE_URL = 'http://localhost:8080';
 
 interface ApiResponse<T = any> {
 	success: boolean;
