@@ -6,8 +6,8 @@
 		</div>
 		{{else if isError}}
 		<div class="profileInfo__error">
-			<p class="profile-error-message">{{ errorMessage }}</p>
-			<button class="profile-retry-button">Попробовать снова</button>
+			<p class="uploadPhotos__errorMessage">{{ errorMessage }}</p>
+			<button class="uploadPhotos__retryBtn">Попробовать снова</button>
 		</div>
 		{{else}}
 		<div class="profileInfo__firstInfo firstInfo">
@@ -38,26 +38,26 @@
 				{{/each}}
 			</div>
 		</section>
-		<section class="profileInfo__pictures pictures">
-			<h3 class="pictures__title">{{ picturesTitle }}</h3>
-			<form id="photoUploadForm" class="pictures__form">
-				<div id="photosGrid" class="photos-grid">
+		<section class="profileInfo__pictures uploadPhotos">
+			<h3 class="uploadPhotos__title">{{ picturesTitle }}</h3>
+			<form id="uploadPhotos__from">
+				<div id="photosGridId" class="photosGrid">
 					{{#each photos}}
 					{{#if this}}
-					<div class="photo-item" data-id="{{this.id}}">
+					<div class="photosGrid__item" data-id="{{this.id}}">
 						<img src="{{this.src}}" alt="Фото профиля">
-						<button type="button" class="remove-btn" title="Удалить">×</button>
+						<button type="button" class="uploadPhotos__removePhotoBtn" title="Удалить">×</button>
 					</div>
 					{{else}}
-					<div class="photo-item add-photo-slot">
-						<div class="add-photo-btn" title="Добавить фото">+</div>
+					<div class="photosGrid__item emptyPhotoSlot">
+						<div class="uploadPhotos__addPhotoBtn" title="Добавить фото">+</div>
 					</div>
 					{{/if}}
 					{{/each}}
 				</div>
-				<div class="photo-controls">
-					<button type="button" class="cancel-btn">Отмена</button>
-					<button type="submit" class="submit-btn" disabled>Сохранить</button>
+				<div class="uploadPhotos__controls">
+					<button type="button" class="uploadPhotos__cancelBtn">Отмена</button>
+					<button type="submit" class="uploadPhotos__submitBtn" disabled>Сохранить</button>
 				</div>
 			</form>
 		</section>
