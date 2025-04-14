@@ -92,8 +92,18 @@ async function checkSession(): Promise<ApiResponse> {
 
 //-----------------getMatches
 async function getMatches(userId: number): Promise<ApiResponse<Profile[]>> {
-	const url = `${BASE_URL}/profiles?forUser=${userId}`; //<---- ТУТ ИСПРАВИТЬ РУЧКУ
+	const url = `${BASE_URL}/profiles/match/${userId}`; 
 	return sendRequest(url, 'GET');
+}
+
+async function Like(LikeFrom: string, LikedBy: string): Promise<ApiResponse> {
+	const url = `${BASE_URL}/profiles/like`;
+	return sendRequest(url, 'POST', { LikeFrom, LikedBy, "1": String });
+}
+
+async function Dilike(LikeFrom: string, LikedBy: string): Promise<ApiResponse> {
+	const url = `${BASE_URL}/profiles/like`;
+	return sendRequest(url, 'POST', { LikeFrom, LikedBy, "-1": String });
 }
 //-----------------
 
@@ -107,4 +117,6 @@ export default {
 	deleteUser,
 	checkSession,
 	getMatches,
+	Like,
+	Dilike,
 };

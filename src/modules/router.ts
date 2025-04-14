@@ -78,9 +78,16 @@ class Router {
 				const sessionResult = await api.checkSession();
 				if (sessionResult.success && sessionResult.data.inSession) {
 					store.setState('myID', sessionResult.data.id);
-					store.setState('isSession', true);
-					// this.root.classList.remove('greeting');
-					// this.feedPage.rerender();
+
+					await router.navigateTo(AppPage.Feed);
+
+					const data = await api.getProfile(sessionResult.data.id);
+					const ava = data?.data?.avatar;
+					const name = data?.data?.lastName + " " + data?.data?.firstName;
+
+					if (ava) store.setState('ava', ava);
+					if (name) store.setState('profileName', name);
+
 					return true;
 				}
 			}
@@ -98,15 +105,11 @@ class Router {
 	}
 
 	public async renderPage(path: string, state = {}) {
-		if (await this.checkSession()) {
-			this.PATHS.forEach(data => {
-				if (data.path == AppPage.Feed) data.callback(state);
-			})
-		} else {
-			this.PATHS.forEach(data => {
-				if (data.path == path) data.callback(state);
-			})
-		}
+		if (await this.checkSession()) return;
+		
+		this.PATHS.forEach(data => {
+			if (data.path == path) data.callback(state);
+		})
 	}
 
 	public async navigateTo(page: AppPage, state: any = {}, isReplace = false): Promise<void> {
