@@ -92,7 +92,7 @@ async function checkSession(): Promise<ApiResponse> {
 
 //-----------------getMatches
 async function getMatches(userId: number): Promise<ApiResponse<Profile[]>> {
-	const url = `${BASE_URL}/profiles/match/${userId}`; 
+	const url = `${BASE_URL}/profiles/match/${userId}`;
 	return sendRequest(url, 'GET');
 }
 
