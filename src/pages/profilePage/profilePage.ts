@@ -29,7 +29,7 @@ export default class ProfilePage extends BasePage {
 			this.components[i].render();
 		}
 
-		this.contentWrapper.style.border = '1px solid blue'; // Уберите это в продакшене
+		// this.contentWrapper.style.border = '1px solid blue'; // Уберите это в продакшене
 	}
 
 	public getNavMenu(): NavMenu {

@@ -29,10 +29,10 @@ export default class FeedPage extends BasePage {
 			this.components[i].render();
 		}
 
-		this.contentWrapper.style.border = '1px solid red'; // Уберите это в продакшене
+		// this.contentWrapper.style.border = '1px solid red'; // Уберите это в продакшене
 	}
 
-	public getNavMenu() : NavMenu{
+	public getNavMenu(): NavMenu {
 		return this.components[1] as NavMenu;
 	}
 }
