@@ -87,10 +87,10 @@ export default class PeopleCards extends BaseComponent {
 
 	private handleDislike(): void {
 		//---------------
-		const LikeFrom : string = (store.getState('myID') as number).toString();
-		const LikedBy: string = (this.CARDS[this.currentIndex].profileId).toString();
-		console.log('Тык дизлайк', LikeFrom, LikedBy);
-		api.Dilike(LikeFrom, LikedBy);
+		const likeFrom = store.getState('myID') as number;
+		const likedBy = this.CARDS[this.currentIndex].profileId;
+		console.log('Тык дизлайк', likeFrom, likedBy);
+		api.Dilike(likeFrom, likedBy);
 		//---------------
 
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
@@ -99,10 +99,10 @@ export default class PeopleCards extends BaseComponent {
 
 	private handleLike(): void {
 		//---------------
-		const LikeFrom : string = (store.getState('myID') as number).toString();
-		const LikedBy: string = (this.CARDS[this.currentIndex].profileId).toString();
-		console.log('Тык лайк', LikeFrom, LikedBy);
-		api.Like(LikeFrom, LikedBy);
+		const likeFrom = store.getState('myID') as number;
+		const likedBy = this.CARDS[this.currentIndex].profileId;
+		console.log('Тык лайк', likeFrom, likedBy);
+		api.Like(likeFrom, likedBy);
 		//---------------
 
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;

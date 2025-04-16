@@ -82,8 +82,8 @@ class Router {
 					await router.navigateTo(AppPage.Feed);
 
 					const data = await api.getProfile(sessionResult.data.id);
-					const ava = data?.data?.avatar;
-					const name = data?.data?.lastName + " " + data?.data?.firstName;
+					const ava = api.BASE_URL_PHOTO + data?.data?.photos[0];
+					const name = data?.data?.firstName + ' ' + data?.data?.lastName;
 
 					if (ava) store.setState('ava', ava);
 					if (name) store.setState('profileName', name);
@@ -106,7 +106,7 @@ class Router {
 
 	public async renderPage(path: string, state = {}) {
 		if (await this.checkSession()) return;
-		
+
 		this.PATHS.forEach(data => {
 			if (data.path == path) data.callback(state);
 		})
