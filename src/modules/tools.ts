@@ -16,3 +16,11 @@ export function parseBirthday(dateStr: string): { year: number; month: number; d
 		return null;
 	}
 }
+
+export function arraysEqual(a1: (string | undefined)[], a2: (string | undefined)[]): boolean {
+	if (a1.length !== a2.length) return false;
+	for (let i = 0; i < a1.length; i++) {
+		if (a1[i] !== a2[i]) return false;
+	}
+	return true;
+}

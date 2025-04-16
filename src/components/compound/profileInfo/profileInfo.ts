@@ -3,10 +3,9 @@ import templateHBS from './profileInfo.hbs';
 import api from '@network';
 import store from '@store';
 import { parseBirthday } from '@modules/tools';
+import { arraysEqual } from '@modules/tools';
 
 interface ProfileInfoParams {
-	srcPictureError: string;
-	srcPicture: string;
 	firstName: string;
 	lastName: string;
 	age: number | '≥ 18';
@@ -25,8 +24,6 @@ interface ProfileInfoParams {
 }
 
 const DEFAULT_PARAMS_PROFILE_INFO: ProfileInfoParams = {
-	srcPictureError: 'media/error/400x600.jpg',
-	srcPicture: '',
 	firstName: 'Имя',
 	lastName: 'Фамилия',
 	age: 16,
@@ -59,7 +56,7 @@ export default class ProfileInfoCard extends BaseComponent {
 	private initialParams: Partial<ProfileInfoParams>;
 	private retryCallback: (() => void) | null;
 	private currentPhotos: Array<{ id: number; src: string } | null>;
-	private initialPhotoFromData: { id: number; src: string } | null = null;
+	private initialPhotosFromData: Array<{ id: number; src: string }> = [];
 
 	constructor(
 		parentElement: HTMLElement,
@@ -73,7 +70,7 @@ export default class ProfileInfoCard extends BaseComponent {
 		this.callbacks = callbacks;
 		this.initialParams = paramsHBS;
 		this.retryCallback = null;
-		this.currentPhotos = Array(6).fill(null);
+		this.currentPhotos = Array(DEFAULT_PARAMS_PROFILE_INFO.maxPhotos).fill(null);
 	}
 
 	private replaceContent(newHTML: string): void {
@@ -203,23 +200,20 @@ export default class ProfileInfoCard extends BaseComponent {
 		const cancelBtn = this.parentElement.querySelector('.uploadPhotos__cancelBtn');
 		if (cancelBtn) {
 			cancelBtn.addEventListener('click', () => {
-				const hasChanges = !this.currentPhotos.every((photo, index) => {
-					if (index === 0 && this.initialPhotoFromData) {
-						return photo?.src === this.initialPhotoFromData.src;
-					}
-
-					return photo === null;
-				});
+				const hasChanges = !arraysEqual(
+					this.currentPhotos.map(p => p?.src),
+					this.initialPhotosFromData.map(p => p.src)
+				);
 
 				if (hasChanges) {
-					if (confirm('Вы уверены, что хотите отменить все изменения? Все добавленные фотографии будут удалены')) {
-						this.currentPhotos = Array(6).fill(null);
-						if (this.initialPhotoFromData) {
-							this.currentPhotos[0] = { ...this.initialPhotoFromData };
+					if (confirm('Вы уверены, что хотите отменить все изменения?' +
+						'Все добавленные фотографии будут удалены')) {
+						this.currentPhotos = [...this.initialPhotosFromData];
+						while (this.currentPhotos.length < DEFAULT_PARAMS_PROFILE_INFO.maxPhotos) {
+							this.currentPhotos.push(null);
 						}
-
 						this.renderPhotos();
-						alert('Все изменения отменены. Возвращено исходное состояние.');
+						alert('Все изменения отменены. Возвращено исходное состояние');
 					}
 				} else {
 					alert('Нет изменений для отмены');
@@ -229,17 +223,29 @@ export default class ProfileInfoCard extends BaseComponent {
 
 		const uploadPhotosFrom = this.parentElement.querySelector('#uploadPhotos__from');
 		if (uploadPhotosFrom) {
-			uploadPhotosFrom.addEventListener('submit', (e) => {
+			uploadPhotosFrom.addEventListener('submit', async (e) => {
 				e.preventDefault();
-				const photos = this.currentPhotos.filter(p => p !== null);
+				const photos = this.currentPhotos.filter(p => p !== null) as { id: number, src: string }[];
 
 				if (photos.length === 0) {
 					alert('Должна быть хотя бы одна фотография!');
 					return;
 				}
 
-				console.log('Фотографии для сохранения:', photos);
-				alert(`Сохранено ${photos.length} фотографий`);
+				// console.log('Фотографии для сохранения:', photos);
+				const newPhotos = photos.filter(photo => !photo.src.startsWith('http'));
+				console.log('newPhoto', newPhotos)
+				const response = await api.uploadPhotos(store.getState('myID') as number, newPhotos);
+				console.log('API response:', response);
+
+				if (response.success && response.data) {
+					console.log('Profile data loaded:', response.data);
+					// this.updateTemplate(response.data);
+					alert(`Сохранено ${photos.length} фотографий`);
+				} else {
+					this.showErrorState('Ошибка загрузки профиля', () => this.render());
+					alert(`Ошибка при сохранении фотографий`);
+				}
 			});
 		}
 	}
@@ -251,18 +257,21 @@ export default class ProfileInfoCard extends BaseComponent {
 			? `${String(day).padStart(2, '0')}.${String(month).padStart(2, '0')}.${currentYear - year}`
 			: 'Не указан';
 
-		if (data.card && !this.initialPhotoFromData) {
-			this.initialPhotoFromData = {
+		if (data.photos && data.photos.length > 0 && this.initialPhotosFromData.length === 0) {
+			this.initialPhotosFromData = data.photos.map((photo: string, index: number) => ({
 				id: Date.now(),
-				src: data.card // <- теперь data.card это массив profileImageFiles
-			};
-			this.currentPhotos[0] = this.initialPhotoFromData;
+				src: api.BASE_URL_PHOTO + photo
+			}));
+
+			this.currentPhotos = [
+				...this.initialPhotosFromData,
+				...Array(DEFAULT_PARAMS_PROFILE_INFO.maxPhotos - this.initialPhotosFromData.length).fill(null)
+			].slice(0, DEFAULT_PARAMS_PROFILE_INFO.maxPhotos);
 		}
 
 		const templateParams: ProfileInfoParams = {
 			...DEFAULT_PARAMS_PROFILE_INFO,
 			...this.initialParams,
-			srcPicture: data.card, // <- теперь data.card это массив profileImageFiles
 			firstName: data.firstName,
 			lastName: data.lastName,
 			age: year ?? '≥ 18',
@@ -276,7 +285,7 @@ export default class ProfileInfoCard extends BaseComponent {
 			],
 			isLoading: false,
 			isError: false,
-			photos: this.currentPhotos // <- теперь data.card это массив profileImageFiles
+			photos: this.currentPhotos
 		};
 
 		this.replaceContent(templateHBS(templateParams));
@@ -337,10 +346,8 @@ export default class ProfileInfoCard extends BaseComponent {
 			}
 
 			const response = await api.getProfile(userId as number);
-			console.log('API response:', response);
 
 			if (response.success && response.data) {
-				console.log('Profile data loaded:', response.data);
 				this.updateTemplate(response.data);
 			} else {
 				this.showErrorState('Ошибка загрузки профиля', () => this.render());

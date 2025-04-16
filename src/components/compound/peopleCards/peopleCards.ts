@@ -75,8 +75,8 @@ export default class PeopleCards extends BaseComponent {
 				personName: this.CARDS[this.currentIndex].firstName,
 				personAge: parseBirthday(this.CARDS[this.currentIndex].birthday)?.year ?? '≥ 18',
 				personDescription: this.CARDS[this.currentIndex].description,
-				srcPersonPicture: this.CARDS[this.currentIndex].card !== api.BASE_URL
-					? this.CARDS[this.currentIndex].card
+				srcPersonPicture: this.CARDS[this.currentIndex].photos.length !== 0
+					? api.BASE_URL_PHOTO + this.CARDS[this.currentIndex].photos[0]
 					: '',
 			},
 			LISTENERS_ACTION_BTNS,

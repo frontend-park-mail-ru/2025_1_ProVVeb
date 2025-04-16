@@ -1,3 +1,4 @@
+const BASE_URL_PHOTO = 'http://213.219.214.83:8030/profile-photos';
 const BASE_URL = 'http://213.219.214.83:8080';
 // const BASE_URL = 'http://localhost:8080';
 
@@ -7,36 +8,54 @@ interface ApiResponse<T = any> {
 	message?: string;
 }
 
-// interface Birthday {
-// 	year: number;
-// 	month: number;
-// 	day: number;
-// }
-
 export interface Profile {
 	profileId: number;
 	firstName: string;
 	lastName: string;
-	description: string;
-	card: string;
+	isMale: boolean;
+	height: number;
 	birthday: string;
-	interests?: string[];
-	avatar?: string;
+	description: string;
+	location: string;
+	interests: string[];
+	likedBy: number[];
+	photos: string[];
+	preferences: { [key: string]: string; };
 }
 
-async function sendRequest<T>(url: string, method: string, data: object | null = null): Promise<ApiResponse<T>> {
+interface ApiResponse<T> {
+	success: boolean;
+	data?: T;
+	message?: string;
+}
+
+async function sendRequest<T>(
+	url: string,
+	method: string,
+	data: object | FormData | null = null,
+	isMultipart: boolean = false
+): Promise<ApiResponse<T>> {
 	try {
 		const options: RequestInit = {
 			method,
-			mode: 'cors',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json'
-			}
+			mode: "cors",
+			credentials: "include",
 		};
 
+		// Если передается FormData, автоматически определяем multipart
+		const isActuallyMultipart = isMultipart || data instanceof FormData;
+
 		if (data) {
-			options.body = JSON.stringify(data);
+			if (isActuallyMultipart) {
+				// Для FormData Content-Type НЕ указываем вручную, браузер сам добавит boundary
+				options.body = data instanceof FormData ? data : objectToFormData(data);
+			} else {
+				// Для JSON указываем заголовок и сериализуем данные
+				options.headers = {
+					"Content-Type": "application/json",
+				};
+				options.body = JSON.stringify(data);
+			}
 		}
 
 		const response = await fetch(url, options);
@@ -49,8 +68,62 @@ async function sendRequest<T>(url: string, method: string, data: object | null =
 		const errorText = await response.text();
 		return { success: false, message: errorText };
 	} catch (error) {
-		return { success: false, message: error instanceof Error ? error.message : String(error) };
+		return {
+			success: false,
+			message: error instanceof Error ? error.message : String(error),
+		};
 	}
+}
+
+// Вспомогательная функция для преобразования объекта в FormData
+function objectToFormData(obj: object): FormData {
+	const formData = new FormData();
+	Object.entries(obj).forEach(([key, value]) => {
+		if (value instanceof File || value instanceof Blob) {
+			formData.append(key, value);
+		} else if (Array.isArray(value)) {
+			value.forEach((item) => formData.append(key, item));
+		} else {
+			formData.append(key, String(value));
+		}
+	});
+	return formData;
+}
+
+function base64ToBlob(base64: string): Blob {
+	// Разделяем строку на части (тип MIME и данные)
+	const [mimePart, dataPart] = base64.split(';base64,');
+	const mime = mimePart.split(':')[1]; // "image/png"
+	const byteString = atob(dataPart); // Декодируем base64
+
+	// Преобразуем в ArrayBuffer
+	const arrayBuffer = new ArrayBuffer(byteString.length);
+	const uintArray = new Uint8Array(arrayBuffer);
+	for (let i = 0; i < byteString.length; i++) {
+		uintArray[i] = byteString.charCodeAt(i);
+	}
+
+	return new Blob([arrayBuffer], { type: mime });
+}
+
+
+async function uploadPhotos(
+	userId: number,
+	photos: { id: number; src: string }[]
+): Promise<ApiResponse<{ urls: string[] }>> {
+	const url = `${BASE_URL}/profiles/uploadPhoto?forUser=${userId}`;
+	const formData = new FormData();
+
+	photos.forEach((photo) => {
+		if (photo.src.startsWith('data:')) {
+			const blob = base64ToBlob(photo.src);
+			formData.append('images', blob, `image_${photo.id}.png`);
+		} else {
+			console.log(`Skipping already uploaded photo with ID: ${photo.id}`);
+		}
+	});
+
+	return sendRequest(url, 'POST', formData);
 }
 
 // Функции API
@@ -92,13 +165,25 @@ async function checkSession(): Promise<ApiResponse> {
 
 //-----------------getMatches
 async function getMatches(userId: number): Promise<ApiResponse<Profile[]>> {
-	const url = `${BASE_URL}/profiles?forUser=${userId}`; //<---- ТУТ ИСПРАВИТЬ РУЧКУ
+	const url = `${BASE_URL}/profiles/match/${userId}`;
 	return sendRequest(url, 'GET');
+}
+
+async function Like(LikeFrom: string, LikedBy: string): Promise<ApiResponse> {
+	const url = `${BASE_URL}/profiles/like`;
+	return sendRequest(url, 'POST', { LikeFrom, LikedBy, "1": String });
+}
+
+async function Dilike(LikeFrom: string, LikedBy: string): Promise<ApiResponse> {
+	const url = `${BASE_URL}/profiles/like`;
+	return sendRequest(url, 'POST', { LikeFrom, LikedBy, "-1": String });
 }
 //-----------------
 
 export default {
+	BASE_URL_PHOTO,
 	BASE_URL,
+	uploadPhotos,
 	getProfiles,
 	authUser,
 	loginUser,
@@ -107,4 +192,6 @@ export default {
 	deleteUser,
 	checkSession,
 	getMatches,
+	Like,
+	Dilike,
 };
