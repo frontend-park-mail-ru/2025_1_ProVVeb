@@ -50,7 +50,6 @@ async function sendRequest<T>(
 				// Для FormData Content-Type НЕ указываем вручную, браузер сам добавит boundary
 				options.body = data instanceof FormData ? data : objectToFormData(data);
 			} else {
-				// Для JSON указываем заголовок и сериализуем данные
 				options.headers = {
 					"Content-Type": "application/json",
 				};
@@ -75,7 +74,6 @@ async function sendRequest<T>(
 	}
 }
 
-// Вспомогательная функция для преобразования объекта в FormData
 function objectToFormData(obj: object): FormData {
 	const formData = new FormData();
 	Object.entries(obj).forEach(([key, value]) => {
@@ -124,6 +122,11 @@ async function uploadPhotos(
 	});
 
 	return sendRequest(url, 'POST', formData);
+}
+
+async function deletePhoto(userId: number, srcPhoto: string): Promise<ApiResponse> {
+	const url = `${BASE_URL}/profiles/deletePhoto?id=${userId}&file_url=${srcPhoto}`;
+	return sendRequest(url, 'DELETE');
 }
 
 // Функции API
@@ -184,6 +187,7 @@ export default {
 	BASE_URL_PHOTO,
 	BASE_URL,
 	uploadPhotos,
+	deletePhoto,
 	getProfiles,
 	authUser,
 	loginUser,

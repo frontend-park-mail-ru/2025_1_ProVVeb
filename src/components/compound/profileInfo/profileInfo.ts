@@ -57,6 +57,7 @@ export default class ProfileInfoCard extends BaseComponent {
 	private retryCallback: (() => void) | null;
 	private currentPhotos: Array<{ id: number; src: string } | null>;
 	private initialPhotosFromData: Array<{ id: number; src: string }> = [];
+	private lastUsedId = 0;
 
 	constructor(
 		parentElement: HTMLElement,
@@ -71,6 +72,10 @@ export default class ProfileInfoCard extends BaseComponent {
 		this.initialParams = paramsHBS;
 		this.retryCallback = null;
 		this.currentPhotos = Array(DEFAULT_PARAMS_PROFILE_INFO.maxPhotos).fill(null);
+	}
+
+	private generateId(): number {
+		return Number(`${Date.now()}${this.lastUsedId++}`);
 	}
 
 	private replaceContent(newHTML: string): void {
@@ -145,7 +150,7 @@ export default class ProfileInfoCard extends BaseComponent {
 
 					if (emptySlotIndex !== -1) {
 						this.currentPhotos[emptySlotIndex] = {
-							id: Date.now(),
+							id: this.generateId(),
 							src: event.target.result as string
 						};
 						this.renderPhotos();
@@ -163,23 +168,56 @@ export default class ProfileInfoCard extends BaseComponent {
 		fileInput.click();
 	}
 
-	private handleRemovePhoto(removeButton: HTMLElement): void {
-		if (confirm('Удалить эту фотографию?')) {
-			const photoItem = removeButton.closest('.photosGrid__item');
-			if (!photoItem) return;
+	private async handleRemovePhoto(removeButton: HTMLElement): Promise<void> {
+		if (!confirm('Удалить эту фотографию?')) return;
 
-			const photoId = parseInt(photoItem.getAttribute('data-id') || '0');
-			const photoIndex = this.currentPhotos.findIndex(p => p && p.id === photoId);
-			if (photoIndex !== -1) {
-				this.currentPhotos[photoIndex] = null;
-				this.currentPhotos.sort((a, b) => {
-					if (a === null) return 1;
-					if (b === null) return -1;
-					return 0;
-				});
+		if (this.currentPhotos.filter(photo => photo !== null).length === 1) {
+			alert('В профиле должна быть хотя бы одна фотография');
+			return;
+		}
 
-				this.renderPhotos();
+
+		const photoItem = removeButton.closest('.photosGrid__item');
+		if (!photoItem) return;
+
+		const imgElement = photoItem.querySelector('img');
+		if (!imgElement) {
+			alert('Фотография не найдена');
+			return;
+		}
+
+		const fullUrl = imgElement.src;
+		const fileName = '/' + fullUrl.split('/').pop();
+		console.log('srcPhoto', fileName)
+
+		try {
+			const response = await api.deletePhoto(
+				store.getState('myID') as number,
+				fileName
+			);
+
+			if (response.success && response.data) {
+				console.log('Фотография удалена:', response.data);
+				alert('Фотография успешно удалена');
+
+				// Обновляем массив фотографий
+				const photoId = parseInt(photoItem.getAttribute('data-id') as string);
+				console.log('photoId', photoId)
+				const photoIndex = this.currentPhotos.findIndex(p => p?.id === photoId);
+				console.log('this.currentPhotos', this.currentPhotos);
+				console.log('photoIndex', photoIndex)
+				if (photoIndex !== -1) {
+					this.currentPhotos[photoIndex] = null
+					this.currentPhotos.sort((a, b) => (a === null ? 1 : b === null ? -1 : 0));
+					this.renderPhotos();
+				}
+			} else {
+				alert('Неизвестная ошибка');
 			}
+		} catch (error) {
+			console.error('Ошибка при удалении фотографии:', error);
+			this.showErrorState('Ошибка удаления фотографии', () => this.render());
+			alert('Не удалось удалить фотографию');
 		}
 	}
 
@@ -259,7 +297,7 @@ export default class ProfileInfoCard extends BaseComponent {
 
 		if (data.photos && data.photos.length > 0 && this.initialPhotosFromData.length === 0) {
 			this.initialPhotosFromData = data.photos.map((photo: string, index: number) => ({
-				id: Date.now(),
+				id: this.generateId(),
 				src: api.BASE_URL_PHOTO + photo
 			}));
 
