@@ -15,7 +15,7 @@
 
 	&__interests {
 		padding-top: 13px;
-		border-top: 1px solid var(--vertical-line);
+		border-top: 1px solid var(--vertical-line); //#fe3675
 	}
 
 	&__personData {
@@ -82,6 +82,12 @@
 		padding: 5px 9px;
 		border-radius: 25px;
 		border: 2px solid var(--gray-line);
+		transition: 0.5s;
+
+		&:hover{
+			border: 2px solid #fe3675;
+			color: #fe3675;
+		}
 	}
 }
 

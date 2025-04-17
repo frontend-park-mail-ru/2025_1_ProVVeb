@@ -1,7 +1,8 @@
 @use '@styles/mixins';
 
 .formCard {
-	height: 500px;
+	margin-top: 100px;
+	height: 450px;
 	/* width: fit-content; */
 	width: 410px;
 	@include mixins.center-horizontal;
@@ -22,8 +23,17 @@
 	}
 
 	&__fields {
-		width: 252px;
+		width: 100%;
 		@include mixins.flex-column-center;
 		gap: 32px;
+	}
+	
+	&__buttonField{
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
 	}
 }
