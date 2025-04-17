@@ -18,7 +18,7 @@
 
 		&:focus+#{$block}__label,
 		&:not(:placeholder-shown)+#{$block}__label {
-			top: -15px;
+			top: -20px;
 			font-size: 12px;
 			color: var(--gray-line);
 		}

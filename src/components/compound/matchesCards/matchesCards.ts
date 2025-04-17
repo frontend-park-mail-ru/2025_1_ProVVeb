@@ -15,24 +15,25 @@ const ageMajority = 18;
 
 export default class MatchesCards extends BaseComponent {
 	private DATA: Profile[];
-	private isDataLoaded: boolean;
+	// private isDataLoaded: boolean;
 	private centralElement: HTMLElement;
 
 	constructor(parentElement: HTMLElement) {
 		super('', parentElement);
 		this.DATA = [];
-		this.isDataLoaded = false;
+		// this.isDataLoaded = false;
 
 		this.centralElement = document.createElement('div');
 		this.centralElement.className = 'mainContent__central';
 	}
 
 	private async loadData(): Promise<void> {
-		if (this.isDataLoaded)
-			return;
+		// if (this.isDataLoaded)
+		// 	return;
 		const response = await api.getMatches(store.getState('myID') as number);
 		this.DATA = response.data || [];
-		this.isDataLoaded = true;
+		console.log(this.DATA);
+		// this.isDataLoaded = true;
 	}
 
 	public async render() {
@@ -54,8 +55,8 @@ export default class MatchesCards extends BaseComponent {
 			const currentCard = new MatchesCard(
 				this.centralElement,
 				{
-					srcPersonPicture: data.card !== api.BASE_URL
-						? data.card
+					srcPersonPicture: data.photos[0] !== api.BASE_URL
+						? api.BASE_URL_PHOTO+data.photos[0]
 						: '',
 					personName: data.firstName,
 					personAge: (parseBirthday(data.birthday)?.year ?? ageMajority),

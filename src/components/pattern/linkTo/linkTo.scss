@@ -3,14 +3,14 @@
 	margin-top: 10px;
 	font-style: italic;
 	position: relative;
-	color: var(--link-color);
+	color: var(--label);
 	cursor: pointer;
 
 	&::after {
 		content: "";
 		width: 100%;
 		height: 2px;
-		background-color: var(--link-color);
+		background-color: var(--label);
 		position: absolute;
 		left: 0;
 		bottom: -2px;

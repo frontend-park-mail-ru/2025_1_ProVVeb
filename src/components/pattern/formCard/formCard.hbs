@@ -3,13 +3,15 @@
 		<div class="formCard__header">
 			{{{ progressBar }}}
 			<h2>{{ cardTitle }}</h2>
-			{{{ linkToPage }}}
 		</div>
 		<div class="formCard__fields">
 			{{#each fields}}
 			{{{ this }}}
 			{{/each}}
 		</div>
-		{{{ button }}}
+		<div class="formCard__buttonField">
+			{{{ button }}}
+			{{{ linkToPage }}}
+		</div>
 	</form>
 </div>
