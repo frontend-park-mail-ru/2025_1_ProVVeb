@@ -141,3 +141,21 @@
 		content: '.';
 	}
 }
+
+
+.photosGrid__item.new-photo {
+	box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+	position: relative;
+}
+
+.photosGrid__item.new-photo::after {
+	content: "Новое";
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	background: rgba(0, 0, 0, 0.7);
+	color: white;
+	padding: 2px 5px;
+	border-radius: 3px;
+	font-size: 12px;
+}

@@ -19,7 +19,7 @@ interface ProfileInfoParams {
 	isLoading: boolean;
 	isError: boolean;
 	errorMessage: string;
-	photos: Array<{ id: number, src: string } | null>;
+	photos: Array<{ id: number, src: string, isNew?: boolean } | null>;
 	maxPhotos: number;
 }
 
@@ -55,8 +55,8 @@ export default class ProfileInfoCard extends BaseComponent {
 	private callbacks: Callback[];
 	private initialParams: Partial<ProfileInfoParams>;
 	private retryCallback: (() => void) | null;
-	private currentPhotos: Array<{ id: number; src: string } | null>;
-	private initialPhotosFromData: Array<{ id: number; src: string }> = [];
+	private currentPhotos: Array<{ id: number; src: string; isNew?: boolean } | null>;
+	private initialPhotosFromData: Array<{ id: number; src: string; isNew?: boolean }> = [];
 	private lastUsedId = 0;
 
 	constructor(
@@ -151,7 +151,8 @@ export default class ProfileInfoCard extends BaseComponent {
 					if (emptySlotIndex !== -1) {
 						this.currentPhotos[emptySlotIndex] = {
 							id: this.generateId(),
-							src: event.target.result as string
+							src: event.target.result as string,
+							isNew: true // Помечаем как новую фотографию
 						};
 						this.renderPhotos();
 					}
@@ -169,55 +170,59 @@ export default class ProfileInfoCard extends BaseComponent {
 	}
 
 	private async handleRemovePhoto(removeButton: HTMLElement): Promise<void> {
-		if (!confirm('Удалить эту фотографию?')) return;
+		const photoItem = removeButton.closest('.photosGrid__item');
+		if (!photoItem) return;
 
-		if (this.currentPhotos.filter(photo => photo !== null).length === 1) {
+		const photoId = parseInt(photoItem.getAttribute('data-id') as string);
+		const photoIndex = this.currentPhotos.findIndex(p => p?.id === photoId);
+
+		if (photoIndex === -1) return;
+
+		const photo = this.currentPhotos[photoIndex];
+
+		if (!photo) return;
+
+		// Проверяем минимальное количество фотографий
+		if (this.currentPhotos.filter(p => p !== null).length <= 1) {
 			alert('В профиле должна быть хотя бы одна фотография');
 			return;
 		}
 
+		if (photo.isNew) {
+			// Для новых фото удаляем без подтверждения
+			this.currentPhotos[photoIndex] = null;
+			this.currentPhotos.sort((a, b) => (a === null ? 1 : b === null ? -1 : 0));
+			this.renderPhotos();
+		} else {
+			// Для фото из БД запрашиваем подтверждение
+			if (!confirm('Удалить эту фотографию с сервера?')) return;
 
-		const photoItem = removeButton.closest('.photosGrid__item');
-		if (!photoItem) return;
+			try {
+				const fullUrl = photo.src;
+				const fileName = fullUrl.split('/').pop();
 
-		const imgElement = photoItem.querySelector('img');
-		if (!imgElement) {
-			alert('Фотография не найдена');
-			return;
-		}
+				if (!fileName) {
+					alert('Не удалось определить имя файла');
+					return;
+				}
 
-		const fullUrl = imgElement.src;
-		const fileName = '/' + fullUrl.split('/').pop();
-		console.log('srcPhoto', fileName)
+				const response = await api.deletePhoto(
+					store.getState('myID') as number,
+					fileName
+				);
 
-		try {
-			const response = await api.deletePhoto(
-				store.getState('myID') as number,
-				fileName
-			);
-
-			if (response.success && response.data) {
-				console.log('Фотография удалена:', response.data);
-				alert('Фотография успешно удалена');
-
-				// Обновляем массив фотографий
-				const photoId = parseInt(photoItem.getAttribute('data-id') as string);
-				console.log('photoId', photoId)
-				const photoIndex = this.currentPhotos.findIndex(p => p?.id === photoId);
-				console.log('this.currentPhotos', this.currentPhotos);
-				console.log('photoIndex', photoIndex)
-				if (photoIndex !== -1) {
-					this.currentPhotos[photoIndex] = null
+				if (response.success && response.data) {
+					this.currentPhotos[photoIndex] = null;
 					this.currentPhotos.sort((a, b) => (a === null ? 1 : b === null ? -1 : 0));
 					this.renderPhotos();
+				} else {
+					alert('Неизвестная ошибка при удалении фотографии');
 				}
-			} else {
-				alert('Неизвестная ошибка');
+			} catch (error) {
+				console.error('Ошибка при удалении фотографии:', error);
+				this.showErrorState('Ошибка удаления фотографии', () => this.render());
+				alert('Не удалось удалить фотографию');
 			}
-		} catch (error) {
-			console.error('Ошибка при удалении фотографии:', error);
-			this.showErrorState('Ошибка удаления фотографии', () => this.render());
-			alert('Не удалось удалить фотографию');
 		}
 	}
 
@@ -246,10 +251,10 @@ export default class ProfileInfoCard extends BaseComponent {
 				if (hasChanges) {
 					if (confirm('Вы уверены, что хотите отменить все изменения?' +
 						'Все добавленные фотографии будут удалены')) {
-						this.currentPhotos = [...this.initialPhotosFromData];
-						while (this.currentPhotos.length < DEFAULT_PARAMS_PROFILE_INFO.maxPhotos) {
-							this.currentPhotos.push(null);
-						}
+						this.currentPhotos = [
+							...this.initialPhotosFromData,
+							...Array(DEFAULT_PARAMS_PROFILE_INFO.maxPhotos - this.initialPhotosFromData.length).fill(null)
+						].slice(0, DEFAULT_PARAMS_PROFILE_INFO.maxPhotos);
 						this.renderPhotos();
 						alert('Все изменения отменены. Возвращено исходное состояние');
 					}
@@ -263,26 +268,54 @@ export default class ProfileInfoCard extends BaseComponent {
 		if (uploadPhotosFrom) {
 			uploadPhotosFrom.addEventListener('submit', async (e) => {
 				e.preventDefault();
-				const photos = this.currentPhotos.filter(p => p !== null) as { id: number, src: string }[];
+				const photos = this.currentPhotos.filter(p => p !== null) as { id: number, src: string, isNew?: boolean }[];
 
 				if (photos.length === 0) {
 					alert('Должна быть хотя бы одна фотография!');
 					return;
 				}
 
-				// console.log('Фотографии для сохранения:', photos);
-				const newPhotos = photos.filter(photo => !photo.src.startsWith('http'));
-				console.log('newPhoto', newPhotos)
-				const response = await api.uploadPhotos(store.getState('myID') as number, newPhotos);
-				console.log('API response:', response);
+				// Проверяем, есть ли фото, которые будут удалены (были в initialPhotosFromData, но нет в currentPhotos)
+				const photosToDelete = this.initialPhotosFromData.filter(initialPhoto =>
+					!this.currentPhotos.some(currentPhoto =>
+						currentPhoto && !currentPhoto.isNew && currentPhoto.src === initialPhoto.src
+					)
+				);
 
-				if (response.success && response.data) {
-					console.log('Profile data loaded:', response.data);
-					// this.updateTemplate(response.data);
-					alert(`Сохранено ${photos.length} фотографий`);
-				} else {
-					this.showErrorState('Ошибка загрузки профиля', () => this.render());
-					alert(`Ошибка при сохранении фотографий`);
+				if (photosToDelete.length > 0) {
+					if (!confirm(`Вы собираетесь удалить ${photosToDelete.length} фотографий с сервера. Продолжить?`)) {
+						return;
+					}
+				}
+
+				const newPhotos = photos.filter(photo => photo.isNew);
+
+				try {
+					const response = await api.uploadPhotos(store.getState('myID') as number, newPhotos);
+
+					if (response.success && response.data) {
+						// После успешной загрузки снимаем флаг isNew
+						this.currentPhotos = this.currentPhotos.map(photo => {
+							if (photo && photo.isNew) {
+								return { ...photo, isNew: false };
+							}
+							return photo;
+						});
+
+						// Обновляем initialPhotosFromData
+						this.initialPhotosFromData = this.currentPhotos
+							.filter(p => p !== null)
+							.map(p => ({ id: p!.id, src: p!.src }));
+
+						alert(`Сохранено ${newPhotos.length} фотографий`);
+					} else {
+						this.showErrorState('Ошибка загрузки профиля', () => this.render());
+						alert(`Ошибка при сохранении фотографий`);
+					}
+				} catch (error) {
+					console.error('Ошибка при загрузке фотографий:', error);
+					this.showErrorState('Ошибка соединения', () => this.render());
+					alert('Ошибка при сохранении фотографий');
 				}
 			});
 		}
@@ -296,7 +329,7 @@ export default class ProfileInfoCard extends BaseComponent {
 			: 'Не указан';
 
 		if (data.photos && data.photos.length > 0 && this.initialPhotosFromData.length === 0) {
-			this.initialPhotosFromData = data.photos.map((photo: string, index: number) => ({
+			this.initialPhotosFromData = data.photos.map((photo: string) => ({
 				id: this.generateId(),
 				src: api.BASE_URL_PHOTO + photo
 			}));
@@ -348,7 +381,7 @@ export default class ProfileInfoCard extends BaseComponent {
 		this.currentPhotos.forEach((photo, index) => {
 			if (photo) {
 				const photoElement = document.createElement('div');
-				photoElement.className = 'photosGrid__item';
+				photoElement.className = `photosGrid__item ${photo.isNew ? 'new-photo' : ''}`;
 				photoElement.dataset.id = photo.id.toString();
 				photoElement.innerHTML = `
                     <img src="${photo.src}" alt="Фото профиля">
