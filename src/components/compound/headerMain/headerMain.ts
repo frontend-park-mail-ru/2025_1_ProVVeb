@@ -3,6 +3,7 @@ import Profile from '@simple/profile/profile';
 import Header from '@pattern/header/header';
 // import LogoutButton from '@simple/logoutButton/logoutButton';
 import DotsMenu from '@simple/dotsMenu/dotsMenu'
+import router, { AppPage } from '@modules/router';
 
 interface ComponentConfig {
 	key: string;
@@ -33,6 +34,12 @@ export default class HeaderMain extends Header {
 			profile: components.profile.template,
 			dotsMenu: components.dotsMenu.template,
 		});
+
+		this.addListener(
+			"click",
+			".logotypeBlock",
+			() => { router.navigateTo(AppPage.Feed); }
+		);
 
 		this.components = components;
 	}
