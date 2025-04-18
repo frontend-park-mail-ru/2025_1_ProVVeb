@@ -48,6 +48,9 @@ export default class MatchesCards extends BaseComponent {
 		if (buffer)
 			buffer.innerHTML = '';
 
+		if(this.DATA.length == 0 && buffer)
+			buffer.innerHTML = 'Любовь никогда не дремлет. Она скоро тебя найдет!';
+
 		for (let data of this.DATA as Profile[]) {
 			currentID++;
 			console.log(data);
