@@ -31,7 +31,7 @@ const LINKS: LinkConfig[] = [
 			callback: () => {
 				api.logoutUser()
 					.then((response) => {
-						console.log('Выход выполнен успешно:', response);
+						// console.log('Выход выполнен успешно:', response);
 						router.navigateTo(AppPage.Auth);
 					})
 					.catch((error) => {

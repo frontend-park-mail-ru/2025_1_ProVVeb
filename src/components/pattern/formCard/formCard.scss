@@ -2,7 +2,7 @@
 
 .formCard {
 	margin-top: 100px;
-	height: 450px;
+	height: 500px;
 	/* width: fit-content; */
 	width: 410px;
 	@include mixins.center-horizontal;
@@ -27,8 +27,8 @@
 		@include mixins.flex-column-center;
 		gap: 32px;
 	}
-	
-	&__buttonField{
+
+	&__buttonField {
 		width: 100%;
 		display: flex;
 		flex-direction: column;

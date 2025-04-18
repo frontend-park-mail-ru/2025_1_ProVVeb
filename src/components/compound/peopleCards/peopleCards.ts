@@ -89,7 +89,7 @@ export default class PeopleCards extends BaseComponent {
 		//---------------
 		const likeFrom = store.getState('myID') as number;
 		const likeTo = this.CARDS[this.currentIndex].profileId;
-		console.log('Тык дизлайк', likeFrom, likeTo);
+		// console.log('Тык дизлайк', likeFrom, likeTo);
 		api.Dislike(likeFrom, likeTo);
 		//---------------
 
@@ -101,7 +101,7 @@ export default class PeopleCards extends BaseComponent {
 		//---------------
 		const likeFrom = store.getState('myID') as number;
 		const likeTo = this.CARDS[this.currentIndex].profileId;
-		console.log('Тык лайк', likeFrom, likeTo);
+		// console.log('Тык лайк', likeFrom, likeTo);
 		api.Like(likeFrom, likeTo);
 		//---------------
 
@@ -110,15 +110,15 @@ export default class PeopleCards extends BaseComponent {
 	}
 
 	private handleRepeat(): void {
-		console.log('Тык повторить');
+		// console.log('Тык повторить');
 	}
 
 	private handleStar(): void {
-		console.log('Тык звезда');
+		// console.log('Тык звезда');
 	}
 
 	private handleLightning(): void {
-		console.log('Тык молния');
+		// console.log('Тык молния');
 	}
 }
 
