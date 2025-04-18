@@ -23,12 +23,6 @@ export interface Profile {
 	preferences: { [key: string]: string; };
 }
 
-interface ApiResponse<T> {
-	success: boolean;
-	data?: T;
-	message?: string;
-}
-
 async function sendRequest<T>(
 	url: string,
 	method: string,
@@ -177,7 +171,7 @@ async function Like(likeFrom: number, likeTo: number): Promise<ApiResponse> {
 	return sendRequest(url, 'POST', { likeFrom, likeTo, status: 1 });
 }
 
-async function Dilike(likeFrom: number, likeTo: number): Promise<ApiResponse> {
+async function Dislike(likeFrom: number, likeTo: number): Promise<ApiResponse> {
 	const url = `${BASE_URL}/profiles/like`;
 	return sendRequest(url, 'POST', { likeFrom, likeTo, status: -1 });
 }
@@ -197,5 +191,5 @@ export default {
 	checkSession,
 	getMatches,
 	Like,
-	Dilike,
+	Dislike,
 };

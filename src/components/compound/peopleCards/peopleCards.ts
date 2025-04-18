@@ -90,7 +90,7 @@ export default class PeopleCards extends BaseComponent {
 		const likeFrom = store.getState('myID') as number;
 		const likeTo = this.CARDS[this.currentIndex].profileId;
 		console.log('Тык дизлайк', likeFrom, likeTo);
-		api.Dilike(likeFrom, likeTo);
+		api.Dislike(likeFrom, likeTo);
 		//---------------
 
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
