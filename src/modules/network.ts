@@ -172,14 +172,14 @@ async function getMatches(userId: number): Promise<ApiResponse<Profile[]>> {
 	return sendRequest(url, 'GET');
 }
 
-async function Like(likeFrom: number, likedBy: number): Promise<ApiResponse> {
+async function Like(likeFrom: number, likeTo: number): Promise<ApiResponse> {
 	const url = `${BASE_URL}/profiles/like`;
-	return sendRequest(url, 'POST', { likeFrom, likedBy, status: 1 });
+	return sendRequest(url, 'POST', { likeFrom, likeTo, status: 1 });
 }
 
-async function Dilike(likeFrom: number, likedBy: number): Promise<ApiResponse> {
+async function Dilike(likeFrom: number, likeTo: number): Promise<ApiResponse> {
 	const url = `${BASE_URL}/profiles/like`;
-	return sendRequest(url, 'POST', { likeFrom, likedBy, status: -1 });
+	return sendRequest(url, 'POST', { likeFrom, likeTo, status: -1 });
 }
 //-----------------
 
