@@ -152,9 +152,10 @@ export default class ProfileInfoCard extends BaseComponent {
 						this.currentPhotos[emptySlotIndex] = {
 							id: this.generateId(),
 							src: event.target.result as string,
-							isNew: true // Помечаем как новую фотографию
+							isNew: true
 						};
 						this.renderPhotos();
+						this.updateSubmitButton(); // Обновляем состояние кнопки
 					}
 				};
 
@@ -179,7 +180,6 @@ export default class ProfileInfoCard extends BaseComponent {
 		if (photoIndex === -1) return;
 
 		const photo = this.currentPhotos[photoIndex];
-
 		if (!photo) return;
 
 		// Проверяем минимальное количество фотографий
@@ -187,14 +187,12 @@ export default class ProfileInfoCard extends BaseComponent {
 			alert('В профиле должна быть хотя бы одна фотография');
 			return;
 		}
-		console.log('эмм')
+
 		if (photo.isNew) {
-			// Для новых фото удаляем без подтверждения
+			// Для новых фото просто удаляем из массива
 			this.currentPhotos[photoIndex] = null;
 			this.currentPhotos.sort((a, b) => (a === null ? 1 : b === null ? -1 : 0));
-			console.log('2', 2)
 			this.renderPhotos();
-			console.log('1', 1)
 		} else {
 			// Для фото из БД запрашиваем подтверждение
 			if (!confirm('Удалить эту фотографию с сервера?')) return;
@@ -207,12 +205,12 @@ export default class ProfileInfoCard extends BaseComponent {
 					alert('Не удалось определить имя файла');
 					return;
 				}
-				console.log('in delete')
+
 				const response = await api.deletePhoto(
 					store.getState('myID') as number,
 					fileName
 				);
-				console.log('out delete')
+
 				if (response.success && response.data) {
 					this.currentPhotos[photoIndex] = null;
 					this.currentPhotos.sort((a, b) => (a === null ? 1 : b === null ? -1 : 0));
@@ -226,6 +224,9 @@ export default class ProfileInfoCard extends BaseComponent {
 				alert('Не удалось удалить фотографию');
 			}
 		}
+
+		// Всегда обновляем состояние кнопки после удаления
+		this.updateSubmitButton();
 	}
 
 	private setupPhotoHandlers(): void {
@@ -284,31 +285,26 @@ export default class ProfileInfoCard extends BaseComponent {
 					const response = await api.uploadPhotos(store.getState('myID') as number, newPhotos);
 
 					if (response.success && response.data) {
-						// Обрабатываем загруженные файлы
 						const uploadedFiles: string[] = response.data.uploaded_files || [];
 
-						// Сопоставляем новые фото с путями на сервере
 						let uploadedIndex = 0;
 						this.currentPhotos = this.currentPhotos.map(photo => {
 							if (photo && photo.isNew && uploadedIndex < uploadedFiles.length) {
-								// Заменяем base64 на URL сервера и снимаем флаг isNew
-								const updatedPhoto = {
+								return {
 									...photo,
 									src: api.BASE_URL_PHOTO + uploadedFiles[uploadedIndex++],
 									isNew: false
 								};
-								return updatedPhoto;
 							}
 							return photo;
 						});
 
-						// Обновляем initialPhotosFromData
 						this.initialPhotosFromData = this.currentPhotos
 							.filter(p => p !== null)
 							.map(p => ({ id: p!.id, src: p!.src }));
 
-						// Перерисовываем фотографии (у новых фото уберётся класс new-photo)
 						this.renderPhotos();
+						this.updateSubmitButton(); // Обновляем состояние кнопки после сохранения
 
 						alert(`Сохранено ${uploadedFiles.length} фотографий`);
 					} else {
@@ -371,8 +367,9 @@ export default class ProfileInfoCard extends BaseComponent {
 		const submitBtn = this.parentElement.querySelector('.uploadPhotos__submitBtn') as HTMLButtonElement;
 		if (!submitBtn) return;
 
-		const hasPhotos = this.currentPhotos.some(p => p !== null);
-		submitBtn.disabled = !hasPhotos;
+		// Кнопка активна только если есть новые несохранённые фото
+		const hasNewPhotos = this.currentPhotos.some(p => p?.isNew);
+		submitBtn.disabled = !hasNewPhotos;
 	}
 
 	private renderPhotos(): void {
