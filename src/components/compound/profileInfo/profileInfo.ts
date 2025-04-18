@@ -196,7 +196,14 @@ export default class ProfileInfoCard extends BaseComponent {
 		const newPhotosCount = this.currentPhotos.filter(p => p?.isNew).length;
 
 		if (!photo.isNew && savedPhotosCount <= 1 && newPhotosCount > 0) {
-			alert('Нельзя удалить последнюю сохранённую фотографию, пока есть несохранённые изменения');
+			// alert('Нельзя удалить последнюю сохранённую фотографию, пока есть несохранённые изменения');
+			const notification = new Notification({
+				headTitle: "Что-то пошло не так...",
+				title: 'Нельзя удалить последнюю сохранённую фотографию, пока есть несохранённые изменения',
+				isWarning: false,
+				isWithButton: true,
+			});
+			notification.render();
 			return;
 		}
 
