@@ -182,19 +182,25 @@ export default class ProfileInfoCard extends BaseComponent {
 		const photo = this.currentPhotos[photoIndex];
 		if (!photo) return;
 
-		// Проверяем минимальное количество фотографий
+		const savedPhotosCount = this.currentPhotos.filter(p => p && !p.isNew).length;
+		const newPhotosCount = this.currentPhotos.filter(p => p?.isNew).length;
+
+		if (!photo.isNew && savedPhotosCount <= 1 && newPhotosCount > 0) {
+			alert('Нельзя удалить последнюю сохранённую фотографию, пока есть несохранённые изменения');
+			return;
+		}
+
+		// Проверяем общее минимальное количество фотографий
 		if (this.currentPhotos.filter(p => p !== null).length <= 1) {
 			alert('В профиле должна быть хотя бы одна фотография');
 			return;
 		}
 
 		if (photo.isNew) {
-			// Для новых фото просто удаляем из массива
 			this.currentPhotos[photoIndex] = null;
 			this.currentPhotos.sort((a, b) => (a === null ? 1 : b === null ? -1 : 0));
 			this.renderPhotos();
 		} else {
-			// Для фото из БД запрашиваем подтверждение
 			if (!confirm('Удалить эту фотографию с сервера?')) return;
 
 			try {
@@ -225,10 +231,8 @@ export default class ProfileInfoCard extends BaseComponent {
 			}
 		}
 
-		// Всегда обновляем состояние кнопки после удаления
 		this.updateSubmitButton();
 	}
-
 	private setupPhotoHandlers(): void {
 		const photosGrid = this.parentElement.querySelector('#photosGridId');
 		if (!photosGrid) return;
@@ -285,7 +289,7 @@ export default class ProfileInfoCard extends BaseComponent {
 					const response = await api.uploadPhotos(store.getState('myID') as number, newPhotos);
 
 					if (response.success && response.data) {
-						const uploadedFiles: string[] = response.data.uploaded_files || [];
+						const uploadedFiles = response.data.uploaded_files || [];
 
 						let uploadedIndex = 0;
 						this.currentPhotos = this.currentPhotos.map(photo => {
@@ -367,7 +371,6 @@ export default class ProfileInfoCard extends BaseComponent {
 		const submitBtn = this.parentElement.querySelector('.uploadPhotos__submitBtn') as HTMLButtonElement;
 		if (!submitBtn) return;
 
-		// Кнопка активна только если есть новые несохранённые фото
 		const hasNewPhotos = this.currentPhotos.some(p => p?.isNew);
 		submitBtn.disabled = !hasNewPhotos;
 	}
