@@ -4,6 +4,7 @@ import api from '@network';
 import store from '@store';
 import { parseBirthday } from '@modules/tools';
 import { arraysEqual } from '@modules/tools';
+import Notification from '@simple/notification/notification';
 
 interface ProfileInfoParams {
 	firstName: string;
@@ -135,7 +136,16 @@ export default class ProfileInfoCard extends BaseComponent {
 			if (fileInput.files && fileInput.files[0]) {
 				const file = fileInput.files[0];
 				if (!file.type.match('image.*')) {
-					alert('Выберите файл с форматом изображения');
+
+					// alert('Выберите файл с форматом изображения');
+					const notification = new Notification({
+						headTitle: "Важное сообщение",
+						title: 'Выберите файл с форматом изображения',
+						isWarning: false,
+						isWithButton: true,
+					});
+					notification.render();
+
 					return;
 				}
 
@@ -186,13 +196,29 @@ export default class ProfileInfoCard extends BaseComponent {
 		const newPhotosCount = this.currentPhotos.filter(p => p?.isNew).length;
 
 		if (!photo.isNew && savedPhotosCount <= 1 && newPhotosCount > 0) {
-			alert('Нельзя удалить последнюю сохранённую фотографию, пока есть несохранённые изменения');
+			// alert('Нельзя удалить последнюю сохранённую фотографию, пока есть несохранённые изменения');
+			const notification = new Notification({
+				headTitle: "Что-то пошло не так...",
+				title: 'Нельзя удалить последнюю сохранённую фотографию, пока есть несохранённые изменения',
+				isWarning: false,
+				isWithButton: true,
+			});
+			notification.render();
 			return;
 		}
 
 		// Проверяем общее минимальное количество фотографий
 		if (this.currentPhotos.filter(p => p !== null).length <= 1) {
-			alert('В профиле должна быть хотя бы одна фотография');
+
+			// alert('В профиле должна быть хотя бы одна фотография');
+			const notification = new Notification({
+				headTitle: "Что-то пошло не так...",
+				title: 'В профиле должна быть хотя бы одна фотография',
+				isWarning: false,
+				isWithButton: true,
+			});
+			notification.render();
+			
 			return;
 		}
 
@@ -208,7 +234,16 @@ export default class ProfileInfoCard extends BaseComponent {
 				const fileName = fullUrl.split('/').pop();
 
 				if (!fileName) {
-					alert('Не удалось определить имя файла');
+
+					// alert('Не удалось определить имя файла');
+					const notification = new Notification({
+						headTitle: "Что-то пошло не так...",
+						title: 'Не удалось определить имя файла',
+						isWarning: false,
+						isWithButton: true,
+					});
+					notification.render();
+
 					return;
 				}
 
@@ -222,12 +257,30 @@ export default class ProfileInfoCard extends BaseComponent {
 					this.currentPhotos.sort((a, b) => (a === null ? 1 : b === null ? -1 : 0));
 					this.renderPhotos();
 				} else {
-					alert('Неизвестная ошибка при удалении фотографии');
+
+					// alert('Неизвестная ошибка при удалении фотографии');
+					const notification = new Notification({
+						headTitle: "Что-то пошло не так...",
+						title: 'Неизвестная ошибка при удалении фотографии',
+						isWarning: false,
+						isWithButton: true,
+					});
+					notification.render();
+
 				}
 			} catch (error) {
 				console.error('Ошибка при удалении фотографии:', error);
 				this.showErrorState('Ошибка удаления фотографии', () => this.render());
-				alert('Не удалось удалить фотографию');
+
+				// alert('Не удалось удалить фотографию');
+				const notification = new Notification({
+					headTitle: "Что-то пошло не так...",
+					title: 'Не удалось удалить фотографию',
+					isWarning: false,
+					isWithButton: true,
+				});
+				notification.render();
+
 			}
 		}
 
@@ -267,7 +320,14 @@ export default class ProfileInfoCard extends BaseComponent {
 						alert('Все изменения отменены. Возвращено исходное состояние');
 					}
 				} else {
-					alert('Нет изменений для отмены');
+					// alert('Нет изменений для отмены');
+					const notification = new Notification({
+						headTitle: "Что-то пошло не так...",
+						title: 'Нет изменений для отмены',
+						isWarning: false,
+						isWithButton: true,
+					});
+					notification.render();
 				}
 			});
 		}
@@ -279,7 +339,14 @@ export default class ProfileInfoCard extends BaseComponent {
 				const photos = this.currentPhotos.filter(p => p !== null) as { id: number, src: string, isNew?: boolean }[];
 
 				if (photos.length === 0) {
-					alert('Должна быть хотя бы одна фотография!');
+					// alert('Должна быть хотя бы одна фотография!');
+					const notification = new Notification({
+						headTitle: "Что-то пошло не так...",
+						title: 'Должна быть хотя бы одна фотография!',
+						isWarning: false,
+						isWithButton: true,
+					});
+					notification.render();
 					return;
 				}
 
@@ -310,15 +377,37 @@ export default class ProfileInfoCard extends BaseComponent {
 						this.renderPhotos();
 						this.updateSubmitButton(); // Обновляем состояние кнопки после сохранения
 
-						alert(`Сохранено ${uploadedFiles.length} фотографий`);
+						// alert(`Сохранено ${uploadedFiles.length} фотографий`);
+						const notification = new Notification({
+							title: `Сохранено ${uploadedFiles.length} фотографий`,
+							isWarning: false,
+							isWithButton: true,
+						});
+						notification.render();
+
+						store.setState('ava', this.currentPhotos[0]?.src);
 					} else {
 						this.showErrorState('Ошибка загрузки профиля', () => this.render());
-						alert(`Ошибка при сохранении фотографий`);
+						// alert(`Ошибка при сохранении фотографий`);
+						const notification = new Notification({
+							headTitle: "Что-то пошло не так...",
+							title: `Ошибка при сохранении фотографий`,
+							isWarning: false,
+							isWithButton: true,
+						});
+						notification.render();
 					}
 				} catch (error) {
 					console.error('Ошибка при загрузке фотографий:', error);
 					this.showErrorState('Ошибка соединения', () => this.render());
-					alert('Ошибка при сохранении фотографий');
+					// alert('Ошибка при сохранении фотографий');
+					const notification = new Notification({
+						headTitle: "Что-то пошло не так...",
+						title: 'Ошибка при сохранении фотографий',
+						isWarning: false,
+						isWithButton: true,
+					});
+					notification.render();
 				}
 			});
 		}

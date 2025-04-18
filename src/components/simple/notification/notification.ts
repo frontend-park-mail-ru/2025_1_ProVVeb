@@ -3,6 +3,7 @@ import store from '@store';
 import templateHBS from './notification.hbs';
 
 interface NotificationParams {
+	headTitle?: string;
 	title: string;
 	isWarning: boolean;
 	isWithButton: boolean;
