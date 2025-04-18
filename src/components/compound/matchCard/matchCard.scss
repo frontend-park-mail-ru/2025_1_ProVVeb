@@ -105,6 +105,8 @@
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
+        max-height: 48px;
+        overflow: hidden;
     }
   
     &__tag {
@@ -114,6 +116,7 @@
         border-radius: 25px;
         padding: 5px 9px;
         transition: all 0.3s ease;
+        cursor: pointer;
   
         &:hover {
             color: #FE3675;

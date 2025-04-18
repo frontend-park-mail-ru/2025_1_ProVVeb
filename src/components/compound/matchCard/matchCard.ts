@@ -27,7 +27,7 @@ const DEFAULT_PARAMS_MATCH_CARD: MatchCardParams = {
 	id: 0,
 };
 
-export default class PersonCard extends BaseComponent {
+export default class MatchCard extends BaseComponent {
 	private callbacks: Callback[];
 
 	constructor(parentElement: HTMLElement, paramsHBS: Partial<MatchCardParams> = {}, callbacks: Callback[] = []) {

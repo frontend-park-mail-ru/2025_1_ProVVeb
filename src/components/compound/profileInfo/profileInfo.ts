@@ -420,7 +420,7 @@ export default class ProfileInfoCard extends BaseComponent {
 			? `${String(day).padStart(2, '0')}.${String(month).padStart(2, '0')}.${currentYear - year}`
 			: 'Не указан';
 
-		if (data.photos && data.photos.length > 0 && this.initialPhotosFromData.length === 0) {
+		if (data.photos && data.photos.length > 0) {
 			this.initialPhotosFromData = data.photos.map((photo: string) => ({
 				id: this.generateId(),
 				src: api.BASE_URL_PHOTO + photo
@@ -500,7 +500,7 @@ export default class ProfileInfoCard extends BaseComponent {
 			this.addListener(callback.event, callback.selector, callback.callback);
 		});
 		this.attachListeners();
-
+		
 		try {
 			const userId = store.getState('myID');
 			if (userId === undefined) {
