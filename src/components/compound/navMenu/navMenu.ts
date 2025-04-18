@@ -36,7 +36,7 @@ const LINKS: LinkConfig[] = [
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				console.log('fire');
+				// console.log('fire');
 			},
 		},
 	},
@@ -49,7 +49,7 @@ const LINKS: LinkConfig[] = [
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				console.log('search');
+				// console.log('search');
 			},
 		},
 	},
@@ -62,7 +62,7 @@ const LINKS: LinkConfig[] = [
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				console.log('messenger');
+				// console.log('messenger');
 			},
 		},
 	},
@@ -75,7 +75,7 @@ const LINKS: LinkConfig[] = [
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				console.log('security');
+				// console.log('security');
 			},
 		},
 	},
@@ -88,7 +88,7 @@ const LINKS: LinkConfig[] = [
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				console.log('shop');
+				// console.log('shop');
 			},
 		},
 	},
@@ -101,7 +101,7 @@ const LINKS: LinkConfig[] = [
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				console.log('feature');
+				// console.log('feature');
 			},
 		},
 	},
@@ -114,7 +114,7 @@ const LINKS: LinkConfig[] = [
 			eventType: 'click',
 			selector: '#{id}',
 			callback: (event) => {
-				console.log('settings');
+				// console.log('settings');
 			},
 		},
 	},

@@ -68,6 +68,14 @@ export default class LoginCard extends FormCard {
 									});
 									error.render();
 									passwordElement.classList.add('incorrect');
+
+									// Form Validation
+									const feedbackElement = document.querySelector(`#feedback_passwordInput_01`);
+
+									if (feedbackElement) {
+										feedbackElement.classList.add('noneHide');
+										feedbackElement.innerHTML = passwordValidation.message || 'Технические неполадки...';
+									}
 								} else {
 									passwordElement.classList.remove('incorrect');
 								}
@@ -113,12 +121,20 @@ export default class LoginCard extends FormCard {
 									});
 									error.render();
 									passwordElement.classList.add('incorrect');
+
+									// Form Validation
+									const feedbackElement = document.querySelector(`#feedback_passwordInput_02`);
+
+									if (feedbackElement) {
+										feedbackElement.classList.add('noneHide');
+										feedbackElement.innerHTML = passwordValidation.message || 'Технические неполадки...';
+									}
 								} else {
 									passwordElement.classList.remove('incorrect');
 								}
 							},
 						}
-					]	
+					]
 				},
 			},
 			{ key: 'authButton', class: LoginButton },

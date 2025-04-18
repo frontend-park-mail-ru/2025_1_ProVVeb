@@ -111,7 +111,7 @@ async function uploadPhotos(
 			const blob = base64ToBlob(photo.src);
 			formData.append('images', blob, `image_${photo.id}.png`);
 		} else {
-			console.log(`Skipping already uploaded photo with ID: ${photo.id}`);
+			// console.log(`Skipping already uploaded photo with ID: ${photo.id}`);
 		}
 	});
 

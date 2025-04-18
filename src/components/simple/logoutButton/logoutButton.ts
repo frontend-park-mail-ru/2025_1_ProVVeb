@@ -23,7 +23,7 @@ const DEFAULT_LOGOUT_PARAMS_BUTTON: LogoutButtonParams = {
 		callback: () => {
 			api.logoutUser()
 				.then((response) => {
-					console.log('Выход выполнен успешно:', response);
+					// console.log('Выход выполнен успешно:', response);
 					router.navigateTo('auth');
 				})
 				.catch((error) => {

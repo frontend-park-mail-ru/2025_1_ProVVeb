@@ -32,7 +32,7 @@ export default class MatchesCards extends BaseComponent {
 		// 	return;
 		const response = await api.getMatches(store.getState('myID') as number);
 		this.DATA = response.data || [];
-		console.log(this.DATA);
+		// // console.log(this.DATA);
 		// this.isDataLoaded = true;
 	}
 
@@ -48,18 +48,18 @@ export default class MatchesCards extends BaseComponent {
 		if (buffer)
 			buffer.innerHTML = '';
 
-		if(this.DATA.length == 0 && buffer)
+		if (this.DATA.length == 0 && buffer)
 			buffer.innerHTML = 'Любовь никогда не дремлет. Она скоро тебя найдет!';
 
 		for (let data of this.DATA as Profile[]) {
 			currentID++;
-			console.log(data);
+			// // console.log(data);
 
 			const currentCard = new MatchesCard(
 				this.centralElement,
 				{
 					srcPersonPicture: data.photos[0] !== api.BASE_URL
-						? api.BASE_URL_PHOTO+data.photos[0]
+						? api.BASE_URL_PHOTO + data.photos[0]
 						: '',
 					personName: data.firstName,
 					personAge: (parseBirthday(data.birthday)?.year ?? ageMajority),
@@ -97,10 +97,10 @@ export default class MatchesCards extends BaseComponent {
 	}
 
 	private handleLike(): void {
-		console.log("Button Like Match is worked!");
+		// console.log("Button Like Match is worked!");
 	}
 
 	private handleMessage(): void {
-		console.log("Button Message to matcher is worked!");
+		// console.log("Button Message to matcher is worked!");
 	}
 }
