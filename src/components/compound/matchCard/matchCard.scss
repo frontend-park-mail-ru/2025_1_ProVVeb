@@ -11,6 +11,7 @@
     border-radius: 9px;
     box-sizing: border-box;
     transition: border-color 0.3s ease;
+    overflow: hidden;
   
     &:hover {
         border-color: #FE3675;
@@ -51,10 +52,10 @@
         z-index: 3;
         color: white;
         font-family: "Mulish", sans-serif;
-        display: flex; /* Делаем flex-контейнер */
-        flex-direction: column; /* Располагаем элементы вертикально */
+        display: flex;
+        flex-direction: column;
         gap: 2px;
-        max-width: calc(100% - 20px);
+        max-width: calc(100% - 25px);
     }
 
     &__name{

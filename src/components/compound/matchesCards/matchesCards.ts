@@ -64,7 +64,7 @@ export default class MatchesCards extends BaseComponent {
 					personName: data.firstName,
 					personAge: (parseBirthday(data.birthday)?.year ?? ageMajority),
 					personDescription: data.description,
-					personInterests: data.interests,
+					personInterests: data.interests.length > 3 ? data.interests.slice(0, 3) : data.interests,
 					id: currentID,
 				},
 				[
