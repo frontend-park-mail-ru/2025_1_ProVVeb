@@ -12,5 +12,4 @@ import store from '@store';
 // 		});
 // }
 
-store.setState('currentPage', []);
 router.start();

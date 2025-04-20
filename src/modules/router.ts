@@ -75,6 +75,7 @@ class Router {
 
 			if (sessionResult.success && sessionResult.data.inSession) {
 				store.setState('myID', sessionResult.data.id);
+				store.setState('inSession', true);
 				
 				return true;
 			}
@@ -102,6 +103,12 @@ class Router {
 	}
 
 	public async navigateTo(page: AppPage, state: any = {}, isReplace = false): Promise<void> {
+		let cookie = this.checkCookie(page) as AppPage;
+		if(cookie != page){
+			isReplace = true;
+			page = cookie;
+		}
+
 		if (isReplace)
 			window.history.replaceState(state, '', page);
 		else
@@ -114,6 +121,7 @@ class Router {
 	}
 
 	public async start(){
+		console.log("START");
 		const currentPath = window.location.pathname.split('/')[1] as AppPage || AppPage.Feed;
 
 		if(!(await this.checkSession())){
@@ -135,6 +143,15 @@ class Router {
 
 		if (ava) store.setState('ava', ava);
 		if (name) store.setState('profileName', name);
+	}
+
+	private checkCookie(page: AppPage): AppPage{
+		const inSession = store.getState('inSession');
+		if(!inSession && page != AppPage.Auth && page != AppPage.Login)
+			return AppPage.Auth;
+		if(inSession && (page == AppPage.Auth || page == AppPage.Login))
+			return AppPage.Settings;
+		return page;
 	}
 
 	private handlerAuth(state: any): void {

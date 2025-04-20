@@ -29,6 +29,7 @@ DEFAULT_AUTH_PARAMS_BUTTON.listenButton = {
 			api.authUser(loginValue, passwordValue).then(async (respond) => {
 				if (respond.success) {
 					store.setState('myID', respond.data.user_id);
+					store.setState('inSession', true);
 
 					const data = await api.getProfile(respond.data.user_id);
 

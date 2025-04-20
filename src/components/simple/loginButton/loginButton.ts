@@ -32,6 +32,7 @@ const DEFAULT_LOGIN_PARAMS_BUTTON: LoginButtonParams = {
 						api.authUser(loginValue, passwordValue).then(async (respond) => {
 							if (respond.success) {
 								store.setState('myID', respond.data.user_id);
+								store.setState('inSession', true);
 								await router.navigateTo(AppPage.Feed);
 			
 								const data = await api.getProfile(respond.data.user_id);

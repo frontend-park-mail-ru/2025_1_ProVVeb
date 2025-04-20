@@ -2,6 +2,7 @@ import templateHBS from './dotsMenu.hbs';
 import BaseComponent from '@basecomp';
 import api from '@network';
 import router, { AppPage } from '@router';
+import store from '@store';
 
 interface DotsMenuParams {
 	idDotsMenu: string;
@@ -32,6 +33,7 @@ const LINKS: LinkConfig[] = [
 				api.logoutUser()
 					.then((response) => {
 						// console.log('Выход выполнен успешно:', response);
+						store.setState('inSession', false);
 						router.navigateTo(AppPage.Auth);
 					})
 					.catch((error) => {
