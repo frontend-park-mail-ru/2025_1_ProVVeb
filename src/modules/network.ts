@@ -51,7 +51,9 @@ async function sendRequest<T>(
 			}
 		}
 
+		console.log(url);
 		const response = await fetch(url, options);
+		console.log(response);
 
 		if (response.ok) {
 			const responseData = await response.json();

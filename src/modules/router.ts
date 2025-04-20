@@ -1,5 +1,6 @@
 import api from '@network';
 import store from '@store';
+import Notification from '@simple/notification/notification';
 import LoginPage from '@pages/loginPage/loginPage';
 import AuthPage from '@pages/authPage/authPage';
 import FeedPage from '@pages/feedPage/feedPage';
@@ -27,7 +28,6 @@ interface PathStructure {
 
 class Router {
 	private root: HTMLElement;
-	private isChecked: boolean;
 	private authPage: AuthPage;
 	private loginPage: LoginPage;
 	private feedPage: FeedPage;
@@ -44,7 +44,6 @@ class Router {
 		}
 
 		this.root = rootElement;
-		this.isChecked = false;
 		this.authPage = new AuthPage(this.root);
 		this.loginPage = new LoginPage(this.root);
 		this.feedPage = new FeedPage(this.root);
@@ -70,31 +69,23 @@ class Router {
 		this.register("shop", this.handlerShop.bind(this));
 	}
 
-	async checkSession(): Promise<boolean> {
+	private async checkSession(): Promise<boolean> {
 		try {
-			if (!this.isChecked) {
-				this.isChecked = true;
+			const sessionResult = await api.checkSession();
 
-				const sessionResult = await api.checkSession();
-				if (sessionResult.success && sessionResult.data.inSession) {
-					store.setState('myID', sessionResult.data.id);
-
-					await router.navigateTo(AppPage.Feed);
-
-					const data = await api.getProfile(sessionResult.data.id);
-					const ava = api.BASE_URL_PHOTO + data?.data?.photos[0];
-					const name = data?.data?.firstName + ' ' + data?.data?.lastName;
-
-					if (ava) store.setState('ava', ava);
-					if (name) store.setState('profileName', name);
-
-					return true;
-				}
+			if (sessionResult.success && sessionResult.data.inSession) {
+				store.setState('myID', sessionResult.data.id);
+				
+				return true;
 			}
 		} catch (error) {
 			console.error('Ошибка при проверке сессии:', error);
-			alert('Ошибка сети. Перенаправляю на логин');
-			this.loginPage.rerender();
+			const notification = new Notification({
+				title: 'Ошибка сети. Перенаправление на логин',
+				isWarning: true,
+				isWithButton: true,
+			});
+			notification.render();
 		}
 
 		return false;
@@ -104,9 +95,7 @@ class Router {
 		this.PATHS.push({ path, callback });
 	}
 
-	public async renderPage(path: string, state = {}) {
-		if (await this.checkSession()) return;
-
+	public renderPage(path: string, state = {}) {
 		this.PATHS.forEach(data => {
 			if (data.path == path) data.callback(state);
 		})
@@ -122,6 +111,30 @@ class Router {
 
 		store.update('profileName');
 		store.update('ava');
+	}
+
+	public async start(){
+		const currentPath = window.location.pathname.split('/')[1] as AppPage || AppPage.Feed;
+
+		if(!(await this.checkSession())){
+			
+			if(currentPath != AppPage.Auth && currentPath != AppPage.Login)
+				this.navigateTo(AppPage.Auth, {}, true);
+			else
+				this.navigateTo(currentPath, {}, true);
+
+			return;
+		}
+
+		await this.navigateTo(currentPath);
+
+		const ID = store.getState("myID") as number;
+		const data = await api.getProfile(ID);
+		const ava = api.BASE_URL_PHOTO + data?.data?.photos[0];
+		const name = data?.data?.firstName + ' ' + data?.data?.lastName;
+
+		if (ava) store.setState('ava', ava);
+		if (name) store.setState('profileName', name);
 	}
 
 	private handlerAuth(state: any): void {

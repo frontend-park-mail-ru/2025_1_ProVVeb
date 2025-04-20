@@ -1,6 +1,5 @@
 import templateHBS from './navMenu.hbs';
 import BaseComponent from '@basecomp';
-import store from '@store';
 import router, { AppPage } from '@router';
 
 interface NavMenuParams {
@@ -154,7 +153,7 @@ export default class NavMenu extends BaseComponent {
 				'mouseleave',
 				link.listener.selector.replace('#{id}', `#${link.id}`),
 				(event) => {
-					if ((store.getState("currentPage") as string[]).at(-1) == link.id.split("_")[0])
+					if (window.location.pathname.split('/')[1] == link.id.split("_")[0])
 						return;
 					const targetElement = event.currentTarget as HTMLElement;
 					const img = targetElement.querySelector('img');
@@ -173,7 +172,7 @@ export default class NavMenu extends BaseComponent {
 				(event) => {
 					router.navigateTo(link.id.split("_")[0] as AppPage);
 
-					link.listener.callback(event); // Вызываем оригинальный callback если нужно
+					link.listener.callback(event);
 				}
 			);
 		});
@@ -192,8 +191,6 @@ export default class NavMenu extends BaseComponent {
 
 		element.style.color = '#FE3675';
 		if (img) img.src = activeLink.srcIconHover;
-
-		(store.getState("currentPage") as string[]).push(linkID);
 	}
 
 	private resetAllLinks(): void {

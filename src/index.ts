@@ -13,4 +13,4 @@ import store from '@store';
 // }
 
 store.setState('currentPage', []);
-router.navigateTo(AppPage.Auth);
+router.start();

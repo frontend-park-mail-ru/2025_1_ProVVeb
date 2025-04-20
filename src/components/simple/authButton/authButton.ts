@@ -29,15 +29,16 @@ DEFAULT_AUTH_PARAMS_BUTTON.listenButton = {
 			api.authUser(loginValue, passwordValue).then(async (respond) => {
 				if (respond.success) {
 					store.setState('myID', respond.data.user_id);
-					await router.navigateTo(AppPage.Feed);
-					// store.setState('profileName', loginValue);
 
 					const data = await api.getProfile(respond.data.user_id);
+
 					const ava = api.BASE_URL_PHOTO + data?.data?.photos[0];
 					const name = data?.data?.firstName + ' ' + data?.data?.lastName;
 
 					if (name) store.setState('profileName', name);
 					if (ava) store.setState('ava', ava);
+
+					await router.navigateTo(AppPage.Feed);
 				} else {
 					const JSONans = JSON.parse(respond.message as string);
 					let ans = '';
