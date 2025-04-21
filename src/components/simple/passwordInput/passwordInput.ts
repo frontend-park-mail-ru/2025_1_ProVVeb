@@ -11,6 +11,7 @@ interface PasswordInputParams {
 	labelText: string;
 	autocompleteInput: string;
 	listeners: ListenerParams[];
+	isPassword: boolean;
 }
 
 
@@ -20,8 +21,33 @@ const DEFAULT_PASSWORD_PARAMS_INPUT: Partial<PasswordInputParams> = {
 	idInput: 'passwordInput_01',
 	labelText: 'Пароль',
 	autocompleteInput: 'current-password',
-	listeners: []
+	listeners: [],
+	isPassword: true
 };
+
+DEFAULT_PASSWORD_PARAMS_INPUT.listeners?.push({
+	eventType: 'click',
+	selector: `.inputContainer__toggle`,
+	callback: (event: Event) => {
+		const target = event.target as HTMLElement;
+		const input = target.parentElement?.previousElementSibling?.previousElementSibling as HTMLInputElement; 
+		const toggle = target.parentElement;
+		const closedEye = toggle?.querySelector('.eye-icon--closed') as HTMLElement;
+    	const openedEye = toggle?.querySelector('.eye-icon--opened') as HTMLElement;
+
+		if(input?.type == undefined) return;
+
+		if(input.type == 'password'){
+			input.type = 'text';
+			closedEye.style.display = 'none';
+        	openedEye.style.display = 'block';
+		}else{
+			input.type = 'password';
+        	closedEye.style.display = 'block';
+        	openedEye.style.display = 'none';
+		}
+	},
+});
 
 DEFAULT_PASSWORD_PARAMS_INPUT.listeners?.push({
 	eventType: 'input',

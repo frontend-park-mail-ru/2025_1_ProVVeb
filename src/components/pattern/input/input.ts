@@ -14,6 +14,7 @@ export interface InputParams {
 	labelText: string;
 	autocompleteInput: string;
 	listeners: ListenerParams[];
+	isPassword?: boolean;
 }
 
 const DEFAULT_PARAMS_INPUT: InputParams = {

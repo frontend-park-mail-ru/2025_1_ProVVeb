@@ -41,6 +41,29 @@ export default class LoginCard extends FormCard {
 					autocompleteInput: 'new-password',
 					listeners: [
 						{
+							eventType: 'click',
+							selector: `.passwordInput_01`,
+							callback: (event: Event) => {
+								const target = event.target as HTMLElement;
+								const input = target.parentElement?.previousElementSibling?.previousElementSibling as HTMLInputElement; 
+								const toggle = target.parentElement;
+								const closedEye = toggle?.querySelector('.eye-icon--closed') as HTMLElement;
+								const openedEye = toggle?.querySelector('.eye-icon--opened') as HTMLElement;
+								
+								if(input?.type == undefined) return;
+
+								if(input.type == 'password'){
+									input.type = 'text';
+									closedEye.style.display = 'none';
+									openedEye.style.display = 'block';
+								}else{
+									input.type = 'password';
+									closedEye.style.display = 'block';
+									openedEye.style.display = 'none';
+								}
+							},
+						},
+						{
 							eventType: 'input',
 							selector: '#passwordInput_01',
 							callback: (event: Event) => {
@@ -93,6 +116,29 @@ export default class LoginCard extends FormCard {
 					labelText: 'Повторите пароль',
 					autocompleteInput: 'new-password',
 					listeners: [
+						{
+							eventType: 'click',
+							selector: `.passwordInput_02`,
+							callback: (event: Event) => {
+								const target = event.target as HTMLElement;
+								const input = target.parentElement?.previousElementSibling?.previousElementSibling as HTMLInputElement; 
+								const toggle = target.parentElement;
+								const closedEye = toggle?.querySelector('.eye-icon--closed') as HTMLElement;
+								const openedEye = toggle?.querySelector('.eye-icon--opened') as HTMLElement;
+								
+								if(input?.type == undefined) return;
+
+								if(input.type == 'password'){
+									input.type = 'text';
+									closedEye.style.display = 'none';
+									openedEye.style.display = 'block';
+								}else{
+									input.type = 'password';
+									closedEye.style.display = 'block';
+									openedEye.style.display = 'none';
+								}
+							},
+						},
 						{
 							eventType: 'input',
 							selector: '#passwordInput_02',

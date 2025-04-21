@@ -1,6 +1,5 @@
 import './index.scss';
 import router, { AppPage } from '@router';
-import store from '@store';
 
 // if ('serviceWorker' in navigator) {
 // 	navigator.serviceWorker.register('./sw.js', { scope: '/' })

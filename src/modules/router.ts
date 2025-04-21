@@ -89,6 +89,7 @@ class Router {
 			notification.render();
 		}
 
+		store.setState('inSession', false);
 		return false;
 	}
 
@@ -121,7 +122,6 @@ class Router {
 	}
 
 	public async start(){
-		console.log("START");
 		const currentPath = window.location.pathname.split('/')[1] as AppPage || AppPage.Feed;
 
 		if(!(await this.checkSession())){
