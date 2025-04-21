@@ -1,7 +1,7 @@
-// const BASE_URL_PHOTO = 'http://213.219.214.83:8030/profile-photos';
-// const BASE_URL = 'http://213.219.214.83:8080';
-const BASE_URL = 'http://localhost:8080';
-const BASE_URL_PHOTO = 'http://localhost:8030/profile-photos';
+const BASE_URL_PHOTO = 'http://213.219.214.83:8030/profile-photos';
+const BASE_URL = 'http://213.219.214.83:8080';
+// const BASE_URL = 'http://localhost:8080';
+// const BASE_URL_PHOTO = 'http://localhost:8030/profile-photos';
 
 interface ApiResponse<T = any> {
 	success: boolean;
@@ -103,7 +103,9 @@ function base64ToBlob(base64: string): Blob {
 async function uploadPhotos(
 	userId: number,
 	photos: { id: number; src: string }[]
-): Promise<ApiResponse<{ urls: string[] }>> {
+): Promise<ApiResponse<{
+	uploaded_files: never[]; urls: string[]
+}>> {
 	const url = `${BASE_URL}/profiles/uploadPhoto?forUser=${userId}`;
 	const formData = new FormData();
 
