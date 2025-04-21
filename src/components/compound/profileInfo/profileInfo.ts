@@ -218,7 +218,7 @@ export default class ProfileInfoCard extends BaseComponent {
 				isWithButton: true,
 			});
 			notification.render();
-			
+
 			return;
 		}
 
@@ -256,6 +256,10 @@ export default class ProfileInfoCard extends BaseComponent {
 					this.currentPhotos[photoIndex] = null;
 					this.currentPhotos.sort((a, b) => (a === null ? 1 : b === null ? -1 : 0));
 					this.renderPhotos();
+
+					if (this.currentPhotos[0]?.src !== store.getState('ava')) {
+						store.setState('ava', this.currentPhotos[0]?.src);
+					}
 				} else {
 
 					// alert('Неизвестная ошибка при удалении фотографии');
@@ -385,7 +389,9 @@ export default class ProfileInfoCard extends BaseComponent {
 						});
 						notification.render();
 
-						store.setState('ava', this.currentPhotos[0]?.src);
+						if (this.currentPhotos[0]?.src !== store.getState('ava')) {
+							store.setState('ava', this.currentPhotos[0]?.src);
+						}
 					} else {
 						this.showErrorState('Ошибка загрузки профиля', () => this.render());
 						// alert(`Ошибка при сохранении фотографий`);
@@ -500,7 +506,7 @@ export default class ProfileInfoCard extends BaseComponent {
 			this.addListener(callback.event, callback.selector, callback.callback);
 		});
 		this.attachListeners();
-		
+
 		try {
 			const userId = store.getState('myID');
 			if (userId === undefined) {
