@@ -53,7 +53,7 @@
 
 	&__eye-icon {
 		transform: scale(1.35);
-		transition: fill 0.3s ease;
+		transition: all 0.3s ease;
 	}
 
 	&__toggle:hover &__eye-icon {
