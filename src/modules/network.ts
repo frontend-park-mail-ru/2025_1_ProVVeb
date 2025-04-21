@@ -1,7 +1,7 @@
-// const BASE_URL_PHOTO = 'http://213.219.214.83:8030/profile-photos';
-// const BASE_URL = 'http://213.219.214.83:8080';
-const BASE_URL = 'http://localhost:8080';
-const BASE_URL_PHOTO = 'http://localhost:8030/profile-photos';
+const BASE_URL_PHOTO = 'http://213.219.214.83:8030/profile-photos';
+const BASE_URL = 'http://213.219.214.83:8080';
+// const BASE_URL = 'http://localhost:8080';
+// const BASE_URL_PHOTO = 'http://localhost:8030/profile-photos';
 
 interface ApiResponse<T = any> {
 	success: boolean;
