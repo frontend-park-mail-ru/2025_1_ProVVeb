@@ -30,12 +30,12 @@ export default class PersonCard extends BaseComponent {
 
 	constructor(parentElement: HTMLElement, paramsHBS: Partial<PersonCardParams> = {}, callbacks: Callback[] = []) {
 		const finalParamsHBS = { ...DEFAULT_PARAMS_PERSON_CARD, ...paramsHBS };
-		console.log('finalParamsHBS.srcPersonPhotos', finalParamsHBS.srcPersonPhotos)
-		const randomPhoto = 'https://avatars.mds.yandex.net/i?id=628f87a50ba06799a3f41573df29bb32_l-5877477-images-thumbs&n=13';
-		const copiesToAdd = Math.floor(Math.random() * 3) + 1;
-		for (let i = 0; i < copiesToAdd; i++) {
-			finalParamsHBS.srcPersonPhotos.push(randomPhoto);
-		}
+		// console.log('finalParamsHBS.srcPersonPhotos', finalParamsHBS.srcPersonPhotos)
+		// const randomPhoto = 'https://avatars.mds.yandex.net/i?id=628f87a50ba06799a3f41573df29bb32_l-5877477-images-thumbs&n=13';
+		// const copiesToAdd = Math.floor(Math.random() * 3) + 1;
+		// for (let i = 0; i < copiesToAdd; i++) {
+		// 	finalParamsHBS.srcPersonPhotos.push(randomPhoto);
+		// }
 		const templateHTML = templateHBS(finalParamsHBS);
 		super(templateHTML, parentElement);
 
