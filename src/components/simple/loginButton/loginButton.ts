@@ -44,7 +44,7 @@ const DEFAULT_LOGIN_PARAMS_BUTTON: LoginButtonParams = {
 							} else {
 								const JSONans = JSON.parse(respond.message as string);
 								let ans = '';
-								if (JSONans.message == 'No such user')
+								if (JSONans.message == 'sql: no rows in result set')
 									ans = 'Такого аккаунта не существует';
 								else
 									ans = 'Неверный логин или пароль';

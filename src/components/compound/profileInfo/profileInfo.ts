@@ -5,6 +5,7 @@ import store from '@store';
 import { parseBirthday } from '@modules/tools';
 import { arraysEqual } from '@modules/tools';
 import Notification from '@simple/notification/notification';
+import Confirm from '@simple/confirm/confirm';
 
 interface ProfileInfoParams {
 	firstName: string;
@@ -227,7 +228,14 @@ export default class ProfileInfoCard extends BaseComponent {
 			this.currentPhotos.sort((a, b) => (a === null ? 1 : b === null ? -1 : 0));
 			this.renderPhotos();
 		} else {
-			if (!confirm('Удалить эту фотографию с сервера?')) return;
+			const confirmComponent = new Confirm({
+				headTitle: 'Согласны?',
+				title: 'Удалить эту фотографию с сервера?',
+				isWarning: false,
+			});
+			const confirm = await confirmComponent.render();
+
+			if (!confirm) return;
 
 			try {
 				const fullUrl = photo.src;

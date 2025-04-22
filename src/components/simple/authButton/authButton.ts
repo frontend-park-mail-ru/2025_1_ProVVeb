@@ -4,6 +4,7 @@ import { checkAuth } from '@validation';
 import api from '@network';
 import router, { AppPage } from '@router';
 import Notification from '@notification';
+import Confirm from '@simple/confirm/confirm';
 
 interface AuthButtonParams {
 	buttonText: string;
@@ -42,15 +43,24 @@ DEFAULT_AUTH_PARAMS_BUTTON.listenButton = {
 					await router.navigateTo(AppPage.Feed);
 				} else {
 					const JSONans = JSON.parse(respond.message as string);
-					let ans = '';
-					if (JSONans.message == 'No such user')
-						ans = 'Такого аккаунта не существует';
-					else
-						ans = 'Неверный логин или пароль';
+
+					if (JSONans.message == 'sql: no rows in result set'){
+						const confirmComponent = new Confirm({
+							headTitle: 'Упс... Такого аккаунта не существует',
+							title: 'Хотите перейти в Login?',
+							isWarning: true,
+						});
+						const confirm = await confirmComponent.render();
+						if(confirm) router.navigateTo(AppPage.Login);
+						
+						return;
+						// ans = 'Такого аккаунта не существует';
+					}
+
 					const error = new Notification({
 						isWarning: true,
 						isWithButton: true,
-						title: ans,
+						title: 'Неверный логин или пароль',
 					});
 					error.render();
 				}
