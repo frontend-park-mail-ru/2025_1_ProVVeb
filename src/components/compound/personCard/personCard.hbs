@@ -11,7 +11,6 @@
 			<label for="photo-{{@index}}" class="personCard__sliderDot"></label>
 			{{/each}}
 		</div>
-		<!-- Добавляем стрелки -->
 		<div class="personCard__arrows">
 			<label for="photo-{{prevIndex}}" class="personCard__arrow personCard__arrow--left">❮</label>
 			<label for="photo-{{nextIndex}}" class="personCard__arrow personCard__arrow--right">❯</label>
@@ -22,6 +21,7 @@
 		<p class="personCard__data">{{ personName }} {{ personAge }} лет</p>
 		<p class="personCard__description">{{ personDescription }}</p>
 	</div>
+
 	<div class="personCard__btns">
 		<button data-tooltip="Предыдущая карточка" class="personCard__iconButton tooltip" id="repeatButton">
 			<img class="personCard__imgButton" src="media/btn/actionBtnRepeat.svg" alt="Кнопка Повтор" width="56"

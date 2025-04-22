@@ -45,12 +45,20 @@ export default class PeopleCards extends BaseComponent {
 			{
 				event: 'click',
 				selector: '#dislikeButton',
-				callback: () => this.handleDislike(),
+				callback: async () => {
+					let card = document.querySelector('.personCard');
+					card?.classList.add('personCard--disliked');
+					await this.handleDislike();
+				},
 			},
 			{
 				event: 'click',
 				selector: '#likeButton',
-				callback: () => this.handleLike(),
+				callback: async () => {
+					let card = document.querySelector('.personCard');
+					card?.classList.add('personCard--liked');
+					await this.handleLike();
+				},
 			},
 			{
 				event: 'click',
@@ -75,9 +83,6 @@ export default class PeopleCards extends BaseComponent {
 				personName: this.CARDS[this.currentIndex].firstName,
 				personAge: parseBirthday(this.CARDS[this.currentIndex].birthday)?.year ?? '≥ 18',
 				personDescription: this.CARDS[this.currentIndex].description,
-				srcPersonPicture: this.CARDS[this.currentIndex].photos.length !== 0
-					? api.BASE_URL_PHOTO + this.CARDS[this.currentIndex].photos[0]
-					: '',
 				srcPersonPhotos: this.CARDS[this.currentIndex].photos.map(
 					(photoPath: string) => `${api.BASE_URL_PHOTO}${photoPath}`
 				),
@@ -88,28 +93,28 @@ export default class PeopleCards extends BaseComponent {
 		this.currentCard.render();
 	}
 
-	private handleDislike(): void {
-		//---------------
+	private animateDelay = 400;
+
+	private async handleDislike(): Promise<void> {
 		const likeFrom = store.getState('myID') as number;
 		const likeTo = this.CARDS[this.currentIndex].profileId;
-		// console.log('Тык дизлайк', likeFrom, likeTo);
-		api.Dislike(likeFrom, likeTo);
-		//---------------
+		await api.Dislike(likeFrom, likeTo);
+
+		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
 
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
-		this.render();
+		await this.render();
 	}
 
-	private handleLike(): void {
-		//---------------
+	private async handleLike(): Promise<void> {
 		const likeFrom = store.getState('myID') as number;
 		const likeTo = this.CARDS[this.currentIndex].profileId;
-		// console.log('Тык лайк', likeFrom, likeTo);
-		api.Like(likeFrom, likeTo);
-		//---------------
+		await api.Like(likeFrom, likeTo);
+
+		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
 
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
-		this.render();
+		await this.render();
 	}
 
 	private handleRepeat(): void {
