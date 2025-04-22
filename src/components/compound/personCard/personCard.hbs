@@ -1,6 +1,18 @@
-<div id="idPersonCard" class="personCard" style="background-image: 
-	url('{{ srcPersonPicture }}'), 
-	url('{{ srcPersonPictureError }}');">
+<div id="idPersonCard" class="personCard">
+	<div class="personCard__photos">
+		{{#each srcPersonPhotos}}
+		<input type="radio" name="photo-slider" id="photo-{{@index}}" {{#if @first}}checked{{/if}}
+			class="personCard__radio">
+		<div class="personCard__photo" style="background-image: url('{{this}}'), url('{{../srcPersonPictureError}}');">
+		</div>
+		{{/each}}
+		<div class="personCard__sliderControls">
+			{{#each srcPersonPhotos}}
+			<label for="photo-{{@index}}" class="personCard__sliderDot"></label>
+			{{/each}}
+		</div>
+	</div>
+
 	<div class="personCard__info">
 		<p class="personCard__data">{{ personName }} {{ personAge }} лет</p>
 		<p class="personCard__description">{{ personDescription }}</p>

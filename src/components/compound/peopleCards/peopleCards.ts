@@ -78,6 +78,9 @@ export default class PeopleCards extends BaseComponent {
 				srcPersonPicture: this.CARDS[this.currentIndex].photos.length !== 0
 					? api.BASE_URL_PHOTO + this.CARDS[this.currentIndex].photos[0]
 					: '',
+				srcPersonPhotos: this.CARDS[this.currentIndex].photos.map(
+					(photoPath: string) => `${api.BASE_URL_PHOTO}${photoPath}`
+				),
 			},
 			LISTENERS_ACTION_BTNS,
 		);
