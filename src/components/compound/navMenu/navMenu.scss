@@ -53,8 +53,8 @@
 		&--dev {
 			position: relative;
 			opacity: 0.5;
-			pointer-events: none;
 			cursor: not-allowed;
+			// pointer-events: none;
 			padding-bottom: 15px;
 
 			&::after {
