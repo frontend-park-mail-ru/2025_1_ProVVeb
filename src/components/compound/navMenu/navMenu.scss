@@ -50,9 +50,23 @@
 			transition-duration: 0.1s;
 		}
 
-		&:active {
-			transform: translateX(2px);
-			transition-duration: 0.1s;
+		&--dev {
+			position: relative;
+			opacity: 0.5;
+			pointer-events: none;
+			cursor: not-allowed;
+			padding-bottom: 15px;
+
+			&::after {
+				content: "(в разработке)";
+				position: absolute;
+				bottom: 0;
+				left: 12px;
+				font-size: 0.7em;
+				color: #ff739f;
+				text-align: left;
+				line-height: 1;
+			}
 		}
 	}
 }

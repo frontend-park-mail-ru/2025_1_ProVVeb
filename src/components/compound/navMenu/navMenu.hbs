@@ -2,9 +2,9 @@
 	<nav class="navMenu__inner">
 		<div class="navMenu__links">
 			{{#each links}}
-			<div id="{{this.id}}" class="navMenu__link">
+			<div id="{{this.id}}" class="navMenu__link{{#if this.isDev}} navMenu__link--dev{{/if}}">
 				<img src="{{this.srcIcon}}" alt="Иконка {{this.title}}">
-				<a class="">{{this.title}}</a>
+				<span class="">{{this.title}}</span>
 			</div>
 			{{/each}}
 		</div>
