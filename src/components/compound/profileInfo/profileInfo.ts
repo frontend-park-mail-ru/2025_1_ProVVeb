@@ -345,7 +345,7 @@ export default class ProfileInfoCard extends BaseComponent {
 			});
 		}
 
-		const uploadPhotosFrom = this.parentElement.querySelector('#uploadPhotos__from');
+		const uploadPhotosFrom = this.parentElement.querySelector('#uploadPhotos__form');
 		if (uploadPhotosFrom) {
 			uploadPhotosFrom.addEventListener('submit', async (e) => {
 				e.preventDefault();

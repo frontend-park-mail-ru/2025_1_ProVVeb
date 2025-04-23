@@ -138,8 +138,13 @@
 			</div>
 		</section>
 		<section class="profileInfo__pictures uploadPhotos">
-			<h3 class="uploadPhotos__title">{{ picturesTitle }}</h3>
-			<form id="uploadPhotos__from">
+			<form id="uploadPhotos__form">
+				<div class="uploadPhotos__header">
+					<h3 class="uploadPhotos__title">{{ picturesTitle }}</h3>
+					<div class="uploadPhotos__controls">
+						<button type="submit" class="uploadPhotos__submitBtn" disabled>Сохранить</button>
+					</div>
+				</div>
 				<div id="photosGridId" class="photosGrid">
 					{{#each photos}}
 					{{#if this}}
@@ -153,9 +158,6 @@
 					</div>
 					{{/if}}
 					{{/each}}
-				</div>
-				<div class="uploadPhotos__controls">
-					<button type="submit" class="uploadPhotos__submitBtn" disabled>Сохранить</button>
 				</div>
 			</form>
 		</section>
