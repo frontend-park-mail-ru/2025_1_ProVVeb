@@ -65,3 +65,8 @@
 // 	margin: 0;
 // 	padding-right: var(--scrollbar-width);
 // }
+
+body {
+	overflow-y: scroll;
+	scrollbar-gutter: stable;
+}
