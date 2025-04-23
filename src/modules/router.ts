@@ -76,7 +76,7 @@ class Router {
 			if (sessionResult.success && sessionResult.data.inSession) {
 				store.setState('myID', sessionResult.data.id);
 				store.setState('inSession', true);
-				
+
 				return true;
 			}
 		} catch (error) {
@@ -105,7 +105,7 @@ class Router {
 
 	public async navigateTo(page: AppPage, state: any = {}, isReplace = false): Promise<void> {
 		let cookie = this.checkCookie(page) as AppPage;
-		if(cookie != page){
+		if (cookie != page) {
 			isReplace = true;
 			page = cookie;
 		}
@@ -121,12 +121,11 @@ class Router {
 		store.update('ava');
 	}
 
-	public async start(){
+	public async start() {
 		const currentPath = window.location.pathname.split('/')[1] as AppPage || AppPage.Feed;
 
-		if(!(await this.checkSession())){
-			
-			if(currentPath != AppPage.Auth && currentPath != AppPage.Login)
+		if (!(await this.checkSession())) {
+			if (currentPath != AppPage.Auth && currentPath != AppPage.Login)
 				this.navigateTo(AppPage.Auth, {}, true);
 			else
 				this.navigateTo(currentPath, {}, true);
@@ -145,11 +144,11 @@ class Router {
 		if (name) store.setState('profileName', name);
 	}
 
-	private checkCookie(page: AppPage): AppPage{
+	private checkCookie(page: AppPage): AppPage {
 		const inSession = store.getState('inSession');
-		if(!inSession && page != AppPage.Auth && page != AppPage.Login)
+		if (!inSession && page != AppPage.Auth && page != AppPage.Login)
 			return AppPage.Auth;
-		if(inSession && (page == AppPage.Auth || page == AppPage.Login))
+		if (inSession && (page == AppPage.Auth || page == AppPage.Login))
 			return AppPage.Settings;
 		return page;
 	}

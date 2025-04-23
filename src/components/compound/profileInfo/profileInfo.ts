@@ -820,6 +820,19 @@ export default class ProfileInfoCard extends BaseComponent {
 								(input.previousElementSibling as HTMLElement).style.display = 'block';
 							});
 
+							const ageElement = document.querySelector('.firstInfo__age');
+							const personDataContent = document.querySelectorAll('.personData__content')[3]?.textContent;
+
+							if (ageElement && personDataContent) {
+								console.log('1', 1)
+								const birthday = Number(personDataContent.split('.').at(-1));
+								const currentYear = new Date().getFullYear();
+
+								if (birthday !== undefined) {
+									(ageElement as HTMLElement).innerText = String(currentYear - birthday);
+								}
+							}
+
 							new Notification({
 								title: 'Данные успешно обновлены',
 								isWarning: false,
