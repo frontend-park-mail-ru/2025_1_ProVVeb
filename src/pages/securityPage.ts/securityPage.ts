@@ -2,7 +2,7 @@ import BasePage from '../BasePage';
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
 
-export default class EmptyPage extends BasePage {
+export default class SecurityPage extends BasePage {
 	private components: Array<HeaderMain | NavMenu>;
 	private contentWrapper: HTMLElement;
 
@@ -26,7 +26,7 @@ export default class EmptyPage extends BasePage {
 		for (let i = 1; i < this.components.length; i++) {
 			this.components[i].render();
 		}
-		this.contentWrapper.insertAdjacentHTML('beforeend', "<p>В стадии разработки...</p>");
+		// this.contentWrapper.insertAdjacentHTML('beforeend', "<p>В стадии разработки...</p>");
 	}
 
 	public getNavMenu(): NavMenu {
