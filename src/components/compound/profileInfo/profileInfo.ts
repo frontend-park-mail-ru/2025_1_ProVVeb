@@ -6,6 +6,7 @@ import { parseBirthday } from '@modules/tools';
 import { arraysEqual } from '@modules/tools';
 import Notification from '@simple/notification/notification';
 import Confirm from '@simple/confirm/confirm';
+import { ProfileValidators } from '@modules/validation';
 
 interface ProfileInfoParams {
 	firstName: string;
@@ -508,6 +509,8 @@ export default class ProfileInfoCard extends BaseComponent {
 	}
 
 	async render(): Promise<void> {
+		const self = this;
+
 		this.showLoadingState();
 
 		this.callbacks.forEach((callback) => {
@@ -533,120 +536,430 @@ export default class ProfileInfoCard extends BaseComponent {
 			this.showErrorState('Ошибка соединения', () => this.render());
 		}
 
-		document.querySelectorAll('.editBtn').forEach(btn => {
+		document.querySelectorAll<HTMLButtonElement>('.editBtn').forEach(btn => {
 			btn.addEventListener('click', function () {
-				const type = this.classList.contains('editBtn--name') ? 'name' :
-					this.classList.contains('editBtn--about') ? 'about' : 'data';
+				let type: string;
 
-				// Скрываем кнопку редактирования и показываем кнопки сохранения/отмены
+				if (this.classList.contains('editBtn--name')) {
+					type = 'name';
+				} else if (this.classList.contains('editBtn--about')) {
+					type = 'about';
+				} else if (this.classList.contains('editBtn--data')) {
+					type = 'data';
+				} else if (this.classList.contains('editBtn--interests')) {
+					type = 'interests';
+				} else {
+					return
+				}
+
 				this.style.display = 'none';
-				document.querySelector(`.editControls--${type}`).style.display = 'flex';
+				const editControl = document.querySelector(`.editControls--${type}`);
+				if (editControl) {
+					editControl.style.display = 'flex';
+				}
 
-				// Активируем режим редактирования в зависимости от типа
 				if (type === 'name') {
-					const firstName = document.querySelector('.firstInfo__firstName').textContent;
-					const lastName = document.querySelector('.firstInfo__lastName').textContent;
-					const age = document.querySelector('.firstInfo__age').textContent;
+					const firstName = document.querySelector('.firstInfo__firstName')?.textContent || '';
+					const lastName = document.querySelector('.firstInfo__lastName')?.textContent || '';
+					const age = document.querySelector('.firstInfo__age')?.textContent || '';
 
 					// Сохраняем исходные значения в data-атрибуты родителя
-					document.querySelector('.firstInfo__content').setAttribute('data-original-firstName', firstName);
-					document.querySelector('.firstInfo__content').setAttribute('data-original-lastName', lastName);
-					document.querySelector('.firstInfo__content').setAttribute('data-original-age', age);
+					const content = document.querySelector('.firstInfo__content');
+					if (content) {
+						content.setAttribute('data-original-firstName', firstName);
+						content.setAttribute('data-original-lastName', lastName);
+						content.setAttribute('data-original-age', age);
 
-					// Заменяем на input-поля
-					document.querySelector('.firstInfo__content').innerHTML = `
-					  <input type="text" class="nameInput" value="${firstName.trim()}" placeholder="Имя">
-					  <input type="text" class="nameInput" value="${lastName.trim()}" placeholder="Фамилия">
-					  <span class="firstInfo__age">${age}</span>
+						// Заменяем на input-поля
+						content.innerHTML = `
+						<input type="text" class="nameInput" value="${firstName.trim()}" placeholder="Имя">
+						<input type="text" class="nameInput" value="${lastName.trim()}" placeholder="Фамилия">
+						<span class="firstInfo__age">${age}</span>
 					`;
-				}
-				else if (type === 'about') {
-					const aboutText = document.querySelector('.aboutMe__text').textContent;
-					document.querySelector('.aboutMe__content').style.display = 'none';
-					document.querySelector('.aboutMe__editInput').style.display = 'block';
-					document.querySelector('.aboutMe__editInput').value = aboutText;
-				}
-				else if (type === 'data') {
+					}
+				} else if (type === 'about') {
+					const aboutText = document.querySelector('.aboutMe__text')?.textContent || '';
+					const editInput = document.querySelector('.aboutMe__editInput');
+					const content = document.querySelector('.aboutMe__content');
+					if (editInput && content) {
+						content.style.display = 'none';
+						editInput.style.display = 'block';
+						editInput.value = aboutText;
+					}
+				} else if (type === 'data') {
 					document.querySelectorAll('.personData__content').forEach(content => {
 						content.style.display = 'none';
-						content.nextElementSibling.style.display = 'block';
+						const next = content.nextElementSibling as HTMLElement;
+						next.style.display = 'block';
+					});
+				} else if (type === 'interests') {
+					const interestsContainer = document.querySelector('.interests__container') as HTMLElement;
+					const editContainer = document.querySelector('.interests__editContainer') as HTMLElement;
+					const editItemsContainer = document.querySelector('.interests__editItems') as HTMLElement;
+
+					interestsContainer.style.display = 'none';
+					editContainer.style.display = 'flex';
+
+					// Заполняем поля для редактирования
+					editItemsContainer.innerHTML = '';
+					Array.from(interestsContainer.querySelectorAll('.interests__item')).forEach(item => {
+						addInterestInput(item.textContent || '');
 					});
 				}
 			});
 		});
 
-		// Обработчики для кнопок сохранения
-		document.querySelectorAll('.saveBtn').forEach(btn => {
-			btn.addEventListener('click', function () {
-				// Определяем тип редактирования
-				const type = this.closest('.editControls').classList.contains('editControls--name') ? 'name' :
-					this.closest('.editControls').classList.contains('editControls--about') ? 'about' : 'data';
+		function addInterestInput(value: string = '') {
+			const editItemsContainer = document.querySelector('.interests__editItems') as HTMLElement;
+			const item = document.createElement('div');
+			item.className = 'interests__editItem';
+
+			item.innerHTML = `
+			  <input placeholder="Впиши интерес" type="text" class="interests__editInput" value="${value}">
+			  <button type="button" class="interests__removeBtn"></button>
+			`;
+
+			editItemsContainer.appendChild(item);
+
+			// Фокус на новом поле
+			const input = item.querySelector('.interests__editInput') as HTMLInputElement;
+			input.focus();
+
+			item.querySelector('.interests__removeBtn')?.addEventListener('click', () => {
+				item.remove();
+			});
+		}
+
+		document.querySelector('.interests__addBtn')?.addEventListener('click', () => {
+			addInterestInput();
+		});
+
+		document.querySelectorAll<HTMLButtonElement>('.saveBtn').forEach(btn => {
+			btn.addEventListener('click', async function () {
+				let type: string;
+				const controls = this.closest('.editControls');
+
+				if (controls?.classList.contains('editControls--name')) {
+					type = 'name';
+				} else if (controls?.classList.contains('editControls--about')) {
+					type = 'about';
+				} else if (controls?.classList.contains('editControls--data')) {
+					type = 'data';
+				} else if (controls?.classList.contains('editControls--interests')) {
+					type = 'interests';
+				} else {
+					return
+				}
 
 				if (type === 'name') {
 					const inputs = document.querySelectorAll('.nameInput');
-					const firstName = inputs[0].value.trim();
-					const lastName = inputs[1].value.trim();
-					const age = document.querySelector('.firstInfo__age').textContent;
+					const firstName = (inputs[0] as HTMLInputElement).value.trim();
+					const lastName = (inputs[1] as HTMLInputElement).value.trim();
+					const age = document.querySelector('.firstInfo__age')?.textContent || '';
 
-					document.querySelector('.firstInfo__content').innerHTML = `
-				  <span class="firstInfo__firstName">${firstName}</span>
-				  <span class="firstInfo__lastName">${lastName}</span>
-				  <span class="firstInfo__age">${age}</span>
-				`;
-				}
-				else if (type === 'about') {
-					const newText = document.querySelector('.aboutMe__editInput').value;
-					document.querySelector('.aboutMe__text').textContent = newText;
-					document.querySelector('.aboutMe__content').style.display = 'block';
-					document.querySelector('.aboutMe__editInput').style.display = 'none';
-				}
-				else if (type === 'data') {
-					document.querySelectorAll('.personData__editInput').forEach(input => {
-						const newValue = input.value.trim();
-						input.previousElementSibling.textContent = newValue;
-						input.style.display = 'none';
-						input.previousElementSibling.style.display = 'block';
+					try {
+						const res = await api.updateProfile({
+							profileId: store.getState('myID') as number,
+							firstName,
+							lastName
+						});
+
+						if (res.success) {
+							const content = document.querySelector('.firstInfo__content');
+							if (content) {
+								content.innerHTML = `
+								<span class="firstInfo__firstName">${firstName}</span>
+								<span class="firstInfo__lastName">${lastName}</span>
+								<span class="firstInfo__age">${age}</span>
+								`;
+							}
+						} else {
+							self.showErrorState('Ошибка при обновлении имени или фамилии', () => self.render());
+							const notification = new Notification({
+								headTitle: "Что-то пошло не так...",
+								title: `Ошибка при обновлении имени или фамилии`,
+								isWarning: false,
+								isWithButton: true,
+							});
+							notification.render();
+						}
+					} catch (e) {
+						self.showErrorState('Сервер недоступен', () => self.render());
+						const notification = new Notification({
+							headTitle: "Что-то пошло не так...",
+							title: `Сервер недоступен`,
+							isWarning: false,
+							isWithButton: true,
+						});
+						notification.render();
+					}
+				} else if (type === 'about') {
+					const newText = (document.querySelector('.aboutMe__editInput') as HTMLTextAreaElement).value.trim();
+
+					try {
+						const res = await api.updateProfile({
+							profileId: store.getState('myID') as number,
+							description: newText
+						});
+
+						if (res.success) {
+							document.querySelector('.aboutMe__text')!.textContent = newText;
+
+							const content = document.querySelector('.aboutMe__content');
+							const editInput = document.querySelector('.aboutMe__editInput');
+							if (content && editInput) {
+								content.style.display = 'block';
+								editInput.style.display = 'none';
+							}
+						} else {
+							self.showErrorState('Ошибка при обновлении описания', () => self.render());
+							const notification = new Notification({
+								headTitle: "Что-то пошло не так...",
+								title: 'Ошибка при обновлении описания',
+								isWarning: false,
+								isWithButton: true,
+							});
+							notification.render();
+						}
+					} catch (e) {
+						self.showErrorState('Сервер недоступен', () => self.render());
+						const notification = new Notification({
+							headTitle: "Что-то пошло не так...",
+							title: 'Сервер недоступен',
+							isWarning: false,
+							isWithButton: true,
+						});
+						notification.render();
+					}
+				} else if (type === 'data') {
+					const updatedData: Record<string, string> = {};
+
+					document.querySelectorAll('.personData__item').forEach(item => {
+						const titleElement = item.querySelector('.personData__field');
+						const inputElement = item.querySelector('.personData__editInput');
+
+						if (titleElement && inputElement) {
+							const fieldName = titleElement.textContent?.trim();
+							const fieldValue = (inputElement as HTMLInputElement).value.trim();
+
+							if (fieldName) {
+								updatedData[fieldName] = fieldValue;
+							}
+						}
 					});
+
+					if ('Рост' in updatedData) {
+						const heightValidation = ProfileValidators.validateHeight(updatedData['Рост']);
+						if (!heightValidation.isValid) {
+							new Notification({
+								headTitle: "Ошибка валидации",
+								title: heightValidation.message || 'Некорректный рост',
+								isWarning: false,
+								isWithButton: true,
+							}).render();
+							return;
+						}
+					}
+
+					if ('Гендер' in updatedData) {
+						const genderValidation = ProfileValidators.validateGender(updatedData['Гендер']);
+						if (!genderValidation.isValid) {
+							new Notification({
+								headTitle: "Ошибка валидации",
+								title: genderValidation.message || 'Некорректный гендер',
+								isWarning: false,
+								isWithButton: true,
+							}).render();
+							return;
+						}
+					}
+
+					if ('Дата рождения' in updatedData) {
+						const birthdayValidation = ProfileValidators.validateBirthday(updatedData['Дата рождения']);
+						if (!birthdayValidation.isValid) {
+							new Notification({
+								headTitle: "Ошибка валидации",
+								title: birthdayValidation.message || 'Некорректная дата рождения',
+								isWarning: false,
+								isWithButton: true,
+							}).render();
+							return;
+						}
+					}
+
+					const apiData: any = {
+						profileId: store.getState('myID') as number
+					};
+
+					if ('Гендер' in updatedData) {
+						apiData.isMale = updatedData['Гендер'] === 'Мужчина';
+					}
+
+					if ('Дата рождения' in updatedData) {
+						const [day, month, year] = updatedData['Дата рождения'].split('.');
+						const date = new Date(`${year}-${month}-${day}T00:00:00Z`);
+						apiData.birthday = date.toISOString();
+					}
+
+					if ('Рост' in updatedData) {
+						apiData.height = parseInt(updatedData['Рост']);
+					}
+
+					if ('Локация' in updatedData) {
+						apiData.location = updatedData['Локация'];
+					}
+
+					try {
+						const res = await api.updateProfile(apiData);
+
+						if (res.success) {
+							document.querySelectorAll('.personData__editInput').forEach(input => {
+								const newValue = (input as HTMLInputElement).value.trim();
+								input.previousElementSibling!.textContent = newValue;
+								input.style.display = 'none';
+								(input.previousElementSibling as HTMLElement).style.display = 'block';
+							});
+
+							new Notification({
+								title: 'Данные успешно обновлены',
+								isWarning: false,
+								isWithButton: true,
+							}).render();
+						} else {
+							self.showErrorState('Ошибка при обновлении данных', () => self.render());
+							const notification = new Notification({
+								headTitle: "Что-то пошло не так...",
+								title: `Ошибка при обновлении данных`,
+								isWarning: false,
+								isWithButton: true,
+							});
+							notification.render();
+						}
+					} catch (error) {
+						self.showErrorState('Сервер недоступен', () => self.render());
+						const notification = new Notification({
+							headTitle: "Что-то пошло не так...",
+							title: `Сервер недоступен`,
+							isWarning: false,
+							isWithButton: true,
+						});
+						notification.render();
+					}
+				} else if (type === 'interests') {
+					const interestsContainer = document.querySelector('.interests__container') as HTMLElement;
+					const editContainer = document.querySelector('.interests__editContainer') as HTMLElement;
+
+					const newInterests = Array.from(document.querySelectorAll('.interests__editInput'))
+						.map(input => (input as HTMLInputElement).value.trim())
+						.filter(interest => interest !== '');
+
+					try {
+						const res = await api.updateProfile({
+							profileId: store.getState('myID') as number,
+							interests: newInterests
+						});
+
+						if (res.success) {
+							interestsContainer.innerHTML = '';
+							newInterests.forEach(interest => {
+								const item = document.createElement('span');
+								item.className = 'interests__item';
+								item.textContent = interest;
+								interestsContainer.appendChild(item);
+							});
+
+							interestsContainer.style.display = 'flex';
+							editContainer.style.display = 'none';
+						} else {
+							self.showErrorState('Ошибка при обновлении интересов', () => self.render());
+							const notification = new Notification({
+								headTitle: "Что-то пошло не так...",
+								title: 'Ошибка при обновлении интересов',
+								isWarning: false,
+								isWithButton: true,
+							});
+							notification.render();
+						}
+					} catch (e) {
+						self.showErrorState('Сервер недоступен', () => self.render());
+						const notification = new Notification({
+							headTitle: "Что-то пошло не так...",
+							title: 'Сервер недоступен',
+							isWarning: false,
+							isWithButton: true,
+						});
+						notification.render();
+					}
 				}
 
-				// Возвращаем кнопки в исходное состояние
-				document.querySelector(`.editControls--${type}`).style.display = 'none';
-				document.querySelector(`.editBtn--${type}`).style.display = 'block';
+				const editControl = document.querySelector(`.editControls--${type}`);
+				const editBtn = document.querySelector(`.editBtn--${type}`);
+				if (editControl && editBtn) {
+					editControl.style.display = 'none';
+					editBtn.style.display = 'block';
+				}
 			});
 		});
 
-		// Обработчики для кнопок отмены
-		document.querySelectorAll('.cancelBtn').forEach(btn => {
+		document.querySelectorAll<HTMLButtonElement>('.cancelBtn').forEach(btn => {
 			btn.addEventListener('click', function () {
-				const type = this.closest('.editControls').classList.contains('editControls--name') ? 'name' :
-					this.closest('.editControls').classList.contains('editControls--about') ? 'about' : 'data';
+				let type: string;
+				const controls = this.closest('.editControls');
+
+				if (controls?.classList.contains('editControls--name')) {
+					type = 'name';
+				} else if (controls?.classList.contains('editControls--about')) {
+					type = 'about';
+				} else if (controls?.classList.contains('editControls--data')) {
+					type = 'data';
+				} else if (controls?.classList.contains('editControls--interests')) {
+					type = 'interests';
+				} else {
+					return
+				}
 
 				if (type === 'name') {
-					const originalFirstName = document.querySelector('.firstInfo__content').getAttribute('data-original-firstName');
-					const originalLastName = document.querySelector('.firstInfo__content').getAttribute('data-original-lastName');
-					const originalAge = document.querySelector('.firstInfo__content').getAttribute('data-original-age');
+					const originalFirstName = document.querySelector('.firstInfo__content')?.getAttribute('data-original-firstName') || '';
+					const originalLastName = document.querySelector('.firstInfo__content')?.getAttribute('data-original-lastName') || '';
+					const originalAge = document.querySelector('.firstInfo__content')?.getAttribute('data-original-age') || '';
 
-					document.querySelector('.firstInfo__content').innerHTML = `
-				  <span class="firstInfo__firstName">${originalFirstName}</span>
-				  <span class="firstInfo__lastName">${originalLastName}</span>
-				  <span class="firstInfo__age">${originalAge}</span>
-				`;
-				}
-				else if (type === 'about') {
-					document.querySelector('.aboutMe__content').style.display = 'block';
-					document.querySelector('.aboutMe__editInput').style.display = 'none';
-				}
-				else if (type === 'data') {
+					const content = document.querySelector('.firstInfo__content');
+					if (content) {
+						content.innerHTML = `
+					<span class="firstInfo__firstName">${originalFirstName}</span>
+					<span class="firstInfo__lastName">${originalLastName}</span>
+					<span class="firstInfo__age">${originalAge}</span>
+				  `;
+					}
+				} else if (type === 'about') {
+					const content = document.querySelector('.aboutMe__content');
+					const editInput = document.querySelector('.aboutMe__editInput');
+					if (content && editInput) {
+						content.style.display = 'block';
+						editInput.style.display = 'none';
+					}
+				} else if (type === 'data') {
 					document.querySelectorAll('.personData__editInput').forEach(input => {
 						input.style.display = 'none';
-						input.previousElementSibling.style.display = 'block';
+						const prev = input.previousElementSibling as HTMLElement;
+						prev.style.display = 'block';
 					});
+				} else if (type === 'interests') {
+					const interestsContainer = document.querySelector('.interests__container') as HTMLElement;
+					const editContainer = document.querySelector('.interests__editContainer') as HTMLElement;
+
+					interestsContainer.style.display = 'flex';
+					editContainer.style.display = 'none';
 				}
 
-				// Возвращаем кнопки в исходное состояние
-				document.querySelector(`.editControls--${type}`).style.display = 'none';
-				document.querySelector(`.editBtn--${type}`).style.display = 'block';
+				const editControl = document.querySelector(`.editControls--${type}`);
+				const editBtn = document.querySelector(`.editBtn--${type}`);
+				if (editControl && editBtn) {
+					editControl.style.display = 'none';
+					editBtn.style.display = 'block';
+				}
 			});
 		});
+
 	}
 }

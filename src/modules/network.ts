@@ -48,6 +48,7 @@ async function sendRequest<T>(
 				options.headers = {
 					"Content-Type": "application/json",
 				};
+
 				options.body = JSON.stringify(data);
 			}
 		}
@@ -163,7 +164,6 @@ async function checkSession(): Promise<ApiResponse> {
 	return sendRequest(url, 'GET');
 }
 
-//-----------------getMatches
 async function getMatches(userId: number): Promise<ApiResponse<Profile[]>> {
 	const url = `${BASE_URL}/profiles/match/${userId}`;
 	return sendRequest(url, 'GET');
@@ -178,11 +178,18 @@ async function Dislike(likeFrom: number, likeTo: number): Promise<ApiResponse> {
 	const url = `${BASE_URL}/profiles/like`;
 	return sendRequest(url, 'POST', { likeFrom, likeTo, status: -1 });
 }
-//-----------------
+
+async function updateProfile(data: {
+	[key: string]: string | number | boolean | string[];
+}): Promise<ApiResponse> {
+	const url = `${BASE_URL}/profiles/update`;
+	return sendRequest(url, 'POST', data);
+}
 
 export default {
 	BASE_URL_PHOTO,
 	BASE_URL,
+	updateProfile,
 	uploadPhotos,
 	deletePhoto,
 	getProfiles,

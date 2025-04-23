@@ -177,3 +177,49 @@ export const PASSWORD_BRIEF_RULES: ValidatorRule[] = [
 		message: 'Пароль должен быть меньше 64 символов',
 	},
 ];
+
+export class ProfileValidators {
+	static validateHeight(height: string): { isValid: boolean; message?: string } {
+		const heightValue = parseInt(height);
+		if (isNaN(heightValue)) {
+			return { isValid: false, message: 'Рост должен быть числом' };
+		}
+		if (heightValue < 100 || heightValue > 250) {
+			return { isValid: false, message: 'Рост должен быть от 100 до 250 см' };
+		}
+		return { isValid: true };
+	}
+
+	static validateGender(gender: string): { isValid: boolean; message?: string } {
+		const validGenders = ['Мужчина', 'Женщина'];
+		if (!validGenders.includes(gender)) {
+			return { isValid: false, message: 'Укажите "Мужчина" или "Женщина"' };
+		}
+		return { isValid: true };
+	}
+
+	static validateBirthday(birthday: string): { isValid: boolean; message?: string } {
+		const dateRegex = /^\d{2}\.\d{2}\.\d{4}$/;
+		if (!dateRegex.test(birthday)) {
+			return { isValid: false, message: 'Формат даты: ДД.ММ.ГГГГ' };
+		}
+
+		const [day, month, year] = birthday.split('.').map(Number);
+		const date = new Date(year, month - 1, day);
+
+		if (
+			date.getFullYear() !== year ||
+			date.getMonth() !== month - 1 ||
+			date.getDate() !== day
+		) {
+			return { isValid: false, message: 'Некорректная дата' };
+		}
+
+		const currentYear = new Date().getFullYear();
+		if (year < 1900 || year > currentYear) {
+			return { isValid: false, message: 'Год должен быть между 1900 и текущим' };
+		}
+
+		return { isValid: true };
+	}
+}
