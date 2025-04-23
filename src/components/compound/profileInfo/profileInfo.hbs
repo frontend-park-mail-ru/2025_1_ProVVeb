@@ -11,13 +11,56 @@
 		</div>
 		{{else}}
 		<div class="profileInfo__firstInfo firstInfo">
-			<span class="firstInfo__firstName">{{ firstName }} </span>
-			<span class="firstInfo__lastName">{{ lastName }} </span>
-			<span class="firstInfo__age">{{ age }}</span>
+			<div class="firstInfo__content">
+				<span class="firstInfo__firstName">{{ firstName }} </span>
+				<span class="firstInfo__lastName">{{ lastName }} </span>
+				<span class="firstInfo__age">{{ age }}</span>
+			</div>
+			<button class="editBtn editBtn--name" title="Редактировать">
+				<svg class="editIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+					stroke-width="2">
+					<path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+				</svg>
+			</button>
+			<div class="editControls editControls--name" style="display: none;">
+				<button class="saveBtn" title="Сохранить">
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2">
+						<path d="M20 6L9 17l-5-5"></path>
+					</svg>
+				</button>
+				<button class="cancelBtn" title="Отменить">
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2">
+						<path d="M18 6L6 18M6 6l12 12"></path>
+					</svg>
+				</button>
+			</div>
 		</div>
 		<section class="profileInfo__aboutMe aboutMe">
-			<h3 class="aboutMe__title">{{ aboutMeTitle }}</h3>
-			<p class="aboutMe__text">{{ aboutMeText }}</p>
+			<div class="aboutMe__header">
+				<h3 class="aboutMe__title">{{ aboutMeTitle }}</h3>
+				<button class="editBtn editBtn--about" title="Редактировать">
+					<svg class="editIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+						stroke-width="2">
+						<path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+					</svg>
+				</button>
+				<div class="editControls editControls--about" style="display: none;">
+					<button class="saveBtn" title="Сохранить">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2">
+							<path d="M20 6L9 17l-5-5"></path>
+						</svg>
+					</button>
+					<button class="cancelBtn" title="Отменить">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2">
+							<path d="M18 6L6 18M6 6l12 12"></path>
+						</svg>
+					</button>
+				</div>
+			</div>
+			<div class="aboutMe__content">
+				<p class="aboutMe__text">{{ aboutMeText }}</p>
+			</div>
+			<textarea class="aboutMe__editInput" style="display: none;"></textarea>
 		</section>
 		<section class="profileInfo__interests interests">
 			<h3 class="interests__title">{{ interestsTitle }}</h3>
@@ -28,12 +71,33 @@
 			</div>
 		</section>
 		<section class="profileInfo__personData personData">
-			<h3 class="personData__title">{{ dataTitle }}</h3>
+			<div class="personData__header">
+				<h3 class="personData__title">{{ dataTitle }}</h3>
+				<button class="editBtn editBtn--data" title="Редактировать">
+					<svg class="editIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+						stroke-width="2">
+						<path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+					</svg>
+				</button>
+				<div class="editControls editControls--data" style="display: none;">
+					<button class="saveBtn" title="Сохранить">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="green" stroke-width="2">
+							<path d="M20 6L9 17l-5-5"></path>
+						</svg>
+					</button>
+					<button class="cancelBtn" title="Отменить">
+						<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="red" stroke-width="2">
+							<path d="M18 6L6 18M6 6l12 12"></path>
+						</svg>
+					</button>
+				</div>
+			</div>
 			<div class="personData__container">
 				{{#each data}}
 				<div class="personData__item">
 					<p class="personData__field">{{ this.title }}</p>
 					<p class="personData__content">{{ this.content }}</p>
+					<input type="text" class="personData__editInput" value="{{ this.content }}" style="display: none;">
 				</div>
 				{{/each}}
 			</div>
@@ -56,7 +120,6 @@
 					{{/each}}
 				</div>
 				<div class="uploadPhotos__controls">
-					{{!-- <button type="button" class="uploadPhotos__cancelBtn">Отмена</button> --}}
 					<button type="submit" class="uploadPhotos__submitBtn" disabled>Сохранить</button>
 				</div>
 			</form>

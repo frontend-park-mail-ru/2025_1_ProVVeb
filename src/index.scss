@@ -55,13 +55,13 @@
 }
 
 
-:root {
-	--scrollbar-width: 17px;
-}
+// :root {
+// 	--scrollbar-width: 17px;
+// }
 
-body {
-	overflow-y: auto;
-	width: calc(100vw - var(--scrollbar-width));
-	margin: 0;
-	padding-right: var(--scrollbar-width);
-}
+// body {
+// 	overflow-y: auto;
+// 	width: calc(100vw - var(--scrollbar-width));
+// 	margin: 0;
+// 	padding-right: var(--scrollbar-width);
+// }

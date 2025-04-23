@@ -15,7 +15,7 @@
 
 	&__interests {
 		padding-top: 13px;
-		border-top: 1px solid var(--vertical-line); //#fe3675
+		border-top: 1px solid var(--vertical-line);
 	}
 
 	&__personData {
@@ -39,13 +39,63 @@
 }
 
 .firstInfo {
-	font-size: 26px;
-	font-weight: 700;
-	color: var(--font-color);
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	position: relative;
+
+	&__firstName,
+	&__lastName {
+		font-weight: 700;
+		font-size: 26px;
+		color: var(--font-color);
+	}
 
 	&__age {
 		font-weight: 500;
 		font-size: 24px;
+		color: var(--font-color);
+		margin-left: 10px;
+	}
+
+	&__content {
+		display: flex;
+		align-items: baseline;
+		gap: 5px;
+		transition: all 0.3s ease;
+	}
+
+	.nameInput {
+		font-size: 26px;
+		font-weight: 700;
+		color: var(--font-color);
+		background: transparent;
+		border: none;
+		border-bottom: 2px solid var(--gray-line);
+		padding: 0 0 5px 0;
+		margin-right: 10px;
+		width: auto;
+		max-width: 200px;
+		transition: all 0.3s ease;
+		font-family: inherit;
+
+		&:focus {
+			outline: none;
+			border-bottom-color: #fe3675;
+		}
+
+		&::placeholder {
+			color: var(--gray-line);
+			opacity: 0.7;
+		}
+
+		&:first-child {
+			max-width: 150px;
+		}
+
+		&:nth-child(2) {
+			max-width: 180px;
+		}
 	}
 }
 
@@ -54,9 +104,104 @@
 	flex-direction: column;
 	gap: 13px;
 
+	&__header {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
 	&__title {
 		font-weight: 700;
 		color: var(--font-color);
+		margin: 0;
+	}
+
+	&__editInput {
+		width: 100%;
+		min-height: 100px;
+		max-height: 170px;
+		padding: 10px;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		font-family: inherit;
+		font-size: inherit;
+		resize: vertical;
+
+		transition: all 0.3s ease;
+		background: rgba(255, 255, 255, 0.8);
+
+		&:focus {
+			outline: none;
+			border-color: #fe3675;
+			box-shadow: 0 0 0 2px rgba(254, 54, 117, 0.2);
+		}
+	}
+}
+
+.personData {
+	display: flex;
+	flex-direction: column;
+	gap: 13px;
+
+	&__header {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+	}
+
+	&__title {
+		font-weight: 700;
+		color: var(--font-color);
+		margin: 0;
+	}
+
+	&__container {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+	}
+
+	&__field {
+		font-weight: 700;
+		font-style: italic;
+		color: var(--font-color);
+		line-height: 1.2;
+		padding-top: 2px;
+	}
+
+	&__item {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		position: relative;
+		min-height: 1.5em;
+	}
+
+	&__editInput {
+		font-size: inherit;
+		font-weight: inherit;
+		color: inherit;
+		background: transparent;
+		border: none;
+		border-bottom: 2px solid var(--gray-line);
+		padding: 0 0 2px 0;
+		margin: 0;
+		width: 50%;
+		text-align: right;
+		font-family: inherit;
+		line-height: 1.2;
+		height: 1.2em;
+		vertical-align: top;
+
+		&:focus {
+			outline: none;
+			border-bottom-color: #fe3675;
+		}
+
+		&::placeholder {
+			color: var(--gray-line);
+			opacity: 0.7;
+		}
 	}
 }
 
@@ -93,33 +238,59 @@
 	}
 }
 
-.personData {
+.editIcon {
+	width: 18px;
+	height: 18px;
+}
+
+.editBtn {
+	opacity: 0.7;
+	transition: opacity 0.2s;
+	width: 30px;
+	height: 30px;
+	align-content: center;
+	vertical-align: middle;
+
+	&:hover {
+		opacity: 1;
+		cursor: pointer;
+	}
+}
+
+.saveBtn,
+.cancelBtn {
+	svg {
+		scale: 1.3;
+	}
+
+}
+
+.editControls {
 	display: flex;
-	flex-direction: column;
-	gap: 13px;
+	gap: 5px;
 
-	&__title {
-		font-weight: 700;
-		color: var(--font-color);
-	}
-
-	&__container {
+	button {
+		background: none;
+		border: none;
+		padding: 5px;
+		border-radius: 50%;
+		width: 30px;
+		height: 30px;
 		display: flex;
-		flex-direction: column;
-		gap: 8px;
-	}
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		transition: all 0.2s;
 
-	&__item {
-		display: flex;
-		justify-content: space-between;
-	}
+		&:hover {
+			background: rgba(0, 0, 0, 0.05);
+		}
 
-	&__field {
-		font-weight: 700;
-		font-style: italic;
-		color: var(--font-color);
+		svg {
+			width: 16px;
+			height: 16px;
+		}
 	}
-
 }
 
 .pictures {

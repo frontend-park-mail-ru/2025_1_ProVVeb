@@ -532,5 +532,121 @@ export default class ProfileInfoCard extends BaseComponent {
 		} catch (error) {
 			this.showErrorState('Ошибка соединения', () => this.render());
 		}
+
+		document.querySelectorAll('.editBtn').forEach(btn => {
+			btn.addEventListener('click', function () {
+				const type = this.classList.contains('editBtn--name') ? 'name' :
+					this.classList.contains('editBtn--about') ? 'about' : 'data';
+
+				// Скрываем кнопку редактирования и показываем кнопки сохранения/отмены
+				this.style.display = 'none';
+				document.querySelector(`.editControls--${type}`).style.display = 'flex';
+
+				// Активируем режим редактирования в зависимости от типа
+				if (type === 'name') {
+					const firstName = document.querySelector('.firstInfo__firstName').textContent;
+					const lastName = document.querySelector('.firstInfo__lastName').textContent;
+					const age = document.querySelector('.firstInfo__age').textContent;
+
+					// Сохраняем исходные значения в data-атрибуты родителя
+					document.querySelector('.firstInfo__content').setAttribute('data-original-firstName', firstName);
+					document.querySelector('.firstInfo__content').setAttribute('data-original-lastName', lastName);
+					document.querySelector('.firstInfo__content').setAttribute('data-original-age', age);
+
+					// Заменяем на input-поля
+					document.querySelector('.firstInfo__content').innerHTML = `
+					  <input type="text" class="nameInput" value="${firstName.trim()}" placeholder="Имя">
+					  <input type="text" class="nameInput" value="${lastName.trim()}" placeholder="Фамилия">
+					  <span class="firstInfo__age">${age}</span>
+					`;
+				}
+				else if (type === 'about') {
+					const aboutText = document.querySelector('.aboutMe__text').textContent;
+					document.querySelector('.aboutMe__content').style.display = 'none';
+					document.querySelector('.aboutMe__editInput').style.display = 'block';
+					document.querySelector('.aboutMe__editInput').value = aboutText;
+				}
+				else if (type === 'data') {
+					document.querySelectorAll('.personData__content').forEach(content => {
+						content.style.display = 'none';
+						content.nextElementSibling.style.display = 'block';
+					});
+				}
+			});
+		});
+
+		// Обработчики для кнопок сохранения
+		document.querySelectorAll('.saveBtn').forEach(btn => {
+			btn.addEventListener('click', function () {
+				// Определяем тип редактирования
+				const type = this.closest('.editControls').classList.contains('editControls--name') ? 'name' :
+					this.closest('.editControls').classList.contains('editControls--about') ? 'about' : 'data';
+
+				if (type === 'name') {
+					const inputs = document.querySelectorAll('.nameInput');
+					const firstName = inputs[0].value.trim();
+					const lastName = inputs[1].value.trim();
+					const age = document.querySelector('.firstInfo__age').textContent;
+
+					document.querySelector('.firstInfo__content').innerHTML = `
+				  <span class="firstInfo__firstName">${firstName}</span>
+				  <span class="firstInfo__lastName">${lastName}</span>
+				  <span class="firstInfo__age">${age}</span>
+				`;
+				}
+				else if (type === 'about') {
+					const newText = document.querySelector('.aboutMe__editInput').value;
+					document.querySelector('.aboutMe__text').textContent = newText;
+					document.querySelector('.aboutMe__content').style.display = 'block';
+					document.querySelector('.aboutMe__editInput').style.display = 'none';
+				}
+				else if (type === 'data') {
+					document.querySelectorAll('.personData__editInput').forEach(input => {
+						const newValue = input.value.trim();
+						input.previousElementSibling.textContent = newValue;
+						input.style.display = 'none';
+						input.previousElementSibling.style.display = 'block';
+					});
+				}
+
+				// Возвращаем кнопки в исходное состояние
+				document.querySelector(`.editControls--${type}`).style.display = 'none';
+				document.querySelector(`.editBtn--${type}`).style.display = 'block';
+			});
+		});
+
+		// Обработчики для кнопок отмены
+		document.querySelectorAll('.cancelBtn').forEach(btn => {
+			btn.addEventListener('click', function () {
+				const type = this.closest('.editControls').classList.contains('editControls--name') ? 'name' :
+					this.closest('.editControls').classList.contains('editControls--about') ? 'about' : 'data';
+
+				if (type === 'name') {
+					const originalFirstName = document.querySelector('.firstInfo__content').getAttribute('data-original-firstName');
+					const originalLastName = document.querySelector('.firstInfo__content').getAttribute('data-original-lastName');
+					const originalAge = document.querySelector('.firstInfo__content').getAttribute('data-original-age');
+
+					document.querySelector('.firstInfo__content').innerHTML = `
+				  <span class="firstInfo__firstName">${originalFirstName}</span>
+				  <span class="firstInfo__lastName">${originalLastName}</span>
+				  <span class="firstInfo__age">${originalAge}</span>
+				`;
+				}
+				else if (type === 'about') {
+					document.querySelector('.aboutMe__content').style.display = 'block';
+					document.querySelector('.aboutMe__editInput').style.display = 'none';
+				}
+				else if (type === 'data') {
+					document.querySelectorAll('.personData__editInput').forEach(input => {
+						input.style.display = 'none';
+						input.previousElementSibling.style.display = 'block';
+					});
+				}
+
+				// Возвращаем кнопки в исходное состояние
+				document.querySelector(`.editControls--${type}`).style.display = 'none';
+				document.querySelector(`.editBtn--${type}`).style.display = 'block';
+			});
+		});
 	}
 }
