@@ -1,43 +1,64 @@
+// Compounder.ts
 import { VBC } from "./VBC";
-import { VirtualNode, VirtualElement, renderVDOM } from "./utils";
+import { VirtualNode, renderVDOM, VirtualElement, parseStyle } from "./utils";
 
 export class Compounder {
-    private stack: VirtualNode[] = [];
-    private current?: VirtualElement;
+  private root: VirtualNode;
+  private current: VirtualElement;
+  private mountPoint?: HTMLElement;
+  private stack: VirtualElement[];
 
-    constructor(){ this.stack = [] }
+  constructor() {
+    this.root = { tag: "div", children: [] };
+    this.current = this.root as VirtualElement;
+    this.stack = [];
+  }
 
-    add(component: VBC){
-        if(!this.current){
-            this.current = {
-                tag: 'div',
-                className: '',
-                children: [],
-            };
-        }
-        this.current?.children.push(component['vdom']);
+  public add(component: VBC): void {
+    this.current.children.push(component.getVDOM());
+  }
+
+  /**
+   * Метод down: если аргумент — строка, создается новый div с этим классом, опционально с inline-стилем;
+   * если передается VirtualElement, просто обновляем указатель.
+   */
+  public down(arg: string | VirtualElement, inlineStyle?: string): void {
+    let newBlock: VirtualElement;
+    if (typeof arg === "string") {
+      newBlock = { tag: "div", className: arg, children: [] };
+      if (inlineStyle) {
+        newBlock.style = parseStyle(inlineStyle);
+      }
+    } else {
+      newBlock = arg;
     }
+    this.current.children.push(newBlock);
+    this.stack.push(this.current);
+    this.current = newBlock;
+  }
 
-    public down(className?: string): void {
-        const newBlock: VirtualElement = {
-            tag: 'div',
-            className: className as string,
-            children: [],
-        };
-        if(this.current){
-            this.current.children.push(newBlock);
-            this.stack.push(this.current);
-        }
-        this.current = newBlock;
+  public up(): void {
+    if (this.stack.length > 0) {
+      this.current = this.stack.pop() as VirtualElement;
     }
+  }
 
-    public up(): void{
-        if(this.stack.length > 0)
-            this.current = this.stack.pop() as VirtualElement;
+  public clear(): void {
+    this.root = { tag: "div", children: [] };
+    this.current = this.root as VirtualElement;
+    this.stack = [];
+    if (this.mountPoint) {
+      this.mountPoint.innerHTML = "";
     }
+  }
 
-    public render(mountPoint: HTMLElement): void{
-        if(this.current)
-            mountPoint.appendChild(renderVDOM(this.current));
-    }
+  public render(mountPoint: HTMLElement): void {
+    this.mountPoint = mountPoint;
+    mountPoint.innerHTML = "";
+    mountPoint.appendChild(renderVDOM(this.root));
+  }
+
+  public getTree(): VirtualNode {
+    return this.root;
+  }
 }

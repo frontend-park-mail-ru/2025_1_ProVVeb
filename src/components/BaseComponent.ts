@@ -7,7 +7,6 @@ export default class BaseComponent {
 		this.template = template;
 		this.parentElement = parentElement;
 		this.listeners = [];
-		this.injectStyle(style);
 	}
 
 	render(): void {
@@ -19,18 +18,6 @@ export default class BaseComponent {
 
 		this.parentElement.insertAdjacentHTML('beforeend', this.template);
 		this.attachListeners();
-	}
-
-	protected injectStyle(style: string): void {
-		if (style != '') {
-			const id = this.constructor.name + '-styles';
-			if (!document.getElementById(id)) {
-				const styleEl = document.createElement('style');
-				styleEl.id = id;
-				styleEl.innerHTML = style;
-				document.head.appendChild(styleEl);
-			}
-		}
 	}
 
 	getRenderedComponent(): string {
