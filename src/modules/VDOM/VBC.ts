@@ -11,6 +11,7 @@ import {
 export type TemplateProvider = string | ((props?: any) => string);
 
 export class VBC<P = {}> {
+  protected isRendered: boolean;
   protected props: P;
   protected defaultProps: Partial<P>;
   protected templateHBS: TemplateProvider;
@@ -42,6 +43,7 @@ export class VBC<P = {}> {
     this.eventsList.forEach(ev => this.injectScript(ev.selector, ev.eventType, ev.handler));
 
     this.root = renderVDOM(this.vdom) as HTMLElement;
+    this.isRendered = false;
 
     this.setAttribute('data-vbc-id', this.id);
   }
@@ -128,15 +130,16 @@ export class VBC<P = {}> {
   }
 
   public render(mountPoint: HTMLElement): void {
-    if (!this.root) {
+    if (!this.isRendered) {
       this.root = renderVDOM(this.vdom) as HTMLElement;
       mountPoint.appendChild(this.root);
+      this.isRendered = true;
     } else {
       const compiledHTML = this.compileTemplate();
       const newVDOM = parseHTML(compiledHTML);
       const updatedVDOM = diff(this.vdom, newVDOM);
       const newRoot = renderVDOM(updatedVDOM) as HTMLElement;
-      mountPoint.replaceChild(newRoot, this.root);
+      mountPoint.replaceChild(newRoot, this.root as HTMLElement);
       this.root = newRoot;
       this.vdom = newVDOM;
     }
