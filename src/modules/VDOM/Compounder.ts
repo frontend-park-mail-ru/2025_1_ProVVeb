@@ -18,10 +18,11 @@ export class Compounder {
     this.current.children.push(component.getVDOM());
   }
 
-  public down(arg: string | VirtualElement, inlineStyle?: string): void {
+  public down(arg: string | VirtualElement, inlineStyle?: string, tag?: string): void {
     let newBlock: VirtualElement;
     if (typeof arg === "string") {
-      newBlock = { tag: "div", className: arg, children: [] };
+      const TAG = tag || "div"
+      newBlock = { tag: TAG, className: arg, children: [] };
       if (inlineStyle) {
         newBlock.style = parseStyle(inlineStyle);
       }
