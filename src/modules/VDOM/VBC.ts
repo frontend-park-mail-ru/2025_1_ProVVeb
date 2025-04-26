@@ -82,7 +82,7 @@ export class VBC<P = {}> {
     (this.vdom as VirtualElement).attrs = { ...(this.vdom as VirtualElement).attrs, [key]: value };
   }
 
-  protected compileTemplate(): string {
+  public compileTemplate(): string {
     if (typeof this.templateHBS === "function") {
       return this.templateHBS({ ...this.defaultProps, ...this.props });
     } else {

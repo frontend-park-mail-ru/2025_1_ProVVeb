@@ -49,6 +49,12 @@ export class Compounder {
     }
   }
 
+  public addTo(mountPoint: HTMLElement): void {
+    this.mountPoint = mountPoint;
+    mountPoint.appendChild(renderVDOM(this.root));
+  }
+
+
   public render(mountPoint: HTMLElement): void {
     this.mountPoint = mountPoint;
     mountPoint.innerHTML = "";

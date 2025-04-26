@@ -122,6 +122,19 @@ const LINKS: LinkConfig[] = [
 			},
 		},
 	},
+	{
+		title: 'Статистика',
+		srcIcon: 'media/navMenu/active/stats_gradient.svg',
+		srcIconHover: 'media/navMenu/stats.svg',
+		id: 'stats' + uniqId,
+		listener: {
+			eventType: 'click',
+			selector: '#{id}',
+			callback: (event) => {
+				// console.log('settings');
+			},
+		},
+	},
 ];
 
 export default class NavMenu extends BaseComponent {

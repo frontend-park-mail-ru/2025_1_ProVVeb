@@ -9,6 +9,9 @@ import { CSS_center } from './components/VDOM/defaultStyles/VStyles';
 import { VBackButton } from './components/VDOM/simple/button/backButton/backButton';
 import { VDateInput, VDateInputUI } from './components/VDOM/simple/input/dateInput/dateInput';
 import { VProgressBar } from './components/VDOM/simple/progressBar/progressBar';
+import { VStars } from './components/VDOM/simple/stars/stars';
+import { VStatCard } from './components/VDOM/compound/statCard/statCard';
+import { VStatTable } from './components/VDOM/compound/statTable/statTable';
 
 // if ('serviceWorker' in navigator) {
 // 	navigator.serviceWorker.register('./sw.js', { scope: '/' })
@@ -19,7 +22,6 @@ import { VProgressBar } from './components/VDOM/simple/progressBar/progressBar';
 // 			// console.log('Register SW failed', err);
 // 		});
 // }
-
 router.start();
 // import { VStarsFeedback } from '@compound/feedback/starsFeedback';
 // import { VGroundFeedback } from '@compound/feedback/groundFeedback';
@@ -80,6 +82,18 @@ router.start();
 //     button.injectProps({lable: "ДАНЯ"});
 //     button.update();
 // });
+
+// const root = document.getElementById("root") as HTMLElement;
+// console.log(root);
+// button.render(root);
+
+// const stars = new VStars(5);
+// const card = new VStatCard("yudinDA", 4, "Вроде работает. Ботаем, ботаем, ботаем!!!");
+// const card2 = new VStatCard("SHAH", 5, "Вроде работает. Ботаем, ботаем, ботаем!!!Вроде работает. Ботаем, ботаем, ботаем!!!Вроде работает. Ботаем, ботаем, ботаем!!!");
+// const table = new VStatTable(0, 2, 0, 0);
+// table.render(root);
+// card.render(root);
+// card2.render(root);
 
 // const input = new VInput("Логин");
 // input.inject(undefined, '.inputContainer{width: 200px;}');
