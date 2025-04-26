@@ -18,10 +18,6 @@ export class Compounder {
     this.current.children.push(component.getVDOM());
   }
 
-  /**
-   * Метод down: если аргумент — строка, создается новый div с этим классом, опционально с inline-стилем;
-   * если передается VirtualElement, просто обновляем указатель.
-   */
   public down(arg: string | VirtualElement, inlineStyle?: string): void {
     let newBlock: VirtualElement;
     if (typeof arg === "string") {
@@ -60,5 +56,9 @@ export class Compounder {
 
   public getTree(): VirtualNode {
     return this.root;
+  }
+
+  public getTemplate(): string {
+    return (renderVDOM(this.root) as HTMLElement).outerHTML;
   }
 }

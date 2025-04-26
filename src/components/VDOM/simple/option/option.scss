@@ -1,0 +1,30 @@
+.option{
+    padding: 3px 10px;
+    border: 1px solid grey;
+    border-radius: 40px;
+    width: fit-content;
+    height: 34px;
+    transition: 0.5s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: grey;
+
+    &__text{
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 140%;
+        text-align: center;
+    }
+
+    &:hover{
+        border: 1px solid var(--main);
+        color: var(--main);
+    }
+
+    &-checked{
+        background: var(--main-theme);
+        color: var(--white-bg-color);
+    }
+}
