@@ -5,6 +5,8 @@ import NavMenu from '@compound/navMenu/navMenu';
 import { VBC } from '@modules/VDOM/VBC';
 import { VStatTable } from '@VDOM/compound/statTable/statTable';
 import { VStatCard } from '@VDOM/compound/statCard/statCard';
+import api from '@network';
+import store from '@store';
 
 function getCards(cards: StatParams[]): VBC[] {
     let ans: VBC[] = [];
@@ -18,11 +20,26 @@ function getCards(cards: StatParams[]): VBC[] {
     return ans;
 }
 
+function getDATA(cards: StatParams[]) {
+    let ans = {n: 0, min: 5, max: 0};
+
+    for(let card of cards){
+        if(card.name == "CSAT"){
+            ans.min = Math.min(ans.min, card.score);
+            ans.max = Math.max(ans.max, card.score);
+            ans.n += 1;
+            console.log(card);
+        }
+    }
+
+    return ans;
+}
+
 interface StatParams {
     name: string,
     description: string,
-    min_score: number,
-    max_score: number,
+    minScore: number,
+    maxScore: number,
     login: string,
     answer: string,
     score: number
@@ -39,9 +56,14 @@ function getSum(cards: StatParams[]): number{
 export default class StatPage extends BasePage {
     private components: Array<HeaderMain | NavMenu>;
     private contentWrapper: HTMLElement;
-    private compounder1: Compounder;
-    private compounder2: Compounder;
+    private compounder1: Compounder = new Compounder;
+    private compounder2: Compounder = new Compounder;
     private cards: StatParams[];
+
+    private async loadData(): Promise<void> {
+		const response = await api.getCards();
+        this.cards = response.data as StatParams[];
+	}
 
     constructor(parentElement: HTMLElement) {
         super(parentElement);
@@ -53,40 +75,31 @@ export default class StatPage extends BasePage {
             new HeaderMain(parentElement),
             new NavMenu(this.contentWrapper),
         ];
+        this.cards = [];
+    }
 
-
-        this.cards = [{
-            name: "CSAT",
-            description: "",
-            min_score: 2,
-            max_score: 4,
-            login: "yudinda",
-            answer: "string",
-            score: 4
-        }]; //ручка
-
-
+    async render(): Promise<void> {
+        this.compounder1.clear();
+        this.compounder2.clear();
+        await this.loadData();
         let table = new VStatTable(0, 0, 5, 2.5)
         if(this.cards.length !== 0){
-            const n = this.cards.length;
-            const min = this.cards[0].min_score;
-            const max = this.cards[0].max_score;
+            const data = getDATA(this.cards);
+            const n = data.n;
+            const min = data.min;
+            const max = data.max;
             const avg = Number((getSum(this.cards)/n).toFixed(2));
             table = new VStatTable(n, min, max, avg);
         }
         
 
-        this.compounder1 = new Compounder;
         this.compounder1.down('mainContent__central', '');
         for(let card of getCards(this.cards))
             this.compounder1.add(card);
 
-        this.compounder2 = new Compounder;
         this.compounder2.down('mainContent__right', '');
         this.compounder2.add(table);
-    }
 
-    render(): void {
         this.contentWrapper.innerHTML = '';
         this.components[0].render();
         this.parentElement.appendChild(this.contentWrapper);
@@ -94,6 +107,9 @@ export default class StatPage extends BasePage {
 
         this.compounder1.addTo(this.contentWrapper);
         this.compounder2.addTo(this.contentWrapper);
+
+        store.update('ava');
+        store.update('profileName');
     }
 
     public getNavMenu(): NavMenu {

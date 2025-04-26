@@ -22,7 +22,6 @@ import { VStatTable } from './components/VDOM/compound/statTable/statTable';
 // 			// console.log('Register SW failed', err);
 // 		});
 // }
-
 router.start();
 
 // const button = new VButton("ШАХ", ()=>{

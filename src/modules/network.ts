@@ -186,6 +186,17 @@ async function updateProfile(data: {
 	return sendRequest(url, 'POST', data);
 }
 
+async function sendFeedback(score: number, answer: string): Promise<ApiResponse> {
+	const url = `${BASE_URL}/queries/sendResp`;
+	return sendRequest(url, 'POST', { name: "CSAT", score, answer });
+}
+
+async function getCards() {
+	const url = `${BASE_URL}/queries/getForQuery`;
+	console.log(url);
+	return sendRequest(url, 'GET');
+}
+
 export default {
 	BASE_URL_PHOTO,
 	BASE_URL,
@@ -202,4 +213,6 @@ export default {
 	getMatches,
 	Like,
 	Dislike,
+	sendFeedback,
+	getCards
 };
