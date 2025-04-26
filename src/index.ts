@@ -20,27 +20,61 @@ import { VProgressBar } from './components/VDOM/simple/progressBar/progressBar';
 // 		});
 // }
 
-// router.start();
+router.start();
+// import { VStarsFeedback } from '@compound/feedback/starsFeedback';
+// import { VGroundFeedback } from '@compound/feedback/groundFeedback';
 
-const button = new VButton("ШАХ", ()=>{
-    // progressBar.inject(undefined, ".progressBar__line{ width: 100% }");
-    // progressBar.update();
-});
+// const starFeedback = new VStarsFeedback(
+//     "Насколько вы удовлетворены удобством BeamMy?",
+// );
 
-const root = document.getElementById("root") as HTMLElement;
-console.log(root);
-const compounder = new Compounder;
-compounder.add(button);
-compounder.add(button);
-compounder.down(
-    'blovk',
-    CSS_center+`width:500px; height:500px; background: black;`
-);
-compounder.add(button);
-compounder.add(button);
-compounder.up();
-compounder.add(button);
-compounder.render(root)
+// starFeedback.injectScript('.HideBtn', 'click', ()=>{
+//     (starFeedback.getDOM()?.parentElement as HTMLElement).style.display = "none";
+// });
+
+// starFeedback.injectScript('.nextFeedback', 'click', ()=>{
+//     starFeedback.inject(undefined, `
+//         .starsFeedback {
+//             display: none;
+//         }
+//     `);
+
+//     groundFeedback.inject(undefined, `
+//         .groundFeedback {
+//             display: block;
+//         }
+//     `);
+
+//     starFeedback.update();
+//     groundFeedback.update();
+// });
+
+// const groundFeedback = new VGroundFeedback(
+//     "Что мы можем улучшить?",
+// );
+
+// groundFeedback.injectScript('.HideBtn', 'click', ()=>{
+//     (groundFeedback.getDOM()?.parentElement as HTMLElement).style.display = "none";
+// });
+
+// const root = document.getElementById("root") as HTMLElement;
+// const compounder = new Compounder;
+
+// compounder.down('feedback', undefined);
+// compounder.add(starFeedback);
+// compounder.add(groundFeedback);
+
+// compounder.render(root);
+
+// compounder.down(
+//     'blovk',
+//     CSS_center+`width:500px; height:500px; background: black;`
+// );
+// compounder.add(button);
+// compounder.add(button);
+// compounder.up();
+// compounder.add(button);
+// compounder.render(root)
 
 // const button2 = new VButton("НАЧАТЬ", ()=>{
 //     button.injectProps({lable: "ДАНЯ"});

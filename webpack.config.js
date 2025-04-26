@@ -91,6 +91,10 @@ export default {
 		new HTMLWebpackPlugin({
 			template: './src/index.html',
 		}),
+		// new HTMLWebpackPlugin({
+		// 	template: './src/feedbackPage.html',
+		// 	filename: 'feedbackPage.html',
+		// }),
 		new MiniCssExtractPlugin({
 			filename: '[name].[contenthash].css',
 		}),
@@ -103,6 +107,18 @@ export default {
 				{
 					from: path.resolve(__dirname, 'src/media'),
 					to: path.resolve(__dirname, 'dist/media'),
+				},
+				{
+					from: path.resolve(__dirname, 'src/feedbackPage.html'),
+					to: path.resolve(__dirname, 'dist'),
+				},
+				{
+					from: path.resolve(__dirname, 'src/feedbackPage.css'),
+					to: path.resolve(__dirname, 'dist'),
+				},
+				{
+					from: path.resolve(__dirname, 'src/feedbackPage.js'),
+					to: path.resolve(__dirname, 'dist'),
 				},
 			],
 		}),

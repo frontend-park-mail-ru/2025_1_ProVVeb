@@ -70,3 +70,11 @@ body {
 	overflow-y: scroll;
 	scrollbar-gutter: stable;
 }
+
+iframe {
+	position: absolute;
+	right: 35px;
+	bottom: 35px;
+	width: 270px;
+	height: 325px	;
+}
