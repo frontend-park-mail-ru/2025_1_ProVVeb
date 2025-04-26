@@ -20,6 +20,7 @@ export default {
 			'@media': path.resolve(__dirname, 'src/media'),
 			'@store': path.resolve(__dirname, 'src/components/Store.ts'),
 			'@basecomp': path.resolve(__dirname, 'src/components/BaseComponent.ts'),
+			'@VDOM': path.resolve(__dirname, 'src/components/VDOM'),
 			'@compound': path.resolve(__dirname, 'src/components/compound'),
 			'@pattern': path.resolve(__dirname, 'src/components/pattern'),
 			'@simple': path.resolve(__dirname, 'src/components/simple'),

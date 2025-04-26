@@ -7,6 +7,7 @@ import FeedPage from '@pages/feedPage/feedPage';
 import ProfilePage from '@pages/profilePage/profilePage';
 import MathesPage from '@pages/matchesPage/matchesPage';
 import EmptyPage from '@pages/emptyPage/emptyPage';
+import StatPage from '@pages/statPage/statPage';
 
 enum AppPage {
 	Auth = 'auth',
@@ -19,6 +20,7 @@ enum AppPage {
 	Messenger = 'messenger',
 	Security = 'security',
 	Shop = 'shop',
+	StatPage = 'stats'
 }
 
 interface PathStructure {
@@ -34,6 +36,7 @@ class Router {
 	private profilePage: ProfilePage;
 	private matchesPage: MathesPage;
 	private emptyPage: EmptyPage;
+	private statPage: StatPage;
 
 	private PATHS: PathStructure[];
 
@@ -50,6 +53,7 @@ class Router {
 		this.profilePage = new ProfilePage(this.root);
 		this.matchesPage = new MathesPage(this.root);
 		this.emptyPage = new EmptyPage(this.root);
+		this.statPage = new StatPage(this.root);
 
 		this.PATHS = [];
 
@@ -67,6 +71,7 @@ class Router {
 		this.register("messenger", this.handlerMessenger.bind(this));
 		this.register("security", this.handlerSecurity.bind(this));
 		this.register("shop", this.handlerShop.bind(this));
+		this.register("stats", this.handlerStats.bind(this));
 	}
 
 	private async checkSession(): Promise<boolean> {
@@ -203,6 +208,12 @@ class Router {
 		this.root.classList.remove('greeting');
 		this.emptyPage.rerender();
 		this.emptyPage.getNavMenu().setActiveLink('shop');
+	}
+
+	private handlerStats(state: any): void {
+		this.root.classList.remove('greeting');
+		this.statPage.rerender();
+		this.statPage.getNavMenu().setActiveLink('stats');
 	}
 }
 

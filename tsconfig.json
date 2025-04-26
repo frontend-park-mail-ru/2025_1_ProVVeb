@@ -17,13 +17,14 @@
         "@compound/*": ["src/components/compound/*"],
         "@pattern/*": ["src/components/pattern/*"],
         "@simple/*": ["src/components/simple/*"],
-		"@modules/*": ["src/modules/*"], 
+		    "@modules/*": ["src/modules/*"], 
         "@network": ["src/modules/network.ts"],
         "@validation": ["src/modules/validation.ts"],
         "@router": ["src/modules/router.ts"],
         "@mock/*": ["src/mock/*"],
         "@pages/*": ["src/pages/*"],
-        "@notification": ["src/components/simple/notification/notification.ts"]
+        "@notification": ["src/components/simple/notification/notification.ts"],
+        "@VDOM/*": ["src/components/VDOM/*"],
       }
     },
     "include": [
