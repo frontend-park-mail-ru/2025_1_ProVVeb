@@ -27,7 +27,7 @@ export class VInput extends VBC {
                 {
                     selector: '',
                     eventType: '',
-                    handler: onFocus,
+                    handler: onBlur,
                 }
             ],
             {}

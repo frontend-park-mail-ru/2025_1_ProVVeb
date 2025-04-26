@@ -22,71 +22,92 @@ import { VProgressBar } from './components/VDOM/simple/progressBar/progressBar';
 
 // router.start();
 
-const button = new VButton("WORK", ()=>{
-    progressBar.inject(undefined, ".progressBar__line{ width: 100% }");
-    progressBar.update();
+const button = new VButton("ШАХ", ()=>{
+    // progressBar.inject(undefined, ".progressBar__line{ width: 100% }");
+    // progressBar.update();
 });
-
-const input = new VInput("Логин");
-input.inject(undefined, '.inputContainer{width: 200px;}');
-
-const option1 = new VOption("МУЖЧИНА");
-const option2 = new VOption("ЖЕНЩИНА");
-
-option1.inject(undefined, '', [{
-    selector: '.option',
-    eventType: 'click',
-    handler: ()=>{
-        option1.getDOM()?.classList.add("option-checked");
-        option2.getDOM()?.classList.remove("option-checked");
-    }
-}])
-
-option2.inject(undefined, '', [{
-    selector: '.option',
-    eventType: 'click',
-    handler: ()=>{
-        option1.getDOM()?.classList.remove("option-checked");
-        option2.getDOM()?.classList.add("option-checked");
-    }
-}])
-
-const backButton = new VBackButton(()=>{
-    progressBar.inject(undefined, ".progressBar__line{ width: 0% }");
-    progressBar.update();
-});
-
-const progressBar = new VProgressBar();
-
-const dateInput = new VDateInput();
 
 const root = document.getElementById("root") as HTMLElement;
-
-const compounder = new Compounder();
-compounder.down("login-form", `
-        width: 500px;
-        height: 500px;
-        flex-direction: column;
-        gap: 10px;
-    `+CSS_center);
-compounder.add(input);
-compounder.down('options', `
-        width: 100%;
-        height: fit-content;
-        flex-direction: row;
-        gap: 10px;
-    `+CSS_center);
-compounder.add(option1);
-compounder.add(option2);
-compounder.up();
-compounder.add(progressBar);
-compounder.add(dateInput);
-compounder.down('buttons', `
-        width: 100%;
-        height: fit-content;
-        flex-direction: row;
-        gap: 10px;
-    `+CSS_center);
-compounder.add(backButton);
+console.log(root);
+const compounder = new Compounder;
 compounder.add(button);
-compounder.render(root);
+compounder.add(button);
+compounder.down(
+    'blovk',
+    CSS_center+`width:500px; height:500px; background: black;`
+);
+compounder.add(button);
+compounder.add(button);
+compounder.up();
+compounder.add(button);
+compounder.render(root)
+
+// const button2 = new VButton("НАЧАТЬ", ()=>{
+//     button.injectProps({lable: "ДАНЯ"});
+//     button.update();
+// });
+
+// const input = new VInput("Логин");
+// input.inject(undefined, '.inputContainer{width: 200px;}');
+
+// const option1 = new VOption("МУЖЧИНА");
+// const option2 = new VOption("ЖЕНЩИНА");
+
+// option1.inject(undefined, '', [{
+//     selector: '.option',
+//     eventType: 'click',
+//     handler: ()=>{
+//         option1.getDOM()?.classList.add("option-checked");
+//         option2.getDOM()?.classList.remove("option-checked");
+//     }
+// }])
+
+// option2.inject(undefined, '', [{
+//     selector: '.option',
+//     eventType: 'click',
+//     handler: ()=>{
+//         option1.getDOM()?.classList.remove("option-checked");
+//         option2.getDOM()?.classList.add("option-checked");
+//     }
+// }])
+
+// const backButton = new VBackButton(()=>{
+//     progressBar.inject(undefined, ".progressBar__line{ width: 0% }");
+//     progressBar.update();
+// });
+
+// const progressBar = new VProgressBar();
+
+// const dateInput = new VDateInput();
+
+// const root = document.getElementById("root") as HTMLElement;
+
+// const compounder = new Compounder();
+// compounder.down("login-form", `
+//         width: 500px;
+//         height: 500px;
+//         flex-direction: column;
+//         gap: 10px;
+//     `+CSS_center);
+// compounder.add(input);
+// compounder.down('options', `
+//         width: 100%;
+//         height: fit-content;
+//         flex-direction: row;
+//         gap: 10px;
+//     `+CSS_center);
+// compounder.add(option1);
+// compounder.add(option2);
+// compounder.up();
+// compounder.add(progressBar);
+// compounder.add(dateInput);
+// compounder.down('buttons', `
+//         width: 100%;
+//         height: fit-content;
+//         flex-direction: row;
+//         gap: 10px;
+//     `+CSS_center);
+// compounder.add(backButton);
+// compounder.add(button);
+// compounder.add(button2);
+// compounder.render(root);
