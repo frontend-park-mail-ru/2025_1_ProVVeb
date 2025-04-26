@@ -3,7 +3,7 @@ export default class BaseComponent {
 	protected parentElement: HTMLElement;
 	private listeners: { eventType: string, selector: string, callback: EventListener }[];
 
-	constructor(template: string, parentElement: HTMLElement) {
+	constructor(template: string, parentElement: HTMLElement, style: string = '') {
 		this.template = template;
 		this.parentElement = parentElement;
 		this.listeners = [];

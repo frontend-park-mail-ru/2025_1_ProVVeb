@@ -53,7 +53,14 @@ export default class MatchesCards extends BaseComponent {
 
 		for (let data of this.DATA as Profile[]) {
 			currentID++;
-			// // console.log(data);
+
+			let finalPersonInterests: string[];
+			if(data.interests.length > 5){
+				finalPersonInterests = data.interests.slice(0, 3);
+				finalPersonInterests.push("...");
+			}else{
+				finalPersonInterests = data.interests;
+			}
 
 			const currentCard = new MatchesCard(
 				this.centralElement,
@@ -64,7 +71,7 @@ export default class MatchesCards extends BaseComponent {
 					personName: data.firstName,
 					personAge: (parseBirthday(data.birthday)?.year ?? ageMajority),
 					personDescription: data.description,
-					personInterests: data.interests.length > 3 ? data.interests.slice(0, 3) : data.interests,
+					personInterests: finalPersonInterests,
 					id: currentID,
 				},
 				[
