@@ -126,17 +126,6 @@ export default class NavMenu extends BaseComponent {
 		super(templateHTML, parentElement);
 
 		LINKS.forEach((link) => {
-			// const element = document.querySelector(`#${link.id}`) as HTMLElement;
-			// const img = element.querySelector('img') as HTMLImageElement;
-
-			// element.addEventListener('mouseenter', () => {
-			// 	img.src = link.srcIconHover;
-			// });
-
-			// element.addEventListener('mouseleave', () => {
-			// 	img.src = link.srcIcon;
-			// });
-
 			this.addListener(
 				'mouseenter',
 				link.listener.selector.replace('#{id}', `#${link.id}`),
