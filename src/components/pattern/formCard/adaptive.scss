@@ -6,12 +6,8 @@
 
 @media (max-width: 767px) {}
 
-@media (max-width: 575px) {}
-
-@media (max-width: 374px) {
+@media (max-width: 500px) {
 	.formCard {
-		margin-right: 20px;
-		margin-left: 20px;
-		width: fit-content;
+		width: 320px;
 	}
 }

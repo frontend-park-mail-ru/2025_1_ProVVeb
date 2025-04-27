@@ -54,7 +54,85 @@
 	}
 }
 
+@media (max-width: 745px) {
+	.mainContent {
+		grid-template-columns: 1fr;
+		padding-left: 20px;
+		padding-right: 20px;
+		gap: 0;
+
+		&.navMenu__inner {
+			display: none;
+			opacity: 0;
+			transition: opacity 0.3s ease;
+
+		}
+
+		&> :nth-child(2) {
+			// max-width: 100%;
+		}
+
+		&> :nth-child(3) {
+			display: none;
+		}
+
+		&__central {
+			margin-left: auto;
+			margin-right: auto;
+			width: fit-content;
+		}
+	}
+
+	// .mainContent:has(> :nth-child(2))::after {
+	// 	content: url('./media/mobileArrow.svg');
+	// 	position: absolute;
+	// 	top: -30px;
+	// 	right: 20px;
+	// }
+}
+
 body {
 	overflow-y: scroll;
 	scrollbar-gutter: stable;
+}
+
+
+@media (max-width: 374px) {
+	body {
+		position: relative;
+
+		&::before {
+			content: "";
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: rgba(0, 0, 0);
+			z-index: 9998;
+		}
+
+		&::after {
+			content: "Сайт не поддерживает экраны меньше 375px! Используйте устройство с большим разрешением";
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			background: #ff3b30;
+			color: white;
+			padding: 20px;
+			text-align: center;
+			z-index: 9999;
+			max-width: 80%;
+			border-radius: 8px;
+			white-space: normal;
+			word-wrap: break-word;
+			font-size: 16px;
+			line-height: 1.5;
+		}
+	}
+
+	*:not(body):not(body::before):not(body::after) {
+		display: none;
+	}
 }

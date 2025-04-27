@@ -1,152 +1,149 @@
 .matchCard {
-    $self: &;
-    
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 489px;
-    height: 176px;
-    padding-right: 12px;
-    border: 1px solid transparent;
-    border-radius: 9px;
-    box-sizing: border-box;
-    transition: border-color 0.3s ease;
-    overflow: hidden;
-  
-    &:hover {
-        border-color: #FE3675;
-    }
-  
-    &__foto {
-        position: relative;
-        width: 141px;
-        height: 100%;
-        border-radius: 10px;
-        overflow: hidden;
-        flex-shrink: 0;
-    }
-  
-    &__img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-  
-    &__shadow {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 50%;
-        background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-        z-index: 2;
-        border-radius: 0 0 10px 10px;
-    }
-  
-    &__info {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        right: 10px;
-        z-index: 3;
-        color: white;
-        font-family: "Mulish", sans-serif;
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-        max-width: calc(100% - 25px);
-    }
+	$self: &;
 
-    &__name{
-        font-weight: 700;
-        font-size: 20px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: 100%; /* Занимает всю доступную ширину */
-        line-height: 1.2;
-    }
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	height: 175px;
+	padding-right: 12px;
+	border: 1px solid transparent;
+	border-radius: 9px;
+	box-sizing: border-box;
+	transition: border-color 0.3s ease;
+	overflow: hidden;
 
-    &__age{
-        font-weight: 500;
-        font-size: 18px;
-        line-height: 1.2;
-    }
-  
-    &__main {
-        width: 235px;
-        height: 150px;
-        margin: 0 12px;
-        font-family: "Mulish", sans-serif;
-    }
-  
-    &__text {
-        margin-bottom: 10px;
-    }
-  
-    &__title {
-        font: 700 14px/1.2 "Mulish", sans-serif;
-        color: #4A4A4A;
-        margin: 0 0 5px 0;
-    }
-  
-    &__desc {
-        font: 500 16px/1.4 "Mulish", sans-serif;
-        color: #9E9E9E;
-        margin: 0;
-        display: -webkit-box;
-        -webkit-line-clamp: 5;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        max-height: calc(1.4em * 5);
-    }
-  
-    &__tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        max-height: 48px;
-        overflow: hidden;
-    }
-  
-    &__tag {
-        font: 500 12px/1 "Mulish", sans-serif;
-        color: #9E9E9E;
-        border: 1px solid #9E9E9E;
-        border-radius: 25px;
-        padding: 5px 9px;
-        transition: all 0.3s ease;
-        cursor: pointer;
-  
-        &:hover {
-            color: #FE3675;
-            border-color: #FE3675;
-        }
-    }
-  
-    &__actions {
-        width: 42px;
-        height: 142px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-  
-    &__btn {
-        all: unset;
-        cursor: pointer;
-        transition: transform 0.2s ease;
-        user-select: none;
-    
-        &:active {
-            transform: scale(1.3);
-        }
-    }
-  
-    &__icon {
-        display: block;
-        pointer-events: none;
-        -webkit-user-drag: none;
-    }
+	&:hover {
+		border-color: #FE3675;
+	}
+
+	&__foto {
+		position: relative;
+		height: 100%;
+		border-radius: 10px;
+		overflow: hidden;
+		flex-shrink: 0;
+	}
+
+	&__img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+
+	&__shadow {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 50%;
+		background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+		z-index: 2;
+		border-radius: 0 0 10px 10px;
+	}
+
+	&__info {
+		position: absolute;
+		bottom: 10px;
+		left: 10px;
+		right: 10px;
+		z-index: 3;
+		color: white;
+		font-family: "Mulish", sans-serif;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		max-width: calc(100% - 25px);
+	}
+
+	&__name {
+		font-weight: 700;
+		font-size: 20px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		line-height: 1.2;
+	}
+
+	&__age {
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 1.2;
+	}
+
+	&__main {
+		align-self: flex-start;
+		font-family: "Mulish", sans-serif;
+	}
+
+	&__text {
+		margin-bottom: 10px;
+	}
+
+	&__title {
+		font: 700 14px/1.2 "Mulish", sans-serif;
+		color: #4A4A4A;
+		margin: 0 0 5px 0;
+	}
+
+	&__desc {
+		font: 500 16px/1.4 "Mulish", sans-serif;
+		color: #9E9E9E;
+		margin: 0;
+		display: -webkit-box;
+		-webkit-line-clamp: 5;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		max-height: calc(1.4em * 5);
+	}
+
+	&__tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		max-height: 48px;
+	}
+
+	&__tag {
+		font: 500 12px/1 "Mulish", sans-serif;
+		color: #9E9E9E;
+		border: 1px solid #9E9E9E;
+		border-radius: 25px;
+		padding: 5px 9px;
+		transition: all 0.3s ease;
+		cursor: pointer;
+
+		&:hover {
+			color: #FE3675;
+			border-color: #FE3675;
+		}
+	}
+
+	&__actions {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 10px;
+	}
+
+	&__btn {
+		all: unset;
+		cursor: pointer;
+		transition: transform 0.2s ease;
+		user-select: none;
+
+		&:active {
+			transform: scale(1.3);
+		}
+
+		height: 42px;
+		width: 42px;
+	}
+
+	&__icon {
+		display: block;
+		pointer-events: none;
+		-webkit-user-drag: none;
+	}
 }
