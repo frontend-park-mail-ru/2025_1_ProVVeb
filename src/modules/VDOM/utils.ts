@@ -62,7 +62,7 @@ export function matchesSelector(vnode: VirtualElement, selector: string): boolea
       return vnode.className ? vnode.className.split(/\s+/).includes(cls) : false;
     } else if (selector.startsWith('#')) {
       const id = selector.slice(1);
-      return vnode.attrs && vnode.attrs['id'] === id;
+      return (vnode.attrs && vnode.attrs['id'] === id) as boolean;
     } else {
       return vnode.tag === selector.toLowerCase();
     }

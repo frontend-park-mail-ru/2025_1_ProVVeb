@@ -1,4 +1,12 @@
-import { VirtualNode, parseHTML, renderVDOM, diff, injectCSSIntoVDOM, EventDescriptor } from "./utils";
+import { 
+  VirtualNode, 
+  parseHTML, 
+  renderVDOM, 
+  diff, 
+  injectCSSIntoVDOM, 
+  EventDescriptor, 
+  VirtualElement 
+} from "./utils";
 
 export type TemplateProvider = string | ((props?: any) => string);
 
@@ -10,6 +18,9 @@ export class VBC<P = {}> {
   protected eventsList: EventDescriptor[];
   protected vdom: VirtualNode;
   protected root?: HTMLElement;
+  public point?: HTMLElement;
+  private readonly id: string;
+  private domElement: HTMLElement | null = null;
 
   constructor(
     templateOrHBS: TemplateProvider,
@@ -18,6 +29,8 @@ export class VBC<P = {}> {
     eventsList: EventDescriptor[] = [],
     props?: P
   ) {
+    this.id = `vbc-${Math.random().toString(36).slice(2, 11)}`;
+
     this.defaultProps = defaultProps;
     this.props = { ...this.defaultProps, ...props } as P;
     this.templateHBS = templateOrHBS;
@@ -27,6 +40,44 @@ export class VBC<P = {}> {
     this.vdom = parseHTML(compiledHTML);
     this.vdom = injectCSSIntoVDOM(this.style, this.vdom);
     this.eventsList.forEach(ev => this.injectScript(ev.selector, ev.eventType, ev.handler));
+
+    this.root = renderVDOM(this.vdom) as HTMLElement;
+
+    this.setAttribute('data-vbc-id', this.id);
+  }
+
+  public getDOM(): HTMLElement | null {
+    if (this.domElement && document.contains(this.domElement)) {
+      return this.domElement;
+    }
+    this.domElement = document.querySelector(`[data-vbc-id="${this.id}"]`);
+    return this.domElement;
+  }
+
+  public update(): void{
+    const mountPoint = this.getDOM()?.parentElement as HTMLElement;
+
+    const compiledHTML = this.compileTemplate();
+    const newVDOM = parseHTML(compiledHTML);
+    this.setAttribute('data-vbc-id', this.id);
+    const newRoot = renderVDOM(this.vdom) as HTMLElement;
+    mountPoint.replaceChild(newRoot, this.getDOM() as HTMLElement);
+
+    this.root = newRoot;
+    this.vdom = newVDOM;
+  }
+
+  public injectProps(newProps: Partial<P>): void {
+    this.props = { ...this.props, ...newProps };
+
+    const compiledHTML = this.compileTemplate();
+    this.vdom = parseHTML(compiledHTML);
+    this.vdom = injectCSSIntoVDOM(this.style, this.vdom);
+    this.eventsList.forEach(ev => this.injectScript(ev.selector, ev.eventType, ev.handler));
+  }
+
+  private setAttribute(key: string, value: string): void {
+    (this.vdom as VirtualElement).attrs = { ...(this.vdom as VirtualElement).attrs, [key]: value };
   }
 
   protected compileTemplate(): string {
@@ -64,6 +115,8 @@ export class VBC<P = {}> {
       this.templateHBS = () => newTemplate;
       const compiledHTML = this.compileTemplate();
       this.vdom = parseHTML(compiledHTML);
+      this.vdom = injectCSSIntoVDOM(this.style, this.vdom);
+      this.eventsList.forEach(ev => this.injectScript(ev.selector, ev.eventType, ev.handler));
     }
     if (newStyle) {
       this.style += "\n" + newStyle;
