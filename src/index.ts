@@ -12,6 +12,7 @@ import { VProgressBar } from './components/VDOM/simple/progressBar/progressBar';
 import { VStars } from './components/VDOM/simple/stars/stars';
 import { VStatCard } from './components/VDOM/compound/statCard/statCard';
 import { VStatTable } from './components/VDOM/compound/statTable/statTable';
+import { VList } from '@VDOM/simple/list/list';
 
 // if ('serviceWorker' in navigator) {
 // 	navigator.serviceWorker.register('./sw.js', { scope: '/' })
@@ -22,140 +23,76 @@ import { VStatTable } from './components/VDOM/compound/statTable/statTable';
 // 			// console.log('Register SW failed', err);
 // 		});
 // }
-router.start();
-// import { VStarsFeedback } from '@compound/feedback/starsFeedback';
-// import { VGroundFeedback } from '@compound/feedback/groundFeedback';
+// router.start();
 
-// const starFeedback = new VStarsFeedback(
-//     "Насколько вы удовлетворены удобством BeamMy?",
-// );
+const button = new VButton("WORK", ()=>{
+    progressBar.inject(undefined, ".progressBar__line{ width: 100% }");
+    progressBar.update();
+});
 
-// starFeedback.injectScript('.HideBtn', 'click', ()=>{
-//     (starFeedback.getDOM()?.parentElement as HTMLElement).style.display = "none";
-// });
+const input = new VInput("Логин");
+input.inject(undefined, '.inputContainer{width: 200px;}');
 
-// starFeedback.injectScript('.nextFeedback', 'click', ()=>{
-//     starFeedback.inject(undefined, `
-//         .starsFeedback {
-//             display: none;
-//         }
-//     `);
+const option1 = new VOption("МУЖЧИНА");
+const option2 = new VOption("ЖЕНЩИНА");
 
-//     groundFeedback.inject(undefined, `
-//         .groundFeedback {
-//             display: block;
-//         }
-//     `);
+option1.inject(undefined, '', [{
+    selector: '.option',
+    eventType: 'click',
+    handler: ()=>{
+        option1.getDOM()?.classList.add("option-checked");
+        option2.getDOM()?.classList.remove("option-checked");
+    }
+}])
 
-//     starFeedback.update();
-//     groundFeedback.update();
-// });
+option2.inject(undefined, '', [{
+    selector: '.option',
+    eventType: 'click',
+    handler: ()=>{
+        option1.getDOM()?.classList.remove("option-checked");
+        option2.getDOM()?.classList.add("option-checked");
+    }
+}])
 
-// const groundFeedback = new VGroundFeedback(
-//     "Что мы можем улучшить?",
-// );
+const backButton = new VBackButton(()=>{
+    progressBar.inject(undefined, ".progressBar__line{ width: 0% }");
+    progressBar.update();
+});
 
-// groundFeedback.injectScript('.HideBtn', 'click', ()=>{
-//     (groundFeedback.getDOM()?.parentElement as HTMLElement).style.display = "none";
-// });
+const progressBar = new VProgressBar();
 
-// const root = document.getElementById("root") as HTMLElement;
-// const compounder = new Compounder;
+const dateInput = new VDateInput();
 
-// compounder.down('feedback', undefined);
-// compounder.add(starFeedback);
-// compounder.add(groundFeedback);
+const list = new VList();
 
-// compounder.render(root);
+const root = document.getElementById("root") as HTMLElement;
 
-// compounder.down(
-//     'blovk',
-//     CSS_center+`width:500px; height:500px; background: black;`
-// );
-// compounder.add(button);
-// compounder.add(button);
-// compounder.up();
-// compounder.add(button);
-// compounder.render(root)
-
-// const button2 = new VButton("НАЧАТЬ", ()=>{
-//     button.injectProps({lable: "ДАНЯ"});
-//     button.update();
-// });
-
-// const root = document.getElementById("root") as HTMLElement;
-// console.log(root);
-// button.render(root);
-
-// const stars = new VStars(5);
-// const card = new VStatCard("yudinDA", 4, "Вроде работает. Ботаем, ботаем, ботаем!!!");
-// const card2 = new VStatCard("SHAH", 5, "Вроде работает. Ботаем, ботаем, ботаем!!!Вроде работает. Ботаем, ботаем, ботаем!!!Вроде работает. Ботаем, ботаем, ботаем!!!");
-// const table = new VStatTable(0, 2, 0, 0);
-// table.render(root);
-// card.render(root);
-// card2.render(root);
-
-// const input = new VInput("Логин");
-// input.inject(undefined, '.inputContainer{width: 200px;}');
-
-// const option1 = new VOption("МУЖЧИНА");
-// const option2 = new VOption("ЖЕНЩИНА");
-
-// option1.inject(undefined, '', [{
-//     selector: '.option',
-//     eventType: 'click',
-//     handler: ()=>{
-//         option1.getDOM()?.classList.add("option-checked");
-//         option2.getDOM()?.classList.remove("option-checked");
-//     }
-// }])
-
-// option2.inject(undefined, '', [{
-//     selector: '.option',
-//     eventType: 'click',
-//     handler: ()=>{
-//         option1.getDOM()?.classList.remove("option-checked");
-//         option2.getDOM()?.classList.add("option-checked");
-//     }
-// }])
-
-// const backButton = new VBackButton(()=>{
-//     progressBar.inject(undefined, ".progressBar__line{ width: 0% }");
-//     progressBar.update();
-// });
-
-// const progressBar = new VProgressBar();
-
-// const dateInput = new VDateInput();
-
-// const root = document.getElementById("root") as HTMLElement;
-
-// const compounder = new Compounder();
-// compounder.down("login-form", `
-//         width: 500px;
-//         height: 500px;
-//         flex-direction: column;
-//         gap: 10px;
-//     `+CSS_center);
-// compounder.add(input);
-// compounder.down('options', `
-//         width: 100%;
-//         height: fit-content;
-//         flex-direction: row;
-//         gap: 10px;
-//     `+CSS_center);
-// compounder.add(option1);
-// compounder.add(option2);
-// compounder.up();
-// compounder.add(progressBar);
-// compounder.add(dateInput);
-// compounder.down('buttons', `
-//         width: 100%;
-//         height: fit-content;
-//         flex-direction: row;
-//         gap: 10px;
-//     `+CSS_center);
-// compounder.add(backButton);
-// compounder.add(button);
-// compounder.add(button2);
-// compounder.render(root);
+const compounder = new Compounder();
+compounder.down("login-form", `
+        width: 500px;
+        height: 500px;
+        flex-direction: column;
+        gap: 10px;
+    `+CSS_center);
+compounder.add(input);
+compounder.add(list);
+compounder.down('options', `
+        width: 100%;
+        height: fit-content;
+        flex-direction: row;
+        gap: 10px;
+    `+CSS_center);
+compounder.add(option1);
+compounder.add(option2);
+compounder.up();
+compounder.add(progressBar);
+compounder.add(dateInput);
+compounder.down('buttons', `
+        width: 100%;
+        height: fit-content;
+        flex-direction: row;
+        gap: 10px;
+    `+CSS_center);
+compounder.add(backButton);
+compounder.add(button);
+compounder.render(root);

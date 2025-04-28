@@ -32,7 +32,6 @@ export default {
 			'@pages': path.resolve(__dirname, 'src/pages'),
 			'@styles': path.resolve(__dirname, 'src/styles/globals'),
 			'@notification': path.resolve(__dirname, 'src/components/simple/notification/notification.ts'),
-			'@VDOM': path.resolve(__dirname, 'src/components/VDOM'),
 		},
 	},
 	entry: {

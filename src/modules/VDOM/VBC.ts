@@ -59,14 +59,22 @@ export class VBC<P = {}> {
   public update(): void{
     const mountPoint = this.getDOM()?.parentElement as HTMLElement;
 
+    // const activeElement = document.activeElement as HTMLElement;
+
     const compiledHTML = this.compileTemplate();
     const newVDOM = parseHTML(compiledHTML);
     this.setAttribute('data-vbc-id', this.id);
     const newRoot = renderVDOM(this.vdom) as HTMLElement;
-    mountPoint.replaceChild(newRoot, this.getDOM() as HTMLElement);
+    if(mountPoint)
+      mountPoint.replaceChild(newRoot, this.getDOM() as HTMLElement);
 
     this.root = newRoot;
     this.vdom = newVDOM;
+
+    // if (activeElement) {
+    //   const restoredElement = this.getDOM()?.querySelector(`[data-vbc-id="${this.id}"] ${activeElement.tagName.toLowerCase()}`) as HTMLElement;
+    //   if (restoredElement) restoredElement.focus();
+    // }
   }
 
   public injectProps(newProps: Partial<P>): void {
