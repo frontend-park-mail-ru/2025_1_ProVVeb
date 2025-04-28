@@ -25,7 +25,7 @@
     .underline {
         width: 90px;
         height: 3px;
-        background-color: #4A4A4A;
+        background-color: var(--gray-line);
         margin: 4px auto 0;
         transition: background-color 0.3s;
     }
@@ -59,4 +59,13 @@
             color: #010710;
         }
     }
+}
+
+.onFocusInputUndeline{
+    background-color: #010710;
+}
+
+
+.onFocusInputText{
+    color: var(--accent-font-color);
 }

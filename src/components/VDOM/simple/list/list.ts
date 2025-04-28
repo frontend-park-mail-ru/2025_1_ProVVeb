@@ -23,8 +23,14 @@ export class VList extends VBC<CountryDropdownProps> {
                 listVisible: false,
                 countries: [
                     { name: 'Russia', code: 'RU +7' },
-                    { name: 'USA', code: 'US +1' },
-                    { name: 'United Kingdom', code: 'GB +44' },
+                    { name: 'Belarus', code: 'BY +375' },
+                    { name: 'Kazakhstan', code: 'KZ +7' },
+                    { name: 'Armenia', code: 'AM +374' },
+                    { name: 'Azerbaijan', code: 'AZ +994' },
+                    { name: 'Kyrgyzstan', code: 'KG +996' },
+                    { name: 'Moldova', code: 'MD +373' },
+                    { name: 'Tajikistan', code: 'TJ +992' },
+                    { name: 'Uzbekistan', code: 'UZ +998' }
                 ],
             } as CountryDropdownProps,
             '',
@@ -50,10 +56,19 @@ export class VList extends VBC<CountryDropdownProps> {
             listVisible: visible ?? !this.props.listVisible
         };
 
-        // this.addClickOutsideListener();
+        if(this.clickOutsideHandler)
+            this.removeClickOutsideListener();
+        else
+            this.addClickOutsideListener();
 
+        // this.inject(undefined, ".underline { background-color: #010710; }");
+        // this.update();
         this.injectProps(newProps);
         this.update();
+        console.log(this.vdom)
+        // this.inject(undefined, ".underline { background-color: #010710; }");
+        // console.log(this.vdom)
+        // this.update();
     }
 
     private handleOptionClick(e: Event) {
@@ -67,6 +82,8 @@ export class VList extends VBC<CountryDropdownProps> {
                 listVisible: false
             };
             
+            // this.inject(undefined, ".underline { background-color: var(--gray-line); }");
+            // this.update();
             this.injectProps(newProps);
             this.update();
         }
@@ -75,8 +92,7 @@ export class VList extends VBC<CountryDropdownProps> {
     private addClickOutsideListener() {
         this.clickOutsideHandler = (e: MouseEvent) => {
             const target = e.target as HTMLElement;
-            this.getDOM();
-            if (!this.getDOM()?.contains(target)) {
+            if (!this.getDOM()?.outerHTML.includes(target.innerHTML)) {
                 this.toggleList(false);
             }
         };

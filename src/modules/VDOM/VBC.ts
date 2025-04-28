@@ -65,6 +65,7 @@ export class VBC<P = {}> {
     const newVDOM = parseHTML(compiledHTML);
     this.setAttribute('data-vbc-id', this.id);
     const newRoot = renderVDOM(this.vdom) as HTMLElement;
+    console.log(this.vdom);
     if(mountPoint)
       mountPoint.replaceChild(newRoot, this.getDOM() as HTMLElement);
 
@@ -130,7 +131,9 @@ export class VBC<P = {}> {
     }
     if (newStyle) {
       this.style += "\n" + newStyle;
+      console.log(this.vdom);
       this.vdom = injectCSSIntoVDOM(this.style, this.vdom);
+      console.log(this.vdom);
     }
     if (newEvents) {
       newEvents.forEach(ev => this.injectScript(ev.selector, ev.eventType, ev.handler));
