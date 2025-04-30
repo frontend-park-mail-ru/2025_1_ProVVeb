@@ -156,6 +156,10 @@ export class VBC<P = {}> {
     }
   }
 
+  public delete(){
+    this.getDOM()?.remove();
+  }
+
   public getVDOM(): VirtualNode {
     return this.vdom;
   }
