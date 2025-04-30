@@ -191,3 +191,9 @@
 		scale: 1.015;
 	}
 }
+
+@media (max-width: 500px) {
+	.personCard {
+		width: 325px;
+	}
+}
