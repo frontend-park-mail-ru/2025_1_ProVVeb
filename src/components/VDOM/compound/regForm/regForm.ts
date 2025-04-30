@@ -66,6 +66,8 @@ export class CRegForm extends VBC {
             }
         }])
 
+        console.log(option1);
+
         const date = new VDateInput();
 
         main.add(name);
