@@ -6,6 +6,7 @@ import { VComplaintHeader } from '@VDOM/simple/complaint/header/header';
 import { VComplaintBody } from '@VDOM/simple/complaint/body/body';
 import { VButton } from '@VDOM/simple/button/button';
 import Notification from '@simple/notification/notification';
+import api from '@network';
 
 export default class ComplaintPage extends BasePage {
 	private components: Array<HeaderMain | NavMenu>;
@@ -29,11 +30,11 @@ export default class ComplaintPage extends BasePage {
 
 		const complaintHeader = new VComplaintHeader();
 		const complaintBody = new VComplaintBody();
-		const button = new VButton('Отправить', () => {
+		const button = new VButton('Отправить', async () => {
 			const header = complaintHeader.getDOM()?.querySelector('.complaintHeader__input') as HTMLInputElement | null;
 			const body = complaintBody.getDOM()?.querySelector('.complaintBody__input') as HTMLTextAreaElement | null;
-			const headerValue = header?.value;
-			const bodyValue = body?.value;
+			const headerValue = header?.value.trim();
+			const bodyValue = body?.value.trim();
 
 			if (!headerValue) {
 				const notification = new Notification({
@@ -57,8 +58,31 @@ export default class ComplaintPage extends BasePage {
 				return;
 			}
 
-			// Запрос в бд
+			const response = await api.sendComplaint(
+				headerValue,
+				bodyValue
+			);
 
+			if (response.success && response.data) {
+				const notification = new Notification({
+					headTitle: "Успешно",
+					title: `Ваше обращение отправлено`,
+					isWarning: false,
+					isWithButton: true,
+				});
+				notification.render();
+
+				if (header) header.value = '';
+				if (body) body.value = '';
+			} else {
+				const notification = new Notification({
+					headTitle: "Ошибка отправки",
+					title: `Не удалось отправить обращение. Попробуйте позже`,
+					isWarning: false,
+					isWithButton: true,
+				});
+				notification.render();
+			}
 		});
 
 		this.compounder.down("complaintContainer", `

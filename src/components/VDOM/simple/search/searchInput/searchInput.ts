@@ -2,7 +2,7 @@ import { VBC } from "@modules/VDOM/VBC";
 import templateHBS from './searchInput.hbs';
 
 export class VSearchInput extends VBC {
-	constructor() {
+	constructor(onClickSearchBtn: () => void) {
 		super(
 			templateHBS,
 			{},
@@ -36,15 +36,7 @@ export class VSearchInput extends VBC {
 				{
 					selector: '.searchInput__buttonContainer',
 					eventType: 'click',
-					handler: () => {
-						const filter = document.querySelector('.searchInput__filter') as HTMLElement;
-						const ageMin = document.getElementById('ageMin') as HTMLInputElement;
-						const ageMax = document.getElementById('ageMax') as HTMLInputElement;
-						const heightMin = document.getElementById('heightMin') as HTMLInputElement;
-						const heightMax = document.getElementById('heightMax') as HTMLInputElement;
-						const input = document.querySelector('.searchInput__input') as HTMLInputElement;
-						console.log('Filter:', filter.style.display, 'Age:', ageMin.value, ageMax.value, 'Height:', heightMin.value, heightMax.value, 'Input:', input.value.trim());
-					}
+					handler: onClickSearchBtn,
 				}
 			],
 			{}

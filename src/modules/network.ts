@@ -197,6 +197,48 @@ async function getCards() {
 	return sendRequest(url, 'GET');
 }
 
+async function sendComplaint(
+	header: string,
+	body: string,
+	forWhom?: string,
+): Promise<ApiResponse> {
+	const url = `${BASE_URL}/queries/send`;
+
+	const params: {
+		complaint_type: string;
+		complaint_text: string;
+		complaint_on?: string
+	} = {
+		complaint_type: header,
+		complaint_text: body,
+	};
+
+	if (forWhom) {
+		params.complaint_on = forWhom;
+	}
+
+	return sendRequest(url, 'POST', params);
+}
+
+async function profilesBySearch(
+	input: string,
+	ageMin: string,
+	ageMax: string,
+	heightMin: string,
+	heightMax: string
+): Promise<ApiResponse<Profile[]>> {
+	const url = `${BASE_URL}/profiles/search`;
+	const params = new URLSearchParams({
+		input,
+		ageMin,
+		ageMax,
+		heightMin,
+		heightMax,
+	});
+
+	return sendRequest(url, 'POST', params);
+}
+
 export default {
 	BASE_URL_PHOTO,
 	BASE_URL,
@@ -214,5 +256,7 @@ export default {
 	Like,
 	Dislike,
 	sendFeedback,
-	getCards
+	getCards,
+	sendComplaint,
+	profilesBySearch
 };

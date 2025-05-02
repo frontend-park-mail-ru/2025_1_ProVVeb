@@ -16,6 +16,7 @@ import { VChatInput } from '@VDOM/simple/chat/input/input';
 import { VChatHeader } from '@VDOM/simple/chat/header/header';
 import { VChatMessage } from '@VDOM/simple/chat/message/chatMessage';
 import { VSearchInput } from '@VDOM/simple/search/searchInput/searchInput';
+import { VSearchItem } from '@VDOM/simple/search/searchItem/searchItem';
 
 // if ('serviceWorker' in navigator) {
 // 	navigator.serviceWorker.register('./sw.js', { scope: '/' })
@@ -28,12 +29,6 @@ import { VSearchInput } from '@VDOM/simple/search/searchInput/searchInput';
 // }
 
 router.start();
-
-// const root = document.getElementById('root') as HTMLElement;
-
-// const searchInput = new VSearchInput();
-// searchInput.render(root)
-
 
 // const comp = new Compounder();
 // comp.down("complaintContainer", `
