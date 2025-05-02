@@ -1,21 +1,25 @@
-// Compounder.ts
 import { VBC } from "./VBC";
 import { VirtualNode, renderVDOM, VirtualElement, parseStyle } from "./utils";
 
-export class Compounder {
-	private root: VirtualNode;
+export class Compounder extends VBC {
+	private root_: VirtualNode;
 	private current: VirtualElement;
 	private mountPoint?: HTMLElement;
 	private stack: VirtualElement[];
 
 	constructor() {
-		this.root = { tag: "div", children: [] };
-		this.current = this.root as VirtualElement;
+		//Добавить пропсы
+		super('<div></div>');
+
+		this.root_ = { tag: "div", children: [] };
+		this.current = this.root_ as VirtualElement;
 		this.stack = [];
 	}
 
 	public add(component: VBC): void {
 		this.current.children.push(component.getVDOM());
+
+		this.vdom = this.root_;
 	}
 
 	public down(arg: string | VirtualElement, inlineStyle?: string, tag?: string): void {
@@ -32,6 +36,8 @@ export class Compounder {
 		this.current.children.push(newBlock);
 		this.stack.push(this.current);
 		this.current = newBlock;
+
+		this.vdom = this.root_;
 	}
 
 	public up(): void {
@@ -41,53 +47,32 @@ export class Compounder {
 	}
 
 	public clear(): void {
-		this.root = { tag: "div", children: [] };
-		this.current = this.root as VirtualElement;
+		this.root_ = { tag: "div", children: [] };
+		this.current = this.root_ as VirtualElement;
 		this.stack = [];
-		if (this.mountPoint) {
-			this.mountPoint.innerHTML = "";
-		}
 	}
 
 	public addTo(mountPoint: HTMLElement): void {
 		this.mountPoint = mountPoint;
-		mountPoint.appendChild(renderVDOM(this.root));
+		this.root = renderVDOM(this.root_) as HTMLElement;
+		mountPoint.appendChild(this.root);
+		this.isRendered = true;
 	}
-
 
 	public render(mountPoint: HTMLElement): void {
-		this.mountPoint = mountPoint;
-		mountPoint.innerHTML = "";
-		mountPoint.appendChild(renderVDOM(this.root));
-	}
-
-	public getTree(): VirtualNode {
-		return this.root;
+		if (!this.isRendered) {
+			this.root = renderVDOM(this.vdom) as HTMLElement;
+			mountPoint.appendChild(this.root);
+			this.isRendered = true;
+		} else {
+			const newRoot = renderVDOM(this.vdom) as HTMLElement;
+			mountPoint.replaceChild(newRoot, this.root as HTMLElement);
+			this.root = newRoot;
+		}
 	}
 
 	public getTemplate(): string {
-		return (renderVDOM(this.root) as HTMLElement).outerHTML;
+		return (renderVDOM(this.root_) as HTMLElement).outerHTML;
 	}
-
-	public clearIn(): void {
-		// if (!this.current) return;
-
-		// // 1. Сохраняем текущую структуру
-		// const currentTag = this.current.tag;
-		// const currentClass = this.current.className;
-		// const currentStyle = this.current.style;
-
-		// // 2. Полностью пересоздаем элемент
-		// this.current = {
-		// 	tag: currentTag,
-		// 	className: currentClass,
-		// 	style: currentStyle,
-		// 	children: []
-		// };
-
-		// // 3. Принудительная перерисовка
-		// if (this.mountPoint) {
-		// 	this.render(this.mountPoint);
-		// }
-	}
+	
 }
