@@ -61,12 +61,7 @@ export default class MessagePage extends BasePage {
 
 	async createChat() {
 		console.log('this.chatAreaCompounder', this.chatAreaCompounder)
-		// this.chatAreaCompounder.clear();
-		// this.chatAreaCompounder.clearIn();
-		const startMessageElement = document.querySelector('.startMessage');
-		if (startMessageElement) {
-			startMessageElement.outerHTML = '';
-		}
+		this.chatAreaCompounder.clear();
 
 		this.chatAreaCompounder.down('chatMessages', `
 			display: flex;
@@ -109,6 +104,7 @@ export default class MessagePage extends BasePage {
 		});
 
 		this.chatAreaCompounder.add(chatInput);
+		this.chatAreaCompounder.render(this.contentWrapper);
 
 		console.log('this.chatAreaCompounder', this.chatAreaCompounder)
 	}

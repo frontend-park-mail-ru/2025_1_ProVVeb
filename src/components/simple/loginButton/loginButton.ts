@@ -59,9 +59,10 @@ const DEFAULT_LOGIN_PARAMS_BUTTON: LoginButtonParams = {
 							const Error = new Notification({
 								isWarning: true,
 								isWithButton: true,
-								title: error.message,
+								title: "Ошибка сети. Попробуйте позже",
 							});
 							Error.render();
+							console.error(error.message);
 						});
 						//END OF REDIRECT
 

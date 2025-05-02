@@ -68,9 +68,10 @@ DEFAULT_AUTH_PARAMS_BUTTON.listenButton = {
 				const Error = new Notification({
 					isWarning: true,
 					isWithButton: true,
-					title: error.message,
+					title: "Ошибка сети. Попробуйте позже",
 				});
 				Error.render();
+				console.error(error.message);
 			});
 		}
 	},
