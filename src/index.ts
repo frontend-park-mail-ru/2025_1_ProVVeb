@@ -9,7 +9,13 @@ import { CSS_center } from './components/VDOM/defaultStyles/VStyles';
 import { VBackButton } from './components/VDOM/simple/button/backButton/backButton';
 import { VDateInput, VDateInputUI } from './components/VDOM/simple/input/dateInput/dateInput';
 import { VProgressBar } from './components/VDOM/simple/progressBar/progressBar';
-import { VComplaintTitle } from './components/VDOM/simple/complaint/title/title';
+import { VComplaintHeader } from './components/VDOM/simple/complaint/header/header';
+import { VComplaintBody } from '@VDOM/simple/complaint/body/body';
+import { VUserItem } from '@VDOM/simple/chat/userItem/userItem';
+import { VChatInput } from '@VDOM/simple/chat/input/input';
+import { VChatHeader } from '@VDOM/simple/chat/header/header';
+import { VChatMessage } from '@VDOM/simple/chat/message/chatMessage';
+import { VSearchInput } from '@VDOM/simple/search/searchInput/searchInput';
 
 // if ('serviceWorker' in navigator) {
 // 	navigator.serviceWorker.register('./sw.js', { scope: '/' })
@@ -21,7 +27,23 @@ import { VComplaintTitle } from './components/VDOM/simple/complaint/title/title'
 // 		});
 // }
 
-// router.start();
+router.start();
+
+// const root = document.getElementById('root') as HTMLElement;
+
+// const searchInput = new VSearchInput();
+// searchInput.render(root)
+
+
+// const comp = new Compounder();
+// comp.down("complaintContainer", `
+// 	display: flex;
+// 	gap: 10px;
+// 	flex-direction: column;
+// `);
+// comp.add(complaintHeader);
+// comp.add(complaintBody);
+// comp.render(root);
 
 // const button = new VButton("WORK", ()=>{
 //     progressBar.inject(undefined, ".progressBar__line{ width: 100% }");
@@ -61,11 +83,11 @@ import { VComplaintTitle } from './components/VDOM/simple/complaint/title/title'
 
 // const dateInput = new VDateInput();
 
+// const list = new VList();
+
+// const interes = new VInteresInputFull();
+
 // const root = document.getElementById("root") as HTMLElement;
-
-// const complaintTitle = new VComplaintTitle();
-
-// complaintTitle.render(root);
 
 // const compounder = new Compounder();
 // compounder.down("login-form", `
@@ -75,6 +97,25 @@ import { VComplaintTitle } from './components/VDOM/simple/complaint/title/title'
 //         gap: 10px;
 //     `+CSS_center);
 // compounder.add(input);
+// compounder.add(list);
+
+// compounder.down("intereses", `
+//     width: 100%;
+//     height: fit-content;
+//     flex-direction: row;
+//     gap: 10px;
+//     margin-bottom: 10px;
+// `+CSS_center);
+
+// const addBtn = new VAddButton(()=>{
+//     compounder.add(interes);
+//     compounder.render(root);
+// });
+
+// compounder.add(addBtn);
+
+// compounder.up();
+
 // compounder.down('options', `
 //         width: 100%;
 //         height: fit-content;

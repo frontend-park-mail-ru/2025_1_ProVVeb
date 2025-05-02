@@ -1,0 +1,32 @@
+.chatMessage {
+	--my-message-max-width: 70%;
+	--other-message-max-width: 70%;
+	--message-padding: 12px 16px;
+	--base-radius: 28px;
+
+	padding: var(--message-padding);
+	border-radius: var(--base-radius);
+	color: #000;
+	word-wrap: break-word;
+	position: relative;
+	max-width: var(--other-message-max-width);
+	align-self: flex-start;
+	border-bottom-right-radius: 8px;
+
+	&.myMessage {
+		color: #000;
+		background: #EEEFF1;
+		border-bottom-left-radius: 8px;
+		border-bottom-right-radius: var(--base-radius);
+	}
+
+	&.otherMessage {
+		color: #FFF;
+		background: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
+		border-bottom-right-radius: 8px;
+		border-bottom-left-radius: var(--base-radius);
+
+		align-self: flex-end;
+		max-width: var(--my-message-max-width);
+	}
+}

@@ -11,6 +11,7 @@ import {
 export type TemplateProvider = string | ((props?: any) => string);
 
 export class VBC<P = {}> {
+  protected isRendered: boolean;
   protected props: P;
   protected defaultProps: Partial<P>;
   protected templateHBS: TemplateProvider;
@@ -42,6 +43,7 @@ export class VBC<P = {}> {
     this.eventsList.forEach(ev => this.injectScript(ev.selector, ev.eventType, ev.handler));
 
     this.root = renderVDOM(this.vdom) as HTMLElement;
+    this.isRendered = false;
 
     this.setAttribute('data-vbc-id', this.id);
   }
@@ -57,14 +59,23 @@ export class VBC<P = {}> {
   public update(): void{
     const mountPoint = this.getDOM()?.parentElement as HTMLElement;
 
+    // const activeElement = document.activeElement as HTMLElement;
+
     const compiledHTML = this.compileTemplate();
     const newVDOM = parseHTML(compiledHTML);
     this.setAttribute('data-vbc-id', this.id);
     const newRoot = renderVDOM(this.vdom) as HTMLElement;
-    mountPoint.replaceChild(newRoot, this.getDOM() as HTMLElement);
+    console.log(this.vdom);
+    if(mountPoint)
+      mountPoint.replaceChild(newRoot, this.getDOM() as HTMLElement);
 
     this.root = newRoot;
     this.vdom = newVDOM;
+
+    // if (activeElement) {
+    //   const restoredElement = this.getDOM()?.querySelector(`[data-vbc-id="${this.id}"] ${activeElement.tagName.toLowerCase()}`) as HTMLElement;
+    //   if (restoredElement) restoredElement.focus();
+    // }
   }
 
   public injectProps(newProps: Partial<P>): void {
@@ -80,7 +91,7 @@ export class VBC<P = {}> {
     (this.vdom as VirtualElement).attrs = { ...(this.vdom as VirtualElement).attrs, [key]: value };
   }
 
-  protected compileTemplate(): string {
+  public compileTemplate(): string {
     if (typeof this.templateHBS === "function") {
       return this.templateHBS({ ...this.defaultProps, ...this.props });
     } else {
@@ -120,7 +131,9 @@ export class VBC<P = {}> {
     }
     if (newStyle) {
       this.style += "\n" + newStyle;
+      console.log(this.vdom);
       this.vdom = injectCSSIntoVDOM(this.style, this.vdom);
+      console.log(this.vdom);
     }
     if (newEvents) {
       newEvents.forEach(ev => this.injectScript(ev.selector, ev.eventType, ev.handler));
@@ -128,18 +141,23 @@ export class VBC<P = {}> {
   }
 
   public render(mountPoint: HTMLElement): void {
-    if (!this.root) {
+    if (!this.isRendered) {
       this.root = renderVDOM(this.vdom) as HTMLElement;
       mountPoint.appendChild(this.root);
+      this.isRendered = true;
     } else {
       const compiledHTML = this.compileTemplate();
       const newVDOM = parseHTML(compiledHTML);
       const updatedVDOM = diff(this.vdom, newVDOM);
       const newRoot = renderVDOM(updatedVDOM) as HTMLElement;
-      mountPoint.replaceChild(newRoot, this.root);
+      mountPoint.replaceChild(newRoot, this.root as HTMLElement);
       this.root = newRoot;
       this.vdom = newVDOM;
     }
+  }
+
+  public delete(){
+    this.getDOM()?.remove();
   }
 
   public getVDOM(): VirtualNode {

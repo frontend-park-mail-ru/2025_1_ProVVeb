@@ -1,0 +1,45 @@
+<div class="searchInput">
+	<div class="searchInput__buttonContainer">
+		<button class="searchInput__button" type="button">
+			<img src="/media/search/search.svg" alt="Search" />
+		</button>
+	</div>
+	<div class="searchInput__inputContainer">
+		<input class="searchInput__input" type="text" placeholder="Поиск" />
+	</div>
+	<div class="searchInput__filterContainer">
+		<input class="searchInput__filterCheckbox" type="checkbox" id="filterToggle" />
+		<label for="filterToggle" class="searchInput__filterButton">
+			<img src="/media/search/filter.svg" alt="Filter" />
+		</label>
+		<div class="searchInput__filter">
+			<div class="range-slider age-slider">
+				<p>Возраст
+					<span>
+						<span id="ageMinValue">18</span> - <span id="ageMaxValue">30</span> лет
+					</span>
+				</p>
+				<div class="slider-container">
+					<div class="slider-track">
+						<div class="slider-track-fill"></div>
+					</div>
+					<input type="range" class="slider" id="ageMin" min="18" max="125" value="18" step="1">
+					<input type="range" class="slider" id="ageMax" min="18" max="125" value="30" step="1">
+				</div>
+			</div>
+			<div class="range-slider height-slider">
+				<p>Рост
+					<span>
+						<span id="heightMinValue">140</span> - <span id="heightMaxValue">190</span> см
+					</span>
+				<div class="slider-container">
+					<div class="slider-track">
+						<div class="slider-track-fill"></div>
+					</div>
+					<input type="range" class="slider" id="heightMin" min="100" max="250" value="140" step="1">
+					<input type="range" class="slider" id="heightMax" min="100" max="250" value="190" step="1">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

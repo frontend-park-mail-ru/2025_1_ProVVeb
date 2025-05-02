@@ -20,6 +20,7 @@ export default {
 			'@media': path.resolve(__dirname, 'src/media'),
 			'@store': path.resolve(__dirname, 'src/components/Store.ts'),
 			'@basecomp': path.resolve(__dirname, 'src/components/BaseComponent.ts'),
+			'@VDOM': path.resolve(__dirname, 'src/components/VDOM'),
 			'@compound': path.resolve(__dirname, 'src/components/compound'),
 			'@pattern': path.resolve(__dirname, 'src/components/pattern'),
 			'@simple': path.resolve(__dirname, 'src/components/simple'),
@@ -30,7 +31,7 @@ export default {
 			'@mock': path.resolve(__dirname, 'src/mock'),
 			'@pages': path.resolve(__dirname, 'src/pages'),
 			'@styles': path.resolve(__dirname, 'src/styles/globals'),
-			'@notification': path.resolve(__dirname, 'src/components/simple/notification/notification.ts')
+			'@notification': path.resolve(__dirname, 'src/components/simple/notification/notification.ts'),
 		},
 	},
 	entry: {
@@ -91,6 +92,10 @@ export default {
 		new HTMLWebpackPlugin({
 			template: './src/index.html',
 		}),
+		// new HTMLWebpackPlugin({
+		// 	template: './src/feedbackPage.html',
+		// 	filename: 'feedbackPage.html',
+		// }),
 		new MiniCssExtractPlugin({
 			filename: '[name].[contenthash].css',
 		}),
@@ -103,6 +108,18 @@ export default {
 				{
 					from: path.resolve(__dirname, 'src/media'),
 					to: path.resolve(__dirname, 'dist/media'),
+				},
+				{
+					from: path.resolve(__dirname, 'src/feedbackPage.html'),
+					to: path.resolve(__dirname, 'dist'),
+				},
+				{
+					from: path.resolve(__dirname, 'src/feedbackPage.css'),
+					to: path.resolve(__dirname, 'dist'),
+				},
+				{
+					from: path.resolve(__dirname, 'src/feedbackPage.js'),
+					to: path.resolve(__dirname, 'dist'),
 				},
 			],
 		}),

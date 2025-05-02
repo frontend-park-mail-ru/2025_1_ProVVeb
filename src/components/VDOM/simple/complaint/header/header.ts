@@ -1,14 +1,14 @@
 import { VBC } from "@modules/VDOM/VBC";
-import templateHBS from './title.hbs';
+import templateHBS from './header.hbs';
 
-export class VComplaintTitle extends VBC {
+export class VComplaintHeader extends VBC {
 	constructor(titleText: string = "Тема обращения:", inputText: string = "Напиши тему") {
 		super(
 			templateHBS,
 			{},
 			``,
 			[],
-			{ titleText: titleText, inputText: inputText },
+			{ titleText, inputText },
 		);
 	}
 }

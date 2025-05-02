@@ -40,8 +40,9 @@
 		border-right: var(--vertical-line) 2px solid;
 	}
 
-	&:has(> :nth-child(3))> :nth-child(2) {
-		border-right: var(--vertical-line) 2px solid;
+	&:has(> :nth-child(3))> :nth-child(3) {
+		padding-left: 30px;
+		border-left: var(--vertical-line) 2px solid;
 	}
 
 	&__central {
@@ -135,4 +136,12 @@ body {
 	*:not(body):not(body::before):not(body::after) {
 		display: none;
 	}
+}
+
+iframe {
+	position: absolute;
+	right: 35px;
+	bottom: 35px;
+	width: 270px;
+	height: 325px;
 }

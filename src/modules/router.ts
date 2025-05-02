@@ -7,6 +7,9 @@ import FeedPage from '@pages/feedPage/feedPage';
 import ProfilePage from '@pages/profilePage/profilePage';
 import MathesPage from '@pages/matchesPage/matchesPage';
 import EmptyPage from '@pages/emptyPage/emptyPage';
+import StatPage from '@pages/statPage/statPage';
+import ComplaintPage from '@pages/complaintPage/complaintPage';
+import MessagePage from '@pages/messagePage/messagePage';
 
 enum AppPage {
 	Auth = 'auth',
@@ -16,9 +19,11 @@ enum AppPage {
 	Matches = 'matches',
 	Settings = 'settings',
 	Search = 'search',
-	Messenger = 'messenger',
 	Security = 'security',
 	Shop = 'shop',
+	StatPage = 'stats',
+	ComplaintPage = 'complaint',
+	Messenger = 'messenger',
 }
 
 interface PathStructure {
@@ -34,6 +39,9 @@ class Router {
 	private profilePage: ProfilePage;
 	private matchesPage: MathesPage;
 	private emptyPage: EmptyPage;
+	private statPage: StatPage;
+	private complaintPage: ComplaintPage;
+	private messagePage: MessagePage;
 
 	private PATHS: PathStructure[];
 
@@ -50,6 +58,9 @@ class Router {
 		this.profilePage = new ProfilePage(this.root);
 		this.matchesPage = new MathesPage(this.root);
 		this.emptyPage = new EmptyPage(this.root);
+		this.statPage = new StatPage(this.root);
+		this.complaintPage = new ComplaintPage(this.root);
+		this.messagePage = new MessagePage(this.root);
 
 		this.PATHS = [];
 
@@ -64,9 +75,11 @@ class Router {
 		this.register("matches", this.handlerMatches.bind(this));
 		this.register("settings", this.handlerSettings.bind(this));
 		this.register("search", this.handlerSearch.bind(this));
-		this.register("messenger", this.handlerMessenger.bind(this));
 		this.register("security", this.handlerSecurity.bind(this));
 		this.register("shop", this.handlerShop.bind(this));
+		this.register("stats", this.handlerStats.bind(this));
+		this.register("complaint", this.handlerComplaint.bind(this));
+		this.register("messenger", this.handlerMessenger.bind(this));
 	}
 
 	private async checkSession(): Promise<boolean> {
@@ -187,12 +200,6 @@ class Router {
 		this.emptyPage.getNavMenu().setActiveLink('search');
 	}
 
-	private handlerMessenger(state: any): void {
-		this.root.classList.remove('greeting');
-		this.emptyPage.rerender();
-		this.emptyPage.getNavMenu().setActiveLink('messenger');
-	}
-
 	private handlerSecurity(state: any): void {
 		this.root.classList.remove('greeting');
 		this.emptyPage.rerender();
@@ -203,6 +210,24 @@ class Router {
 		this.root.classList.remove('greeting');
 		this.emptyPage.rerender();
 		this.emptyPage.getNavMenu().setActiveLink('shop');
+	}
+
+	private handlerStats(state: any): void {
+		this.root.classList.remove('greeting');
+		this.statPage.rerender();
+		this.statPage.getNavMenu().setActiveLink('stats');
+	}
+
+	private handlerComplaint(state: any): void {
+		this.root.classList.remove('greeting');
+		this.complaintPage.rerender();
+		this.complaintPage.getNavMenu().setActiveLink('complaint');
+	}
+
+	private handlerMessenger(state: any): void {
+		this.root.classList.remove('greeting');
+		this.messagePage.rerender();
+		this.messagePage.getNavMenu().setActiveLink('messenger');
 	}
 }
 

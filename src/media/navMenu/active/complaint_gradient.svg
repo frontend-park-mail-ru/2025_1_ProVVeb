@@ -1,0 +1,13 @@
+<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" class="cf-icon-svg">
+  <defs>
+    <linearGradient id="paint0_linear" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FF7854" />
+      <stop offset="100%" stop-color="#FE3675" />
+    </linearGradient>
+  </defs>
+  <path 
+  	transform="scale(1.4) translate(0, -2)" 
+    d="M14.032 5.286v7.276a1.112 1.112 0 0 1-1.108 1.108H8.75l-1.02 1.635a.273.273 0 0 1-.503 0l-1.02-1.635h-4.13a1.112 1.112 0 0 1-1.109-1.108V5.286a1.112 1.112 0 0 1 1.108-1.108h10.848a1.112 1.112 0 0 1 1.108 1.108zM8.206 11.34a.706.706 0 1 0-.706.705.706.706 0 0 0 .706-.705zm-1.26-1.83a.554.554 0 1 0 1.108 0V6.275a.554.554 0 1 0-1.108 0z" 
+    fill="url(#paint0_linear)" 
+  />
+</svg>

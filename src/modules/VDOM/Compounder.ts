@@ -3,62 +3,91 @@ import { VBC } from "./VBC";
 import { VirtualNode, renderVDOM, VirtualElement, parseStyle } from "./utils";
 
 export class Compounder {
-  private root: VirtualNode;
-  private current: VirtualElement;
-  private mountPoint?: HTMLElement;
-  private stack: VirtualElement[];
+	private root: VirtualNode;
+	private current: VirtualElement;
+	private mountPoint?: HTMLElement;
+	private stack: VirtualElement[];
 
-  constructor() {
-    this.root = { tag: "div", children: [] };
-    this.current = this.root as VirtualElement;
-    this.stack = [];
-  }
+	constructor() {
+		this.root = { tag: "div", children: [] };
+		this.current = this.root as VirtualElement;
+		this.stack = [];
+	}
 
-  public add(component: VBC): void {
-    this.current.children.push(component.getVDOM());
-  }
+	public add(component: VBC): void {
+		this.current.children.push(component.getVDOM());
+	}
 
-  public down(arg: string | VirtualElement, inlineStyle?: string): void {
-    let newBlock: VirtualElement;
-    if (typeof arg === "string") {
-      newBlock = { tag: "div", className: arg, children: [] };
-      if (inlineStyle) {
-        newBlock.style = parseStyle(inlineStyle);
-      }
-    } else {
-      newBlock = arg;
-    }
-    this.current.children.push(newBlock);
-    this.stack.push(this.current);
-    this.current = newBlock;
-  }
+	public down(arg: string | VirtualElement, inlineStyle?: string, tag?: string): void {
+		let newBlock: VirtualElement;
+		if (typeof arg === "string") {
+			const TAG = tag || "div"
+			newBlock = { tag: TAG, className: arg, children: [] };
+			if (inlineStyle) {
+				newBlock.style = parseStyle(inlineStyle);
+			}
+		} else {
+			newBlock = arg;
+		}
+		this.current.children.push(newBlock);
+		this.stack.push(this.current);
+		this.current = newBlock;
+	}
 
-  public up(): void {
-    if (this.stack.length > 0) {
-      this.current = this.stack.pop() as VirtualElement;
-    }
-  }
+	public up(): void {
+		if (this.stack.length > 0) {
+			this.current = this.stack.pop() as VirtualElement;
+		}
+	}
 
-  public clear(): void {
-    this.root = { tag: "div", children: [] };
-    this.current = this.root as VirtualElement;
-    this.stack = [];
-    if (this.mountPoint) {
-      this.mountPoint.innerHTML = "";
-    }
-  }
+	public clear(): void {
+		this.root = { tag: "div", children: [] };
+		this.current = this.root as VirtualElement;
+		this.stack = [];
+		if (this.mountPoint) {
+			this.mountPoint.innerHTML = "";
+		}
+	}
 
-  public render(mountPoint: HTMLElement): void {
-    this.mountPoint = mountPoint;
-    mountPoint.innerHTML = "";
-    mountPoint.appendChild(renderVDOM(this.root));
-  }
+	public addTo(mountPoint: HTMLElement): void {
+		this.mountPoint = mountPoint;
+		mountPoint.appendChild(renderVDOM(this.root));
+	}
 
-  public getTree(): VirtualNode {
-    return this.root;
-  }
 
-  public getTemplate(): string {
-    return (renderVDOM(this.root) as HTMLElement).outerHTML;
-  }
+	public render(mountPoint: HTMLElement): void {
+		this.mountPoint = mountPoint;
+		mountPoint.innerHTML = "";
+		mountPoint.appendChild(renderVDOM(this.root));
+	}
+
+	public getTree(): VirtualNode {
+		return this.root;
+	}
+
+	public getTemplate(): string {
+		return (renderVDOM(this.root) as HTMLElement).outerHTML;
+	}
+
+	public clearIn(): void {
+		// if (!this.current) return;
+
+		// // 1. Сохраняем текущую структуру
+		// const currentTag = this.current.tag;
+		// const currentClass = this.current.className;
+		// const currentStyle = this.current.style;
+
+		// // 2. Полностью пересоздаем элемент
+		// this.current = {
+		// 	tag: currentTag,
+		// 	className: currentClass,
+		// 	style: currentStyle,
+		// 	children: []
+		// };
+
+		// // 3. Принудительная перерисовка
+		// if (this.mountPoint) {
+		// 	this.render(this.mountPoint);
+		// }
+	}
 }

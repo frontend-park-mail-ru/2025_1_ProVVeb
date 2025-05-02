@@ -55,7 +55,6 @@ const LINKS: LinkConfig[] = [
 		},
 	},
 	{
-		isDev: true,
 		title: 'Мессенджер',
 		srcIcon: 'media/navMenu/messenger.svg',
 		srcIconHover: 'media/navMenu/active/messenger_gradient.svg',
@@ -119,6 +118,32 @@ const LINKS: LinkConfig[] = [
 			selector: '#{id}',
 			callback: (event) => {
 				// console.log('settings');
+			},
+		},
+	},
+	{
+		title: 'Статистика',
+		srcIcon: 'media/navMenu/active/stats_gradient.svg',
+		srcIconHover: 'media/navMenu/stats.svg',
+		id: 'stats' + uniqId,
+		listener: {
+			eventType: 'click',
+			selector: '#{id}',
+			callback: (event) => {
+				// console.log('settings');
+			},
+		},
+	},
+	{
+		title: 'Жалобы',
+		srcIcon: 'media/navMenu/complaint.svg',
+		srcIconHover: 'media/navMenu/active/complaint_gradient.svg',
+		id: 'complaint' + uniqId,
+		listener: {
+			eventType: 'click',
+			selector: '#{id}',
+			callback: (event) => {
+				// console.log('complaint');
 			},
 		},
 	},

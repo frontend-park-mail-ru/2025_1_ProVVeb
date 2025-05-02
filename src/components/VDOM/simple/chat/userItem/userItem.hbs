@@ -1,0 +1,16 @@
+<div class="userItem">
+	<div class="userItem__avatar">
+		<img src="{{avatarSrc}}" alt="{{name}} аватарка" />
+	</div>
+	<div class="userItem__info">
+		<h3 class="userItem__name">{{name}}</h3>
+		<p class="userItem__lastMessage">
+			{{#if isSelf}}
+			Вы
+			{{else}}
+			{{name}}
+			{{/if}}
+			: {{lastMessage}}
+		</p>
+	</div>
+</div>
