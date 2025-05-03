@@ -9,16 +9,15 @@ export class Compounder extends VBC {
 
 	constructor() {
 		//Добавить пропсы
-		super('<div style="display: contents"></div>');
+		super('<div></div>');
 
 		this.root_ = {
-			tag: "section",
+			tag: "div",
 			style: {
 				"display": "contents"
 			},
 			children: []
 		};
-		console.log('this.root_', this.root_)
 		this.current = this.root_ as VirtualElement;
 		this.stack = [];
 	}
@@ -53,7 +52,7 @@ export class Compounder extends VBC {
 	}
 
 	public clear(): void {
-		this.root_ = { tag: "div", children: [] };
+		this.root_ = { tag: "div", style: { "display": "contents" }, children: [] };
 		this.current = this.root_ as VirtualElement;
 		this.stack = [];
 	}
