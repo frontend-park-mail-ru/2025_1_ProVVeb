@@ -9,16 +9,21 @@ export class Compounder extends VBC {
 
 	constructor() {
 		//Добавить пропсы
-		super('<div></div>');
+		super('<div style="display: contents"></div>');
 
-		this.root_ = { tag: "div", style: { 'display': 'contents' }, children: [] };
+		this.root_ = {
+			tag: "div",
+			style: {
+				"display": "contents"
+			},
+			children: []
+		};
 		this.current = this.root_ as VirtualElement;
 		this.stack = [];
 	}
 
 	public add(component: VBC): void {
 		this.current.children.push(component.getVDOM());
-
 		this.vdom = this.root_;
 	}
 

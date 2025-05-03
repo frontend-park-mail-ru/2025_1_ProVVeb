@@ -164,3 +164,69 @@ export function diff(oldTree: VirtualNode, newTree: VirtualNode): VirtualNode {
   newEl.events = { ...oldEl.events, ...newEl.events };
   return newEl;
 }
+
+export function patchVDOM(oldVNode: VirtualNode, newVNode: VirtualNode, domNode: Node): void {
+  if (typeof oldVNode === "string" && typeof newVNode === "string") {
+    if (oldVNode !== newVNode && domNode.nodeType === Node.TEXT_NODE) {
+      (domNode as Text).textContent = newVNode;
+    }
+    return;
+  }
+  if (typeof oldVNode !== typeof newVNode) {
+    const newDom = renderVDOM(newVNode);
+    domNode.parentNode?.replaceChild(newDom, domNode);
+    return;
+  }
+
+  oldVNode = oldVNode as VirtualElement;
+  newVNode = newVNode as VirtualElement;
+
+  if (oldVNode.tag !== newVNode.tag) {
+    const newDom = renderVDOM(newVNode);
+    domNode.parentNode?.replaceChild(newDom, domNode);
+    return;
+  }
+
+  // Обновляем классы (и можно обновить attrs, style, events)
+  const element = domNode as HTMLElement;
+  if (oldVNode.className !== newVNode.className) {
+    element.className = newVNode.className as string;
+  }
+  
+  const oldStyle = oldVNode.style || {};
+  const newStyle = newVNode.style || {};
+  if (JSON.stringify(oldStyle) !== JSON.stringify(newStyle)) {
+    element.style.cssText = "";
+    for (const [prop, value] of Object.entries(newStyle)) {
+      (element.style as any)[prop] = value;
+    }
+  }
+  
+  // Обновляем атрибуты (если нужны)
+  // Можно добавить сравнение и обновление, для примера пропустим
+    
+  const oldChildren = [];
+  for(let el of oldVNode.children)
+    if(el !== "")
+      oldChildren.push(el);
+
+  const newChildren = [];
+  for(let el of newVNode.children)
+    if(el !== "")
+      newChildren.push(el);
+
+  const domChildNodes = [];
+  for(let el of element.childNodes)
+    if(!(el.textContent == "" && el.nodeType == Node.TEXT_NODE))
+      domChildNodes.push(el);
+
+  const max = Math.max(oldChildren.length, newChildren.length);
+
+  for (let i = 0; i < max; i++)
+    if (i >= oldChildren.length)
+      element.appendChild(renderVDOM(newChildren[i] as VirtualNode));
+    else if (i >= newChildren.length)
+      element.removeChild(domChildNodes[i]);
+    else if (domChildNodes[i])
+      patchVDOM(oldChildren[i] as VirtualNode, newChildren[i] as VirtualNode, domChildNodes[i]);
+}
