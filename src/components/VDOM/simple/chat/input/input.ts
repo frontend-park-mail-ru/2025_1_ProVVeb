@@ -3,6 +3,7 @@ import templateHBS from "./input.hbs";
 
 export class VChatInput extends VBC {
 	constructor(
+		profileId: number,
 		onClick: () => void = () => { },
 	) {
 		super(
@@ -26,7 +27,7 @@ export class VChatInput extends VBC {
 				// 	}
 				// },
 			],
-			{},
+			{ profileId },
 		);
 	}
 }

@@ -10,7 +10,7 @@ import EmptyPage from '@pages/emptyPage/emptyPage';
 import StatPage from '@pages/statPage/statPage';
 import ComplaintPage from '@pages/complaintPage/complaintPage';
 import MessagePage from '@pages/messagePage/messagePage';
-import SearchPage from '@pages/search/searchPage';
+import SearchPage from '@pages/searchPage/searchPage';
 
 enum AppPage {
 	Auth = 'auth',

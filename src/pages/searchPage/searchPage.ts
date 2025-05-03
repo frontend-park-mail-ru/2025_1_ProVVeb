@@ -53,6 +53,7 @@ export default class SearchPage extends BasePage {
 
 	async render(): Promise<void> {
 		this.pageCompounder.clear();
+		this.pageCompounder.down('contentWrapper__inner');
 
 		const searchInput = new VSearchInput(async () => {
 			const input = document.querySelector('.searchInput__input') as HTMLInputElement;
@@ -91,6 +92,7 @@ export default class SearchPage extends BasePage {
 			}
 
 			this.pageCompounder.clear();
+			this.pageCompounder.down('contentWrapper__inner');
 			this.pageCompounder.add(searchInput);
 
 			this.pageCompounder.down('searchItems', `
@@ -99,7 +101,7 @@ export default class SearchPage extends BasePage {
 				gap: 10px; 
 				flex-wrap: wrap;
 				justify-content: space-between;
-				height: 650px;
+				max-height: 650px;
 				width: 100%;
 				overflow: auto;
 				scrollbar-width: none;
@@ -162,62 +164,62 @@ export default class SearchPage extends BasePage {
 	}
 
 	async getProfilesBySearch(params: SearchProfile): Promise<{ success: boolean, data: Array<FoundProfile> }> {
-		const response = await api.profilesBySearch(
-			params.input,
-			params.isMale,
-			params.ageMin,
-			params.ageMax,
-			params.heightMin,
-			params.heightMax,
-			params.country,
-			params.city,
-		);
+		// const response = await api.profilesBySearch(
+		// 	params.input,
+		// 	params.isMale,
+		// 	params.ageMin,
+		// 	params.ageMax,
+		// 	params.heightMin,
+		// 	params.heightMax,
+		// 	params.country,
+		// 	params.city,
+		// );
 
-		if (!(response.success && response.data)) {
+		// if (!(response.success && response.data)) {
 
-			const notification = new Notification({
-				headTitle: "Ошибка сети",
-				title: `Не удалось отправить ваши пожелания. Попробуйте позже`,
-				isWarning: false,
-				isWithButton: true,
-			});
-			notification.render();
-			return { success: false, data: [] };
-		}
-
-		return {
-			success: true,
-			data: response.data.map((profile: any) => ({
-				idUser: profile.idUser || store.getState('myID') as number,
-				firstImgSrc: profile.firstImgSrc || '/frontend/src/media/error/400x600.jpg',
-				fullname: profile.fullname || 'Мое имя, хи-хи',
-				age: profile.age || 16,
-			}))
-		};
+		// 	const notification = new Notification({
+		// 		headTitle: "Ошибка сети",
+		// 		title: `Не удалось отправить ваши пожелания. Попробуйте позже`,
+		// 		isWarning: false,
+		// 		isWithButton: true,
+		// 	});
+		// 	notification.render();
+		// 	return { success: false, data: [] };
+		// }
 
 		// return {
 		// 	success: true,
-		// 	data: [
-		// 		{
-		// 			idUser: 1,
-		// 			firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 			fullname: 'John Doe',
-		// 			age: 25,
-		// 		},
-		// 		{
-		// 			idUser: 1,
-		// 			firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 			fullname: 'John Doe',
-		// 			age: 25,
-		// 		},
-		// 		{
-		// 			idUser: 1,
-		// 			firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 			fullname: 'John Doe',
-		// 			age: 25,
-		// 		},
-		// 	],
-		// }
+		// 	data: response.data.map((profile: any) => ({
+		// 		idUser: profile.idUser || store.getState('myID') as number,
+		// 		firstImgSrc: profile.firstImgSrc || '/frontend/src/media/error/400x600.jpg',
+		// 		fullname: profile.fullname || 'Мое имя, хи-хи',
+		// 		age: profile.age || 16,
+		// 	}))
+		// };
+
+		return {
+			success: true,
+			data: [
+				{
+					idUser: 1,
+					firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
+					fullname: 'John Doe',
+					age: 25,
+				},
+				{
+					idUser: 1,
+					firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
+					fullname: 'John Doe',
+					age: 25,
+				},
+				{
+					idUser: 1,
+					firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
+					fullname: 'John Doe',
+					age: 25,
+				},
+			],
+		}
 
 		// return {
 		// 	success: true,

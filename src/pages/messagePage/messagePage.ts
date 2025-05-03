@@ -77,7 +77,13 @@ export default class MessagePage extends BasePage {
 		return this.components[1] as NavMenu;
 	}
 
-	async createChat(chatId: number, profilePicture: string, profileName: string, profileDescription: string) {
+	async createChat(
+		chatId: number,
+		profilePicture: string,
+		profileName: string,
+		profileDescription: string,
+		profileId: number
+	) {
 		this.chatAreaCompounder.clear();
 		this.messageAreaCompounder.clear();
 
@@ -85,7 +91,7 @@ export default class MessagePage extends BasePage {
 			display: flex;
 			flex-direction: column;
 			gap: 10px;
-			height: 690px;
+			height: 710px;
 		`);
 
 		const chatHeader = new VChatHeader(
@@ -96,7 +102,7 @@ export default class MessagePage extends BasePage {
 
 		this.messageAreaCompounder.down('allMessages', `
 			display: flex;
-			flex-direction: column;
+			flex-direction: column-reverse;
 			gap: 10px;
 			flex-grow: 1;
 			overflow: auto;
@@ -105,7 +111,7 @@ export default class MessagePage extends BasePage {
 
 		this.chatAreaCompounder.add(this.messageAreaCompounder);
 
-		const ws = new WebSocket(`ws://localhost:8080/chats/${chatId}`);
+		const ws = new WebSocket(`${api.WS_URL}/${chatId}`);
 
 		ws.onopen = () => {
 			console.log('WebSocket connection opened');
@@ -120,7 +126,7 @@ export default class MessagePage extends BasePage {
 			console.log('store.getState("myID")', store.getState("myID"))
 			console.log('message', data);
 			if (data.type === 'init_messages') {
-				for (let i = data.messages.length - 1; i >= 0; i--) {
+				for (let i = data.messages.length - 1; i >= 0; --i) {
 					const message = data.messages[i];
 					this.messageAreaCompounder.add(new VChatMessage(
 						message.text,
@@ -136,7 +142,7 @@ export default class MessagePage extends BasePage {
 			}
 		};
 
-		const chatInput = new VChatInput(() => {
+		const chatInput = new VChatInput(profileId, () => {
 			const textArea = chatInput.getDOM()?.querySelector('.chatInput__input textarea') as HTMLTextAreaElement | null;
 			if (textArea) {
 				if (textArea.value.trim() === '') return;
@@ -150,9 +156,11 @@ export default class MessagePage extends BasePage {
 					}
 				}));
 
-				this.messageAreaCompounder.add(new VChatMessage(
+				this.messageAreaCompounder.addToStart(new VChatMessage(
 					textArea.value, true
 				));
+
+				store.setState(`${profileId}lastMessage`, textArea.value.trim());
 
 				textArea.value = '';
 
@@ -160,6 +168,7 @@ export default class MessagePage extends BasePage {
 			}
 		});
 
+		console.log('store', store)
 		this.chatAreaCompounder.add(chatInput);
 		// this.chatAreaCompounder.render(this.contentWrapper);
 
@@ -172,7 +181,7 @@ export default class MessagePage extends BasePage {
 			return { success: false, data: [] }
 		}
 
-		const usersListWithClick = usersList.data.map((user) => {
+		const usersListWithClick = usersList.data.reverse().map((user) => {
 			const userItem = new VUserItem(
 				api.BASE_URL_PHOTO + user.profilePicture,
 				user.profileName,
@@ -186,9 +195,29 @@ export default class MessagePage extends BasePage {
 					}
 					userItem.getDOM()?.classList.add('isActive');
 
-					this.createChat(user.chatId, user.profilePicture, user.profileName, user.profileDescription);
+					this.createChat(
+						user.chatId,
+						user.profilePicture,
+						user.profileName,
+						user.profileDescription,
+						user.profileId
+					);
+				}
+			);
+			store.subscribe(`${user.profileId}lastMessage`, (text) => {
+				userItem.injectProps({
+					avatarSrc: api.BASE_URL_PHOTO + user.profilePicture,
+					name: user.profileName,
+					isSelf: user.isSelf,
+					lastMessage: text,
 				});
+				userItem.update();
 
+				const parent = userItem.getDOM()?.parentElement as HTMLElement;
+				const element = userItem.getDOM() as HTMLElement;
+				parent.insertBefore(element, parent.firstChild);
+
+			})
 			return userItem;
 		});
 
