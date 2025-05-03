@@ -31,6 +31,22 @@ export default class MessagePage extends BasePage {
 	}
 
 	async render(): Promise<void> {
+
+		const WSNotifications = new WebSocket(`ws://localhost:8080/notifications`);
+
+		WSNotifications.onopen = () => {
+			console.log('WebSocket connection opened');
+		};
+
+		WSNotifications.onclose = () => {
+			console.log('WebSocket connection closed');
+		};
+
+		WSNotifications.onmessage = (response) => {
+			const message = JSON.parse(response.data);
+			console.log('message:', message);
+		};
+
 		this.chatAreaCompounder.clear();
 		this.chatAreaCompounder.add(new VStartMessage());
 
@@ -134,11 +150,39 @@ export default class MessagePage extends BasePage {
 					));
 				}
 
+				ws.send(JSON.stringify({
+					type: "read",
+					payload: {
+						chat_id: chatId,
+					}
+				}));
+
 				this.chatAreaCompounder.render(this.contentWrapper);
 			}
 
 			if (data.type === 'created') {
 				console.log('send');
+			}
+
+			if (data.type === 'new_messages') {
+				for (let i = data.messages.length - 1; i >= 0; --i) {
+					const message = data.messages[i];
+					if (message.status !== 1) continue;
+					this.messageAreaCompounder.addToStart(new VChatMessage(
+						message.text,
+						message.senderid === (store.getState("myID") as number)
+					));
+				}
+
+				ws.send(JSON.stringify({
+					type: "read",
+					payload: {
+						chat_id: chatId,
+					}
+				}));
+
+
+				this.chatAreaCompounder.render(this.contentWrapper);
 			}
 		};
 
