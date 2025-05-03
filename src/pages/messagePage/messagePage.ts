@@ -85,7 +85,6 @@ export default class MessagePage extends BasePage {
 			display: flex;
 			flex-direction: column;
 			gap: 10px;
-			// height: 100%;
 			height: 690px;
 		`);
 

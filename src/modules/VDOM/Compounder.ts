@@ -12,12 +12,13 @@ export class Compounder extends VBC {
 		super('<div style="display: contents"></div>');
 
 		this.root_ = {
-			tag: "div",
+			tag: "section",
 			style: {
 				"display": "contents"
 			},
 			children: []
 		};
+		console.log('this.root_', this.root_)
 		this.current = this.root_ as VirtualElement;
 		this.stack = [];
 	}
