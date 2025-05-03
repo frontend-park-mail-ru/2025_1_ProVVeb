@@ -11,7 +11,7 @@ export class Compounder extends VBC {
 		//Добавить пропсы
 		super('<div></div>');
 
-		this.root_ = { tag: "div", children: [] };
+		this.root_ = { tag: "div", style: { 'display': 'contents' }, children: [] };
 		this.current = this.root_ as VirtualElement;
 		this.stack = [];
 	}
@@ -74,5 +74,5 @@ export class Compounder extends VBC {
 	public getTemplate(): string {
 		return (renderVDOM(this.root_) as HTMLElement).outerHTML;
 	}
-	
+
 }

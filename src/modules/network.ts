@@ -202,7 +202,7 @@ async function sendComplaint(
 	body: string,
 	forWhom?: string,
 ): Promise<ApiResponse> {
-	const url = `${BASE_URL}/queries/send`;
+	const url = `${BASE_URL}/queries/sendComplaint`;
 
 	const params: {
 		complaint_type: string;
@@ -222,21 +222,33 @@ async function sendComplaint(
 
 async function profilesBySearch(
 	input: string,
-	ageMin: string,
-	ageMax: string,
-	heightMin: string,
-	heightMax: string
+	isMale: 'Male' | 'Any' | 'Female',
+	ageMin: number,
+	ageMax: number,
+	heightMin: number,
+	heightMax: number,
+	country: string,
+	city: string,
 ): Promise<ApiResponse<Profile[]>> {
 	const url = `${BASE_URL}/profiles/search`;
-	const params = new URLSearchParams({
+
+	const params = {
 		input,
+		isMale,
 		ageMin,
 		ageMax,
 		heightMin,
 		heightMax,
-	});
+		country,
+		city,
+	};
 
 	return sendRequest(url, 'POST', params);
+}
+
+async function getChats() {
+	const url = `${BASE_URL}/chats`;
+	return sendRequest(url, 'GET');
 }
 
 export default {
@@ -258,5 +270,6 @@ export default {
 	sendFeedback,
 	getCards,
 	sendComplaint,
-	profilesBySearch
+	profilesBySearch,
+	getChats
 };

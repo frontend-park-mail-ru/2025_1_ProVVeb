@@ -121,6 +121,7 @@ const LINKS: LinkConfig[] = [
 		},
 	},
 	{
+		isDev: true,
 		title: 'Статистика',
 		srcIcon: 'media/navMenu/active/stats_gradient.svg',
 		srcIconHover: 'media/navMenu/stats.svg',

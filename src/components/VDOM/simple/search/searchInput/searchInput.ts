@@ -1,5 +1,6 @@
 import { VBC } from "@modules/VDOM/VBC";
 import templateHBS from './searchInput.hbs';
+import store from "@store";
 
 export class VSearchInput extends VBC {
 	constructor(onClickSearchBtn: () => void) {

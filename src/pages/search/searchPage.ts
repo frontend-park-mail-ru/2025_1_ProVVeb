@@ -7,11 +7,37 @@ import { VSearchItem } from '@VDOM/simple/search/searchItem/searchItem';
 import { VSearchStart } from '@VDOM/simple/search/searchStart/searchStart';
 import api from '@network';
 import Notification from '@simple/notification/notification';
+import store from '@store';
+
+enum Gender {
+	Male = 'Male',
+	Any = 'Any',
+	Female = 'Female'
+}
+
+interface SearchProfile {
+	input: string;
+	isMale: Gender;
+	ageMin: number;
+	ageMax: number;
+	heightMin: number;
+	heightMax: number;
+	country: string;
+	city: string;
+}
+
+interface FoundProfile {
+	idUser: number;
+	firstImgSrc: string;
+	fullname: string;
+	age: number;
+}
 
 export default class SearchPage extends BasePage {
 	private components: Array<HeaderMain | NavMenu>;
 	private contentWrapper: HTMLElement;
-	private compounder: Compounder = new Compounder;
+	private pageCompounder: Compounder = new Compounder;
+	// private userItemsCompounder: Compounder = new Compounder;
 
 	constructor(parentElement: HTMLElement) {
 		super(parentElement);
@@ -26,22 +52,31 @@ export default class SearchPage extends BasePage {
 	}
 
 	async render(): Promise<void> {
-		this.compounder.clear();
+		this.pageCompounder.clear();
 
 		const searchInput = new VSearchInput(async () => {
+			const input = document.querySelector('.searchInput__input') as HTMLInputElement;
+			const selectedGender = document.querySelector('input[name="gender"]:checked') as HTMLInputElement;
 			const ageMin = document.getElementById('ageMin') as HTMLInputElement;
 			const ageMax = document.getElementById('ageMax') as HTMLInputElement;
 			const heightMin = document.getElementById('heightMin') as HTMLInputElement;
 			const heightMax = document.getElementById('heightMax') as HTMLInputElement;
-			const input = document.querySelector('.searchInput__input') as HTMLInputElement;
-			console.log('Age:', ageMin.value, ageMax.value, 'Height:', heightMin.value, heightMax.value, 'Input:', input.value.trim());
+			const country = document.getElementById('country') as HTMLInputElement;
+			const city = document.getElementById('city') as HTMLInputElement;
+
+			console.log(ageMin.value, ageMax.value, heightMin.value, heightMax.value, input.value.trim(), selectedGender.value, country.value, city.value);
 
 			const { success, data: searchItems } = await this.getItemsBySearch({
 				input: input.value.trim(),
-				ageMin: ageMin.value,
-				ageMax: ageMax.value,
-				heightMin: heightMin.value,
-				heightMax: heightMax.value,
+				isMale: Object.values(Gender).includes(selectedGender.value as Gender) ?
+					selectedGender.value as Gender : Gender.Any,
+				ageMin: Number.isNaN(Number(ageMin.value)) ? Number(ageMin.value) : 18,
+				ageMax: Number.isNaN(Number(ageMax.value)) ? Number(ageMax.value) : 125,
+				heightMin: Number.isNaN(Number(heightMin.value)) ? Number(heightMin.value) : 100,
+				heightMax: Number.isNaN(Number(heightMax.value)) ? Number(heightMax.value) : 250,
+				country: country.value.trim(),
+				city: city.value.trim(),
+
 			});
 
 			if (!success) {
@@ -55,20 +90,36 @@ export default class SearchPage extends BasePage {
 				return;
 			}
 
+			this.pageCompounder.clear();
+			this.pageCompounder.add(searchInput);
+
+			this.pageCompounder.down('searchItems', `
+				margin-top: 20px;
+				display: flex; 
+				gap: 10px; 
+				flex-wrap: wrap;
+				justify-content: space-between;
+				height: 650px;
+				width: 100%;
+				overflow: auto;
+				scrollbar-width: none;
+			`);
+
 			if (searchItems.length === 0) {
-				this.compounder.add(new VSearchStart(
-					'По вашему запросу ничего не найдено',
-					'Попробуйте изменить параметры поиска'
+				this.pageCompounder.add(new VSearchStart(
+					'Мы не нашли такую (',
+					'Попробуй изменить параметры поиска'
 				));
-				return;
+			} else {
+				searchItems.forEach((item) => this.pageCompounder.add(item));
 			}
 
-			searchItems.forEach((item) => this.compounder.add(item));
+			this.pageCompounder.render(this.contentWrapper);
 		});
 
-		this.compounder.add(searchInput);
+		this.pageCompounder.add(searchInput);
 
-		this.compounder.down('searchItems', `
+		this.pageCompounder.down('searchItems', `
 			margin-top: 20px;
 			display: flex; 
 			gap: 10px; 
@@ -80,27 +131,21 @@ export default class SearchPage extends BasePage {
 			scrollbar-width: none;
 		`);
 
-		const searchStart = new VSearchStart();
-		this.compounder.add(searchStart);
+		this.pageCompounder.add(new VSearchStart());
+
 		this.contentWrapper.innerHTML = '';
 		this.components[0].render();
 		this.parentElement.appendChild(this.contentWrapper);
 		this.components[1].render();
 
-		this.compounder.addTo(this.contentWrapper);
+		this.pageCompounder.addTo(this.contentWrapper);
 	}
 
 	public getNavMenu(): NavMenu {
 		return this.components[1] as NavMenu;
 	}
 
-	async getItemsBySearch(params?: {
-		input: string;
-		ageMin: string;
-		ageMax: string;
-		heightMin: string;
-		heightMax: string
-	}) {
+	async getItemsBySearch(params: SearchProfile): Promise<{ success: boolean, data: Array<VSearchItem> }> {
 		const response = await this.getProfilesBySearch(params);
 
 		if (!response.success) {
@@ -109,129 +154,74 @@ export default class SearchPage extends BasePage {
 		return {
 			success: true,
 			data: response.data.map((profile) => new VSearchItem(
-				profile.imgSrc,
-				profile.name,
+				profile.firstImgSrc,
+				profile.fullname,
 				profile.age
 			))
 		};
 	}
 
-	async getProfilesBySearch(params?: {
-		input: string;
-		ageMin: string;
-		ageMax: string;
-		heightMin: string;
-		heightMax: string
-	}) {
-		// const response = await api.profilesBySearch(
-		// 	params.input,
-		// 	params.ageMin,
-		// 	params.ageMax,
-		// 	params.heightMin,
-		// 	params.heightMax,
-		// );
+	async getProfilesBySearch(params: SearchProfile): Promise<{ success: boolean, data: Array<FoundProfile> }> {
+		const response = await api.profilesBySearch(
+			params.input,
+			params.isMale,
+			params.ageMin,
+			params.ageMax,
+			params.heightMin,
+			params.heightMax,
+			params.country,
+			params.city,
+		);
 
-		// if (!(response.success && response.data)) {
+		if (!(response.success && response.data)) {
 
-		// 	const notification = new Notification({
-		// 		headTitle: "Ошибка сети",
-		// 		title: `Не удалось отправить ваши пожелания. Попробуйте позже`,
-		// 		isWarning: false,
-		// 		isWithButton: true,
-		// 	});
-		// 	notification.render();
-		// 	return { success: false, data: [] };
-		// }
-
-		// return { success: true, data: response.data };
+			const notification = new Notification({
+				headTitle: "Ошибка сети",
+				title: `Не удалось отправить ваши пожелания. Попробуйте позже`,
+				isWarning: false,
+				isWithButton: true,
+			});
+			notification.render();
+			return { success: false, data: [] };
+		}
 
 		return {
 			success: true,
-			data: [
-				{
-					imgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-					name: 'John Doe',
-					age: 25,
-				},
-				{
-					imgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-					name: 'John Doe',
-					age: 25,
-				},
-				{
-					imgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-					name: 'John Doe',
-					age: 25,
-				},
-			],
-		}
+			data: response.data.map((profile: any) => ({
+				idUser: profile.idUser || store.getState('myID') as number,
+				firstImgSrc: profile.firstImgSrc || '/frontend/src/media/error/400x600.jpg',
+				fullname: profile.fullname || 'Мое имя, хи-хи',
+				age: profile.age || 16,
+			}))
+		};
 
-		// return [
-		// 	{
-		// 		imgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 		name: 'John Doe',
-		// 		age: 25,
-		// 	},
-		// 	{
-		// 		imgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 		name: 'John Doe',
-		// 		age: 25,
-		// 	},
-		// 	{
-		// 		imgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 		name: 'John Doe',
-		// 		age: 25,
-		// 	},
-		// 	{
-		// 		imgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 		name: 'John Doe',
-		// 		age: 25,
-		// 	},
-		// 	{
-		// 		imgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 		name: 'John Doe',
-		// 		age: 25,
-		// 	},
-		// 	{
-		// 		imgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 		name: 'John Doe',
-		// 		age: 25,
-		// 	},
-		// 	{
-		// 		imgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 		name: 'John Doe',
-		// 		age: 25,
-		// 	},
-		// 	{
-		// 		imgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 		name: 'John Doe',
-		// 		age: 25,
-		// 	},
-		// 	{
-		// 		imgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 		name: 'John Doe',
-		// 		age: 25,
-		// 	},
-		// 	{
-		// 		imgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 		name: 'John Doe',
-		// 		age: 25,
-		// 	},
-		// 	{
-		// 		imgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 		name: 'John Doe',
-		// 		age: 25,
-		// 	},
-		// 	{
-		// 		imgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 		name: 'John Doe',
-		// 		age: 25,
-		// 	},
-		// 	{
-		// 		imgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 		name: 'John Doe',
-		// 		age: 25,
-		// 	},
-		// ];
+		// return {
+		// 	success: true,
+		// 	data: [
+		// 		{
+		// 			idUser: 1,
+		// 			firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
+		// 			fullname: 'John Doe',
+		// 			age: 25,
+		// 		},
+		// 		{
+		// 			idUser: 1,
+		// 			firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
+		// 			fullname: 'John Doe',
+		// 			age: 25,
+		// 		},
+		// 		{
+		// 			idUser: 1,
+		// 			firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
+		// 			fullname: 'John Doe',
+		// 			age: 25,
+		// 		},
+		// 	],
+		// }
+
+		// return {
+		// 	success: true,
+		// 	data: [],
+		// }
 	}
 }

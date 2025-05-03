@@ -58,6 +58,9 @@ export default class ComplaintPage extends BasePage {
 				return;
 			}
 
+			console.log('headerValue', headerValue);
+			console.log('bodyValue', bodyValue);
+
 			const response = await api.sendComplaint(
 				headerValue,
 				bodyValue

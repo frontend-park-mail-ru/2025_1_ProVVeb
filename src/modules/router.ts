@@ -158,6 +158,7 @@ class Router {
 
 		if (ava) store.setState('ava', ava);
 		if (name) store.setState('profileName', name);
+		if (data?.data?.isMale) store.setState('isMale', data?.data?.isMale);
 	}
 
 	private checkCookie(page: AppPage): AppPage {

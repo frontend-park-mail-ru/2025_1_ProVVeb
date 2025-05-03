@@ -27,20 +27,21 @@ const DEFAULT_LOGIN_PARAMS_BUTTON: LoginButtonParams = {
 			if (checkLogin(loginValue, passwordValue, passwordAgainValue)) {
 				api.loginUser(loginValue, passwordValue).then((respond: { success: boolean; message?: string }) => {
 					if (respond.success) {
-						
+
 						//REDIRECT TO FEED
 						api.authUser(loginValue, passwordValue).then(async (respond) => {
 							if (respond.success) {
 								store.setState('myID', respond.data.user_id);
 								store.setState('inSession', true);
 								await router.navigateTo(AppPage.Feed);
-			
+
 								const data = await api.getProfile(respond.data.user_id);
 								const ava = api.BASE_URL_PHOTO + data?.data?.photos[0];
 								const name = data?.data?.firstName + ' ' + data?.data?.lastName;
-			
+
 								if (name) store.setState('profileName', name);
 								if (ava) store.setState('ava', ava);
+								if (data?.data?.isMale) store.setState('isMale', data?.data?.isMale);
 							} else {
 								const JSONans = JSON.parse(respond.message as string);
 								let ans = '';
