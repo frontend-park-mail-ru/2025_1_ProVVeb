@@ -9,13 +9,28 @@ import { CSS_center } from './components/VDOM/defaultStyles/VStyles';
 import { VBackButton } from './components/VDOM/simple/button/backButton/backButton';
 import { VDateInput, VDateInputUI } from './components/VDOM/simple/input/dateInput/dateInput';
 import { VProgressBar } from './components/VDOM/simple/progressBar/progressBar';
-import { VComplaintHeader } from './components/VDOM/simple/complaint/header/header';
-import { VComplaintBody } from '@VDOM/simple/complaint/body/body';
-import { VUserItem } from '@VDOM/simple/chat/userItem/userItem';
-import { VChatInput } from '@VDOM/simple/chat/input/input';
-import { VChatHeader } from '@VDOM/simple/chat/header/header';
-import { VChatMessage } from '@VDOM/simple/chat/message/chatMessage';
-import { VSearchInput } from '@VDOM/simple/search/searchInput/searchInput';
+import { VStars } from './components/VDOM/simple/stars/stars';
+import { VStatCard } from './components/VDOM/compound/statCard/statCard';
+import { VStatTable } from './components/VDOM/compound/statTable/statTable';
+import { VList } from '@VDOM/simple/list/list';
+import { VInteresInputFull, VIntreresInput } from '@VDOM/simple/input/interesInput/interesInput';
+import { VAddButton } from '@VDOM/simple/button/addButton/addButton';
+import { CRegForm } from '@VDOM/compound/regForm/regForm';
+import { VBC } from '@modules/VDOM/VBC';
+import { CReg20 } from '@VDOM/compound/regForm/20/20';
+import { CReg40 } from '@VDOM/compound/regForm/40/40';
+import { CReg60 } from '@VDOM/compound/regForm/60/60';
+// import CReg100 from '@VDOM/compound/regForm/100/100';
+import { CRegFinish } from '@VDOM/compound/regForm/finish/finish';
+import { VCatalog } from '@VDOM/simple/list/catalog/catalog';
+import { VTable } from '@VDOM/compound/table/table';
+import { CReg80 } from '@VDOM/compound/regForm/80/80';
+import { CReg80_3 } from '@VDOM/compound/regForm/80/803/803';
+import { VPhotoInput } from '@VDOM/simple/input/photoInput/photoInut';
+import { CReg100 } from '@VDOM/compound/regForm/100/100';
+import store from '@store';
+// import { CRegPhotos } from '@VDOM/compound/regForm/100/100';
+// import { CReg100 } from '@VDOM/compound/regForm/100.ts/100';
 
 // if ('serviceWorker' in navigator) {
 // 	navigator.serviceWorker.register('./sw.js', { scope: '/' })
@@ -26,113 +41,22 @@ import { VSearchInput } from '@VDOM/simple/search/searchInput/searchInput';
 // 			// console.log('Register SW failed', err);
 // 		});
 // }
+// router.start();
 
-router.start();
+// const c = new VPhotoInput();
+// c.render(document.getElementById('root') as HTMLElement);
+store.setState("myID", 1);
 
-// const root = document.getElementById('root') as HTMLElement;
+const main = new CReg100();
 
-// const searchInput = new VSearchInput();
-// searchInput.render(root)
+const root = document.getElementById("root") as HTMLElement;
+root.style.background = 'black';
+document.body.style.background = 'black';
+const page1 = new CRegForm(550, 20, "Давай познакомимся 😊", main);
+page1.render(root);
 
+// const photosComponent = new CRegPhotos(6);
+// photosComponent.render(document.getElementById('root') as HTMLElement);
 
-// const comp = new Compounder();
-// comp.down("complaintContainer", `
-// 	display: flex;
-// 	gap: 10px;
-// 	flex-direction: column;
-// `);
-// comp.add(complaintHeader);
-// comp.add(complaintBody);
-// comp.render(root);
-
-// const button = new VButton("WORK", ()=>{
-//     progressBar.inject(undefined, ".progressBar__line{ width: 100% }");
-//     progressBar.update();
-// });
-
-// const input = new VInput("Логин");
-// input.inject(undefined, '.inputContainer{width: 200px;}');
-
-// const option1 = new VOption("МУЖЧИНА");
-// const option2 = new VOption("ЖЕНЩИНА");
-
-// option1.inject(undefined, '', [{
-//     selector: '.option',
-//     eventType: 'click',
-//     handler: ()=>{
-//         option1.getDOM()?.classList.add("option-checked");
-//         option2.getDOM()?.classList.remove("option-checked");
-//     }
-// }])
-
-// option2.inject(undefined, '', [{
-//     selector: '.option',
-//     eventType: 'click',
-//     handler: ()=>{
-//         option1.getDOM()?.classList.remove("option-checked");
-//         option2.getDOM()?.classList.add("option-checked");
-//     }
-// }])
-
-// const backButton = new VBackButton(()=>{
-//     progressBar.inject(undefined, ".progressBar__line{ width: 0% }");
-//     progressBar.update();
-// });
-
-// const progressBar = new VProgressBar();
-
-// const dateInput = new VDateInput();
-
-// const list = new VList();
-
-// const interes = new VInteresInputFull();
-
-// const root = document.getElementById("root") as HTMLElement;
-
-// const compounder = new Compounder();
-// compounder.down("login-form", `
-//         width: 500px;
-//         height: 500px;
-//         flex-direction: column;
-//         gap: 10px;
-//     `+CSS_center);
-// compounder.add(input);
-// compounder.add(list);
-
-// compounder.down("intereses", `
-//     width: 100%;
-//     height: fit-content;
-//     flex-direction: row;
-//     gap: 10px;
-//     margin-bottom: 10px;
-// `+CSS_center);
-
-// const addBtn = new VAddButton(()=>{
-//     compounder.add(interes);
-//     compounder.render(root);
-// });
-
-// compounder.add(addBtn);
-
-// compounder.up();
-
-// compounder.down('options', `
-//         width: 100%;
-//         height: fit-content;
-//         flex-direction: row;
-//         gap: 10px;
-//     `+CSS_center);
-// compounder.add(option1);
-// compounder.add(option2);
-// compounder.up();
-// compounder.add(progressBar);
-// compounder.add(dateInput);
-// compounder.down('buttons', `
-//         width: 100%;
-//         height: fit-content;
-//         flex-direction: row;
-//         gap: 10px;
-//     `+CSS_center);
-// compounder.add(backButton);
-// compounder.add(button);
-// compounder.render(root);
+// const page = new CReg100(document.getElementById("root") as HTMLElement);
+// page.render();

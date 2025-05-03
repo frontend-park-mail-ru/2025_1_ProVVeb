@@ -65,7 +65,6 @@ export class VList extends VBC<CountryDropdownProps> {
         // this.update();
         this.injectProps(newProps);
         this.update();
-        console.log(this.vdom)
         // this.inject(undefined, ".underline { background-color: #010710; }");
         // console.log(this.vdom)
         // this.update();

@@ -5,7 +5,8 @@ import {
   diff, 
   injectCSSIntoVDOM, 
   EventDescriptor, 
-  VirtualElement 
+  VirtualElement,
+  patchVDOM,
 } from "./utils";
 
 export type TemplateProvider = string | ((props?: any) => string);
@@ -18,6 +19,7 @@ export class VBC<P = {}> {
   protected style: string;
   protected eventsList: EventDescriptor[];
   protected vdom: VirtualNode;
+  protected old_vdom: VirtualNode;
   protected root?: HTMLElement;
   public point?: HTMLElement;
   private readonly id: string;
@@ -46,6 +48,7 @@ export class VBC<P = {}> {
     this.isRendered = false;
 
     this.setAttribute('data-vbc-id', this.id);
+    this.old_vdom = JSON.parse(JSON.stringify(this.vdom));
   }
 
   public getDOM(): HTMLElement | null {
@@ -58,18 +61,23 @@ export class VBC<P = {}> {
 
   public update(): void{
     const mountPoint = this.getDOM()?.parentElement as HTMLElement;
+    if (!mountPoint) return;
 
     // const activeElement = document.activeElement as HTMLElement;
 
     const compiledHTML = this.compileTemplate();
-    const newVDOM = parseHTML(compiledHTML);
-    this.setAttribute('data-vbc-id', this.id);
+    let newVDOM = parseHTML(compiledHTML);
+    newVDOM = injectCSSIntoVDOM(this.style, this.vdom);
+    this.eventsList.forEach(ev => this.injectScript(ev.selector, ev.eventType, ev.handler, newVDOM));
+    this.setID();
+
     const newRoot = renderVDOM(this.vdom) as HTMLElement;
-    console.log(this.vdom);
-    if(mountPoint)
-      mountPoint.replaceChild(newRoot, this.getDOM() as HTMLElement);
+    const currentDOM = this.getDOM();
+    if(currentDOM)
+      patchVDOM(this.old_vdom, newVDOM, currentDOM);
 
     this.root = newRoot;
+    this.old_vdom = JSON.parse(JSON.stringify(this.vdom));
     this.vdom = newVDOM;
 
     // if (activeElement) {
@@ -87,7 +95,7 @@ export class VBC<P = {}> {
     this.eventsList.forEach(ev => this.injectScript(ev.selector, ev.eventType, ev.handler));
   }
 
-  private setAttribute(key: string, value: string): void {
+  protected setAttribute(key: string, value: string): void {
     (this.vdom as VirtualElement).attrs = { ...(this.vdom as VirtualElement).attrs, [key]: value };
   }
 
@@ -99,7 +107,18 @@ export class VBC<P = {}> {
     }
   }
 
-  public injectScript(selector: string, eventType: string, handler: (e: Event) => void): void {
+  public injectScript(selector: string, eventType: string, handler: (e: Event) => void, vdom?: VirtualNode): void {
+    
+    const exists = this.eventsList.some(
+      ev =>
+        ev.selector === selector &&
+        ev.eventType === eventType &&
+        ev.handler === handler
+    );
+    if (!exists) {
+      this.eventsList.push({ selector, eventType, handler });
+    }
+
     function traverse(vnode: VirtualNode): void {
       if (typeof vnode === "string") return;
       let matches = false;
@@ -118,7 +137,10 @@ export class VBC<P = {}> {
       }
       vnode.children.forEach(child => traverse(child));
     }
-    traverse(this.vdom);
+    if(vdom)
+      traverse(vdom);
+    else
+      traverse(this.vdom);
   }
 
   public inject(newTemplate?: string, newStyle?: string, newEvents?: EventDescriptor[]): void {
@@ -131,12 +153,20 @@ export class VBC<P = {}> {
     }
     if (newStyle) {
       this.style += "\n" + newStyle;
-      console.log(this.vdom);
       this.vdom = injectCSSIntoVDOM(this.style, this.vdom);
-      console.log(this.vdom);
     }
     if (newEvents) {
-      newEvents.forEach(ev => this.injectScript(ev.selector, ev.eventType, ev.handler));
+      newEvents.forEach(ev => {
+        const event: EventDescriptor = {
+          selector: ev.selector,
+          eventType: ev.eventType,
+          handler: ev.handler
+        };
+        if(!this.eventsList.includes(event)){
+          this.injectScript(ev.selector, ev.eventType, ev.handler);
+          this.eventsList.push(event);
+        }
+      });
     }
   }
 
@@ -146,14 +176,9 @@ export class VBC<P = {}> {
       mountPoint.appendChild(this.root);
       this.isRendered = true;
     } else {
-      const compiledHTML = this.compileTemplate();
-      const newVDOM = parseHTML(compiledHTML);
-      const updatedVDOM = diff(this.vdom, newVDOM);
-      const newRoot = renderVDOM(updatedVDOM) as HTMLElement;
-      mountPoint.replaceChild(newRoot, this.root as HTMLElement);
-      this.root = newRoot;
-      this.vdom = newVDOM;
+      this.update();
     }
+    this.old_vdom = JSON.parse(JSON.stringify(this.vdom));
   }
 
   public delete(){
@@ -161,7 +186,7 @@ export class VBC<P = {}> {
     this.isRendered = false;
   }
 
-  public getVDOM(): VirtualNode {
-    return this.vdom;
-  }
+  public getVDOM(): VirtualNode { return this.vdom; }
+  public getOLD_VDOM(): VirtualNode { return this.old_vdom; }
+  public setID(){ this.setAttribute('data-vbc-id', this.id); }
 }

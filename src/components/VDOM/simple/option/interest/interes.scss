@@ -16,15 +16,23 @@
         font-size: 12px;
         text-align: center;
         color: grey;
+        transition: 0.5s;
     }
 
     &:hover{
         border: 1px solid var(--main);
-        color: var(--main);
+
+        p{
+            color: var(--main);
+        }
     }
 
     &-checked{
         border: 1px solid var(--main);
+        color: var(--main);
+    }
+
+    &-checked p{
         color: var(--main);
     }
 }

@@ -1,0 +1,14 @@
+<div class="photo-card {{#if src}}has-image{{else}}is-empty{{/if}}" data-id="{{id}}">
+  {{#if src}}
+    <img src="{{src}}" alt="Загруженное фото" class="photo-card__image" />
+    {{#if isNew}}
+      <span class="photo-card__badge">Новое</span>
+    {{/if}}
+    <button class="photo-card__delete" aria-label="Удалить фото">&times;</button>
+  {{else}}
+    <label class="photo-card__upload">
+      <input type="file" accept="image/*" class="photo-card__input" />
+      <span class="photo-card__placeholder">+</span>
+    </label>
+  {{/if}}
+</div>

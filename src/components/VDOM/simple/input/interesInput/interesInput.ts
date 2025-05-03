@@ -41,7 +41,7 @@ export class VInteresInputFull extends VBC{
                         if(target){
                             this.text = target.value;
                             inner.injectProps({text: target.value+'|'});
-                            inner.inject(undefined, '', this.eventsList);
+                            // inner.inject(undefined, '', this.eventsList);
                             inner.update();
                         }
                     }
@@ -61,11 +61,11 @@ export class VInteresInputFull extends VBC{
                             }
                         `, this.eventsList);
 
-                        input.inject(undefined, '.date-input__hidden-input { display: none; } ')
-                        input.update();
-
                         inner.update();
                         this.isFinished = true;
+                        
+                        input.inject(undefined, '.date-input__hidden-input { display: none; } ');
+                        input.update();
                     }
                 },
                 {

@@ -3,17 +3,16 @@ import { VBC } from "@modules/VDOM/VBC";
 import { CSS_center } from "@VDOM/defaultStyles/VStyles";
 import { VBackButton } from "@VDOM/simple/button/backButton/backButton";
 import { VButton } from "@VDOM/simple/button/button";
-import { VDateInput } from "@VDOM/simple/input/dateInput/dateInput";
-import { VInput } from "@VDOM/simple/input/input";
-import { VOption } from "@VDOM/simple/option/option";
 import { VProgressBar } from "@VDOM/simple/progressBar/progressBar";
 
 export class CRegForm extends VBC {
-    constructor(){
+    private main: Compounder = new Compounder();
+
+    constructor(width: number, progress: number, formTitle: string, comp: VBC){
         const main = new Compounder();
         main.down('registrationForm', `
             padding: 40px;
-            width: 450px;
+            width: ${width}px;
             height: 500px;
             display: flex;
             align-items: center;
@@ -22,9 +21,9 @@ export class CRegForm extends VBC {
             border-radius: 12px;
             background: white;
         `);
-        const progressBar = new VProgressBar();
+        const progressBar = new VProgressBar(progress.toString());
         const title = new VBC(
-            `<p class="titleCard">Давай познакомимся 😊</p>`, {}, `
+            `<p class="titleCard">${formTitle}</p>`, {}, `
                 .titleCard {
                     font-weight: 500;
                     font-size: 30px;
@@ -35,57 +34,31 @@ export class CRegForm extends VBC {
             `
         );
         
-        main.down('registrationForm__inner', CSS_center+'width: 100%; height: 100%; flex-direction: column');
+        main.down('registrationForm__inner', CSS_center+`
+            width: 100%;
+            height: 100%;
+            flex-direction: column
+        `);
         main.add(progressBar);
         main.add(title);
-        main.down('registrationForm__data', CSS_center+'width: 100%; height: 100%; flex-direction: column');
+        main.down('registrationForm__data', `
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            padding: 20px 0px;
+        `);
         
-        const name = new VInput("Имя");
-        name.inject(undefined, '.inputContainer { width: 336px; }');
-        const surname = new VInput("Фамилия");
-        surname.inject(undefined, '.inputContainer { width: 336px; }');
-        
-        const option1 = new VOption("Мужчина");
-        const option2 = new VOption("Женщина");
-
-        option1.inject(undefined, '', [{
-            selector: '.option',
-            eventType: 'click',
-            handler: ()=>{
-                option1.getDOM()?.classList.add("option-checked");
-                option2.getDOM()?.classList.remove("option-checked");
-            }
-        }])
-
-        option2.inject(undefined, '', [{
-            selector: '.option',
-            eventType: 'click',
-            handler: ()=>{
-                option1.getDOM()?.classList.remove("option-checked");
-                option2.getDOM()?.classList.add("option-checked");
-            }
-        }])
-
-        console.log(option1);
-
-        const date = new VDateInput();
-
-        main.add(name);
-        main.add(surname);
-        
-        main.down('options', `
-                width: 100%;
-                height: fit-content;
-                flex-direction: row;
-                gap: 10px;
-            `+CSS_center);
-        main.add(option1);
-        main.add(option2);
-        main.up();
+        main.add(comp);
 
         const backBtn = new VBackButton(()=>{});
         const continueBtn = new VButton("Продолжить", ()=>{});
-
+        const empty = new VBackButton(()=>{});
+        empty.inject(undefined, `.backButton { cursor: default; opacity: 0; }`);
+        
+        main.up();
         main.down('buttons', `
                 width: 100%;
                 height: fit-content;
@@ -94,7 +67,12 @@ export class CRegForm extends VBC {
             `+CSS_center);
         main.add(backBtn);
         main.add(continueBtn);
+        main.add(empty);
 
         super(main.getTemplate());
+        this.vdom = main.getVDOM();
+        this.setID();
+
+        this.main = main;
     }
 }
