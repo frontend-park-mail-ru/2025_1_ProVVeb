@@ -29,11 +29,11 @@ export interface Profile {
 
 export interface User {
 	id: number,
-    login: string,
-    password: string,
-    email: string,
-    phone: string,
-    status: number
+	login: string,
+	password: string,
+	email: string,
+	phone: string,
+	status: number
 }
 
 async function sendRequest<T>(
@@ -263,6 +263,14 @@ async function getChats() {
 	return sendRequest(url, 'GET');
 }
 
+async function createChat(
+	firstID: number,
+	secondID: number
+) {
+	const url = `${BASE_URL}/chats/create`;
+	return sendRequest(url, 'POST', { firstID, secondID });
+}
+
 export default {
 	BASE_URL_PHOTO,
 	BASE_URL,
@@ -285,5 +293,6 @@ export default {
 	getCards,
 	sendComplaint,
 	profilesBySearch,
-	getChats
+	getChats,
+	createChat,
 };
