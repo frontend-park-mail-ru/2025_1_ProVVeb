@@ -61,6 +61,7 @@ export default class ProfileInfoCard extends BaseComponent {
 	private currentPhotos: Array<{ id: number; src: string; isNew?: boolean } | null>;
 	private initialPhotosFromData: Array<{ id: number; src: string; isNew?: boolean }> = [];
 	private lastUsedId = 0;
+	private isMale: boolean;
 
 	constructor(
 		parentElement: HTMLElement,
@@ -466,6 +467,8 @@ export default class ProfileInfoCard extends BaseComponent {
 			photos: this.currentPhotos
 		};
 
+		this.isMale = data.isMale;
+
 		this.replaceContent(templateHBS(templateParams));
 		this.attachListeners();
 		this.setupPhotoHandlers();
@@ -635,7 +638,8 @@ export default class ProfileInfoCard extends BaseComponent {
 		});
 
 		document.querySelectorAll<HTMLButtonElement>('.saveBtn').forEach(btn => {
-			btn.addEventListener('click', async function () {
+			const isMale = this.isMale;
+			btn.addEventListener('click', async function() {
 				let type: string;
 				const controls = this.closest('.editControls');
 
@@ -792,7 +796,7 @@ export default class ProfileInfoCard extends BaseComponent {
 					};
 
 					if ('Гендер' in updatedData) {
-						apiData.isMale = updatedData['Гендер'] === 'Мужчина';
+						apiData.isMale = Boolean((Number(updatedData['Гендер'] === 'Мужчина') + Number(isMale))%2);
 					}
 
 					if ('Дата рождения' in updatedData) {

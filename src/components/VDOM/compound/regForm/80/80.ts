@@ -1,10 +1,15 @@
 import { Compounder } from "@modules/VDOM/Compounder";
 import { VBC } from "@modules/VDOM/VBC";
+import store from "@store";
 import { VTable } from "@VDOM/compound/table/table";
 import { VInput } from "@VDOM/simple/input/input";
 import { CatalogOption, VCatalog } from "@VDOM/simple/list/catalog/catalog";
+import api from '@network';
 
 export class CReg80 extends VBC {
+    private data: any;
+    private vars: any;
+
     constructor(){
         const main = new Compounder();
         const imgs = ['body', 'hair', 'eyes', 'height', 'nationality', 'alco', 'tatto', 'pirsing', 'smoke'];
@@ -124,7 +129,6 @@ export class CReg80 extends VBC {
                         padding-right: 0;
                     }
                 `);
-                console.log(v.getVDOM());
             }
 
             data.push({key: k, value: v});
@@ -141,5 +145,125 @@ export class CReg80 extends VBC {
         super(main.getTemplate());
         this.vdom = main.getVDOM();
         this.setID();
+
+        this.data = data;
+        this.vars = variants;
+    }
+
+    private updateCells(preference: any){
+        switch(preference.preference_description){
+            case "bodyType":
+                this.data[0].value.forceUpdate();
+                this.data[0].value.injectProps({
+                    placeholder: preference.preference_value,
+                    listVisible: false,
+                    options: this.vars[0]
+                });
+                this.data[0].value.update();
+                break;
+            case "hairColor":
+                this.data[1].value.forceUpdate();
+                this.data[1].value.injectProps({
+                    placeholder: preference.preference_value,
+                    listVisible: false,
+                    options: this.vars[1]
+                });
+                this.data[1].value.update();
+                break;
+            case "eyeColor":
+                this.data[2].value.forceUpdate();
+                this.data[2].value.injectProps({
+                    placeholder: preference.preference_value,
+                    listVisible: false,
+                    options: this.vars[2]
+                });
+                this.data[2].value.update();
+                break;
+            case "height":
+                this.data[3].value.setValue(preference.preference_value);
+                break;
+            case "nationality":
+                this.data[4].value.setValue(preference.preference_value);
+                break;
+            case "alco":
+                this.data[5].value.forceUpdate();
+                this.data[5].value.injectProps({
+                    placeholder: preference.preference_value,
+                    listVisible: false,
+                    options: this.vars[5]
+                });
+                this.data[5].value.update();
+                break;
+            case "tattoo":
+                this.data[6].value.forceUpdate();
+                this.data[6].value.injectProps({
+                    placeholder: preference.preference_value,
+                    listVisible: false,
+                    options: this.vars[6]
+                });
+                this.data[6].value.update();
+                break;
+            case "pirsing":
+                this.data[7].value.forceUpdate();
+                this.data[7].value.injectProps({
+                    placeholder: preference.preference_value,
+                    listVisible: false,
+                    options: this.vars[7]
+                });
+                this.data[7].value.update();
+                break;
+            case "smoking":
+                this.data[8].value.forceUpdate();
+                this.data[8].value.injectProps({
+                    placeholder: preference.preference_value,
+                    listVisible: false,
+                    options: this.vars[8]
+                });
+                this.data[8].value.update();
+                break;
+        }
+    }
+
+    public updateTemplate(isMy: boolean): void {
+        const profile = store.getState("myProfile") as any;
+        if(isMy && profile.data){
+            for(let preference of profile.data)
+                this.updateCells(preference);
+        }else if(!isMy){
+            for(let preference of profile.preferences)
+                this.updateCells(preference);
+        }
+    }
+
+    private insert(){
+        let ans = [];
+        const keys = ["bodyType", "hairColor", "eyeColor", "height", "nationality", "alco", "tattoo", "pirsing", "smoking"];
+
+        for(let i=0;i<9;i++){
+            if(i==3 || i==4){
+                ans.push({
+                    preference_description: keys[i],
+                    preference_value: this.data[i].value.getValue()
+                });
+                continue;
+            }
+            ans.push({
+                preference_description: keys[i],
+                preference_value: this.data[i].value.props.placeholder
+            });
+        }
+        
+        return ans;
+    }
+
+    public async submit(isMy: boolean): Promise<void> {
+        const profile = store.getState("myProfile") as any;
+
+        if(!isMy)
+            profile.preferences = this.insert();
+        else if(profile.data)
+            profile.data = this.insert();
+
+        store.setState("myProfile", profile);
     }
 }

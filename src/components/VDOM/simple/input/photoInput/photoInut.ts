@@ -4,6 +4,7 @@ import Notification from '@simple/notification/notification';
 import Confirm from '@simple/confirm/confirm';
 import api from '@network';
 import store from '@store';
+import { parseHTML } from '@modules/VDOM/utils';
 
 export interface photo_params {
     src: string,
@@ -12,78 +13,88 @@ export interface photo_params {
 }
 
 export class VPhotoInput extends VBC {
-    private currentPhoto: photo_params | null = null;
+    public currentPhoto: photo_params | null = null;
+    public isDeleted: string = '';
     private lastUsedId = 0;
 
     private generateId(): number {
 		return Number(`${Date.now()}${this.lastUsedId++}`);
 	}
 
-    public handlerDelete(): void {
-        this.injectScript(".photo-card__delete", "click", async ()=>{
-            if(!this.currentPhoto)return;
-            if (this.currentPhoto.isNew) {
-                this.currentPhoto = {id: 0, src: '', isNew: false};
-                this.injectProps(this.currentPhoto);
-                this.update();
-                return;
-            }
-                
-            const confirmComponent = new Confirm({
-                headTitle: 'Согласны?',
-                title: 'Удалить эту фотографию с сервера?',
-                isWarning: false,
-            });
-            const confirm = await confirmComponent.render();
-            if (!confirm) return;
-    
-            try {
-                const fullUrl = this.currentPhoto.src;
-                const fileName = fullUrl.split('/').pop();
-    
-                if (!fileName) {
-                    const notification = new Notification({
-                        headTitle: "Что-то пошло не так...",
-                        title: 'Не удалось определить имя файла',
-                        isWarning: false,
-                        isWithButton: true,
-                    });
-                    notification.render();
-    
-                    return;
-                }
-    
-                const response = await api.deletePhoto(
-                    store.getState('myID') as number,
-                    fileName
-                );
-    
-                if (response.success && response.data) {
-                    this.currentPhoto = {id: 0, src: '', isNew: false};
-                    this.injectProps(this.currentPhoto);
-                    this.update();
-                } else {
-                    const notification = new Notification({
-                        headTitle: "Что-то пошло не так...",
-                        title: 'Неизвестная ошибка при удалении фотографии',
-                        isWarning: false,
-                        isWithButton: true,
-                    });
-                    notification.render();
-                }
-            } catch (error) {
-                console.error('Ошибка при удалении фотографии:', error);
+    public async deletePhoto(src: string): Promise<boolean>{
+        if(!this.currentPhoto)return false;
+        try {
+            const fullUrl = src;
+            const fileName = fullUrl.split('/').pop();
 
+            if (!fileName) {
                 const notification = new Notification({
                     headTitle: "Что-то пошло не так...",
-                    title: 'Не удалось удалить фотографию',
+                    title: 'Не удалось определить имя файла',
                     isWarning: false,
                     isWithButton: true,
                 });
                 notification.render();
-    
+
+                return false;
             }
+
+            const response = await api.deletePhoto(
+                store.getState('myID') as number,
+                fileName
+            );
+
+            if (response.success && response.data) {
+                return true;
+            } else {
+                const notification = new Notification({
+                    headTitle: "Что-то пошло не так...",
+                    title: 'Неизвестная ошибка при удалении фотографии',
+                    isWarning: false,
+                    isWithButton: true,
+                });
+                notification.render();
+            }
+        } catch (error) {
+            console.error('Ошибка при удалении фотографии:', error);
+
+            const notification = new Notification({
+                headTitle: "Что-то пошло не так...",
+                title: 'Не удалось удалить фотографию',
+                isWarning: false,
+                isWithButton: true,
+            });
+            notification.render();
+        }
+        return false;
+    }
+
+    private async handlerDelete(): Promise<void> {
+        if(!this.currentPhoto)return;
+        if (this.currentPhoto.isNew) {
+            this.currentPhoto = {id: 0, src: '', isNew: false};
+            this.injectProps(this.currentPhoto);
+            this.update();
+            return;
+        }
+            
+        const confirmComponent = new Confirm({
+            headTitle: 'Согласны?',
+            title: 'Удалить эту фотографию с сервера?',
+            isWarning: false,
         });
+        const confirm = await confirmComponent.render();
+        if (!confirm) return;
+
+        this.isDeleted = this.currentPhoto.src;
+        this.currentPhoto = {id: 0, src: '', isNew: false};
+        this.injectProps(this.currentPhoto);
+        console.log(this.getDOM());
+        this.update();
+    }
+
+    public applyHandler(): void {
+        this.injectScript(".photo-card__delete", "click", this.handlerDelete.bind(this));
         this.update();
     }
 
@@ -120,11 +131,8 @@ export class VPhotoInput extends VBC {
 						src: event.target.result as string,
 						isNew: true
 					};
-                    console.log(this.vdom);
-                    this.injectProps(this.currentPhoto);
-                    this.handlerDelete();
-                    console.log(this.vdom);
-                    this.update();
+                    super.injectProps(this.currentPhoto);
+                    this.applyHandler();
 				};
 
 				reader.onerror = () => {

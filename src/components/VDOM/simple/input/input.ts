@@ -33,4 +33,14 @@ export class VInput extends VBC {
             {}
         );
     }
+
+    public setValue(text: string){
+        const element = this.getDOM()?.querySelector("input") as HTMLInputElement;
+        element.value = text;
+    }
+
+    public getValue(): string{
+        const element = this.getDOM()?.querySelector("input") as HTMLInputElement;
+        return element.value;
+    }
 }

@@ -34,4 +34,8 @@ export class VInteres extends VBC{
             }
         }]);
     }
+
+    public setChecked(): void{
+        this.getDOM()?.click();
+    }
 }

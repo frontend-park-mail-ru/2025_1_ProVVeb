@@ -11,4 +11,14 @@ export class VComplaintBody extends VBC {
 			{ titleText, inputText },
 		);
 	}
+
+	public setValue(text: string){
+		const element = this.getDOM()?.querySelector("textarea") as HTMLTextAreaElement;
+		element.value = text;
+	}
+
+	public getValue(): string{
+		const element = this.getDOM()?.querySelector("textarea") as HTMLTextAreaElement;
+		return element.value;
+	}
 }

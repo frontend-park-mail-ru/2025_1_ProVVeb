@@ -1,3 +1,4 @@
+import router, { AppPage } from "@modules/router";
 import { Compounder } from "@modules/VDOM/Compounder";
 import { VBC } from "@modules/VDOM/VBC";
 
@@ -70,4 +71,6 @@ export class CRegFinish extends VBC {
         this.vdom = main.getVDOM();
         this.setID();
     }
+
+    public submit(){ router.navigateTo(AppPage.Feed); }
 }

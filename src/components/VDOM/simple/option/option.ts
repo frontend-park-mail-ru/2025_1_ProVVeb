@@ -34,4 +34,8 @@ export class VOption extends VBC{
             }
         }]);
     }
+
+    public setChecked(): void{
+        this.getDOM()?.click();
+    }
 }

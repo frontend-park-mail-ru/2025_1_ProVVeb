@@ -24,6 +24,15 @@ export interface Profile {
 	preferences: { [key: string]: string; };
 }
 
+export interface User {
+	id: number,
+    login: string,
+    password: string,
+    email: string,
+    phone: string,
+    status: number
+}
+
 async function sendRequest<T>(
 	url: string,
 	method: string,
@@ -129,9 +138,9 @@ async function deletePhoto(userId: number, srcPhoto: string): Promise<ApiRespons
 
 // Функции API
 
-async function loginUser(login: string, password: string): Promise<ApiResponse> {
+async function loginUser(user: User, profile: Profile): Promise<ApiResponse> {
 	const url = `${BASE_URL}/users`;
-	return sendRequest(url, 'POST', { login, password });
+	return sendRequest(url, 'POST', { user, profile });
 }
 
 async function authUser(login: string, password: string): Promise<ApiResponse> {

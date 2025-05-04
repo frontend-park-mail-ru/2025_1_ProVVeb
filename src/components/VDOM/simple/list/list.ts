@@ -12,6 +12,18 @@ export interface CountryDropdownProps {
     countries: Country[];
 }
 
+export const COUNTRIES: Country[] = [
+    { name: 'Russia', code: 'RU +7' },
+    { name: 'Belarus', code: 'BY +375' },
+    { name: 'Kazakhstan', code: 'KZ +7' },
+    { name: 'Armenia', code: 'AM +374' },
+    { name: 'Azerbaijan', code: 'AZ +994' },
+    { name: 'Kyrgyzstan', code: 'KG +996' },
+    { name: 'Moldova', code: 'MD +373' },
+    { name: 'Tajikistan', code: 'TJ +992' },
+    { name: 'Uzbekistan', code: 'UZ +998' }
+]; 
+
 export class VList extends VBC<CountryDropdownProps> {
     private clickOutsideHandler?: (e: MouseEvent) => void;
 
@@ -21,17 +33,7 @@ export class VList extends VBC<CountryDropdownProps> {
             {
                 countryCode: 'RU +7',
                 listVisible: false,
-                countries: [
-                    { name: 'Russia', code: 'RU +7' },
-                    { name: 'Belarus', code: 'BY +375' },
-                    { name: 'Kazakhstan', code: 'KZ +7' },
-                    { name: 'Armenia', code: 'AM +374' },
-                    { name: 'Azerbaijan', code: 'AZ +994' },
-                    { name: 'Kyrgyzstan', code: 'KG +996' },
-                    { name: 'Moldova', code: 'MD +373' },
-                    { name: 'Tajikistan', code: 'TJ +992' },
-                    { name: 'Uzbekistan', code: 'UZ +998' }
-                ],
+                countries: COUNTRIES,
             } as CountryDropdownProps,
             '',
             [

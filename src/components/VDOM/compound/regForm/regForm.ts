@@ -20,6 +20,9 @@ export class CRegForm extends VBC {
             flex-direction: column;
             border-radius: 12px;
             background: white;
+            margin-top: 100px;
+            margin-left: auto;
+            margin-right: auto;
         `);
         const progressBar = new VProgressBar(progress.toString());
         const title = new VBC(

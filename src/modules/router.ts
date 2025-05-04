@@ -10,6 +10,7 @@ import EmptyPage from '@pages/emptyPage/emptyPage';
 import StatPage from '@pages/statPage/statPage';
 import ComplaintPage from '@pages/complaintPage/complaintPage';
 import MessagePage from '@pages/messagePage/messagePage';
+import StepPage from '@pages/stepLoginPage/stepLoginPage';
 
 enum AppPage {
 	Auth = 'auth',
@@ -24,6 +25,7 @@ enum AppPage {
 	StatPage = 'stats',
 	ComplaintPage = 'complaint',
 	Messenger = 'messenger',
+	StepPage = 'step'
 }
 
 interface PathStructure {
@@ -42,6 +44,7 @@ class Router {
 	private statPage: StatPage;
 	private complaintPage: ComplaintPage;
 	private messagePage: MessagePage;
+	private stepPage: StepPage;
 
 	private PATHS: PathStructure[];
 
@@ -61,6 +64,7 @@ class Router {
 		this.statPage = new StatPage(this.root);
 		this.complaintPage = new ComplaintPage(this.root);
 		this.messagePage = new MessagePage(this.root);
+		this.stepPage = new StepPage(this.root);
 
 		this.PATHS = [];
 
@@ -80,6 +84,7 @@ class Router {
 		this.register("stats", this.handlerStats.bind(this));
 		this.register("complaint", this.handlerComplaint.bind(this));
 		this.register("messenger", this.handlerMessenger.bind(this));
+		this.register("step", this.handlerStep.bind(this));
 	}
 
 	private async checkSession(): Promise<boolean> {
@@ -159,9 +164,9 @@ class Router {
 
 	private checkCookie(page: AppPage): AppPage {
 		const inSession = store.getState('inSession');
-		if (!inSession && page != AppPage.Auth && page != AppPage.Login)
+		if (!inSession && page != AppPage.Auth && page != AppPage.Login && page != AppPage.StepPage)
 			return AppPage.Auth;
-		if (inSession && (page == AppPage.Auth || page == AppPage.Login))
+		if (inSession && (page == AppPage.Auth || page == AppPage.Login || page == AppPage.StepPage))
 			return AppPage.Settings;
 		return page;
 	}
@@ -174,6 +179,11 @@ class Router {
 	private handlerLogin(state: any): void {
 		this.root.classList.add('greeting');
 		this.loginPage.rerender();
+	}
+
+	private handlerStep(state: any): void {
+		this.root.classList.add('greeting');
+		this.stepPage.rerender();
 	}
 
 	private handlerFeed(state: any): void {

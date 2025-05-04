@@ -28,6 +28,7 @@ import { CReg80 } from '@VDOM/compound/regForm/80/80';
 import { CReg80_3 } from '@VDOM/compound/regForm/80/803/803';
 import { VPhotoInput } from '@VDOM/simple/input/photoInput/photoInut';
 import { CReg100 } from '@VDOM/compound/regForm/100/100';
+import api from '@network';
 import store from '@store';
 // import { CRegPhotos } from '@VDOM/compound/regForm/100/100';
 // import { CReg100 } from '@VDOM/compound/regForm/100.ts/100';
@@ -41,19 +42,27 @@ import store from '@store';
 // 			// console.log('Register SW failed', err);
 // 		});
 // }
-// router.start();
+
+// router.navigateTo(AppPage.StepPage);
+router.start();
 
 // const c = new VPhotoInput();
 // c.render(document.getElementById('root') as HTMLElement);
-store.setState("myID", 1);
+// store.setState("myID", 1);
 
-const main = new CReg100();
+// const main = new CRegFinish();
 
-const root = document.getElementById("root") as HTMLElement;
-root.style.background = 'black';
-document.body.style.background = 'black';
-const page1 = new CRegForm(550, 20, "Давай познакомимся 😊", main);
-page1.render(root);
+// const root = document.getElementById("root") as HTMLElement;
+// root.style.background = 'black';
+// document.body.style.background = 'black';
+// const page1 = new CRegForm(520, 20, "Давай познакомимся 😊", main);
+
+// page1.injectScript('.btn', 'click', async ()=>{
+//     const flag = await main.uploadFiles();
+//     if(flag) page1.delete();
+// });
+
+// page1.render(root);
 
 // const photosComponent = new CRegPhotos(6);
 // photosComponent.render(document.getElementById('root') as HTMLElement);

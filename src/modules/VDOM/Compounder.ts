@@ -52,7 +52,7 @@ export class Compounder extends VBC {
 	}
 
 	public clear(): void {
-		this.root_ = { tag: "div", children: [] };
+		this.root_ = { tag: "div", style: { "display": "contents" }, children: [] };
 		this.current = this.root_ as VirtualElement;
 		this.stack = [];
 	}

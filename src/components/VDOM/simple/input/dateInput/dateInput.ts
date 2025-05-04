@@ -26,6 +26,8 @@ function formatToDisplay(value: string): CharData[] {
 }
 
 export class VDateInput extends VBC {
+    private ui: VDateInputUI;
+
     constructor() {
         super(
             `<div><input type="text" class="date-input__hidden-input" maxlength="8" placeholder="DDMMYYYY">
@@ -52,6 +54,20 @@ export class VDateInput extends VBC {
         compounder.add(this);
 
         this.inject(compounder.getTemplate());
+        this.ui = ui;
+    }
+
+    public setDate(text: string): void {
+        const element = this.getDOM()?.querySelector("input") as HTMLInputElement;
+        element.value = text;
+        this.ui.injectProps({ chars: formatToDisplay(text) });
+        this.ui.forceUpdate();
+        this.ui.update();
+    }
+
+    public getDate(): string {
+        const element = this.getDOM()?.querySelector("input") as HTMLInputElement;
+        return element.value;
     }
 }
 
