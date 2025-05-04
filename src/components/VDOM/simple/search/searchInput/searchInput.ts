@@ -3,7 +3,7 @@ import templateHBS from './searchInput.hbs';
 import store from "@store";
 
 export class VSearchInput extends VBC {
-	constructor(onClickSearchBtn: () => void) {
+	constructor(onClickSearchBtn: () => void, onClickClearBtn: () => void) {
 		super(
 			templateHBS,
 			{},
@@ -38,7 +38,12 @@ export class VSearchInput extends VBC {
 					selector: '.searchInput__buttonContainer',
 					eventType: 'click',
 					handler: onClickSearchBtn,
-				}
+				},
+				{
+					selector: '.searchInput__clearButton',
+					eventType: 'click',
+					handler: onClickClearBtn,
+				},
 			],
 			{}
 		);

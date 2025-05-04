@@ -59,9 +59,22 @@ export class VBC<P = {}> {
 		return this.domElement;
 	}
 
-	public update(): void {
+	public update(forse: boolean = false): void {
 		const mountPoint = this.getDOM()?.parentElement as HTMLElement;
 		if (!mountPoint) return;
+		if (forse) {
+
+			console.log('this.vdom', this.vdom)
+
+			const newRoot = renderVDOM(this.vdom) as HTMLElement;
+			const currentDOM = this.getDOM();
+			if (currentDOM)
+				patchVDOM('', this.vdom, currentDOM);
+
+			this.root = newRoot;
+			this.old_vdom = JSON.parse(JSON.stringify(this.vdom));
+			return;
+		};
 
 		// const activeElement = document.activeElement as HTMLElement;
 
@@ -69,7 +82,7 @@ export class VBC<P = {}> {
 		let newVDOM = parseHTML(compiledHTML);
 		newVDOM = injectCSSIntoVDOM(this.style, this.vdom);
 		this.eventsList.forEach(ev => this.injectScript(ev.selector, ev.eventType, ev.handler, newVDOM));
-		this.setID();
+		this.setID(newVDOM);
 
 		const newRoot = renderVDOM(this.vdom) as HTMLElement;
 		const currentDOM = this.getDOM();
@@ -95,8 +108,8 @@ export class VBC<P = {}> {
 		this.eventsList.forEach(ev => this.injectScript(ev.selector, ev.eventType, ev.handler));
 	}
 
-	protected setAttribute(key: string, value: string): void {
-		(this.vdom as VirtualElement).attrs = { ...(this.vdom as VirtualElement).attrs, [key]: value };
+	protected setAttribute(key: string, value: string, vdom = this.vdom): void {
+		(vdom as VirtualElement).attrs = { ...(vdom as VirtualElement).attrs, [key]: value };
 	}
 
 	public compileTemplate(): string {
@@ -188,5 +201,5 @@ export class VBC<P = {}> {
 
 	public getVDOM(): VirtualNode { return this.vdom; }
 	public getOLD_VDOM(): VirtualNode { return this.old_vdom; }
-	public setID() { this.setAttribute('data-vbc-id', this.id); }
+	public setID(vdom = this.vdom) { this.setAttribute('data-vbc-id', this.id, vdom); }
 }

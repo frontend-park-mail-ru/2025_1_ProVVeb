@@ -71,10 +71,10 @@ export default class SearchPage extends BasePage {
 				input: input.value.trim(),
 				isMale: Object.values(Gender).includes(selectedGender.value as Gender) ?
 					selectedGender.value as Gender : Gender.Any,
-				ageMin: Number.isNaN(Number(ageMin.value)) ? Number(ageMin.value) : 18,
-				ageMax: Number.isNaN(Number(ageMax.value)) ? Number(ageMax.value) : 125,
-				heightMin: Number.isNaN(Number(heightMin.value)) ? Number(heightMin.value) : 100,
-				heightMax: Number.isNaN(Number(heightMax.value)) ? Number(heightMax.value) : 250,
+				ageMin: !Number.isNaN(Number(ageMin.value)) ? Number(ageMin.value) : 18,
+				ageMax: !Number.isNaN(Number(ageMax.value)) ? Number(ageMax.value) : 125,
+				heightMin: !Number.isNaN(Number(heightMin.value)) ? Number(heightMin.value) : 100,
+				heightMax: !Number.isNaN(Number(heightMax.value)) ? Number(heightMax.value) : 250,
 				country: country.value.trim(),
 				city: city.value.trim(),
 
@@ -101,7 +101,7 @@ export default class SearchPage extends BasePage {
 				gap: 10px; 
 				flex-wrap: wrap;
 				justify-content: space-between;
-				max-height: 650px;
+				max-height: 635px;
 				width: 100%;
 				overflow: auto;
 				scrollbar-width: none;
@@ -117,6 +117,25 @@ export default class SearchPage extends BasePage {
 			}
 
 			this.pageCompounder.render(this.contentWrapper);
+		}, () => {
+			this.pageCompounder.clear();
+			this.pageCompounder.down('contentWrapper__inner');
+			this.pageCompounder.add(searchInput);
+
+			this.pageCompounder.down('searchItems', `
+				margin-top: 20px;
+				display: flex; 
+				gap: 10px;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				height: 635px;
+				width: 100%;
+				overflow: auto;
+				scrollbar-width: none;
+			`);
+
+			this.pageCompounder.add(new VSearchStart());
+			this.pageCompounder.render(this.contentWrapper);
 		});
 
 		this.pageCompounder.add(searchInput);
@@ -124,10 +143,10 @@ export default class SearchPage extends BasePage {
 		this.pageCompounder.down('searchItems', `
 			margin-top: 20px;
 			display: flex; 
-			gap: 10px; 
+			gap: 10px;
 			flex-wrap: wrap;
 			justify-content: space-between;
-			height: 650px;
+			height: 635px;
 			width: 100%;
 			overflow: auto;
 			scrollbar-width: none;
@@ -156,7 +175,7 @@ export default class SearchPage extends BasePage {
 		return {
 			success: true,
 			data: response.data.map((profile) => new VSearchItem(
-				profile.firstImgSrc,
+				api.BASE_URL_PHOTO + profile.firstImgSrc,
 				profile.fullname,
 				profile.age
 			))
@@ -164,62 +183,62 @@ export default class SearchPage extends BasePage {
 	}
 
 	async getProfilesBySearch(params: SearchProfile): Promise<{ success: boolean, data: Array<FoundProfile> }> {
-		// const response = await api.profilesBySearch(
-		// 	params.input,
-		// 	params.isMale,
-		// 	params.ageMin,
-		// 	params.ageMax,
-		// 	params.heightMin,
-		// 	params.heightMax,
-		// 	params.country,
-		// 	params.city,
-		// );
+		const response = await api.profilesBySearch(
+			params.input,
+			params.isMale,
+			params.ageMin,
+			params.ageMax,
+			params.heightMin,
+			params.heightMax,
+			params.country,
+			params.city,
+		);
 
-		// if (!(response.success && response.data)) {
+		if (!(response.success && response.data)) {
 
-		// 	const notification = new Notification({
-		// 		headTitle: "Ошибка сети",
-		// 		title: `Не удалось отправить ваши пожелания. Попробуйте позже`,
-		// 		isWarning: false,
-		// 		isWithButton: true,
-		// 	});
-		// 	notification.render();
-		// 	return { success: false, data: [] };
-		// }
-
-		// return {
-		// 	success: true,
-		// 	data: response.data.map((profile: any) => ({
-		// 		idUser: profile.idUser || store.getState('myID') as number,
-		// 		firstImgSrc: profile.firstImgSrc || '/frontend/src/media/error/400x600.jpg',
-		// 		fullname: profile.fullname || 'Мое имя, хи-хи',
-		// 		age: profile.age || 16,
-		// 	}))
-		// };
+			const notification = new Notification({
+				headTitle: "Ошибка сети",
+				title: `Не удалось отправить ваши пожелания. Попробуйте позже`,
+				isWarning: false,
+				isWithButton: true,
+			});
+			notification.render();
+			return { success: false, data: [] };
+		}
 
 		return {
 			success: true,
-			data: [
-				{
-					idUser: 1,
-					firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-					fullname: 'John Doe',
-					age: 25,
-				},
-				{
-					idUser: 1,
-					firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-					fullname: 'John Doe',
-					age: 25,
-				},
-				{
-					idUser: 1,
-					firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-					fullname: 'John Doe',
-					age: 25,
-				},
-			],
-		}
+			data: response.data.map((profile: any) => ({
+				idUser: profile.idUser || store.getState('myID') as number,
+				firstImgSrc: profile.firstImgSrc || '/frontend/src/media/error/400x600.jpg',
+				fullname: profile.fullname || 'Мое имя, хи-хи',
+				age: profile.age || 16,
+			}))
+		};
+
+		// return {
+		// 	success: true,
+		// 	data: [
+		// 		{
+		// 			idUser: 1,
+		// 			firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
+		// 			fullname: 'John Doe',
+		// 			age: 25,
+		// 		},
+		// 		{
+		// 			idUser: 1,
+		// 			firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
+		// 			fullname: 'John Doe',
+		// 			age: 25,
+		// 		},
+		// 		{
+		// 			idUser: 1,
+		// 			firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
+		// 			fullname: 'John Doe',
+		// 			age: 25,
+		// 		},
+		// 	],
+		// }
 
 		// return {
 		// 	success: true,

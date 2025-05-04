@@ -10,6 +10,7 @@ import { VStartMessage } from '@VDOM/simple/chat/startMessage/startMessage';
 import api from '@network';
 import Notification from '@simple/notification/notification';
 import store from '@store';
+import { VChatMobileToggle } from '@VDOM/simple/chat/chatMobileToggle/chatMobileToggle';
 
 export default class MessagePage extends BasePage {
 	private components: Array<HeaderMain | NavMenu>;
@@ -17,6 +18,8 @@ export default class MessagePage extends BasePage {
 	private chatAreaCompounder: Compounder = new Compounder;
 	private messageAreaCompounder: Compounder = new Compounder;
 	private usersListCompounder: Compounder = new Compounder;
+	private currentChatWS: WebSocket | null = null; // Текущее WebSocket соединение
+	private notificationWS: WebSocket | null = null; // WebSocket для уведомлений
 
 	constructor(parentElement: HTMLElement) {
 		super(parentElement);
@@ -31,34 +34,51 @@ export default class MessagePage extends BasePage {
 	}
 
 	async render(): Promise<void> {
+		// Закрываем предыдущее соединение уведомлений, если оно есть
+		if (this.notificationWS) {
+			this.notificationWS.close();
+		}
 
-		const WSNotifications = new WebSocket(`ws://localhost:8080/notifications`);
+		// Создаем новое соединение для уведомлений
+		this.notificationWS = new WebSocket(`${api.WS_NOTIF_URL}`);
 
-		WSNotifications.onopen = () => {
-			console.log('WebSocket connection opened');
+		this.notificationWS.onopen = () => {
+			console.log('WebSocket connection for notifications opened');
 		};
 
-		WSNotifications.onclose = () => {
-			console.log('WebSocket connection closed');
+		this.notificationWS.onclose = () => {
+			console.log('WebSocket connection for notifications closed');
 		};
 
-		WSNotifications.onmessage = (response) => {
+		this.notificationWS.onmessage = (response) => {
 			const message = JSON.parse(response.data);
-			console.log('message:', message);
+			console.log('notification message:', message);
 		};
 
 		this.chatAreaCompounder.clear();
 		this.chatAreaCompounder.add(new VStartMessage());
 
 		this.usersListCompounder.clear();
+		this.usersListCompounder.down('usersListMobileToggle');
+		this.usersListCompounder.add(new VChatMobileToggle());
+		this.usersListCompounder.up();
+
 		this.usersListCompounder.down('usersList', `
-			display: flex;
-			flex-direction: column;
-			gap: 10px;
-			overflow: auto;
-			scrollbar-width: none;
-			height: 690px;
-		`);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow: auto;
+            scrollbar-width: none;
+			height: 100%;
+			background-color: rgba(255, 255, 255, 0.98);
+			backdrop-filter: blur(10px);
+			-webkit-backdrop-filter: blur(10px);
+			border-radius: 12px;
+			padding: 15px;
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+			border: 1px solid rgba(0, 0, 0, 0.05);
+        `);
+		// height: 100%;
 
 		const { success, data: usersList } = await this.getUsersList();
 
@@ -100,15 +120,22 @@ export default class MessagePage extends BasePage {
 		profileDescription: string,
 		profileId: number
 	) {
+		// Закрываем предыдущее WebSocket соединение, если оно есть
+		if (this.currentChatWS) {
+			this.currentChatWS.close();
+			this.currentChatWS = null;
+			console.log('WebSocket currentChatWS closed');
+		}
+
 		this.chatAreaCompounder.clear();
 		this.messageAreaCompounder.clear();
 
 		this.chatAreaCompounder.down('chatMessages', `
-			display: flex;
-			flex-direction: column;
-			gap: 10px;
-			height: 710px;
-		`);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            height: 710px;
+        `);
 
 		const chatHeader = new VChatHeader(
 			api.BASE_URL_PHOTO + profilePicture,
@@ -117,30 +144,30 @@ export default class MessagePage extends BasePage {
 		this.chatAreaCompounder.add(chatHeader);
 
 		this.messageAreaCompounder.down('allMessages', `
-			display: flex;
-			flex-direction: column-reverse;
-			gap: 10px;
-			flex-grow: 1;
-			overflow: auto;
-			scrollbar-width: none;
-		`);
+            display: flex;
+            flex-direction: column-reverse;
+            gap: 10px;
+            flex-grow: 1;
+            overflow: auto;
+            scrollbar-width: none;
+        `);
 
 		this.chatAreaCompounder.add(this.messageAreaCompounder);
 
-		const ws = new WebSocket(`${api.WS_URL}/${chatId}`);
+		// Создаем новое WebSocket соединение для текущего чата
+		this.currentChatWS = new WebSocket(`${api.WS_CHAT_URL}/${chatId}`);
 
-		ws.onopen = () => {
-			console.log('WebSocket connection opened');
+		this.currentChatWS.onopen = () => {
+			console.log('WebSocket connection for chat opened');
 		};
 
-		ws.onclose = () => {
-			console.log('WebSocket connection closed');
+		this.currentChatWS.onclose = () => {
+			console.log('WebSocket connection for chat closed');
 		};
 
-		ws.onmessage = (response) => {
+		this.currentChatWS.onmessage = (response) => {
 			const data = JSON.parse(response.data);
-			console.log('store.getState("myID")', store.getState("myID"))
-			console.log('message', data);
+
 			if (data.type === 'init_messages') {
 				for (let i = data.messages.length - 1; i >= 0; --i) {
 					const message = data.messages[i];
@@ -150,7 +177,7 @@ export default class MessagePage extends BasePage {
 					));
 				}
 
-				ws.send(JSON.stringify({
+				this.currentChatWS?.send(JSON.stringify({
 					type: "read",
 					payload: {
 						chat_id: chatId,
@@ -161,7 +188,7 @@ export default class MessagePage extends BasePage {
 			}
 
 			if (data.type === 'created') {
-				console.log('send');
+				console.log('Send message');
 			}
 
 			if (data.type === 'new_messages') {
@@ -174,13 +201,12 @@ export default class MessagePage extends BasePage {
 					));
 				}
 
-				ws.send(JSON.stringify({
+				this.currentChatWS?.send(JSON.stringify({
 					type: "read",
 					payload: {
 						chat_id: chatId,
 					}
 				}));
-
 
 				this.chatAreaCompounder.render(this.contentWrapper);
 			}
@@ -190,8 +216,8 @@ export default class MessagePage extends BasePage {
 			const textArea = chatInput.getDOM()?.querySelector('.chatInput__input textarea') as HTMLTextAreaElement | null;
 			if (textArea) {
 				if (textArea.value.trim() === '') return;
-				console.log(textArea.value.trim());
-				ws.send(JSON.stringify({
+
+				this.currentChatWS?.send(JSON.stringify({
 					type: "create",
 					payload: {
 						chat_id: chatId,
@@ -212,10 +238,7 @@ export default class MessagePage extends BasePage {
 			}
 		});
 
-		console.log('store', store)
 		this.chatAreaCompounder.add(chatInput);
-		// this.chatAreaCompounder.render(this.contentWrapper);
-
 	}
 
 	async getUsersList() {
@@ -232,7 +255,6 @@ export default class MessagePage extends BasePage {
 				user.lastMessage,
 				user.isSelf,
 				() => {
-					console.log('user', user)
 					const parentElement = userItem.getDOM()?.parentElement;
 					if (parentElement) {
 						[...parentElement.children].forEach(child => child.classList.remove('isActive'));
@@ -248,6 +270,7 @@ export default class MessagePage extends BasePage {
 					);
 				}
 			);
+
 			store.subscribe(`${user.profileId}lastMessage`, (text) => {
 				userItem.injectProps({
 					avatarSrc: api.BASE_URL_PHOTO + user.profilePicture,
