@@ -88,7 +88,7 @@ export default class MatchesCards extends BaseComponent {
 					{
 						event: 'click',
 						selector: `#matchMessageBtn${currentID}`,
-						callback: () => this.handleMessage(),
+						callback: () => this.handleMessage(data.profileId),
 					},
 				]
 			);
@@ -107,7 +107,7 @@ export default class MatchesCards extends BaseComponent {
 		// console.log("Button Like Match is worked!");
 	}
 
-	private handleMessage(): void {
-		// console.log("Button Message to matcher is worked!");
+	private async handleMessage(id: number): Promise<void> {
+		
 	}
 }
