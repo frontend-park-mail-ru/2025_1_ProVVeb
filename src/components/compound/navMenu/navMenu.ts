@@ -41,7 +41,6 @@ const LINKS: LinkConfig[] = [
 		},
 	},
 	{
-		isDev: true,
 		title: 'Поиск',
 		srcIcon: 'media/navMenu/search.svg',
 		srcIconHover: 'media/navMenu/active/search_gradient.svg',
@@ -122,6 +121,7 @@ const LINKS: LinkConfig[] = [
 		},
 	},
 	{
+		isDev: true,
 		title: 'Статистика',
 		srcIcon: 'media/navMenu/active/stats_gradient.svg',
 		srcIconHover: 'media/navMenu/stats.svg',

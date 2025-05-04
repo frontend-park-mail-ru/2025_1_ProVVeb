@@ -11,6 +11,7 @@ import StatPage from '@pages/statPage/statPage';
 import ComplaintPage from '@pages/complaintPage/complaintPage';
 import MessagePage from '@pages/messagePage/messagePage';
 import StepPage from '@pages/stepLoginPage/stepLoginPage';
+import SearchPage from '@pages/search/searchPage';
 
 enum AppPage {
 	Auth = 'auth',
@@ -19,13 +20,13 @@ enum AppPage {
 	Profile = 'profile',
 	Matches = 'matches',
 	Settings = 'settings',
-	Search = 'search',
 	Security = 'security',
 	Shop = 'shop',
 	StatPage = 'stats',
 	ComplaintPage = 'complaint',
 	Messenger = 'messenger',
-	StepPage = 'step'
+	StepPage = 'step',
+	Search = 'search',
 }
 
 interface PathStructure {
@@ -45,6 +46,7 @@ class Router {
 	private complaintPage: ComplaintPage;
 	private messagePage: MessagePage;
 	private stepPage: StepPage;
+	private searchPage: SearchPage;
 
 	private PATHS: PathStructure[];
 
@@ -65,6 +67,7 @@ class Router {
 		this.complaintPage = new ComplaintPage(this.root);
 		this.messagePage = new MessagePage(this.root);
 		this.stepPage = new StepPage(this.root);
+		this.searchPage = new SearchPage(this.root);
 
 		this.PATHS = [];
 
@@ -78,13 +81,13 @@ class Router {
 		this.register("login", this.handlerLogin.bind(this));
 		this.register("matches", this.handlerMatches.bind(this));
 		this.register("settings", this.handlerSettings.bind(this));
-		this.register("search", this.handlerSearch.bind(this));
 		this.register("security", this.handlerSecurity.bind(this));
 		this.register("shop", this.handlerShop.bind(this));
 		this.register("stats", this.handlerStats.bind(this));
 		this.register("complaint", this.handlerComplaint.bind(this));
 		this.register("messenger", this.handlerMessenger.bind(this));
 		this.register("step", this.handlerStep.bind(this));
+		this.register("search", this.handlerSearch.bind(this));
 	}
 
 	private async checkSession(): Promise<boolean> {
@@ -160,6 +163,7 @@ class Router {
 
 		if (ava) store.setState('ava', ava);
 		if (name) store.setState('profileName', name);
+		if (data?.data?.isMale) store.setState('isMale', data?.data?.isMale);
 	}
 
 	private checkCookie(page: AppPage): AppPage {
@@ -204,12 +208,6 @@ class Router {
 		this.profilePage.getNavMenu().setActiveLink('settings');
 	}
 
-	private handlerSearch(state: any): void {
-		this.root.classList.remove('greeting');
-		this.emptyPage.rerender();
-		this.emptyPage.getNavMenu().setActiveLink('search');
-	}
-
 	private handlerSecurity(state: any): void {
 		this.root.classList.remove('greeting');
 		this.emptyPage.rerender();
@@ -238,6 +236,12 @@ class Router {
 		this.root.classList.remove('greeting');
 		this.messagePage.rerender();
 		this.messagePage.getNavMenu().setActiveLink('messenger');
+	}
+
+	private handlerSearch(state: any): void {
+		this.root.classList.remove('greeting');
+		this.searchPage.rerender();
+		this.searchPage.getNavMenu().setActiveLink('search');
 	}
 }
 

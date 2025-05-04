@@ -7,11 +7,15 @@ import { VChatHeader } from '@VDOM/simple/chat/header/header';
 import { VChatInput } from '@VDOM/simple/chat/input/input';
 import { VUserItem } from '@VDOM/simple/chat/userItem/userItem';
 import { VStartMessage } from '@VDOM/simple/chat/startMessage/startMessage';
+import api from '@network';
+import Notification from '@simple/notification/notification';
+import store from '@store';
 
 export default class MessagePage extends BasePage {
 	private components: Array<HeaderMain | NavMenu>;
 	private contentWrapper: HTMLElement;
 	private chatAreaCompounder: Compounder = new Compounder;
+	private messageAreaCompounder: Compounder = new Compounder;
 	private usersListCompounder: Compounder = new Compounder;
 
 	constructor(parentElement: HTMLElement) {
@@ -29,7 +33,6 @@ export default class MessagePage extends BasePage {
 	async render(): Promise<void> {
 		this.chatAreaCompounder.clear();
 		this.chatAreaCompounder.add(new VStartMessage());
-		// this.createChat();
 
 		this.usersListCompounder.clear();
 		this.usersListCompounder.down('usersList', `
@@ -41,8 +44,20 @@ export default class MessagePage extends BasePage {
 			height: 690px;
 		`);
 
-		const usersList = await this.getUsersList();
-		usersList.forEach((user) => {
+		const { success, data: usersList } = await this.getUsersList();
+
+		if (!success) {
+			const notification = new Notification({
+				headTitle: "Ошибка сети",
+				title: 'Не получилось получить список чатов',
+				isWarning: false,
+				isWithButton: true,
+			});
+			notification.render();
+			return;
+		}
+
+		usersList.forEach((user: VUserItem) => {
 			this.usersListCompounder.add(user);
 		});
 
@@ -53,109 +68,130 @@ export default class MessagePage extends BasePage {
 
 		this.chatAreaCompounder.addTo(this.contentWrapper);
 		this.usersListCompounder.addTo(this.contentWrapper);
+
+		store.update('profileName');
+		store.update('ava');
 	}
 
 	public getNavMenu(): NavMenu {
 		return this.components[1] as NavMenu;
 	}
 
-	async createChat() {
-		console.log('this.chatAreaCompounder', this.chatAreaCompounder)
+	async createChat(chatId: number, profilePicture: string, profileName: string, profileDescription: string) {
 		this.chatAreaCompounder.clear();
+		this.messageAreaCompounder.clear();
 
 		this.chatAreaCompounder.down('chatMessages', `
 			display: flex;
 			flex-direction: column;
 			gap: 10px;
-			// height: 100%;
 			height: 690px;
 		`);
 
 		const chatHeader = new VChatHeader(
-			'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-			'Аня', 'Если тебя зовут не Андрей, то мы не подходим друг другу');
-
+			api.BASE_URL_PHOTO + profilePicture,
+			profileName, profileDescription
+		);
 		this.chatAreaCompounder.add(chatHeader);
 
-		this.chatAreaCompounder.down('allMessages', `
+		this.messageAreaCompounder.down('allMessages', `
 			display: flex;
-			flex-direction: column-reverse;
+			flex-direction: column;
 			gap: 10px;
 			flex-grow: 1;
 			overflow: auto;
 			scrollbar-width: none;
 		`);
 
-		const chatMessages = await this.getChatMessages();
-		chatMessages.forEach((message) => {
-			this.chatAreaCompounder.add(message);
-		});
+		this.chatAreaCompounder.add(this.messageAreaCompounder);
 
-		this.chatAreaCompounder.up();
+		const ws = new WebSocket(`ws://localhost:8080/chats/${chatId}`);
+
+		ws.onopen = () => {
+			console.log('WebSocket connection opened');
+		};
+
+		ws.onclose = () => {
+			console.log('WebSocket connection closed');
+		};
+
+		ws.onmessage = (response) => {
+			const data = JSON.parse(response.data);
+			console.log('store.getState("myID")', store.getState("myID"))
+			console.log('message', data);
+			if (data.type === 'init_messages') {
+				for (let i = data.messages.length - 1; i >= 0; i--) {
+					const message = data.messages[i];
+					this.messageAreaCompounder.add(new VChatMessage(
+						message.text,
+						message.senderid === (store.getState("myID") as number)
+					));
+				}
+
+				this.chatAreaCompounder.render(this.contentWrapper);
+			}
+
+			if (data.type === 'created') {
+				console.log('send');
+			}
+		};
 
 		const chatInput = new VChatInput(() => {
 			const textArea = chatInput.getDOM()?.querySelector('.chatInput__input textarea') as HTMLTextAreaElement | null;
 			if (textArea) {
-				if (textArea.value.trim() === '') return; // Если пустое сообщение, ничего не делаем
-				// Здесь можно добавить логику отправки сообщения, например, через WebSocket или AJAX-запрос
+				if (textArea.value.trim() === '') return;
 				console.log(textArea.value.trim());
+				ws.send(JSON.stringify({
+					type: "create",
+					payload: {
+						chat_id: chatId,
+						user_id: (store.getState("myID") as number),
+						content: textArea.value.trim(),
+					}
+				}));
+
+				this.messageAreaCompounder.add(new VChatMessage(
+					textArea.value, true
+				));
+
 				textArea.value = '';
+
+				this.chatAreaCompounder.render(this.contentWrapper);
 			}
 		});
 
 		this.chatAreaCompounder.add(chatInput);
-		this.chatAreaCompounder.render(this.contentWrapper);
+		// this.chatAreaCompounder.render(this.contentWrapper);
 
-		console.log('this.chatAreaCompounder', this.chatAreaCompounder)
-	}
-
-	async getChatMessages() {
-		const chatMessage1 = new VChatMessage('Привет, как дела?', true);
-		const chatMessage2 = new VChatMessage('Привет, все хорошо, а у тебя?', false);
-		const chatMessage3 = new VChatMessage('Отлично, спасибо!', true);
-
-		return [chatMessage1, chatMessage2, chatMessage3];
 	}
 
 	async getUsersList() {
-		const usersList = [
-			{
-				avatarSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-				name: 'Аня',
-				lastMessage: 'Последнее сообщение привет опа ааа что делать я знаю а ты кто вообще чел лоол',
-				isSelf: true,
-			},
-			{
-				avatarSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-				name: 'Аня',
-				lastMessage: 'Последнее сообщение привет опа ааа что делать я знаю а ты кто вообще чел лоол',
-				isSelf: true,
-			},
-			{
-				avatarSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-				name: 'Аня',
-				lastMessage: 'Последнее сообщение привет опа ааа что делать я знаю а ты кто вообще чел лоол',
-				isSelf: true,
-			},
-			{
-				avatarSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-				name: 'Аня',
-				lastMessage: 'Последнее сообщение привет опа ааа что делать я знаю а ты кто вообще чел лоол',
-				isSelf: true,
-			},
-		];
+		const usersList = await api.getChats();
 
-		const usersListWithClick = usersList.map((user) => {
-			const el = new VUserItem(user.avatarSrc, user.name, user.lastMessage, user.isSelf, () => {
-				console.log('click');
-				el.getDOM()?.classList.toggle('isActive');
-				// Динамично удалял у других
-				this.createChat();
-			});
+		if (!usersList.success) {
+			return { success: false, data: [] }
+		}
 
-			return el;
+		const usersListWithClick = usersList.data.map((user) => {
+			const userItem = new VUserItem(
+				api.BASE_URL_PHOTO + user.profilePicture,
+				user.profileName,
+				user.lastMessage,
+				user.isSelf,
+				() => {
+					console.log('user', user)
+					const parentElement = userItem.getDOM()?.parentElement;
+					if (parentElement) {
+						[...parentElement.children].forEach(child => child.classList.remove('isActive'));
+					}
+					userItem.getDOM()?.classList.add('isActive');
+
+					this.createChat(user.chatId, user.profilePicture, user.profileName, user.profileDescription);
+				});
+
+			return userItem;
 		});
 
-		return usersListWithClick;
+		return { success: true, data: usersListWithClick };
 	}
 }

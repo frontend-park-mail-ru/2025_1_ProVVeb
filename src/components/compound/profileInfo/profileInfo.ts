@@ -842,6 +842,8 @@ export default class ProfileInfoCard extends BaseComponent {
 								isWarning: false,
 								isWithButton: true,
 							}).render();
+
+							store.setState('isMale', apiData.isMale);
 						} else {
 							self.showErrorState('Ошибка при обновлении данных', () => self.render());
 							const notification = new Notification({

@@ -13,6 +13,23 @@
 			<img src="/media/search/filter.svg" alt="Filter" />
 		</label>
 		<div class="searchInput__filter">
+			<div class="searchInput__genderSelection">
+				<p>Пол</p>
+				<div class="gender-options">
+					<label class="gender-option">
+						<input type="radio" name="gender" value="Male" />
+						<span>Мужчины</span>
+					</label>
+					<label class="gender-option">
+						<input type="radio" name="gender" value="Any" checked />
+						<span>Не важно</span>
+					</label>
+					<label class="gender-option">
+						<input type="radio" name="gender" value="Female" />
+						<span>Женщины</span>
+					</label>
+				</div>
+			</div>
 			<div class="range-slider age-slider">
 				<p>Возраст
 					<span>
@@ -38,6 +55,16 @@
 					</div>
 					<input type="range" class="slider" id="heightMin" min="100" max="250" value="140" step="1">
 					<input type="range" class="slider" id="heightMax" min="100" max="250" value="190" step="1">
+				</div>
+			</div>
+			<div class="searchInput__location">
+				<div class="location-field">
+					<label for="country">Страна</label>
+					<input type="text" id="country" placeholder="Введите страну">
+				</div>
+				<div class="location-field">
+					<label for="city">Город</label>
+					<input type="text" id="city" placeholder="Введите город">
 				</div>
 			</div>
 		</div>

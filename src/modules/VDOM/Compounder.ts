@@ -79,5 +79,5 @@ export class Compounder extends VBC {
 	public getTemplate(): string {
 		return (renderVDOM(this.root_) as HTMLElement).outerHTML;
 	}
-	
+
 }

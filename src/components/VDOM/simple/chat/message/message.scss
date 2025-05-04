@@ -13,14 +13,14 @@
 	align-self: flex-start;
 	border-bottom-right-radius: 8px;
 
-	&.myMessage {
+	&.otherMessage {
 		color: #000;
 		background: #EEEFF1;
 		border-bottom-left-radius: 8px;
 		border-bottom-right-radius: var(--base-radius);
 	}
 
-	&.otherMessage {
+	&.myMessage {
 		color: #FFF;
 		background: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
 		border-bottom-right-radius: 8px;

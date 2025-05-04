@@ -39,20 +39,21 @@ DEFAULT_AUTH_PARAMS_BUTTON.listenButton = {
 
 					if (name) store.setState('profileName', name);
 					if (ava) store.setState('ava', ava);
+					if (data?.data?.isMale) store.setState('isMale', data?.data?.isMale);
 
 					await router.navigateTo(AppPage.Feed);
 				} else {
 					const JSONans = JSON.parse(respond.message as string);
 
-					if (JSONans.message == 'sql: no rows in result set'){
+					if (JSONans.message == 'sql: no rows in result set') {
 						const confirmComponent = new Confirm({
 							headTitle: 'Упс... Такого аккаунта не существует',
 							title: 'Хотите перейти в Login?',
 							isWarning: true,
 						});
 						const confirm = await confirmComponent.render();
-						if(confirm) router.navigateTo(AppPage.Login);
-						
+						if (confirm) router.navigateTo(AppPage.Login);
+
 						return;
 						// ans = 'Такого аккаунта не существует';
 					}
