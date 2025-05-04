@@ -1,7 +1,10 @@
-// const BASE_URL_PHOTO = 'http://213.219.214.83:8030/profile-photos';
-// const BASE_URL = 'http://213.219.214.83:8080';
-const BASE_URL = 'http://localhost:8080';
-const BASE_URL_PHOTO = 'http://localhost:8030/profile-photos';
+// const IP = '213.219.214.83';
+const IP = 'localhost';
+
+const BASE_URL = `http://${IP}:8080`;
+const BASE_URL_PHOTO = `http://${IP}:8030/profile-photos`;
+const WS_CHAT_URL = `ws://${IP}:8080/chats`;
+const WS_NOTIF_URL = `ws://${IP}:8080/notifications`;
 
 interface ApiResponse<T = any> {
 	success: boolean;
@@ -211,7 +214,7 @@ async function sendComplaint(
 	body: string,
 	forWhom?: string,
 ): Promise<ApiResponse> {
-	const url = `${BASE_URL}/queries/sendComplaint`;
+	const url = `${BASE_URL}/complaints/create`;
 
 	const params: {
 		complaint_type: string;
@@ -263,6 +266,8 @@ async function getChats() {
 export default {
 	BASE_URL_PHOTO,
 	BASE_URL,
+	WS_CHAT_URL,
+	WS_NOTIF_URL,
 	updateProfile,
 	uploadPhotos,
 	deletePhoto,

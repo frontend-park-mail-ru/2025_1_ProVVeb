@@ -11,7 +11,7 @@ import StatPage from '@pages/statPage/statPage';
 import ComplaintPage from '@pages/complaintPage/complaintPage';
 import MessagePage from '@pages/messagePage/messagePage';
 import StepPage from '@pages/stepLoginPage/stepLoginPage';
-import SearchPage from '@pages/search/searchPage';
+import SearchPage from '@pages/searchPage/searchPage';
 
 enum AppPage {
 	Auth = 'auth',

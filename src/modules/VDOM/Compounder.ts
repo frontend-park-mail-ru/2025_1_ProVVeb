@@ -27,6 +27,11 @@ export class Compounder extends VBC {
 		this.vdom = this.root_;
 	}
 
+	public addToStart(component: VBC): void {
+		this.current.children.unshift(component.getVDOM());
+		this.vdom = this.root_;
+	}
+
 	public down(arg: string | VirtualElement, inlineStyle?: string, tag?: string): void {
 		let newBlock: VirtualElement;
 		if (typeof arg === "string") {
@@ -52,7 +57,13 @@ export class Compounder extends VBC {
 	}
 
 	public clear(): void {
-		this.root_ = { tag: "div", style: { "display": "contents" }, children: [] };
+		this.root_ = {
+			tag: "div",
+			style: {
+				"display": "contents"
+			},
+			children: []
+		};
 		this.current = this.root_ as VirtualElement;
 		this.stack = [];
 	}

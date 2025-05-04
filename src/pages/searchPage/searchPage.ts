@@ -53,6 +53,7 @@ export default class SearchPage extends BasePage {
 
 	async render(): Promise<void> {
 		this.pageCompounder.clear();
+		this.pageCompounder.down('contentWrapper__inner');
 
 		const searchInput = new VSearchInput(async () => {
 			const input = document.querySelector('.searchInput__input') as HTMLInputElement;
@@ -70,10 +71,10 @@ export default class SearchPage extends BasePage {
 				input: input.value.trim(),
 				isMale: Object.values(Gender).includes(selectedGender.value as Gender) ?
 					selectedGender.value as Gender : Gender.Any,
-				ageMin: Number.isNaN(Number(ageMin.value)) ? Number(ageMin.value) : 18,
-				ageMax: Number.isNaN(Number(ageMax.value)) ? Number(ageMax.value) : 125,
-				heightMin: Number.isNaN(Number(heightMin.value)) ? Number(heightMin.value) : 100,
-				heightMax: Number.isNaN(Number(heightMax.value)) ? Number(heightMax.value) : 250,
+				ageMin: !Number.isNaN(Number(ageMin.value)) ? Number(ageMin.value) : 18,
+				ageMax: !Number.isNaN(Number(ageMax.value)) ? Number(ageMax.value) : 125,
+				heightMin: !Number.isNaN(Number(heightMin.value)) ? Number(heightMin.value) : 100,
+				heightMax: !Number.isNaN(Number(heightMax.value)) ? Number(heightMax.value) : 250,
 				country: country.value.trim(),
 				city: city.value.trim(),
 
@@ -91,6 +92,7 @@ export default class SearchPage extends BasePage {
 			}
 
 			this.pageCompounder.clear();
+			this.pageCompounder.down('contentWrapper__inner');
 			this.pageCompounder.add(searchInput);
 
 			this.pageCompounder.down('searchItems', `
@@ -99,7 +101,7 @@ export default class SearchPage extends BasePage {
 				gap: 10px; 
 				flex-wrap: wrap;
 				justify-content: space-between;
-				height: 650px;
+				max-height: 635px;
 				width: 100%;
 				overflow: auto;
 				scrollbar-width: none;
@@ -115,6 +117,25 @@ export default class SearchPage extends BasePage {
 			}
 
 			this.pageCompounder.render(this.contentWrapper);
+		}, () => {
+			this.pageCompounder.clear();
+			this.pageCompounder.down('contentWrapper__inner');
+			this.pageCompounder.add(searchInput);
+
+			this.pageCompounder.down('searchItems', `
+				margin-top: 20px;
+				display: flex; 
+				gap: 10px;
+				flex-wrap: wrap;
+				justify-content: space-between;
+				height: 635px;
+				width: 100%;
+				overflow: auto;
+				scrollbar-width: none;
+			`);
+
+			this.pageCompounder.add(new VSearchStart());
+			this.pageCompounder.render(this.contentWrapper);
 		});
 
 		this.pageCompounder.add(searchInput);
@@ -122,10 +143,10 @@ export default class SearchPage extends BasePage {
 		this.pageCompounder.down('searchItems', `
 			margin-top: 20px;
 			display: flex; 
-			gap: 10px; 
+			gap: 10px;
 			flex-wrap: wrap;
 			justify-content: space-between;
-			height: 650px;
+			height: 635px;
 			width: 100%;
 			overflow: auto;
 			scrollbar-width: none;
@@ -154,7 +175,7 @@ export default class SearchPage extends BasePage {
 		return {
 			success: true,
 			data: response.data.map((profile) => new VSearchItem(
-				profile.firstImgSrc,
+				api.BASE_URL_PHOTO + profile.firstImgSrc,
 				profile.fullname,
 				profile.age
 			))
