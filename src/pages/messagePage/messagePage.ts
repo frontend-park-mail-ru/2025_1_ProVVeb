@@ -248,6 +248,10 @@ export default class MessagePage extends BasePage {
 			return { success: false, data: [] }
 		}
 
+		if (!usersList.data) {
+			return { success: true, data: [] }
+		}
+
 		const usersListWithClick = usersList.data.reverse().map((user) => {
 			const userItem = new VUserItem(
 				api.BASE_URL_PHOTO + user.profilePicture,
