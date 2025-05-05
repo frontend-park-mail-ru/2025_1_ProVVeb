@@ -1,5 +1,5 @@
-// const IP = '213.219.214.83';
-const IP = 'localhost';
+const IP = '213.219.214.83';
+// const IP = 'localhost';
 
 const BASE_URL = `http://${IP}:8080`;
 const BASE_URL_PHOTO = `http://${IP}:8030/profile-photos`;
