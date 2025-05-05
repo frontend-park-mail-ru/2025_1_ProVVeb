@@ -29,9 +29,8 @@ export class VPhotoInput extends VBC {
 
             if (!fileName) {
                 const notification = new Notification({
-                    headTitle: "Что-то пошло не так...",
                     title: 'Не удалось определить имя файла',
-                    isWarning: false,
+                    isWarning: true,
                     isWithButton: true,
                 });
                 notification.render();
@@ -48,9 +47,8 @@ export class VPhotoInput extends VBC {
                 return true;
             } else {
                 const notification = new Notification({
-                    headTitle: "Что-то пошло не так...",
                     title: 'Неизвестная ошибка при удалении фотографии',
-                    isWarning: false,
+                    isWarning: true,
                     isWithButton: true,
                 });
                 notification.render();
@@ -59,9 +57,8 @@ export class VPhotoInput extends VBC {
             console.error('Ошибка при удалении фотографии:', error);
 
             const notification = new Notification({
-                headTitle: "Что-то пошло не так...",
                 title: 'Не удалось удалить фотографию',
-                isWarning: false,
+                isWarning: true,
                 isWithButton: true,
             });
             notification.render();
@@ -81,7 +78,7 @@ export class VPhotoInput extends VBC {
         const confirmComponent = new Confirm({
             headTitle: 'Согласны?',
             title: 'Удалить эту фотографию с сервера?',
-            isWarning: false,
+            isWarning: true,
         });
         const confirm = await confirmComponent.render();
         if (!confirm) return;

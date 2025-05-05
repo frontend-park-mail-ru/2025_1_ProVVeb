@@ -3,6 +3,8 @@ import api, { Profile } from '@network';
 import store from "@store";
 import MatchesCard from "@compound/matchCard/matchCard";
 import { parseBirthday } from '@modules/tools';
+import router, { AppPage } from "@modules/router";
+import Notification from "@simple/notification/notification";
 
 interface Listener {
 	event: string;
@@ -108,6 +110,17 @@ export default class MatchesCards extends BaseComponent {
 	}
 
 	private async handleMessage(id: number): Promise<void> {
-		
+		const firstID = store.getState("myID") as number;
+		const respond = await api.createChat(firstID, id);
+		if(respond.success){
+			router.navigateTo(AppPage.Messenger);
+		}else{
+			new Notification({
+				headTitle: "Что-то пошло не так...",
+				title: "Ошибка сети. Попробуйте позже",
+				isWarning: false,
+				isWithButton: true
+			}).render();
+		}
 	}
 }

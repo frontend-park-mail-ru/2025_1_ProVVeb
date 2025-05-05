@@ -36,8 +36,9 @@ export class CReg100 extends VBC {
                 const uploadedFiles = response.data.uploaded_files || [];
 
                 new Notification({
+                    headTitle: "Успех!",
                     title: `Сохранено ${uploadedFiles.length} фотографий`,
-                    isWarning: false,
+                    isWarning: true,
                     isWithButton: true,
                 }).render();
 
@@ -110,8 +111,8 @@ export class CReg100 extends VBC {
                 // }).render();
 				return;
 			}
-
-			const response = await api.getProfile(userId as number);
+            
+			let response = await api.getProfile(userId as number);
 
 			if (response.success && response.data) {
                 this.photos = [];

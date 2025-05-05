@@ -91,16 +91,17 @@ export class CReg20 extends VBC {
         profile.firstName = this.name.getValue();
         profile.lastName = this.surname.getValue();
         const isChecked = this.option1.getDOM()?.classList.length == 2 ? true : false;
-        if(isChecked)
-            profile.isMale = true;
-        else
-            profile.isMale = false;
+
+        store.setState("isMale", profile.isMale);
+        profile.isMale = isChecked;
+
         profile.birthday = this.formatDateFromDDMMYYYY(this.date.getDate());
 
         store.setState("myProfile", profile);
     }
 
     private formatDateFromDDMMYYYY(ddmmyyyy: string) {
+        if(ddmmyyyy == '')return '';
         const day = ddmmyyyy.substring(0, 2);
         const month = ddmmyyyy.substring(2, 4);
         const year = ddmmyyyy.substring(4, 8);

@@ -51,7 +51,7 @@ export default class StepPage extends BasePage {
             { height: 500, percent: 60, title: "Чем ты увлекаешься? 🤩", component: reg60, onNext: ()=>{reg60.submit();}, onPrev: ()=> {reg40.updateTemplate();}, onAfter: ()=>{reg80.updateTemplate(true);} },
             { height: 520, percent: 70, title: "На что ты способен? 👇", component: reg80, onNext: ()=>{reg80.submit(true);}, onPrev: ()=> {reg60.updateTemplate();}, onAfter: ()=>{reg80_2.updateTemplate(false);} },
             { height: 520, percent: 70, title: "Чего ты ждешь? 👆", component: reg80_2, onNext: ()=>{reg80_2.submit(false);}, onPrev: ()=> {reg80.updateTemplate(true);}, onAfter: ()=>{reg80_3.updateTemplate();} },
-            { height: 520, percent: 80, title: "Излей свою душу ✍️", component: reg80_3, onNext: ()=>{reg80_3.submit();}, onPrev: ()=> {reg80_2.updateTemplate(false);}, onAfter: ()=>{reg100.updateData();} },
+            { height: 520, percent: 80, title: "Излей свою душу ✍️", component: reg80_3, onNext: ()=>{reg80_3.submit(reg100);}, onPrev: async ()=> {reg80_2.updateTemplate(false);}, onAfter: async ()=>{await reg100.updateData();} },
             {
                 height: 500,
                 percent: 90,
@@ -73,7 +73,7 @@ export default class StepPage extends BasePage {
             let form = new CRegForm(height, percent, title, component);
 
             if (index < configs.length - 1) {
-                form.injectScript('.btn', 'click', () => {
+                form.injectScript('.btn', 'click', async () => {
                     if (onNext) onNext();
                     this.steps[this.currentIndex].delete();
                     this.currentIndex++;
@@ -97,7 +97,7 @@ export default class StepPage extends BasePage {
 
             if (index > 0) {
                 form.injectScript('.backButton', 'click', () => {
-                    if (onNext) onNext();
+                    if (onNext && index!=7 && index!=5) onNext();
                     this.steps[this.currentIndex].delete();
                     this.currentIndex--;
                     this.steps[this.currentIndex].render(this.parentElement);

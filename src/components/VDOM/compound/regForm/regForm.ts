@@ -12,7 +12,7 @@ export class CRegForm extends VBC {
         const main = new Compounder();
         main.down('registrationForm', `
             padding: 40px;
-            width: ${width}px;
+            max-width: ${width}px;
             height: 500px;
             display: flex;
             align-items: center;

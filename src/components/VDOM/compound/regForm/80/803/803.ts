@@ -4,6 +4,7 @@ import store from "@store";
 import { VComplaintBody } from "@VDOM/simple/complaint/body/body";
 import api, { Profile, User } from '@network';
 import Notification from "@simple/notification/notification";
+import { CReg100 } from "../../100/100";
 
 export class CReg80_3 extends VBC {
     private comp: VComplaintBody;
@@ -31,7 +32,7 @@ export class CReg80_3 extends VBC {
         this.comp.setValue(profile.description);
     }
 
-    public async submit(): Promise<void> {
+    public async submit(page?: CReg100): Promise<void> {
         const buffer = store.getState("myProfile") as any;
 
         buffer.description = this.comp.getValue();
@@ -39,18 +40,30 @@ export class CReg80_3 extends VBC {
         store.setState("myProfile", buffer);
         const profile = store.getState("myProfile") as Profile;
         const user = store.getState("myUser") as User;
-        console.log(profile);
-        console.log(user);
         
         if(!this.isCreated){
             const respond = await api.loginUser(user, profile);
             if(respond.success){
                 new Notification({
+                    headTitle: "Успех!",
                     isWarning: true,
                     isWithButton: true,
-                    title: "Данные успешно сохранены",
+                    title: "Аккаунт успешно создан",
                 }).render();
                 this.isCreated = true;
+
+                api.authUser(user.login, user.password).then(async (respond)=>{
+                    store.setState("myID", respond.data.user_id);
+                    store.setState('inSession', true);
+
+                    const data = await api.getProfile(respond.data.user_id);
+                    const ava = api.BASE_URL_PHOTO + data?.data?.photos[0];
+                    const name = data?.data?.firstName + ' ' + data?.data?.lastName;
+                    if (name) store.setState('profileName', name);
+                    if (ava) store.setState('ava', ava);
+
+                    page?.updateData();
+                });
             }else{
                 new Notification({
                     isWarning: true,
@@ -59,29 +72,21 @@ export class CReg80_3 extends VBC {
                 }).render();
             }
         }else{
-            api.authUser(user.login, user.password).then((respond)=>{
-                store.setState("myID", respond.data.user_id);
-                api.updateProfile(profile as any).then(()=>{
-                    new Notification({
-                        headTitle: "Успех!",
-                        isWarning: true,
-                        isWithButton: true,
-                        title: "Данные успешно отправлены на сервер",
-                    }).render();
-                }).catch(()=>{
-                    new Notification({
-                        isWarning: true,
-                        isWithButton: true,
-                        title: "Ошибка сети. Попробуйте позже",
-                    }).render();
-                });
+            profile.isMale = (profile.isMale != store.getState("isMale"));
+            api.updateProfile(profile as any).then(()=>{
+                new Notification({
+                    headTitle: "Успех!",
+                    isWarning: true,
+                    isWithButton: true,
+                    title: "Данные успешно обновлены на сервере",
+                }).render();
             }).catch(()=>{
                 new Notification({
                     isWarning: true,
                     isWithButton: true,
                     title: "Ошибка сети. Попробуйте позже",
                 }).render();
-            })
+            });
         }
 
             // api.authUser(loginValue, passwordValue).then(async (respond) => {
