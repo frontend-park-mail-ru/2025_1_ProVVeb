@@ -169,9 +169,11 @@ export default class MessagePage extends BasePage {
 			const data = JSON.parse(response.data);
 
 			if (data.type === 'init_messages') {
-				if (!data.messages) return;
+				let len = data.messages
+				if (!len) len=0;
+				else len = data.messages.length;
 
-				for (let i = data.messages.length - 1; i >= 0; --i) {
+				for (let i = len - 1; i >= 0; --i) {
 					const message = data.messages[i];
 					this.messageAreaCompounder.add(new VChatMessage(
 						message.text,
