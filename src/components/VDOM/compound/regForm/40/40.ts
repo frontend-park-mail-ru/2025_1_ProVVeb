@@ -3,6 +3,12 @@ import { VBC } from "@modules/VDOM/VBC";
 import store from "@store";
 import { VInput } from "@VDOM/simple/input/input";
 import { VList, COUNTRIES } from "@VDOM/simple/list/list";
+import Notification from "@simple/notification/notification";
+import { 
+    isValidLocation, 
+    isValidEmail, 
+    isValidPhone
+  } from '@validation';
 
 export class CReg40 extends VBC {
     private country: VInput;
@@ -76,20 +82,55 @@ export class CReg40 extends VBC {
         this.phone.setValue(phone);
     }
 
-    public submit(): void {
+    public submit(): boolean {
         const user = store.getState("myUser") as any;
         const profile = store.getState("myProfile") as any;
         
         const country = this.country.getValue();
         const city = this.city.getValue();
         const district = this.district.getValue();
-        profile.location = country+"@"+city+"@"+district;
-        user.email = this.mail.getValue();
-        user.phone = this.list.getDOM()?.textContent?.split(' ')[1] + this.phone.getValue();
-        console.log(this.list.getDOM()?.textContent);
-        console.log(this.phone.getValue());
-
+        
+        if (!isValidLocation(country) || !isValidLocation(city) || !isValidLocation(district)) {
+            new Notification({
+                headTitle: "Ошибка валидации",
+                title: 'Каждое поле (страна/город/район) должно быть 3-15 символов',
+                isWarning: true,
+                isWithButton: true,
+            }).render();
+            return false;
+        }
+        profile.location = `${country}@${city}@${district}`;
+    
+        const email = this.mail.getValue();
+        if (!isValidEmail(email)) {
+            new Notification({
+                headTitle: "Ошибка валидации",
+                title: 'Введите корректный email (например: example@mail.com)',
+                isWarning: true,
+                isWithButton: true,
+            }).render();
+            return false;
+        }
+    
+        const phonePrefix = this.list.getDOM()?.textContent?.split(' ')[1] || '';
+        const phoneNumber = this.phone.getValue();
+        const fullPhone = phonePrefix + phoneNumber;
+        
+        if (!isValidPhone(phoneNumber)) {
+            new Notification({
+                headTitle: "Ошибка валидации",
+                title: 'Телефон должен быть в формате (123)4567890',
+                isWarning: true,
+                isWithButton: true,
+            }).render();
+            return false;
+        }
+    
+        user.email = email;
+        user.phone = fullPhone;
+    
         store.setState("myProfile", profile);
         store.setState("myUser", user);
+        return true;
     }
 }

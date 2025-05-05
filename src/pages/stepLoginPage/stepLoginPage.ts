@@ -25,6 +25,7 @@ interface StepConfig {
 }
 
 export default class StepPage extends BasePage {
+    private isOK: boolean = true;
     private components: HeaderGreeting;
     private steps: CRegForm[] = [];
     private currentIndex = 0;
@@ -46,19 +47,19 @@ export default class StepPage extends BasePage {
         const finish = new CRegFinish();
 
         const configs: StepConfig[] = [
-            { height: 470, percent: 20, title: "Давай познакомимся 😊", component: reg20, onNext: ()=>{reg20.submit();}, onAfter: ()=> {reg40.updateTemplate();} },
-            { height: 420, percent: 40, title: "Расскажи о себе 📖", component: reg40, onNext: ()=>{reg40.submit();}, onPrev: ()=> {reg20.updateTemplate();}, onAfter: ()=> {reg60.updateTemplate();} },
-            { height: 500, percent: 60, title: "Чем ты увлекаешься? 🤩", component: reg60, onNext: ()=>{reg60.submit();}, onPrev: ()=> {reg40.updateTemplate();}, onAfter: ()=>{reg80.updateTemplate(true);} },
-            { height: 520, percent: 70, title: "На что ты способен? 👇", component: reg80, onNext: ()=>{reg80.submit(true);}, onPrev: ()=> {reg60.updateTemplate();}, onAfter: ()=>{reg80_2.updateTemplate(false);} },
-            { height: 520, percent: 70, title: "Чего ты ждешь? 👆", component: reg80_2, onNext: ()=>{reg80_2.submit(false);}, onPrev: ()=> {reg80.updateTemplate(true);}, onAfter: ()=>{reg80_3.updateTemplate();} },
-            { height: 520, percent: 80, title: "Излей свою душу ✍️", component: reg80_3, onNext: ()=>{reg80_3.submit(reg100);}, onPrev: async ()=> {reg80_2.updateTemplate(false);}, onAfter: async ()=>{await reg100.updateData();} },
+            { height: 470, percent: 20, title: "Давай познакомимся 😊", component: reg20, onNext: ()=>{return reg20.submit();}, onAfter: ()=> {reg40.updateTemplate();} },
+            { height: 420, percent: 40, title: "Расскажи о себе 📖", component: reg40, onNext: ()=>{return reg40.submit();}, onPrev: ()=> {reg20.updateTemplate();}, onAfter: ()=> {reg60.updateTemplate();} },
+            { height: 500, percent: 60, title: "Чем ты увлекаешься? 🤩", component: reg60, onNext: ()=>{return reg60.submit();}, onPrev: ()=> {reg40.updateTemplate();}, onAfter: ()=>{reg80.updateTemplate(true);} },
+            { height: 520, percent: 70, title: "На что ты способен? 👇", component: reg80, onNext: ()=>{return reg80.submit(true);}, onPrev: ()=> {reg60.updateTemplate();}, onAfter: ()=>{reg80_2.updateTemplate(false);} },
+            { height: 520, percent: 70, title: "Чего ты ждешь? 👆", component: reg80_2, onNext: ()=>{return reg80_2.submit(false);}, onPrev: ()=> {reg80.updateTemplate(true);}, onAfter: ()=>{reg80_3.updateTemplate();} },
+            { height: 520, percent: 80, title: "Излей свою душу ✍️", component: reg80_3, onNext: ()=>{return reg80_3.submit(reg100);}, onPrev: async ()=> {reg80_2.updateTemplate(false);}, onAfter: async ()=>{await reg100.updateData();} },
             {
                 height: 500,
                 percent: 90,
                 title: "Покажи себя миру 📷",
                 component: reg100,
                 onPrev: ()=> {reg80_3.updateTemplate();},
-                onNext: () => reg100.uploadFiles(),
+                onNext: () => {return reg100.uploadFiles() },
                 onAfter: () => {
                     const target = document.querySelector('.btn') as HTMLElement;
                     target.innerHTML = "ЗАВЕРШИТЬ";
@@ -74,7 +75,11 @@ export default class StepPage extends BasePage {
 
             if (index < configs.length - 1) {
                 form.injectScript('.btn', 'click', async () => {
-                    if (onNext) onNext();
+                    if (onNext) { 
+                        this.isOK = await onNext();
+                        if (!this.isOK) return;
+                    }
+                    
                     this.steps[this.currentIndex].delete();
                     this.currentIndex++;
                     this.steps[this.currentIndex].render(this.parentElement);
@@ -95,25 +100,27 @@ export default class StepPage extends BasePage {
                 `);
             }
 
-            if (index > 0) {
-                form.injectScript('.backButton', 'click', () => {
-                    if (onNext && index!=7 && index!=5) onNext();
+            form.injectScript('.backButton', 'click', async () => {
+                if (index > 0) {
+                    if (onNext && index != 7 && index != 5) {
+                        onNext();
+                    }
+                    
                     this.steps[this.currentIndex].delete();
                     this.currentIndex--;
                     this.steps[this.currentIndex].render(this.parentElement);
-                    if(onPrev) onPrev();
-                });
-            } else {
-                form.injectScript('.backButton', 'click', async () => {
+                    if (onPrev) onPrev();
+                } else {
                     const confirm = new Confirm({
                         headTitle: "Действительно хотите перейти?",
                         title: "Вы потеряете все изменения!",
                         isWarning: true
                     });
-                    if(await confirm.render())
+                    if (await confirm.render()) {
                         router.navigateTo(AppPage.Login);
-                });
-            }
+                    }
+                }
+            });
 
             return form;
         });
