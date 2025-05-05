@@ -194,8 +194,7 @@ export default class SearchPage extends BasePage {
 			params.city,
 		);
 
-		if (!(response.success && response.data)) {
-
+		if (!response.success) {
 			const notification = new Notification({
 				headTitle: "Ошибка сети",
 				title: `Не удалось отправить ваши пожелания. Попробуйте позже`,
@@ -204,6 +203,10 @@ export default class SearchPage extends BasePage {
 			});
 			notification.render();
 			return { success: false, data: [] };
+		}
+
+		if (!response.data) {
+			return { success: true, data: [] };
 		}
 
 		return {
