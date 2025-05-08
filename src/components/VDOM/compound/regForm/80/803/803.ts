@@ -32,9 +32,19 @@ export class CReg80_3 extends VBC {
         this.comp.setValue(profile.description);
     }
 
-    public async submit(page?: CReg100): Promise<void> {
+    public async submit(page?: CReg100): Promise<boolean> {
         const buffer = store.getState("myProfile") as any;
 
+        const description = this.comp.getValue();
+        if(description==""){
+            new Notification({
+                headTitle: "Ошибка валидации",
+                title: 'Описание обязательное поле',
+                isWarning: true,
+                isWithButton: true,
+            }).render();
+            return false;
+        }
         buffer.description = this.comp.getValue();
 
         store.setState("myProfile", buffer);
@@ -88,6 +98,7 @@ export class CReg80_3 extends VBC {
                 }).render();
             });
         }
+        return true;
 
             // api.authUser(loginValue, passwordValue).then(async (respond) => {
             // 			if (respond.success) {

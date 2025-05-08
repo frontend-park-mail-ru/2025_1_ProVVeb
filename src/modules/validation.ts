@@ -223,3 +223,74 @@ export class ProfileValidators {
 		return { isValid: true };
 	}
 }
+
+
+export function isValidName(name: string): boolean {
+	return /^[a-zA-Zа-яА-ЯёЁ]{3,15}$/.test(name);
+}
+  
+  export function isValidSurname(surname: string): boolean {
+	return /^[a-zA-Zа-яА-ЯёЁ]{3,15}$/.test(surname);
+  }
+  
+  export function isValidHeight(height: string): boolean {
+	const heightNum = parseInt(height, 10);
+	return !isNaN(heightNum) && heightNum >= 100 && heightNum <= 150;
+  }
+  
+  export function isValidBirthDate(dateStr: string): boolean {
+	if (dateStr.length !== 8) return false;
+  
+	const day = parseInt(dateStr.substring(0, 2), 10);
+	const month = parseInt(dateStr.substring(2, 4), 10);
+	const year = parseInt(dateStr.substring(4, 8), 10);
+  
+	if (year < 1925 || year > 2025) return false;
+	if (month < 1 || month > 12) return false;
+	if (day < 1 || day > 31) return false;
+  
+	const date = new Date(year, month - 1, day);
+	return (
+	  date.getFullYear() === year &&
+	  date.getMonth() === month - 1 &&
+	  date.getDate() === day
+	);
+  }
+  
+  export function isValidLocation(location: string): boolean {
+	return location.length >= 3 && location.length <= 15;
+  }
+  
+  export function isValidEmail(email: string): boolean {
+	return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
+  }
+  
+  export function isValidPhone(phone: string): boolean {
+	return /^\(\d{3}\)\d{7}$/.test(phone);
+  }
+  
+  export function isValidNationality(nationality: string): boolean {
+	return /^[a-zA-Zа-яА-ЯёЁ]{3,15}$/.test(nationality);
+  }
+  
+  export function isValidUserData(userData: {
+	firstName: string;
+	lastName: string;
+	height: string;
+	birthDate: string;
+	location: string;
+	email: string;
+	phone: string;
+	nationality: string;
+  }): boolean {
+	return (
+	  isValidName(userData.firstName) &&
+	  isValidSurname(userData.lastName) &&
+	  isValidHeight(userData.height) &&
+	  isValidBirthDate(userData.birthDate) &&
+	  isValidLocation(userData.location) &&
+	  isValidEmail(userData.email) &&
+	  isValidPhone(userData.phone) &&
+	  isValidNationality(userData.nationality)
+	);
+  }

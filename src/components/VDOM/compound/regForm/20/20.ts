@@ -5,7 +5,12 @@ import { VOption } from "@VDOM/simple/option/option";
 import { VDateInput } from "@VDOM/simple/input/dateInput/dateInput";
 import { CSS_center } from "@VDOM/defaultStyles/VStyles";
 import store from "@store";
-import api from '@network';
+import Notification from "@simple/notification/notification";
+import { 
+    isValidName, 
+    isValidSurname, 
+    isValidBirthDate
+  } from '@validation';
 
 export class CReg20 extends VBC {
     private name: VInput;
@@ -86,18 +91,52 @@ export class CReg20 extends VBC {
         this.date.setDate(date);
     }
 
-    public async submit(){
+    public async submit(): Promise<boolean> {
         const profile = store.getState("myProfile") as any;
-        profile.firstName = this.name.getValue();
-        profile.lastName = this.surname.getValue();
+        
+        const firstName = this.name.getValue();
+        if (!isValidName(firstName)) {
+            new Notification({
+                headTitle: "Ошибка валидации",
+                title: 'Имя должно быть от 3 до 15 букв (англ/рус)',
+                isWarning: true,
+                isWithButton: true,
+            }).render();
+            return false;
+        }
+    
+        const lastName = this.surname.getValue();
+        if (!isValidSurname(lastName)) {
+            new Notification({
+                headTitle: "Ошибка валидации",
+                title: 'Фамилия должна быть от 3 до 15 букв (англ/рус)',
+                isWarning: true,
+                isWithButton: true,
+            }).render();
+            return false;
+        }
+    
+        const birthDate = this.date.getDate();
+        if (!isValidBirthDate(birthDate)) {
+            new Notification({
+                headTitle: "Ошибка валидации",
+                title: 'Некорректная дата. Формат: ДДММГГГГ',
+                isWarning: true,
+                isWithButton: true,
+            }).render();
+            return false;
+        }
+    
+        profile.firstName = firstName;
+        profile.lastName = lastName;
+        profile.birthday = this.formatDateFromDDMMYYYY(birthDate);
+        
         const isChecked = this.option1.getDOM()?.classList.length == 2 ? true : false;
-
-        store.setState("isMale", profile.isMale);
         profile.isMale = isChecked;
-
-        profile.birthday = this.formatDateFromDDMMYYYY(this.date.getDate());
-
+        store.setState("isMale", profile.isMale);
+    
         store.setState("myProfile", profile);
+        return true;
     }
 
     private formatDateFromDDMMYYYY(ddmmyyyy: string) {

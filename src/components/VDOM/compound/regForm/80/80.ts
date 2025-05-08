@@ -5,6 +5,7 @@ import { VTable } from "@VDOM/compound/table/table";
 import { VInput } from "@VDOM/simple/input/input";
 import { CatalogOption, VCatalog } from "@VDOM/simple/list/catalog/catalog";
 import api from '@network';
+import { isValidHeight, isValidNationality } from "@modules/validation";
 
 export class CReg80 extends VBC {
     private data: any;
@@ -256,7 +257,7 @@ export class CReg80 extends VBC {
         return ans;
     }
 
-    public async submit(isMy: boolean): Promise<void> {
+    public async submit(isMy: boolean): Promise<boolean> {
         const profile = store.getState("myProfile") as any;
 
         if(!isMy)
@@ -265,5 +266,6 @@ export class CReg80 extends VBC {
             profile.data = this.insert();
 
         store.setState("myProfile", profile);
+        return true;
     }
 }

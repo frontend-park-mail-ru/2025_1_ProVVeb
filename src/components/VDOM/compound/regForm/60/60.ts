@@ -7,7 +7,7 @@ import { VInput } from "@VDOM/simple/input/input";
 import { VInteresInputFull } from "@VDOM/simple/input/interesInput/interesInput";
 import { VList } from "@VDOM/simple/list/list";
 import { VInteres } from "@VDOM/simple/option/interest/interes";
-import api from '@network';
+import Notification from "@simple/notification/notification";
 
 export class CReg60 extends VBC {
     private arr: string[];
@@ -115,10 +115,22 @@ export class CReg60 extends VBC {
         return ans;
     }
 
-    public async submit(){
+    public async submit(): Promise<boolean>{
         const profile = store.getState("myProfile") as any;
+        const ints =this.getInts();
+        if(ints.length==0){
+            new Notification({
+                headTitle: "Ошибка валидации",
+                title: 'Вам необходимо интересоваться чем-то)',
+                isWarning: true,
+                isWithButton: true,
+            }).render();
+            return false;
+        }
+
         profile.interests = this.getInts();
 
         store.setState("myProfile", profile);
+        return true;
     }
 }

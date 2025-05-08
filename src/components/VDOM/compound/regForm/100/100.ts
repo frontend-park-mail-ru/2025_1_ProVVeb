@@ -100,7 +100,7 @@ export class CReg100 extends VBC {
         return flag;
     }
 
-    public async updateData(): Promise<void>{
+    public async updateData(): Promise<boolean>{
         try {
 			const userId = store.getState('myID');
 			if (userId === undefined) {
@@ -109,7 +109,7 @@ export class CReg100 extends VBC {
                 //     isWarning: true,
                 //     isWithButton: true
                 // }).render();
-				return;
+				return false;
 			}
             
 			let response = await api.getProfile(userId as number);
@@ -134,6 +134,7 @@ export class CReg100 extends VBC {
                     isWarning: true,
                     isWithButton: true
                 }).render();
+                return false;
 			}
 		} catch (error) {
 			new Notification({
@@ -141,7 +142,9 @@ export class CReg100 extends VBC {
                 isWarning: true,
                 isWithButton: true
             }).render();
+            return false;
 		}
+        return true;
     }
 
     constructor() {
