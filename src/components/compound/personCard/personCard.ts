@@ -7,6 +7,7 @@ interface PersonCardParams {
 	personName: string;
 	personAge: number | '≥ 18';
 	personDescription: string;
+	isSinglePhoto: boolean;
 }
 
 interface Callback {
@@ -21,6 +22,7 @@ const DEFAULT_PARAMS_PERSON_CARD: PersonCardParams = {
 	personName: 'Имя',
 	personAge: 16,
 	personDescription: 'Краткое описание человека...',
+	isSinglePhoto: true,
 };
 
 export default class PersonCard extends BaseComponent {

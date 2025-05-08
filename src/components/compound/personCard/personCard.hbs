@@ -6,12 +6,14 @@
 		<div class="personCard__photo" style="background-image: url('{{this}}'), url('{{../srcPersonPictureError}}');">
 		</div>
 		{{/each}}
+		{{#unless isSinglePhoto}}
 		<div class="personCard__sliderControls">
 			{{#each srcPersonPhotos}}
 			<label for="photo-{{@index}}" class="personCard__sliderDot"></label>
 			{{/each}}
 		</div>
-		<div class="personCard__arrows">
+		{{/unless}}
+		<div class="personCard__arrows" {{#if isSinglePhoto}}style="display: none;" {{/if}}>
 			<label for="photo-{{prevIndex}}" class="personCard__arrow personCard__arrow--left">❮</label>
 			<label for="photo-{{nextIndex}}" class="personCard__arrow personCard__arrow--right">❯</label>
 		</div>
