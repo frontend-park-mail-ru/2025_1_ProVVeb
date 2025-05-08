@@ -16,12 +16,10 @@ async function sendRequest(url, method, data = null, isMultipart = false) {
 			credentials: 'include',
 		};
 
-		// Проверяем, нужен ли multipart
 		const isActuallyMultipart = isMultipart || (data instanceof FormData);
 
 		if (data) {
 			if (isActuallyMultipart) {
-				// Для FormData заголовок Content-Type не ставим — браузер сам сделает
 				options.body = (data instanceof FormData) ? data : objectToFormData(data);
 			} else {
 				options.headers = {
@@ -50,7 +48,6 @@ async function sendRequest(url, method, data = null, isMultipart = false) {
 
 async function sendFeedback(score, answer) {
 	const url = `${BASE_URL}/queries/sendResp`;
-	console.log(url);
 	return sendRequest(url, 'POST', { name: 'CSAT', score, answer });
 }
 
@@ -62,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	const sendBtn = document.querySelector('.sendFeedback');
 
 	if (!nextBtn || !ground || !stars || !sendBtn) {
-		console.error('Не найдены необходимые элементы');
 		return;
 	}
 
@@ -90,22 +86,16 @@ document.addEventListener('DOMContentLoaded', () => {
 		const reviewText = document.querySelector('.groundFeedback textarea').value.trim();
 
 		if (!ratingSelected) {
-			console.error('Оценка не выбрана');
 			return;
 		}
 
 		const score = ratingSelected.value;
 		const answer = reviewText;
 
-		console.log('Количество звезд:', Number(score));
-		console.log('Текст отзыва:', answer);
-
 		try {
 			await sendFeedback(Number(score), answer);
-			console.log('Отзыв успешно отправлен');
 			document.querySelector('.feedback').style.display = 'none';
 		} catch (error) {
-			console.error('Ошибка отправки отзыва:', error);
 			alert('Ошибка при отправке. Попробуйте еще раз.');
 		}
 	});

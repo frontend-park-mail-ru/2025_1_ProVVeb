@@ -1,4 +1,4 @@
-import { VBC } from "@modules/VDOM/VBC";
+import { VBC } from '@modules/VDOM/VBC';
 import templateHBS from './message.hbs';
 
 export class VChatMessage extends VBC {
@@ -6,7 +6,7 @@ export class VChatMessage extends VBC {
 		super(
 			templateHBS,
 			{},
-			``,
+			'',
 			[],
 			{ message, isMyMessage },
 		);

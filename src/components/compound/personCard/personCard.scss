@@ -148,10 +148,6 @@
 		&:hover {
 			transform: translateY(-3px) scale(1.05);
 		}
-
-		// &:active {
-		// 	transform: translateY(1px) scale(0.98);
-		// }
 	}
 
 	&--liked,
@@ -166,8 +162,6 @@
 	&--disliked {
 		--shadow-color: rgba(248, 113, 113, 0.6);
 	}
-
-
 }
 
 @keyframes pulseShadow {

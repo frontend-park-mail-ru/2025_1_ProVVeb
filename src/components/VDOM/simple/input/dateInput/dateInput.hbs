@@ -1,13 +1,13 @@
 <div class="date-input">
-  <div class="date-input__field">
-    {{#each chars}}
-      <span class="date-input__char 
+	<div class="date-input__field">
+		{{#each chars}}
+		<span class="date-input__char 
         {{#if this.isDigit}} 
           {{#if this.isActive}}date-input__char--active{{/if}} 
         {{else}}date-input__char--slash{{/if}}">
-        {{this.value}}
-        {{#if this.isDigit}}<span class="date-input__underline"></span>{{/if}}
-      </span>
-    {{/each}}
-  </div>
+			{{this.value}}
+			{{#if this.isDigit}}<span class="date-input__underline"></span>{{/if}}
+		</span>
+		{{/each}}
+	</div>
 </div>

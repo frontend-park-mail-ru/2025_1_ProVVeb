@@ -1,5 +1,5 @@
-import { VBC } from "@modules/VDOM/VBC";
-import templateHBS from "./userItem.hbs";
+import { VBC } from '@modules/VDOM/VBC';
+import templateHBS from './userItem.hbs';
 
 export class VUserItem extends VBC {
 	constructor(

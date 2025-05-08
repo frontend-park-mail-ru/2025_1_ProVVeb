@@ -13,7 +13,9 @@ interface ValidationResult {
 export const validator = (data: string, rules: ValidatorRule[]): ValidationResult => {
 	let error = '';
 	for (const rule of rules) {
-		if (!rule.reg.test(data)) error = rule.message;
+		if (!rule.reg.test(data)) {
+			error = rule.message;
+		}
 	}
 
 	return error === '' ? { isOK: true, message: null } : { isOK: false, message: error };
@@ -57,17 +59,16 @@ export const checkLogin = (loginValue: string, passwordValue: string, passwordAg
 		error.render();
 		loginElement.classList.add('incorrect');
 		return false;
-	} else if (!passwordValidation.isOK) {
+	} if (!passwordValidation.isOK) {
 		const error = new Notification({ isWarning: true, isWithButton: true, title: passwordValidation.message || 'Технические неполадки. Попробуйте позже' });
 		error.render();
 		passwordElement.classList.add('incorrect');
 		return false;
-	} else {
-		loginElement.classList.remove('incorrect');
-		passwordElement.classList.remove('incorrect');
-		passwordAgainElement.classList.remove('incorrect');
-		return true;
 	}
+	loginElement.classList.remove('incorrect');
+	passwordElement.classList.remove('incorrect');
+	passwordAgainElement.classList.remove('incorrect');
+	return true;
 };
 
 export const checkAuth = (loginValue: string, passwordValue: string): boolean => {
@@ -96,16 +97,16 @@ export const checkAuth = (loginValue: string, passwordValue: string): boolean =>
 		error.render();
 		loginElement.classList.add('incorrect');
 		return false;
-	} else if (!passwordValidation.isOK) {
+	} if (!passwordValidation.isOK) {
 		const error = new Notification({ isWarning: true, isWithButton: true, title: passwordValidation.message || 'Технические неполадки. Попробуйте позже' });
 		error.render();
 		passwordElement.classList.add('incorrect');
 		return false;
-	} else {
-		loginElement.classList.remove('incorrect');
-		passwordElement.classList.remove('incorrect');
-		return true;
 	}
+	loginElement.classList.remove('incorrect');
+	passwordElement.classList.remove('incorrect');
+	return true;
+
 };
 
 const EMOJI = /^[^\p{Extended_Pictographic}]*$/u;
@@ -180,8 +181,8 @@ export const PASSWORD_BRIEF_RULES: ValidatorRule[] = [
 
 export class ProfileValidators {
 	static validateHeight(height: string): { isValid: boolean; message?: string } {
-		const heightValue = parseInt(height);
-		if (isNaN(heightValue)) {
+		const heightValue = parseInt(height, 10);
+		if (Number.isNaN(heightValue)) {
 			return { isValid: false, message: 'Рост должен быть числом' };
 		}
 		if (heightValue < 100 || heightValue > 250) {
@@ -208,9 +209,9 @@ export class ProfileValidators {
 		const date = new Date(year, month - 1, day);
 
 		if (
-			date.getFullYear() !== year ||
-			date.getMonth() !== month - 1 ||
-			date.getDate() !== day
+			date.getFullYear() !== year
+			|| date.getMonth() !== month - 1
+			|| date.getDate() !== day
 		) {
 			return { isValid: false, message: 'Некорректная дата' };
 		}
@@ -224,56 +225,55 @@ export class ProfileValidators {
 	}
 }
 
-
 export function isValidName(name: string): boolean {
 	return /^[a-zA-Zа-яА-ЯёЁ]{3,15}$/.test(name);
 }
-  
-  export function isValidSurname(surname: string): boolean {
+
+export function isValidSurname(surname: string): boolean {
 	return /^[a-zA-Zа-яА-ЯёЁ]{3,15}$/.test(surname);
-  }
-  
-  export function isValidHeight(height: string): boolean {
+}
+
+export function isValidHeight(height: string): boolean {
 	const heightNum = parseInt(height, 10);
-	return !isNaN(heightNum) && heightNum >= 100 && heightNum <= 150;
-  }
-  
-  export function isValidBirthDate(dateStr: string): boolean {
-	if (dateStr.length !== 8) return false;
-  
+	return !Number.isNaN(heightNum) && heightNum >= 100 && heightNum <= 150;
+}
+
+export function isValidBirthDate(dateStr: string): boolean {
+	if (dateStr.length !== 8) { return false; }
+
 	const day = parseInt(dateStr.substring(0, 2), 10);
 	const month = parseInt(dateStr.substring(2, 4), 10);
 	const year = parseInt(dateStr.substring(4, 8), 10);
-  
-	if (year < 1925 || year > 2025) return false;
-	if (month < 1 || month > 12) return false;
-	if (day < 1 || day > 31) return false;
-  
+
+	if (year < 1925 || year > 2025) { return false; }
+	if (month < 1 || month > 12) { return false; }
+	if (day < 1 || day > 31) { return false; }
+
 	const date = new Date(year, month - 1, day);
 	return (
-	  date.getFullYear() === year &&
-	  date.getMonth() === month - 1 &&
-	  date.getDate() === day
+		date.getFullYear() === year
+		&& date.getMonth() === month - 1
+		&& date.getDate() === day
 	);
-  }
-  
-  export function isValidLocation(location: string): boolean {
+}
+
+export function isValidLocation(location: string): boolean {
 	return location.length >= 3 && location.length <= 15;
-  }
-  
-  export function isValidEmail(email: string): boolean {
+}
+
+export function isValidEmail(email: string): boolean {
 	return /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email);
-  }
-  
-  export function isValidPhone(phone: string): boolean {
+}
+
+export function isValidPhone(phone: string): boolean {
 	return /^\(\d{3}\)\d{7}$/.test(phone);
-  }
-  
-  export function isValidNationality(nationality: string): boolean {
+}
+
+export function isValidNationality(nationality: string): boolean {
 	return /^[a-zA-Zа-яА-ЯёЁ]{3,15}$/.test(nationality);
-  }
-  
-  export function isValidUserData(userData: {
+}
+
+export function isValidUserData(userData: {
 	firstName: string;
 	lastName: string;
 	height: string;
@@ -282,15 +282,15 @@ export function isValidName(name: string): boolean {
 	email: string;
 	phone: string;
 	nationality: string;
-  }): boolean {
+}): boolean {
 	return (
-	  isValidName(userData.firstName) &&
-	  isValidSurname(userData.lastName) &&
-	  isValidHeight(userData.height) &&
-	  isValidBirthDate(userData.birthDate) &&
-	  isValidLocation(userData.location) &&
-	  isValidEmail(userData.email) &&
-	  isValidPhone(userData.phone) &&
-	  isValidNationality(userData.nationality)
+		isValidName(userData.firstName)
+		&& isValidSurname(userData.lastName)
+		&& isValidHeight(userData.height)
+		&& isValidBirthDate(userData.birthDate)
+		&& isValidLocation(userData.location)
+		&& isValidEmail(userData.email)
+		&& isValidPhone(userData.phone)
+		&& isValidNationality(userData.nationality)
 	);
-  }
+}

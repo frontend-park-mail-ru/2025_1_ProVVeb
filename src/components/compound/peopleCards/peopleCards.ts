@@ -1,8 +1,8 @@
-import PersonCard from '../personCard/personCard';
 import BaseComponent from '@basecomp';
 import api, { Profile } from '@network';
 import store from '@store';
 import { parseBirthday } from '@modules/tools';
+import PersonCard from '../personCard/personCard';
 
 interface Listener {
 	event: string;
@@ -12,8 +12,11 @@ interface Listener {
 
 export default class PeopleCards extends BaseComponent {
 	private currentIndex: number;
+
 	private CARDS: Profile[];
+
 	private isDataLoaded: boolean;
+
 	private currentCard: PersonCard | null;
 
 	constructor(parentElement: HTMLElement) {
@@ -24,7 +27,6 @@ export default class PeopleCards extends BaseComponent {
 		this.currentCard = null;
 	}
 
-	// Метод для загрузки данных
 	private async loadData(): Promise<void> {
 		if (!this.isDataLoaded) {
 			const response = await api.getProfiles(store.getState('myID') as number);
@@ -33,7 +35,6 @@ export default class PeopleCards extends BaseComponent {
 		}
 	}
 
-	// Метод для рендеринга карточки
 	public async render(): Promise<void> {
 		if (this.currentCard) {
 			document.getElementById('idPersonCard')?.remove();
@@ -46,7 +47,7 @@ export default class PeopleCards extends BaseComponent {
 				event: 'click',
 				selector: '#dislikeButton',
 				callback: async () => {
-					let card = document.querySelector('.personCard');
+					const card = document.querySelector('.personCard');
 					card?.classList.add('personCard--disliked');
 					await this.handleDislike();
 				},
@@ -55,7 +56,7 @@ export default class PeopleCards extends BaseComponent {
 				event: 'click',
 				selector: '#likeButton',
 				callback: async () => {
-					let card = document.querySelector('.personCard');
+					const card = document.querySelector('.personCard');
 					card?.classList.add('personCard--liked');
 					await this.handleLike();
 				},
@@ -100,7 +101,7 @@ export default class PeopleCards extends BaseComponent {
 		const likeTo = this.CARDS[this.currentIndex].profileId;
 		await api.Dislike(likeFrom, likeTo);
 
-		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
+		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
 
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
 		await this.render();
@@ -111,42 +112,15 @@ export default class PeopleCards extends BaseComponent {
 		const likeTo = this.CARDS[this.currentIndex].profileId;
 		await api.Like(likeFrom, likeTo);
 
-		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
+		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
 
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
 		await this.render();
 	}
 
-	private handleRepeat(): void {
-		// console.log('Тык повторить');
-	}
+	private handleRepeat(): void { }
 
-	private handleStar(): void {
-		// console.log('Тык звезда');
-	}
+	private handleStar(): void { }
 
-	private handleLightning(): void {
-		// console.log('Тык молния');
-	}
+	private handleLightning(): void { }
 }
-
-// const MOCK_PERSON_CARDS = [
-// 	{
-// 		srcPersonPicture: '/mock/girl.jpg',
-// 		personName: 'Катя',
-// 		personAge: 19,
-// 		personDescription: 'Ого...',
-// 	},
-// 	{
-// 		srcPersonPicture: '/mock/man.jpg',
-// 		personName: 'Макс',
-// 		personAge: 21,
-// 		personDescription: 'Люблю путешествовать и играть в игры.',
-// 	},
-// 	{
-// 		srcPersonPicture: '/mock/sofia.jpg',
-// 		personName: 'Анна',
-// 		personAge: 25,
-// 		personDescription: 'Фотографирую закаты и пеку вкусные пироги.',
-// 	}
-// ];

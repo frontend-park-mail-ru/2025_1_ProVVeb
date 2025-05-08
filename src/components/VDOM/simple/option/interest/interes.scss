@@ -1,38 +1,38 @@
-.interes{
-    padding: 5px 9px;
-    border: 1px solid grey;
-    border-radius: 25px;
-    width: fit-content;
-    height: 24px;
-    transition: 0.5s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: grey;
+.interes {
+	padding: 5px 9px;
+	border: 1px solid grey;
+	border-radius: 25px;
+	width: fit-content;
+	height: 24px;
+	transition: 0.5s;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	color: grey;
 
-    &__text{
-        font-weight: 500;
-        font-size: 12px;
-        text-align: center;
-        color: grey;
-        transition: 0.5s;
-    }
+	&__text {
+		font-weight: 500;
+		font-size: 12px;
+		text-align: center;
+		color: grey;
+		transition: 0.5s;
+	}
 
-    &:hover{
-        border: 1px solid var(--main);
+	&:hover {
+		border: 1px solid var(--main);
 
-        p{
-            color: var(--main);
-        }
-    }
+		p {
+			color: var(--main);
+		}
+	}
 
-    &-checked{
-        border: 1px solid var(--main);
-        color: var(--main);
-    }
+	&-checked {
+		border: 1px solid var(--main);
+		color: var(--main);
+	}
 
-    &-checked p{
-        color: var(--main);
-    }
+	&-checked p {
+		color: var(--main);
+	}
 }

@@ -1,4 +1,4 @@
-import { VBC } from "@modules/VDOM/VBC";
+import { VBC } from '@modules/VDOM/VBC';
 import templateHBS from './searchItem.hbs';
 
 export class VSearchItem extends VBC {
@@ -6,7 +6,7 @@ export class VSearchItem extends VBC {
 		super(
 			templateHBS,
 			{},
-			``,
+			'',
 			[],
 			{ firstImgSrc, fullname, age },
 		);

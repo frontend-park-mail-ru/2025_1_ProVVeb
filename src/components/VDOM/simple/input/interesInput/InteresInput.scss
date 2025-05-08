@@ -1,62 +1,63 @@
-.interesInner{
-  min-width: 42px;
-  height: 24px;
-  border: 1px solid var(--main);
-  border-radius: 25px;
-  padding: 5px 9px;
+.interesInner {
+	min-width: 42px;
+	height: 24px;
+	border: 1px solid var(--main);
+	border-radius: 25px;
+	padding: 5px 9px;
 
-  &__text{
-    font-weight: 500;
-    font-size: 12px;
-    text-align: center;
-    color: var(--main);
-  }
-  &__btns{
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
+	&__text {
+		font-weight: 500;
+		font-size: 12px;
+		text-align: center;
+		color: var(--main);
+	}
+
+	&__btns {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
 }
 
 .interesInner-grey {
-  border-color: grey;
-  transition: 0.5s;
+	border-color: grey;
+	transition: 0.5s;
 
-  &:hover{
-    border-color: var(--main);
-  }
+	&:hover {
+		border-color: var(--main);
+	}
 }
 
-.interesInner-grey .interesInner__text{
-  color: grey;
-  transition: 0.5s;
+.interesInner-grey .interesInner__text {
+	color: grey;
+	transition: 0.5s;
 
-  &:hover{
-    color: var(--main);
-  }
+	&:hover {
+		color: var(--main);
+	}
 }
 
 .btns__saveBtn,
 .btns__cancelBtn {
-  height: 18px;
-  width: 18px;
-  border: 1px solid var(--main);
-  border-radius: 100%;
-  padding: 2px;
-  position: absolute;
-  transition: 0.5s;
+	height: 18px;
+	width: 18px;
+	border: 1px solid var(--main);
+	border-radius: 100%;
+	padding: 2px;
+	position: absolute;
+	transition: 0.5s;
 
-  &:hover{
-    transform: scale(1.1);
-  }
+	&:hover {
+		transform: scale(1.1);
+	}
 }
 
-.btns__saveBtn{
-  top: -10px;
-  right: -20px;
+.btns__saveBtn {
+	top: -10px;
+	right: -20px;
 }
 
-.btns__cancelBtn{
-  bottom: -10px;
-  right: -20px;
+.btns__cancelBtn {
+	bottom: -10px;
+	right: -20px;
 }

@@ -14,29 +14,29 @@ export default class Confirm extends BaseComponent {
 	constructor(paramsHBS: ConfirmParams) {
 		const templateHTML = templateHBS(paramsHBS);
 		const notif = store.getState('notif_layer') as HTMLElement;
-		notif.classList.add("blocked");
+		notif.classList.add('blocked');
 		super(templateHTML, notif);
 
 		this.addListener(
 			'click',
-			".confirm__buttons_positive",
-			()=>{
+			'.confirm__buttons_positive',
+			() => {
 				this.choice?.(true);
-				document.getElementById("notif_layer")?.classList.remove("blocked");
+				document.getElementById('notif_layer')?.classList.remove('blocked');
 
 				const confirm = this.parentElement.children[0];
-				confirm.classList.add("confirm__animation");
+				confirm.classList.add('confirm__animation');
 			}
 		);
 		this.addListener(
 			'click',
-			".confirm__buttons_negative",
-			()=>{
+			'.confirm__buttons_negative',
+			() => {
 				this.choice?.(false);
-				document.getElementById("notif_layer")?.classList.remove("blocked");
+				document.getElementById('notif_layer')?.classList.remove('blocked');
 
 				const confirm = this.parentElement.children[0];
-				confirm.classList.add("confirm__animation");
+				confirm.classList.add('confirm__animation');
 			}
 		);
 	}
@@ -45,10 +45,8 @@ export default class Confirm extends BaseComponent {
 		this.parentElement.innerHTML = this.template;
 		this.attachListeners();
 
-		return new Promise((resolve)=>{
+		return new Promise((resolve) => {
 			this.choice = resolve;
 		});
 	}
-
-
 }

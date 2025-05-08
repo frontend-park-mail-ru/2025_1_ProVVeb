@@ -1,5 +1,5 @@
-import { VBC } from "@modules/VDOM/VBC";
-import templateHBS from "./chatMobileToggle.hbs";
+import { VBC } from '@modules/VDOM/VBC';
+import templateHBS from './chatMobileToggle.hbs';
 
 export class VChatMobileToggle extends VBC {
 	constructor() {
@@ -12,7 +12,6 @@ export class VChatMobileToggle extends VBC {
 					selector: '.chatMobileToggle__input',
 					eventType: 'click',
 					handler: () => {
-						console.log('Send button clicked');
 						const toggleInput = document.querySelector('.chatMobileToggle__input');
 						const usersList = document.querySelector('.usersList');
 

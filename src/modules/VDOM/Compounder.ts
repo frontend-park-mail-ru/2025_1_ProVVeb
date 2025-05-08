@@ -1,20 +1,24 @@
-import { VBC } from "./VBC";
-import { VirtualNode, renderVDOM, VirtualElement, parseStyle } from "./utils";
+import { VBC } from './VBC';
+import {
+	VirtualNode, renderVDOM, VirtualElement, parseStyle
+} from './utils';
 
 export class Compounder extends VBC {
 	private root_: VirtualNode;
+
 	private current: VirtualElement;
+
 	private mountPoint?: HTMLElement;
+
 	private stack: VirtualElement[];
 
 	constructor() {
-		//Добавить пропсы
 		super('<div></div>');
 
-		this.root_ = { 
-			tag: "div",
+		this.root_ = {
+			tag: 'div',
 			style: {
-				"display": "contents"
+				display: 'contents'
 			},
 			children: []
 		};
@@ -34,8 +38,8 @@ export class Compounder extends VBC {
 
 	public down(arg: string | VirtualElement, inlineStyle?: string, tag?: string): void {
 		let newBlock: VirtualElement;
-		if (typeof arg === "string") {
-			const TAG = tag || "div"
+		if (typeof arg === 'string') {
+			const TAG = tag || 'div';
 			newBlock = { tag: TAG, className: arg, children: [] };
 			if (inlineStyle) {
 				newBlock.style = parseStyle(inlineStyle);
@@ -58,9 +62,9 @@ export class Compounder extends VBC {
 
 	public clear(): void {
 		this.root_ = {
-			tag: "div",
+			tag: 'div',
 			style: {
-				"display": "contents"
+				display: 'contents'
 			},
 			children: []
 		};

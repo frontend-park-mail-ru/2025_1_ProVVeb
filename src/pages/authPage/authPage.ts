@@ -1,6 +1,6 @@
-import BasePage from '../BasePage';
 import AuthCard from '@compound/authCard/authCard';
 import HeaderGreeting from '@compound/headerGreeting/headerGreeting';
+import BasePage from '../BasePage';
 
 export default class AuthPage extends BasePage {
 	private components: Array<HeaderGreeting | AuthCard>;

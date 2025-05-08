@@ -1,7 +1,7 @@
 import BaseComponent from '@basecomp';
 import store from '@store';
-import templateHBS from './profile.hbs';
 import router, { AppPage } from '@modules/router';
+import templateHBS from './profile.hbs';
 
 interface ProfileParams {
 	profileName: string;
@@ -31,7 +31,7 @@ export default class Profile extends BaseComponent {
 			if (profileElement) {
 				const avaElement = profileElement.children[1] as HTMLElement;
 				const imgElement = avaElement.querySelector('img');
-				if (imgElement) imgElement.src = newAva as string;
+				if (imgElement) { imgElement.src = newAva as string; }
 			}
 		});
 
@@ -42,7 +42,7 @@ export default class Profile extends BaseComponent {
 			'click',
 			'.profile',
 			() => {
-				router.navigateTo(AppPage.Settings); //<-AppPage.Profile
+				router.navigateTo(AppPage.Settings);
 			}
 		);
 	}

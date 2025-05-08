@@ -1,13 +1,12 @@
-import { VBC } from "@modules/VDOM/VBC";
+import { VBC } from '@modules/VDOM/VBC';
 import templateHBS from './searchInput.hbs';
-import store from "@store";
 
 export class VSearchInput extends VBC {
 	constructor(onClickSearchBtn: () => void, onClickClearBtn: () => void) {
 		super(
 			templateHBS,
 			{},
-			``,
+			'',
 			[
 				{
 					selector: '#ageMin',
@@ -65,10 +64,10 @@ export class VSearchInput extends VBC {
 		maxValue: HTMLElement,
 		trackFill: HTMLElement
 	) {
-		const minVal = parseInt(minSlider.value);
-		const maxVal = parseInt(maxSlider.value);
-		const min = parseInt(minSlider.min);
-		const max = parseInt(minSlider.max);
+		const minVal = parseInt(minSlider.value, 10);
+		const maxVal = parseInt(maxSlider.value, 10);
+		const min = parseInt(minSlider.min, 10);
+		const max = parseInt(minSlider.max, 10);
 
 		if (minVal > maxVal) {
 			[minSlider.value, maxSlider.value] = [maxVal, minVal].map(String);

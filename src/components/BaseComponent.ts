@@ -1,6 +1,8 @@
 export default class BaseComponent {
 	public template: string;
+
 	protected parentElement: HTMLElement;
+
 	private listeners: { eventType: string, selector: string, callback: EventListener }[];
 
 	constructor(template: string, parentElement: HTMLElement, style: string = '') {

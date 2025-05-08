@@ -1,8 +1,7 @@
-import Input from '@pattern/input/input';
+import Input, { ListenerParams } from '@pattern/input/input';
 import store from '@store';
 import Notification from '@notification';
 import { PASSWORD_BRIEF_RULES, validator } from '@validation';
-import { ListenerParams } from '@pattern/input/input'
 
 interface PasswordInputParams {
 	typeInput: string;
@@ -13,7 +12,6 @@ interface PasswordInputParams {
 	listeners: ListenerParams[];
 	isPassword: boolean;
 }
-
 
 const DEFAULT_PASSWORD_PARAMS_INPUT: Partial<PasswordInputParams> = {
 	typeInput: 'password',
@@ -27,24 +25,24 @@ const DEFAULT_PASSWORD_PARAMS_INPUT: Partial<PasswordInputParams> = {
 
 DEFAULT_PASSWORD_PARAMS_INPUT.listeners?.push({
 	eventType: 'click',
-	selector: `.inputContainer__toggle`,
+	selector: '.inputContainer__toggle',
 	callback: (event: Event) => {
 		const target = event.target as HTMLElement;
-		const input = target.parentElement?.previousElementSibling?.previousElementSibling as HTMLInputElement; 
+		const input = target.parentElement?.previousElementSibling?.previousElementSibling as HTMLInputElement;
 		const toggle = target.parentElement;
 		const closedEye = toggle?.querySelector('.eye-icon--closed') as HTMLElement;
-    	const openedEye = toggle?.querySelector('.eye-icon--opened') as HTMLElement;
+		const openedEye = toggle?.querySelector('.eye-icon--opened') as HTMLElement;
 
-		if(input?.type == undefined) return;
+		if (input?.type === undefined) { return; }
 
-		if(input.type == 'password'){
+		if (input.type === 'password') {
 			input.type = 'text';
 			closedEye.style.display = 'none';
-        	openedEye.style.display = 'block';
-		}else{
+			openedEye.style.display = 'block';
+		} else {
 			input.type = 'password';
-        	closedEye.style.display = 'block';
-        	openedEye.style.display = 'none';
+			closedEye.style.display = 'block';
+			openedEye.style.display = 'none';
 		}
 	},
 });

@@ -2,7 +2,6 @@
 	--main-theme: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
 }
 
-/* Стили для кнопки закрытия */
 .HideBtn {
 	position: absolute;
 	top: -16px;
@@ -35,27 +34,18 @@
 	transform: rotate(90deg);
 }
 
-/* Добавляем позиционирование для форм */
-.starsFeedback form, 
+.starsFeedback form,
 .groundFeedback form {
 	position: relative;
 	padding-top: 15px;
 }
 
-/* Остальные ваши стили (дополненные) */
 .feedback {
-	/* width: 270px;
-	height: 270px; */
 	margin: 0 auto;
 	padding: 20px;
-	box-shadow: 0 0 10px rgba(0,0,0,0.1);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 	border-radius: 8px;
 	background-color: #fff;
-	/* 
-	position: absolute;
-	right: 35px;
-	bottom: 35px; 
-	*/
 }
 
 .rating {
@@ -76,13 +66,13 @@
 	padding: 0 5px;
 }
 
-.rating input:checked ~ label,
+.rating input:checked~label,
 .rating label:hover,
-.rating label:hover ~ label {
+.rating label:hover~label {
 	color: #ffcc00;
 }
 
-.rating input:checked + label {
+.rating input:checked+label {
 	color: #ffcc00;
 }
 
@@ -91,7 +81,6 @@
 	font-size: 18px;
 	color: #333;
 	line-height: 1.5;
-	/* // margin-bottom: 10px; */
 }
 
 .feedback button:not(.HideBtn) {
@@ -105,7 +94,6 @@
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
-	/* // margin-top: 12px; */
 }
 
 .starsFeedback button:not(.HideBtn) {
@@ -115,19 +103,19 @@
 
 .starsFeedback button:not(.HideBtn):hover {
 	transform: translateY(-2px);
-	box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .groundFeedback textarea {
 	width: 100%;
-	height: 120px; /* Фиксированная высота */
+	height: 120px;
 	padding: 12px;
 	border: 1px solid #ddd;
 	border-radius: 6px;
 	font-size: 16px;
-	resize: none; /* Отключаем возможность изменения размера */
+	resize: none;
 	box-sizing: border-box;
-	overflow-y: auto; /* Добавляем скролл при необходимости */
+	overflow-y: auto;
 }
 
 .groundFeedback textarea:focus {
@@ -142,24 +130,22 @@
 
 .groundFeedback button:not(.HideBtn):hover {
 	transform: translateY(-2px);
-	box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .groundFeedback {
 	display: none;
-	/* // margin-top: 30px;
-	// padding-top: 30px;
-	// border-top: 1px solid #eee; */
 }
 
-.feedback .starsFeedback > form,
-.feedback .groundFeedback > form {
+.feedback .starsFeedback>form,
+.feedback .groundFeedback>form {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 }
 
-.starsFeedback, .groundFeedback {
+.starsFeedback,
+.groundFeedback {
 	height: 100%;
 }
