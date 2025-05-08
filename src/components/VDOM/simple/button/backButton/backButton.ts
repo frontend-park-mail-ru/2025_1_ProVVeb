@@ -1,11 +1,11 @@
-import { VBC } from '@modules/VDOM/VBC';
-import templateHBS from './backButton.hbs';
+import { VBC } from "@modules/VDOM/VBC";
+import templateHBS from "./backButton.hbs";
 
 export class VBackButton extends VBC {
-    constructor(callback: ()=>void) {
+    constructor(callback: ()=>void){
         super(
             templateHBS,
-            { callback: () => {} },
+            {callback: ()=>{}},
             '',
             [{
                 selector: '.backButton',

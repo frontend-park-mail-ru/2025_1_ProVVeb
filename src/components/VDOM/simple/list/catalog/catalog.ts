@@ -32,13 +32,13 @@ export class VCatalog extends VBC<VCatalogProps> {
             '',
             [
                 {
-                    selector: '.catalog__selected',
-                    eventType: 'click',
+                    selector: ".catalog__selected",
+                    eventType: "click",
                     handler: () => this.toggleList()
                 },
                 {
-                    selector: '.catalog__option',
-                    eventType: 'click',
+                    selector: ".catalog__option",
+                    eventType: "click",
                     handler: (e: Event) => this.handleOptionClick(e)
                 }
             ],

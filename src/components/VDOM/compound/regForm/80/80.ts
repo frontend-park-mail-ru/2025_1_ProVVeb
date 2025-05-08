@@ -1,82 +1,81 @@
-import { Compounder } from '@modules/VDOM/Compounder';
-import { VBC } from '@modules/VDOM/VBC';
-import store from '@store';
-import { VTable } from '@VDOM/compound/table/table';
-import { VInput } from '@VDOM/simple/input/input';
-import { CatalogOption, VCatalog } from '@VDOM/simple/list/catalog/catalog';
+import { Compounder } from "@modules/VDOM/Compounder";
+import { VBC } from "@modules/VDOM/VBC";
+import store from "@store";
+import { VTable } from "@VDOM/compound/table/table";
+import { VInput } from "@VDOM/simple/input/input";
+import { CatalogOption, VCatalog } from "@VDOM/simple/list/catalog/catalog";
 import api from '@network';
-import { isValidHeight, isValidNationality } from '@modules/validation';
+import { isValidHeight, isValidNationality } from "@modules/validation";
 
 export class CReg80 extends VBC {
     private data: any;
-
     private vars: any;
 
-    constructor() {
+    constructor(){
         const main = new Compounder();
         const imgs = ['body', 'hair', 'eyes', 'height', 'nationality', 'alco', 'tatto', 'pirsing', 'smoke'];
         const keys = ['Телосложение', 'Цвет волос', 'Цвет глаз', 'Рост', 'Националоность', 'Отношение к алкоголю', 'Татту', 'Пирсинг', 'Отношение к курению'];
         const variants = [
             [
-                { text: 'Н/Д', value: '0' },
-                { text: 'Спортивный(ая)', value: '1' },
-                { text: 'Подтянутый(ая)', value: '2' },
-                { text: 'Полный(ая)', value: '3' },
-                { text: 'Худой(ая)', value: '4' },
-                { text: 'Среднее(ая)', value: '5' },
+                {text: "Н/Д", value: "0"},
+                {text: "Спортивный(ая)", value: "1"},
+                {text: "Подтянутый(ая)", value: "2"},
+                {text: "Полный(ая)", value: "3"},
+                {text: "Худой(ая)", value: "4"},
+                {text: "Среднее(ая)", value: "5"},
             ],
             [
-                { text: 'Н/Д', value: '0' },
-                { text: 'Блондин(ка)', value: '1' },
-                { text: 'Рыжий(ая)', value: '2' },
-                { text: 'Шатен(ка)', value: '3' },
-                { text: 'Брюнет(ка)', value: '4' },
-                { text: 'Русый(ая)', value: '5' },
-                { text: 'Седой(ая)', value: '6' },
-                { text: 'Крашенный(ая)', value: '7' },
+                {text: "Н/Д", value: "0"},
+                {text: "Блондин(ка)", value: "1"},
+                {text: "Рыжий(ая)", value: "2"},
+                {text: "Шатен(ка)", value: "3"},
+                {text: "Брюнет(ка)", value: "4"},
+                {text: "Русый(ая)", value: "5"},
+                {text: "Седой(ая)", value: "6"},
+                {text: "Крашенный(ая)", value: "7"},
             ],
             [
-                { text: 'Н/Д', value: '0' },
-                { text: 'Синий', value: '1' },
-                { text: 'Голубой', value: '2' },
-                { text: 'Серый', value: '3' },
-                { text: 'Зелёный', value: '4' },
-                { text: 'Карий', value: '5' },
-                { text: 'Чёрный', value: '6' },
-                { text: 'Другое', value: '7' },
+                {text: "Н/Д", value: "0"},
+                {text: "Синий", value: "1"},
+                {text: "Голубой", value: "2"},
+                {text: "Серый", value: "3"},
+                {text: "Зелёный", value: "4"},
+                {text: "Карий", value: "5"},
+                {text: "Чёрный", value: "6"},
+                {text: "Другое", value: "7"},
             ],
             undefined, undefined,
             [
-                { text: 'Н/Д', value: '0' },
-                { text: 'Негативное', value: '1' },
-                { text: 'Нейтральное', value: '2' },
-                { text: 'Положительное', value: '3' }
+                {text: "Н/Д", value: "0"},
+                {text: "Негативное", value: "1"},
+                {text: "Нейтральное", value: "2"},
+                {text: "Положительное", value: "3"}
             ],
             [
-                { text: 'Н/Д', value: '0' },
-                { text: 'Более 3', value: '1' },
-                { text: 'Нет', value: '2' },
-                { text: '1-2', value: '3' }
+                {text: "Н/Д", value: "0"},
+                {text: "Более 3", value: "1"},
+                {text: "Нет", value: "2"},
+                {text: "1-2", value: "3"}
             ],
             [
-                { text: 'Н/Д', value: '0' },
-                { text: 'Более 3', value: '1' },
-                { text: 'Нет', value: '2' },
-                { text: '1-2', value: '3' }
+                {text: "Н/Д", value: "0"},
+                {text: "Более 3", value: "1"},
+                {text: "Нет", value: "2"},
+                {text: "1-2", value: "3"}
             ],
             [
-                { text: 'Н/Д', value: '0' },
-                { text: 'Негативное', value: '1' },
-                { text: 'Нейтральное', value: '2' },
-                { text: 'Положительное', value: '3' }
+                {text: "Н/Д", value: "0"},
+                {text: "Негативное", value: "1"},
+                {text: "Нейтральное", value: "2"},
+                {text: "Положительное", value: "3"}
             ],
         ];
         const data = [];
-        for (let i = 0; i < keys.length; i++) {
+        for(let i=0;i<keys.length;i++){
             const key = keys[i];
-            const img = `./media/icons/preferences/${imgs[i]}.svg`;
+            const img = './media/icons/preferences/'+imgs[i]+'.svg';
             const value = variants[i];
-
+            
             let k: VBC;
             let v: VBC;
 
@@ -84,7 +83,8 @@ export class CReg80 extends VBC {
                 `<div class="line__key">
                     <img class="key__img" src=${img}>
                     <p class="key__text">${key}</p>
-                </div>`, {}, `
+                </div>`, {},
+                `
                     .line__key {
                         display: flex;
                         align-items: center;
@@ -106,15 +106,15 @@ export class CReg80 extends VBC {
                 `
             );
 
-            if (value) {
+            if(value){
                 const catalog = new VCatalog({
                     placeholder: 'Н/Д',
                     listVisible: false,
                     options: value
                 });
                 v = catalog;
-            } else {
-                v = new VInput('-');
+            }else{
+                v = new VInput("-");
                 v.inject(undefined, `
                     .inputContainer { 
                         width: 184px; 
@@ -132,7 +132,7 @@ export class CReg80 extends VBC {
                 `);
             }
 
-            data.push({ key: k, value: v });
+            data.push({key: k, value: v});
         }
         const table = new VTable(data);
         table.inject(undefined, `
@@ -151,9 +151,9 @@ export class CReg80 extends VBC {
         this.vars = variants;
     }
 
-    private updateCells(preference: any) {
-        switch (preference.preference_description) {
-            case 'bodyType':
+    private updateCells(preference: any){
+        switch(preference.preference_description){
+            case "bodyType":
                 this.data[0].value.forceUpdate();
                 this.data[0].value.injectProps({
                     placeholder: preference.preference_value,
@@ -162,7 +162,7 @@ export class CReg80 extends VBC {
                 });
                 this.data[0].value.update();
                 break;
-            case 'hairColor':
+            case "hairColor":
                 this.data[1].value.forceUpdate();
                 this.data[1].value.injectProps({
                     placeholder: preference.preference_value,
@@ -171,7 +171,7 @@ export class CReg80 extends VBC {
                 });
                 this.data[1].value.update();
                 break;
-            case 'eyeColor':
+            case "eyeColor":
                 this.data[2].value.forceUpdate();
                 this.data[2].value.injectProps({
                     placeholder: preference.preference_value,
@@ -180,13 +180,13 @@ export class CReg80 extends VBC {
                 });
                 this.data[2].value.update();
                 break;
-            case 'height':
+            case "height":
                 this.data[3].value.setValue(preference.preference_value);
                 break;
-            case 'nationality':
+            case "nationality":
                 this.data[4].value.setValue(preference.preference_value);
                 break;
-            case 'alco':
+            case "alco":
                 this.data[5].value.forceUpdate();
                 this.data[5].value.injectProps({
                     placeholder: preference.preference_value,
@@ -195,7 +195,7 @@ export class CReg80 extends VBC {
                 });
                 this.data[5].value.update();
                 break;
-            case 'tattoo':
+            case "tattoo":
                 this.data[6].value.forceUpdate();
                 this.data[6].value.injectProps({
                     placeholder: preference.preference_value,
@@ -204,7 +204,7 @@ export class CReg80 extends VBC {
                 });
                 this.data[6].value.update();
                 break;
-            case 'pirsing':
+            case "pirsing":
                 this.data[7].value.forceUpdate();
                 this.data[7].value.injectProps({
                     placeholder: preference.preference_value,
@@ -213,7 +213,7 @@ export class CReg80 extends VBC {
                 });
                 this.data[7].value.update();
                 break;
-            case 'smoking':
+            case "smoking":
                 this.data[8].value.forceUpdate();
                 this.data[8].value.injectProps({
                     placeholder: preference.preference_value,
@@ -226,20 +226,22 @@ export class CReg80 extends VBC {
     }
 
     public updateTemplate(isMy: boolean): void {
-        const profile = store.getState('myProfile') as any;
-        if (isMy && profile.data) {
-            for (const preference of profile.data) { this.updateCells(preference); }
-        } else if (!isMy) {
-            for (const preference of profile.preferences) { this.updateCells(preference); }
+        const profile = store.getState("myProfile") as any;
+        if(isMy && profile.data){
+            for(let preference of profile.data)
+                this.updateCells(preference);
+        }else if(!isMy){
+            for(let preference of profile.preferences)
+                this.updateCells(preference);
         }
     }
 
-    private insert() {
-        const ans = [];
-        const keys = ['bodyType', 'hairColor', 'eyeColor', 'height', 'nationality', 'alco', 'tattoo', 'pirsing', 'smoking'];
+    private insert(){
+        let ans = [];
+        const keys = ["bodyType", "hairColor", "eyeColor", "height", "nationality", "alco", "tattoo", "pirsing", "smoking"];
 
-        for (let i = 0; i < 9; i++) {
-            if (i == 3 || i == 4) {
+        for(let i=0;i<9;i++){
+            if(i==3 || i==4){
                 ans.push({
                     preference_description: keys[i],
                     preference_value: this.data[i].value.getValue()
@@ -251,16 +253,19 @@ export class CReg80 extends VBC {
                 preference_value: this.data[i].value.props.placeholder
             });
         }
-
+        
         return ans;
     }
 
     public async submit(isMy: boolean): Promise<boolean> {
-        const profile = store.getState('myProfile') as any;
+        const profile = store.getState("myProfile") as any;
 
-        if (!isMy) { profile.preferences = this.insert(); } else if (profile.data) { profile.data = this.insert(); }
+        if(!isMy)
+            profile.preferences = this.insert();
+        else if(profile.data)
+            profile.data = this.insert();
 
-        store.setState('myProfile', profile);
+        store.setState("myProfile", profile);
         return true;
     }
 }

@@ -1,3 +1,4 @@
+import BasePage from '../BasePage';
 import { Compounder } from '@modules/VDOM/Compounder';
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
@@ -10,66 +11,59 @@ import api from '@network';
 import Notification from '@simple/notification/notification';
 import store from '@store';
 import { VChatMobileToggle } from '@VDOM/simple/chat/chatMobileToggle/chatMobileToggle';
-import BasePage from '../BasePage';
 
 export default class MessagePage extends BasePage {
-    private components: Array<HeaderMain | NavMenu>;
+	private components: Array<HeaderMain | NavMenu>;
+	private contentWrapper: HTMLElement;
+	private chatAreaCompounder: Compounder = new Compounder;
+	private messageAreaCompounder: Compounder = new Compounder;
+	private usersListCompounder: Compounder = new Compounder;
+	private currentChatWS: WebSocket | null = null; // Текущее WebSocket соединение
+	private notificationWS: WebSocket | null = null; // WebSocket для уведомлений
 
-    private contentWrapper: HTMLElement;
+	constructor(parentElement: HTMLElement) {
+		super(parentElement);
 
-    private chatAreaCompounder: Compounder = new Compounder();
+		this.contentWrapper = document.createElement('div');
+		this.contentWrapper.className = 'mainContent';
 
-    private messageAreaCompounder: Compounder = new Compounder();
+		this.components = [
+			new HeaderMain(parentElement),
+			new NavMenu(this.contentWrapper),
+		];
+	}
 
-    private usersListCompounder: Compounder = new Compounder();
+	async render(): Promise<void> {
+		// Закрываем предыдущее соединение уведомлений, если оно есть
+		if (this.notificationWS) {
+			this.notificationWS.close();
+		}
 
-    private currentChatWS: WebSocket | null = null; // Текущее WebSocket соединение
+		// Создаем новое соединение для уведомлений
+		this.notificationWS = new WebSocket(`${api.WS_NOTIF_URL}`);
 
-    private notificationWS: WebSocket | null = null; // WebSocket для уведомлений
+		this.notificationWS.onopen = () => {
+			console.log('WebSocket connection for notifications opened');
+		};
 
-    constructor(parentElement: HTMLElement) {
-        super(parentElement);
+		this.notificationWS.onclose = () => {
+			console.log('WebSocket connection for notifications closed');
+		};
 
-        this.contentWrapper = document.createElement('div');
-        this.contentWrapper.className = 'mainContent';
+		this.notificationWS.onmessage = (response) => {
+			const message = JSON.parse(response.data);
+			console.log('notification message:', message);
+		};
 
-        this.components = [
-            new HeaderMain(parentElement),
-            new NavMenu(this.contentWrapper),
-        ];
-    }
+		this.chatAreaCompounder.clear();
+		this.chatAreaCompounder.add(new VStartMessage());
 
-    async render(): Promise<void> {
-        // Закрываем предыдущее соединение уведомлений, если оно есть
-        if (this.notificationWS) {
-            this.notificationWS.close();
-        }
+		this.usersListCompounder.clear();
+		this.usersListCompounder.down('usersListMobileToggle');
+		this.usersListCompounder.add(new VChatMobileToggle());
+		this.usersListCompounder.up();
 
-        // Создаем новое соединение для уведомлений
-        this.notificationWS = new WebSocket(`${api.WS_NOTIF_URL}`);
-
-        this.notificationWS.onopen = () => {
-            console.log('WebSocket connection for notifications opened');
-        };
-
-        this.notificationWS.onclose = () => {
-            console.log('WebSocket connection for notifications closed');
-        };
-
-        this.notificationWS.onmessage = (response) => {
-            const message = JSON.parse(response.data);
-            console.log('notification message:', message);
-        };
-
-        this.chatAreaCompounder.clear();
-        this.chatAreaCompounder.add(new VStartMessage());
-
-        this.usersListCompounder.clear();
-        this.usersListCompounder.down('usersListMobileToggle');
-        this.usersListCompounder.add(new VChatMobileToggle());
-        this.usersListCompounder.up();
-
-        this.usersListCompounder.down('usersList', `
+		this.usersListCompounder.down('usersList', `
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -84,73 +78,72 @@ export default class MessagePage extends BasePage {
 			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 			border: 1px solid rgba(0, 0, 0, 0.05);
         `);
-        // height: 100%;
+		// height: 100%;
 
-        const { success, data: usersList } = await this.getUsersList();
+		const { success, data: usersList } = await this.getUsersList();
 
-        if (!success) {
-            const notification = new Notification({
-                headTitle: 'Ошибка сети',
-                title: 'Не получилось получить список чатов',
-                isWarning: false,
-                isWithButton: true,
-            });
-            notification.render();
-            return;
-        }
+		if (!success) {
+			const notification = new Notification({
+				headTitle: "Ошибка сети",
+				title: 'Не получилось получить список чатов',
+				isWarning: false,
+				isWithButton: true,
+			});
+			notification.render();
+			return;
+		}
 
-        usersList.forEach((user: VUserItem) => {
-            this.usersListCompounder.add(user);
-        });
+		usersList.forEach((user: VUserItem) => {
+			this.usersListCompounder.add(user);
+		});
 
-        this.contentWrapper.innerHTML = '';
-        this.components[0].render();
-        this.parentElement.appendChild(this.contentWrapper);
-        this.components[1].render();
+		this.contentWrapper.innerHTML = '';
+		this.components[0].render();
+		this.parentElement.appendChild(this.contentWrapper);
+		this.components[1].render();
 
-        this.chatAreaCompounder.addTo(this.contentWrapper);
-        this.usersListCompounder.addTo(this.contentWrapper);
+		this.chatAreaCompounder.addTo(this.contentWrapper);
+		this.usersListCompounder.addTo(this.contentWrapper);
 
-        store.update('profileName');
-        store.update('ava');
-    }
+		store.update('profileName');
+		store.update('ava');
+	}
 
-    public getNavMenu(): NavMenu {
-        return this.components[1] as NavMenu;
-    }
+	public getNavMenu(): NavMenu {
+		return this.components[1] as NavMenu;
+	}
 
-    async createChat(
-        chatId: number,
-        profilePicture: string,
-        profileName: string,
-        profileDescription: string,
-        profileId: number
-    ) {
-        // Закрываем предыдущее WebSocket соединение, если оно есть
-        if (this.currentChatWS) {
-            this.currentChatWS.close();
-            this.currentChatWS = null;
-            console.log('WebSocket currentChatWS closed');
-        }
+	async createChat(
+		chatId: number,
+		profilePicture: string,
+		profileName: string,
+		profileDescription: string,
+		profileId: number
+	) {
+		// Закрываем предыдущее WebSocket соединение, если оно есть
+		if (this.currentChatWS) {
+			this.currentChatWS.close();
+			this.currentChatWS = null;
+			console.log('WebSocket currentChatWS closed');
+		}
 
-        this.chatAreaCompounder.clear();
-        this.messageAreaCompounder.clear();
+		this.chatAreaCompounder.clear();
+		this.messageAreaCompounder.clear();
 
-        this.chatAreaCompounder.down('chatMessages', `
+		this.chatAreaCompounder.down('chatMessages', `
             display: flex;
             flex-direction: column;
             gap: 10px;
             height: 710px;
         `);
 
-        const chatHeader = new VChatHeader(
-            api.BASE_URL_PHOTO + profilePicture,
-            profileName,
-            profileDescription
-        );
-        this.chatAreaCompounder.add(chatHeader);
+		const chatHeader = new VChatHeader(
+			api.BASE_URL_PHOTO + profilePicture,
+			profileName, profileDescription
+		);
+		this.chatAreaCompounder.add(chatHeader);
 
-        this.messageAreaCompounder.down('allMessages', `
+		this.messageAreaCompounder.down('allMessages', `
             display: flex;
             flex-direction: column-reverse;
             gap: 10px;
@@ -159,149 +152,150 @@ export default class MessagePage extends BasePage {
             scrollbar-width: none;
         `);
 
-        this.chatAreaCompounder.add(this.messageAreaCompounder);
+		this.chatAreaCompounder.add(this.messageAreaCompounder);
 
-        // Создаем новое WebSocket соединение для текущего чата
-        this.currentChatWS = new WebSocket(`${api.WS_CHAT_URL}/${chatId}`);
+		// Создаем новое WebSocket соединение для текущего чата
+		this.currentChatWS = new WebSocket(`${api.WS_CHAT_URL}/${chatId}`);
 
-        this.currentChatWS.onopen = () => {
-            console.log('WebSocket connection for chat opened');
-        };
+		this.currentChatWS.onopen = () => {
+			console.log('WebSocket connection for chat opened');
+		};
 
-        this.currentChatWS.onclose = () => {
-            console.log('WebSocket connection for chat closed');
-        };
+		this.currentChatWS.onclose = () => {
+			console.log('WebSocket connection for chat closed');
+		};
 
-        this.currentChatWS.onmessage = (response) => {
-            const data = JSON.parse(response.data);
+		this.currentChatWS.onmessage = (response) => {
+			const data = JSON.parse(response.data);
 
-            if (data.type === 'init_messages') {
-                let len = data.messages;
-                if (!len) { len = 0; } else { len = data.messages.length; }
+			if (data.type === 'init_messages') {
+				let len = data.messages
+				if (!len) len=0;
+				else len = data.messages.length;
 
-                for (let i = len - 1; i >= 0; --i) {
-                    const message = data.messages[i];
-                    this.messageAreaCompounder.add(new VChatMessage(
-                        message.text,
-                        message.senderid === (store.getState('myID') as number)
-                    ));
-                }
+				for (let i = len - 1; i >= 0; --i) {
+					const message = data.messages[i];
+					this.messageAreaCompounder.add(new VChatMessage(
+						message.text,
+						message.senderid === (store.getState("myID") as number)
+					));
+				}
 
-                this.currentChatWS?.send(JSON.stringify({
-                    type: 'read',
-                    payload: {
-                        chat_id: chatId,
-                    }
-                }));
+				this.currentChatWS?.send(JSON.stringify({
+					type: "read",
+					payload: {
+						chat_id: chatId,
+					}
+				}));
 
-                this.chatAreaCompounder.render(this.contentWrapper);
-            }
+				this.chatAreaCompounder.render(this.contentWrapper);
+			}
 
-            if (data.type === 'created') {
-                console.log('Send message');
-            }
+			if (data.type === 'created') {
+				console.log('Send message');
+			}
 
-            if (data.type === 'new_messages') {
-                for (let i = data.messages.length - 1; i >= 0; --i) {
-                    const message = data.messages[i];
-                    if (message.status !== 1) { continue; }
-                    this.messageAreaCompounder.addToStart(new VChatMessage(
-                        message.text,
-                        message.senderid === (store.getState('myID') as number)
-                    ));
-                }
+			if (data.type === 'new_messages') {
+				for (let i = data.messages.length - 1; i >= 0; --i) {
+					const message = data.messages[i];
+					if (message.status !== 1) continue;
+					this.messageAreaCompounder.addToStart(new VChatMessage(
+						message.text,
+						message.senderid === (store.getState("myID") as number)
+					));
+				}
 
-                this.currentChatWS?.send(JSON.stringify({
-                    type: 'read',
-                    payload: {
-                        chat_id: chatId,
-                    }
-                }));
+				this.currentChatWS?.send(JSON.stringify({
+					type: "read",
+					payload: {
+						chat_id: chatId,
+					}
+				}));
 
-                this.chatAreaCompounder.render(this.contentWrapper);
-            }
-        };
+				this.chatAreaCompounder.render(this.contentWrapper);
+			}
+		};
 
-        const chatInput = new VChatInput(profileId, () => {
-            const textArea = chatInput.getDOM()?.querySelector('.chatInput__input textarea') as HTMLTextAreaElement | null;
-            if (textArea) {
-                if (textArea.value.trim() === '') { return; }
+		const chatInput = new VChatInput(profileId, () => {
+			const textArea = chatInput.getDOM()?.querySelector('.chatInput__input textarea') as HTMLTextAreaElement | null;
+			if (textArea) {
+				if (textArea.value.trim() === '') return;
 
-                this.currentChatWS?.send(JSON.stringify({
-                    type: 'create',
-                    payload: {
-                        chat_id: chatId,
-                        user_id: (store.getState('myID') as number),
-                        content: textArea.value.trim(),
-                    }
-                }));
+				this.currentChatWS?.send(JSON.stringify({
+					type: "create",
+					payload: {
+						chat_id: chatId,
+						user_id: (store.getState("myID") as number),
+						content: textArea.value.trim(),
+					}
+				}));
 
-                this.messageAreaCompounder.addToStart(new VChatMessage(
-                    textArea.value, true
-                ));
+				this.messageAreaCompounder.addToStart(new VChatMessage(
+					textArea.value, true
+				));
 
-                store.setState(`${profileId}lastMessage`, textArea.value.trim());
+				store.setState(`${profileId}lastMessage`, textArea.value.trim());
 
-                textArea.value = '';
+				textArea.value = '';
 
-                this.chatAreaCompounder.render(this.contentWrapper);
-            }
-        });
+				this.chatAreaCompounder.render(this.contentWrapper);
+			}
+		});
 
-        this.chatAreaCompounder.add(chatInput);
-    }
+		this.chatAreaCompounder.add(chatInput);
+	}
 
-    async getUsersList() {
-        const usersList = await api.getChats();
+	async getUsersList() {
+		const usersList = await api.getChats();
 
-        if (!usersList.success) {
-            return { success: false, data: [] };
-        }
+		if (!usersList.success) {
+			return { success: false, data: [] }
+		}
 
-        if (!usersList.data) {
-            return { success: true, data: [] };
-        }
+		if (!usersList.data) {
+			return { success: true, data: [] }
+		}
 
-        const usersListWithClick = usersList.data.reverse().map((user) => {
-            const userItem = new VUserItem(
-                api.BASE_URL_PHOTO + user.profilePicture,
-                user.profileName,
-                user.lastMessage,
-                user.isSelf,
-                () => {
-                    const parentElement = userItem.getDOM()?.parentElement;
-                    if (parentElement) {
-                        [...parentElement.children].forEach((child) => child.classList.remove('isActive'));
-                    }
-                    userItem.getDOM()?.classList.add('isActive');
+		const usersListWithClick = usersList.data.reverse().map((user) => {
+			const userItem = new VUserItem(
+				api.BASE_URL_PHOTO + user.profilePicture,
+				user.profileName,
+				user.lastMessage,
+				user.isSelf,
+				() => {
+					const parentElement = userItem.getDOM()?.parentElement;
+					if (parentElement) {
+						[...parentElement.children].forEach(child => child.classList.remove('isActive'));
+					}
+					userItem.getDOM()?.classList.add('isActive');
 
-                    this.createChat(
-                        user.chatId,
-                        user.profilePicture,
-                        user.profileName,
-                        user.profileDescription,
-                        user.profileId
-                    );
-                }
-            );
+					this.createChat(
+						user.chatId,
+						user.profilePicture,
+						user.profileName,
+						user.profileDescription,
+						user.profileId
+					);
+				}
+			);
 
-            store.subscribe(`${user.profileId}lastMessage`, (text) => {
-                userItem.injectProps({
-                    avatarSrc: api.BASE_URL_PHOTO + user.profilePicture,
-                    name: user.profileName,
-                    isSelf: user.isSelf,
-                    lastMessage: text,
-                });
-                userItem.update();
+			store.subscribe(`${user.profileId}lastMessage`, (text) => {
+				userItem.injectProps({
+					avatarSrc: api.BASE_URL_PHOTO + user.profilePicture,
+					name: user.profileName,
+					isSelf: user.isSelf,
+					lastMessage: text,
+				});
+				userItem.update();
 
-                const parent = userItem.getDOM()?.parentElement as HTMLElement;
-                const element = userItem.getDOM() as HTMLElement;
-                parent.insertBefore(element, parent.firstChild);
+				const parent = userItem.getDOM()?.parentElement as HTMLElement;
+				const element = userItem.getDOM() as HTMLElement;
+				parent.insertBefore(element, parent.firstChild);
 
-            });
-            return userItem;
-        });
+			})
+			return userItem;
+		});
 
-        return { success: true, data: usersListWithClick };
-    }
+		return { success: true, data: usersListWithClick };
+	}
 }

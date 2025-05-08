@@ -14,30 +14,30 @@ export interface LinkToParams {
 }
 
 const DEFAULT_PARAMS_LINK: LinkToParams = {
-    idLink: '',
-    linkText: 'Ссылка',
-    listenRoute: {
-        eventType: '',
-        selector: '',
-        callback: () => { },
-    },
+	idLink: '',
+	linkText: 'Ссылка',
+	listenRoute: {
+		eventType: '',
+		selector: '',
+		callback: () => { },
+	},
 };
 
 export default class LinkTo extends BaseComponent {
-    constructor(parentElement: HTMLElement, paramsHBS: Partial<LinkToParams> = {}) {
-        const finalParamsHBS = { ...DEFAULT_PARAMS_LINK, ...paramsHBS };
+	constructor(parentElement: HTMLElement, paramsHBS: Partial<LinkToParams> = {}) {
+		const finalParamsHBS = { ...DEFAULT_PARAMS_LINK, ...paramsHBS };
 
-        if (finalParamsHBS.idLink) {
-            finalParamsHBS.listenRoute.selector = `#${finalParamsHBS.idLink}`;
-        }
+		if (finalParamsHBS.idLink) {
+			finalParamsHBS.listenRoute.selector = `#${finalParamsHBS.idLink}`;
+		}
 
-        const templateHTML = templateHBS(finalParamsHBS);
-        super(templateHTML, parentElement);
+		const templateHTML = templateHBS(finalParamsHBS);
+		super(templateHTML, parentElement);
 
-        this.addListener(
-            finalParamsHBS.listenRoute.eventType,
-            finalParamsHBS.listenRoute.selector,
-            finalParamsHBS.listenRoute.callback
-        );
-    }
+		this.addListener(
+			finalParamsHBS.listenRoute.eventType,
+			finalParamsHBS.listenRoute.selector,
+			finalParamsHBS.listenRoute.callback
+		);
+	}
 }

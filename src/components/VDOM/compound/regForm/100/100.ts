@@ -1,28 +1,25 @@
-import { Compounder } from '@modules/VDOM/Compounder';
-import { VBC } from '@modules/VDOM/VBC';
-import Notification from '@simple/notification/notification';
-import store from '@store';
-import { photo_params, VPhotoInput } from '@VDOM/simple/input/photoInput/photoInut';
-import api from '@network';
+import { Compounder } from "@modules/VDOM/Compounder";
+import { VBC } from "@modules/VDOM/VBC";
+import Notification from "@simple/notification/notification";
+import store from "@store";
+import { photo_params, VPhotoInput } from "@VDOM/simple/input/photoInput/photoInut";
+import api from "@network";
 
 const max_photo = 6;
 
 export class CReg100 extends VBC {
     private components: VPhotoInput[] = [];
-
     private photos: photo_params[] = Array(max_photo).fill(null);
-
     private lastUsedId: number = 0;
-
     private n: number = 0;
 
     private generateId(): number {
-        return Number(`${Date.now()}${this.lastUsedId++}`);
-    }
+		return Number(`${Date.now()}${this.lastUsedId++}`);
+	}
 
-    public renderPhotos() {
-        for (let i = 0; i < max_photo; i++) {
-            if (this.photos[i]) {
+    public renderPhotos(){
+        for(let i=0;i<max_photo;i++){
+            if(this.photos[i]){
                 this.components[i].forceUpdate();
                 this.components[i].currentPhoto = this.photos[i];
                 this.components[i].injectProps(this.photos[i]);
@@ -31,7 +28,7 @@ export class CReg100 extends VBC {
         }
     }
 
-    private async saveFiles(newPhotos: any): Promise<boolean> {
+    private async saveFiles(newPhotos: any): Promise<boolean>{
         try {
             const response = await api.uploadPhotos(store.getState('myID') as number, newPhotos);
 
@@ -39,7 +36,7 @@ export class CReg100 extends VBC {
                 const uploadedFiles = response.data.uploaded_files || [];
 
                 new Notification({
-                    headTitle: 'Успех!',
+                    headTitle: "Успех!",
                     title: `Сохранено ${uploadedFiles.length} фотографий`,
                     isWarning: true,
                     isWithButton: true,
@@ -47,18 +44,18 @@ export class CReg100 extends VBC {
 
                 store.setState('ava', this.photos[0]?.src);
                 return true;
+            } else {
+                new Notification({
+                    headTitle: "Что-то пошло не так...",
+                    title: `Ошибка при сохранении фотографий`,
+                    isWarning: false,
+                    isWithButton: true,
+                }).render();
             }
-            new Notification({
-                headTitle: 'Что-то пошло не так...',
-                title: 'Ошибка при сохранении фотографий',
-                isWarning: false,
-                isWithButton: true,
-            }).render();
-
         } catch (error) {
             console.error('Ошибка при загрузке фотографий:', error);
             new Notification({
-                headTitle: 'Что-то пошло не так...',
+                headTitle: "Что-то пошло не так...",
                 title: 'Ошибка при сохранении фотографий',
                 isWarning: false,
                 isWithButton: true,
@@ -67,54 +64,59 @@ export class CReg100 extends VBC {
         return false;
     }
 
-    public async uploadFiles(): Promise<boolean> {
+    public async uploadFiles(): Promise<boolean>{
         let flag: boolean = true;
 
         const save = [];
         const del = [];
-        for (const el of this.components) {
-            if (!el) { continue; }
-            if (el.currentPhoto?.id != 0 && el.currentPhoto?.src && el.currentPhoto.isNew) { save.push(el.currentPhoto); }
-            if (el.isDeleted != '') { del.push(el); }
+        for(let el of this.components){
+            if(!el) continue;
+            if(el.currentPhoto?.id != 0 && el.currentPhoto?.src && el.currentPhoto.isNew)
+                save.push(el.currentPhoto);
+            if(el.isDeleted != '')
+                del.push(el);
         }
 
-        if (this.n + save.length <= del.length) {
+        if(this.n + save.length <= del.length){
             new Notification({
-                headTitle: 'Что-то пошло не так...',
-                title: 'В профиле должна быть хотя бы одна фотография',
-                isWarning: true,
-                isWithButton: true,
-            }).render();
+				headTitle: "Что-то пошло не так...",
+				title: 'В профиле должна быть хотя бы одна фотография',
+				isWarning: true,
+				isWithButton: true,
+			}).render();
 
-            for (const el of del) { el.isDeleted = ''; }
-
+            for(let el of del)
+                el.isDeleted = '';
+            
             return false;
         }
 
-        if (save.length > 0) { flag = flag && (await this.saveFiles(save)); }
-
-        for (const el of del) { flag = flag && (await el.deletePhoto(el.isDeleted)); }
+        if(save.length > 0)
+            flag = flag && (await this.saveFiles(save));
+        
+        for(let el of del)
+            flag = flag && (await el.deletePhoto(el.isDeleted));
 
         return flag;
     }
 
-    public async updateData(): Promise<boolean> {
+    public async updateData(): Promise<boolean>{
         try {
-            const userId = store.getState('myID');
-            if (userId === undefined) {
-                // new Notification({
+			const userId = store.getState('myID');
+			if (userId === undefined) {
+				// new Notification({
                 //     title: "Ошибка заполнения профиля. Аккаунта не существует",
                 //     isWarning: true,
                 //     isWithButton: true
                 // }).render();
-                return false;
-            }
+				return false;
+			}
+            
+			let response = await api.getProfile(userId as number);
 
-            const response = await api.getProfile(userId as number);
-
-            if (response.success && response.data) {
+			if (response.success && response.data) {
                 this.photos = [];
-                for (const el of response.data.photos) {
+				for(let el of response.data.photos){
                     this.photos.push({
                         id: this.generateId(),
                         src: api.BASE_URL_PHOTO + el,
@@ -122,25 +124,26 @@ export class CReg100 extends VBC {
                     });
                 }
                 this.n = response.data.photos.length;
-                const empty = Array(max_photo - response.data.photos.length).fill(null);
-                for (const el of empty) { this.photos.push(el); }
+                const empty = Array( max_photo-response.data.photos.length ).fill(null);
+                for(let el of empty)
+                    this.photos.push(el);
                 this.renderPhotos();
-            } else {
-                new Notification({
-                    title: 'Ошибка сети. Профиль не загружен',
+			} else {
+				new Notification({
+                    title: "Ошибка сети. Профиль не загружен",
                     isWarning: true,
                     isWithButton: true
                 }).render();
                 return false;
-            }
-        } catch (error) {
-            new Notification({
-                title: 'Ошибка сети',
+			}
+		} catch (error) {
+			new Notification({
+                title: "Ошибка сети",
                 isWarning: true,
                 isWithButton: true
             }).render();
             return false;
-        }
+		}
         return true;
     }
 
@@ -160,7 +163,7 @@ export class CReg100 extends VBC {
         this.vdom = main.getVDOM();
         this.setID();
 
-        photos.forEach(() => {
+        photos.forEach(()=>{
             const photo = new VPhotoInput();
             this.components.push(photo);
             main.add(photo);

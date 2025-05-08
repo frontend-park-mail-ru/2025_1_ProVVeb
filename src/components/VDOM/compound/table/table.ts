@@ -1,5 +1,5 @@
-import { Compounder } from '@modules/VDOM/Compounder';
-import { VBC } from '@modules/VDOM/VBC';
+import { Compounder } from "@modules/VDOM/Compounder";
+import { VBC } from "@modules/VDOM/VBC";
 
 interface TableParams {
     key: VBC;
@@ -7,17 +7,17 @@ interface TableParams {
 }
 
 export class VTable extends VBC {
-    constructor(data: TableParams[]) {
+    constructor(data: TableParams[]){
         const main = new Compounder();
-        main.down('tableBox', `
+        main.down("tableBox", `
             display: flex;
             flex-direction: column;
             height: fit-content;
             width: 100%;
         `);
-        for (const el of data) {
+        for(let el of data){
             const line = new Compounder();
-            line.down('tableBox__line', `
+            line.down("tableBox__line", `
                 display: flex;
                 flex-direction: row;
                 height: fit-content;

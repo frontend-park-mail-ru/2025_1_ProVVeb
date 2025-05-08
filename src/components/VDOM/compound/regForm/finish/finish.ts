@@ -1,26 +1,26 @@
-import router, { AppPage } from '@modules/router';
-import { Compounder } from '@modules/VDOM/Compounder';
-import { VBC } from '@modules/VDOM/VBC';
+import router, { AppPage } from "@modules/router";
+import { Compounder } from "@modules/VDOM/Compounder";
+import { VBC } from "@modules/VDOM/VBC";
 
 export class CRegFinish extends VBC {
-    constructor() {
+    constructor(){
         const arr = [
             {
-                title: 'Будь собой',
-                text: 'Сервис обеспечит полную конфидециальность. Ни один злоумышленник не получит твои данные'
+                title: "Будь собой",
+                text: "Сервис обеспечит полную конфидециальность. Ни один злоумышленник не получит твои данные"
             },
             {
-                title: 'Познай позитив',
-                text: 'Даже если никто не лайкнет твой профиль - знай, люди еще не увидели твою истинную красоту'
+                title: "Познай позитив",
+                text: "Даже если никто не лайкнет твой профиль - знай, люди еще не увидели твою истинную красоту"
             },
             {
-                title: 'Уважай комьюнити',
-                text: 'Только в том случае, когда каждый уважает своих окружающих - появляется тот самый вайб :)'
+                title: "Уважай комьюнити",
+                text: "Только в том случае, когда каждый уважает своих окружающих - появляется тот самый вайб :)"
             }
-        ];
+        ]
 
         const main = new Compounder();
-        const components = arr.forEach((el) => {
+        const components = arr.forEach((el)=>{
             const text1 = new VBC(`
                 <div class="textBlock">
                     <div class="textBlock__title">
@@ -31,7 +31,8 @@ export class CRegFinish extends VBC {
                         <p class="text__content">${el.text}</p>
                     </div>
                 </div>
-                `, {}, `
+                `, {},
+                `
                     .textBlock {
                         width: 336px;
                         height: fit-content;
@@ -71,5 +72,5 @@ export class CRegFinish extends VBC {
         this.setID();
     }
 
-    public submit() { router.navigateTo(AppPage.Feed); }
+    public submit(){ router.navigateTo(AppPage.Feed); }
 }

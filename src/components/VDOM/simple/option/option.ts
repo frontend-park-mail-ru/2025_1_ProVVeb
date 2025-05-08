@@ -1,32 +1,33 @@
-import { VBC } from '@modules/VDOM/VBC';
+import { VBC } from "@modules/VDOM/VBC";
 import templateHBS from './option.hbs';
 
 const DEFAULT_OPTION_PARAMS = {
     title: 'ОПЦИЯ',
 };
 
-export class VOption extends VBC {
+export class VOption extends VBC{
     public isChecked: boolean;
 
-    constructor(title: string) {
+    constructor(title: string){
         super(
             templateHBS,
             DEFAULT_OPTION_PARAMS,
             '',
             [],
-            { title: title }
+            {title: title}
         );
         this.isChecked = false;
         this.inject(undefined, '', [{
             selector: '.option',
             eventType: 'click',
-            handler: (event) => {
+            handler: (event)=>{
                 let target = event.target as HTMLElement;
-                if (target.className == 'option__text') { target = target.parentElement as HTMLElement; }
-                if (!this.isChecked) {
+                if(target.className == "option__text")
+                    target = target.parentElement as HTMLElement;
+                if(!this.isChecked){
                     target.classList.add('option-checked');
                     this.isChecked = true;
-                } else {
+                }else{
                     target.classList.remove('option-checked');
                     this.isChecked = false;
                 }
@@ -34,7 +35,7 @@ export class VOption extends VBC {
         }]);
     }
 
-    public setChecked(): void {
+    public setChecked(): void{
         this.getDOM()?.click();
     }
 }

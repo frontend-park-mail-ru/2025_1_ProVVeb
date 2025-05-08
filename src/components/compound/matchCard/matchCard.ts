@@ -18,31 +18,31 @@ interface Callback {
 }
 
 const DEFAULT_PARAMS_MATCH_CARD: MatchCardParams = {
-    srcPersonPictureError: 'media/error/400x600.jpg',
-    srcPersonPicture: '',
-    personName: 'Имя',
-    personAge: 16,
-    personDescription: 'Краткое описание человека',
+	srcPersonPictureError: 'media/error/400x600.jpg',
+	srcPersonPicture: '',
+	personName: 'Имя',
+	personAge: 16,
+	personDescription: 'Краткое описание человека',
     personInterests: [],
-    id: 0,
+	id: 0,
 };
 
 export default class MatchCard extends BaseComponent {
-    private callbacks: Callback[];
+	private callbacks: Callback[];
 
-    constructor(parentElement: HTMLElement, paramsHBS: Partial<MatchCardParams> = {}, callbacks: Callback[] = []) {
-        const finalParamsHBS = { ...DEFAULT_PARAMS_MATCH_CARD, ...paramsHBS };
-        const templateHTML = templateHBS(finalParamsHBS);
-        super(templateHTML, parentElement);
+	constructor(parentElement: HTMLElement, paramsHBS: Partial<MatchCardParams> = {}, callbacks: Callback[] = []) {
+		const finalParamsHBS = { ...DEFAULT_PARAMS_MATCH_CARD, ...paramsHBS };
+		const templateHTML = templateHBS(finalParamsHBS);
+		super(templateHTML, parentElement);
 
-        this.callbacks = callbacks;
-    }
+		this.callbacks = callbacks;
+	}
 
-    render(): void {
-        super.render();
-        this.callbacks.forEach((callback) => {
-            this.addListener(callback.event, callback.selector, callback.callback);
-        });
-        this.attachListeners();
-    }
+	render(): void {
+		super.render();
+		this.callbacks.forEach((callback) => {
+			this.addListener(callback.event, callback.selector, callback.callback);
+		});
+		this.attachListeners();
+	}
 }

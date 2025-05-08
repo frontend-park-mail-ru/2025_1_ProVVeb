@@ -1,12 +1,12 @@
 import Logo, { LogoParams } from '@pattern/logo/logo';
 
 const LOGO_MAIN: LogoParams = {
-    type: 'main',
-    logoSrc: 'media/logo/logoMain.svg',
+	type: 'main',
+	logoSrc: 'media/logo/logoMain.svg',
 };
 
 export default class LogoMain extends Logo {
-    constructor(parentElement: HTMLElement) {
-        super(parentElement, LOGO_MAIN);
-    }
+	constructor(parentElement: HTMLElement) {
+		super(parentElement, LOGO_MAIN);
+	}
 }

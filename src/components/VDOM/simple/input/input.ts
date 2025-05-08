@@ -1,18 +1,18 @@
-import { VBC } from '@modules/VDOM/VBC';
-import Input from '@pattern/input/input';
+import { VBC } from "@modules/VDOM/VBC";
+import Input from "@pattern/input/input";
 
 export class VInput extends VBC {
-    constructor(placehoolder: string, onFocus: ()=>void = () => {}, onBlur: ()=>void = () => {}) {
+    constructor(placehoolder: string, onFocus: ()=>void = ()=>{}, onBlur: ()=>void = ()=>{}){
         const input = new Input(document.createElement('div'), {
-            typeInput: 'text',
-            idInput: 'input_id',
-            nameInput: 'input_name',
+            typeInput: "text",
+            idInput: "input_id",
+            nameInput: "input_name",
             labelText: placehoolder,
-            autocompleteInput: 'on',
+            autocompleteInput: "on",
             listeners: [],
             isPassword: false
         });
-        const { template } = input;
+        const template = input.template;
 
         super(
             template,
@@ -34,13 +34,13 @@ export class VInput extends VBC {
         );
     }
 
-    public setValue(text: string) {
-        const element = this.getDOM()?.querySelector('input') as HTMLInputElement;
+    public setValue(text: string){
+        const element = this.getDOM()?.querySelector("input") as HTMLInputElement;
         element.value = text;
     }
 
-    public getValue(): string {
-        const element = this.getDOM()?.querySelector('input') as HTMLInputElement;
+    public getValue(): string{
+        const element = this.getDOM()?.querySelector("input") as HTMLInputElement;
         return element.value;
     }
 }

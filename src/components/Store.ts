@@ -1,48 +1,46 @@
 class Store {
-    private static instance: Store;
+	private static instance: Store;
+	private state: Record<string, unknown>;
+	private listeners: Record<string, ((value: unknown) => void)[]>;
 
-    private state: Record<string, unknown>;
+	private constructor() {
+		this.state = {};
+		this.listeners = {};
+	}
 
-    private listeners: Record<string, ((value: unknown) => void)[]>;
+	public static getInstance(): Store {
+		if (!Store.instance) {
+			Store.instance = new Store();
+		}
+		return Store.instance;
+	}
 
-    private constructor() {
-        this.state = {};
-        this.listeners = {};
-    }
+	public setState(key: string, value: unknown): void {
+		this.state[key] = value;
+		this.notify(key);
+	}
 
-    public static getInstance(): Store {
-        if (!Store.instance) {
-            Store.instance = new Store();
-        }
-        return Store.instance;
-    }
+	public getState<T>(key: string): T | undefined {
+		return this.state[key] as T;
+	}
 
-    public setState(key: string, value: unknown): void {
-        this.state[key] = value;
-        this.notify(key);
-    }
+	public subscribe(key: string, callback: (value: unknown) => void): void {
+		if (!this.listeners[key]) {
+			this.listeners[key] = [];
+		}
+		this.listeners[key].push(callback);
+	}
 
-    public getState<T>(key: string): T | undefined {
-        return this.state[key] as T;
-    }
+	public update(key: string): void {
+		const value = this.getState(key);
+		if(value) this.setState(key, value);
+	}
 
-    public subscribe(key: string, callback: (value: unknown) => void): void {
-        if (!this.listeners[key]) {
-            this.listeners[key] = [];
-        }
-        this.listeners[key].push(callback);
-    }
-
-    public update(key: string): void {
-        const value = this.getState(key);
-        if (value) { this.setState(key, value); }
-    }
-
-    private notify(key: string): void {
-        if (this.listeners[key]) {
-            this.listeners[key].forEach((callback) => callback(this.state[key]));
-        }
-    }
+	private notify(key: string): void {
+		if (this.listeners[key]) {
+			this.listeners[key].forEach((callback) => callback(this.state[key]));
+		}
+	}
 }
 
 const store = Store.getInstance();

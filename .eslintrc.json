@@ -1,20 +1,14 @@
 {
     "env": {
 		// Устанавливает окружение как браузер (document, window и т.д. доступны)
-        "browser": true,
+        "browser": true 
     },
 	// Наследует настройки стиля кода от AirBnb для базовых JavaScript файлов
+    "extends": "airbnb-base", 
     "parserOptions": {
         "ecmaVersion": "latest", // Указывает ESLint использовать последнюю версию ECMAScript
         "sourceType": "module" // Указывает, что код будет использовать модули (import/export)
     },
-	"parser": "@typescript-eslint/parser",  // Парсер TypeScript
-	"plugins": [],
-	"extends": [
-		"airbnb-base"
-		// "eslint:recommended",
-		// "plugin:@typescript-eslint/recommended"
-	],
     "rules": {
 		"import/extensions": [
 			"error",
@@ -29,11 +23,9 @@
 		// Разрешить использование табов
 		"no-tabs": "off",
 		// Предупреждение при использовании неправильного отступа, требуя tab
-        "indent": ["warn", 4, { "SwitchCase": 1 }], 
-		// Устанавливает макc. длину строки кода и комментариев
+        "indent": ["warn", "tab", { "SwitchCase": 1 }], 
+		// Устанавливает макc. длину строки кода и комментариев 
         "max-len": ["warn", {"code": 200, "comments": 200}],
-		// Запрещает пробелы в отступах (только табы)
-    	// "no-mixed-spaces-and-tabs": "error",
 		// Отключает правило, требующее новой строки для закрывающей скобки в функциях 
         "function-paren-newline": "off",
 		// Требование пустой строки в конце файла 
