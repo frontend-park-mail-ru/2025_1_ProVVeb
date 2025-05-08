@@ -14,30 +14,30 @@ interface ButtonParams {
 }
 
 const DEFAULT_PARAMS_BUTTON: ButtonParams = {
-	idButton: '',
-	buttonText: 'Кнопка',
-	listenButton: {
-		eventType: '',
-		selector: '',
-		callback: () => { },
-	},
+    idButton: '',
+    buttonText: 'Кнопка',
+    listenButton: {
+        eventType: '',
+        selector: '',
+        callback: () => { },
+    },
 };
 
 export default class Button extends BaseComponent {
-	constructor(parentElement: HTMLElement, paramsHBS: Partial<ButtonParams> = {}) {
-		const finalParamsHBS = { ...DEFAULT_PARAMS_BUTTON, ...paramsHBS };
+    constructor(parentElement: HTMLElement, paramsHBS: Partial<ButtonParams> = {}) {
+        const finalParamsHBS = { ...DEFAULT_PARAMS_BUTTON, ...paramsHBS };
 
-		if (finalParamsHBS.idButton) {
-			finalParamsHBS.listenButton.selector = `#${finalParamsHBS.idButton}`;
-		}
+        if (finalParamsHBS.idButton) {
+            finalParamsHBS.listenButton.selector = `#${finalParamsHBS.idButton}`;
+        }
 
-		const templateHTML = templateHBS(finalParamsHBS);
-		super(templateHTML, parentElement);
+        const templateHTML = templateHBS(finalParamsHBS);
+        super(templateHTML, parentElement);
 
-		this.addListener(
-			finalParamsHBS.listenButton.eventType,
-			finalParamsHBS.listenButton.selector,
-			finalParamsHBS.listenButton.callback
-		);
-	}
+        this.addListener(
+            finalParamsHBS.listenButton.eventType,
+            finalParamsHBS.listenButton.selector,
+            finalParamsHBS.listenButton.callback
+        );
+    }
 }

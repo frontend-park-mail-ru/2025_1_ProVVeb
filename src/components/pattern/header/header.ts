@@ -10,17 +10,17 @@ interface HeaderParams {
 }
 
 const DEFAULT_COMPONENTS: HeaderParams = {
-	isGreeting: false,
-	logotype: '',
-	profile: '',
-	dotsMenu: '',
+    isGreeting: false,
+    logotype: '',
+    profile: '',
+    dotsMenu: '',
 };
 
 export default class Header extends BaseComponent {
-	constructor(parentElement: HTMLElement, paramsHBS: Partial<HeaderParams> = {}) {
-		const finalParamsHBS = { ...DEFAULT_COMPONENTS, ...paramsHBS };
+    constructor(parentElement: HTMLElement, paramsHBS: Partial<HeaderParams> = {}) {
+        const finalParamsHBS = { ...DEFAULT_COMPONENTS, ...paramsHBS };
 
-		const templateHTML = templateHBS(finalParamsHBS);
-		super(templateHTML, parentElement);
-	}
+        const templateHTML = templateHBS(finalParamsHBS);
+        super(templateHTML, parentElement);
+    }
 }

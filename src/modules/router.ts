@@ -35,214 +35,217 @@ interface PathStructure {
 }
 
 class Router {
-	private root: HTMLElement;
-	private authPage: AuthPage;
-	private loginPage: LoginPage;
-	private feedPage: FeedPage;
-	private profilePage: ProfilePage;
-	private matchesPage: MathesPage;
-	private emptyPage: EmptyPage;
-	private statPage: StatPage;
-	private complaintPage: ComplaintPage;
-	private messagePage: MessagePage;
-	private stepPage: StepPage;
-	private searchPage: SearchPage;
+    private root: HTMLElement;
 
-	private PATHS: PathStructure[];
+    private authPage: AuthPage;
 
-	constructor() {
-		const rootElement = document.getElementById('root');
-		if (!rootElement) {
-			throw new Error("Root element with id 'root' not found");
-		}
+    private loginPage: LoginPage;
 
-		this.root = rootElement;
-		this.authPage = new AuthPage(this.root);
-		this.loginPage = new LoginPage(this.root);
-		this.feedPage = new FeedPage(this.root);
-		this.profilePage = new ProfilePage(this.root);
-		this.matchesPage = new MathesPage(this.root);
-		this.emptyPage = new EmptyPage(this.root);
-		this.statPage = new StatPage(this.root);
-		this.complaintPage = new ComplaintPage(this.root);
-		this.messagePage = new MessagePage(this.root);
-		this.stepPage = new StepPage(this.root);
-		this.searchPage = new SearchPage(this.root);
+    private feedPage: FeedPage;
 
-		this.PATHS = [];
+    private profilePage: ProfilePage;
 
-		window.addEventListener('popstate', (event) => {
-			const path = window.location.pathname.split('/')[1];
-			this.navigateTo(path as AppPage, event.state, true);
-		});
+    private matchesPage: MathesPage;
 
-		this.register("feed", this.handlerFeed.bind(this));
-		this.register("auth", this.handlerAuth.bind(this));
-		this.register("login", this.handlerLogin.bind(this));
-		this.register("matches", this.handlerMatches.bind(this));
-		this.register("settings", this.handlerSettings.bind(this));
-		this.register("security", this.handlerSecurity.bind(this));
-		this.register("shop", this.handlerShop.bind(this));
-		this.register("stats", this.handlerStats.bind(this));
-		this.register("complaint", this.handlerComplaint.bind(this));
-		this.register("messenger", this.handlerMessenger.bind(this));
-		this.register("step", this.handlerStep.bind(this));
-		this.register("search", this.handlerSearch.bind(this));
-	}
+    private emptyPage: EmptyPage;
 
-	private async checkSession(): Promise<boolean> {
-		try {
-			const sessionResult = await api.checkSession();
+    private statPage: StatPage;
 
-			if (sessionResult.success && sessionResult.data.inSession) {
-				store.setState('myID', sessionResult.data.id);
-				store.setState('inSession', true);
+    private complaintPage: ComplaintPage;
 
-				return true;
-			}
-		} catch (error) {
-			console.error('Ошибка при проверке сессии:', error);
-			const notification = new Notification({
-				title: 'Ошибка сети. Перенаправление на логин',
-				isWarning: true,
-				isWithButton: true,
-			});
-			notification.render();
-		}
+    private messagePage: MessagePage;
 
-		store.setState('inSession', false);
-		return false;
-	}
+    private stepPage: StepPage;
 
-	public register(path: string, callback: (state: any) => void): void {
-		this.PATHS.push({ path, callback });
-	}
+    private searchPage: SearchPage;
 
-	public renderPage(path: string, state = {}) {
-		this.PATHS.forEach(data => {
-			if (data.path == path) data.callback(state);
-		})
-	}
+    private PATHS: PathStructure[];
 
-	public async navigateTo(page: AppPage, state: any = {}, isReplace = false): Promise<void> {
-		let cookie = this.checkCookie(page) as AppPage;
-		if (cookie != page) {
-			isReplace = true;
-			page = cookie;
-		}
+    constructor() {
+        const rootElement = document.getElementById('root');
+        if (!rootElement) {
+            throw new Error('Root element with id \'root\' not found');
+        }
 
-		if (isReplace)
-			window.history.replaceState(state, '', page);
-		else
-			window.history.pushState(state, '', page);
+        this.root = rootElement;
+        this.authPage = new AuthPage(this.root);
+        this.loginPage = new LoginPage(this.root);
+        this.feedPage = new FeedPage(this.root);
+        this.profilePage = new ProfilePage(this.root);
+        this.matchesPage = new MathesPage(this.root);
+        this.emptyPage = new EmptyPage(this.root);
+        this.statPage = new StatPage(this.root);
+        this.complaintPage = new ComplaintPage(this.root);
+        this.messagePage = new MessagePage(this.root);
+        this.stepPage = new StepPage(this.root);
+        this.searchPage = new SearchPage(this.root);
 
-		await this.renderPage(page, state);
+        this.PATHS = [];
 
-		store.update('profileName');
-		store.update('ava');
-	}
+        window.addEventListener('popstate', (event) => {
+            const path = window.location.pathname.split('/')[1];
+            this.navigateTo(path as AppPage, event.state, true);
+        });
 
-	public async start() {
-		const currentPath = window.location.pathname.split('/')[1] as AppPage || AppPage.Feed;
+        this.register('feed', this.handlerFeed.bind(this));
+        this.register('auth', this.handlerAuth.bind(this));
+        this.register('login', this.handlerLogin.bind(this));
+        this.register('matches', this.handlerMatches.bind(this));
+        this.register('settings', this.handlerSettings.bind(this));
+        this.register('security', this.handlerSecurity.bind(this));
+        this.register('shop', this.handlerShop.bind(this));
+        this.register('stats', this.handlerStats.bind(this));
+        this.register('complaint', this.handlerComplaint.bind(this));
+        this.register('messenger', this.handlerMessenger.bind(this));
+        this.register('step', this.handlerStep.bind(this));
+        this.register('search', this.handlerSearch.bind(this));
+    }
 
-		if (!(await this.checkSession())) {
-			if (currentPath != AppPage.Auth && currentPath != AppPage.Login)
-				this.navigateTo(AppPage.Auth, {}, true);
-			else
-				this.navigateTo(currentPath, {}, true);
+    private async checkSession(): Promise<boolean> {
+        try {
+            const sessionResult = await api.checkSession();
 
-			return;
-		}
+            if (sessionResult.success && sessionResult.data.inSession) {
+                store.setState('myID', sessionResult.data.id);
+                store.setState('inSession', true);
 
-		await this.navigateTo(currentPath);
+                return true;
+            }
+        } catch (error) {
+            console.error('Ошибка при проверке сессии:', error);
+            const notification = new Notification({
+                title: 'Ошибка сети. Перенаправление на логин',
+                isWarning: true,
+                isWithButton: true,
+            });
+            notification.render();
+        }
 
-		const ID = store.getState("myID") as number;
-		const data = await api.getProfile(ID);
-		const ava = api.BASE_URL_PHOTO + data?.data?.photos[0];
-		const name = data?.data?.firstName + ' ' + data?.data?.lastName;
+        store.setState('inSession', false);
+        return false;
+    }
 
-		if (ava) store.setState('ava', ava);
-		if (name) store.setState('profileName', name);
-		if (data?.data?.isMale) store.setState('isMale', data?.data?.isMale);
-	}
+    public register(path: string, callback: (state: any) => void): void {
+        this.PATHS.push({ path, callback });
+    }
 
-	private checkCookie(page: AppPage): AppPage {
-		const inSession = store.getState('inSession');
-		if (!inSession && page != AppPage.Auth && page != AppPage.Login && page != AppPage.StepPage)
-			return AppPage.Auth;
-		if (inSession && (page == AppPage.Auth || page == AppPage.Login || page == AppPage.StepPage))
-			return AppPage.Settings;
-		return page;
-	}
+    public renderPage(path: string, state = {}) {
+        this.PATHS.forEach((data) => {
+            if (data.path == path) { data.callback(state); }
+        });
+    }
 
-	private handlerAuth(state: any): void {
-		this.root.classList.add('greeting');
-		this.authPage.rerender();
-	}
+    public async navigateTo(page: AppPage, state: any = {}, isReplace = false): Promise<void> {
+        const cookie = this.checkCookie(page) as AppPage;
+        if (cookie != page) {
+            isReplace = true;
+            page = cookie;
+        }
 
-	private handlerLogin(state: any): void {
-		this.root.classList.add('greeting');
-		this.loginPage.rerender();
-	}
+        if (isReplace) { window.history.replaceState(state, '', page); } else { window.history.pushState(state, '', page); }
 
-	private handlerStep(state: any): void {
-		this.root.classList.add('greeting');
-		this.stepPage.rerender();
-	}
+        await this.renderPage(page, state);
 
-	private handlerFeed(state: any): void {
-		this.root.classList.remove('greeting');
-		this.feedPage.rerender();
-		this.feedPage.getNavMenu().setActiveLink('feed');
-	}
+        store.update('profileName');
+        store.update('ava');
+    }
 
-	private handlerMatches(state: any): void {
-		this.root.classList.remove('greeting');
-		this.matchesPage.rerender();
-		this.matchesPage.getNavMenu().setActiveLink('matches');
-	}
+    public async start() {
+        const currentPath = window.location.pathname.split('/')[1] as AppPage || AppPage.Feed;
 
-	private handlerSettings(state: any): void {
-		this.root.classList.remove('greeting');
-		this.profilePage.rerender();
-		this.profilePage.getNavMenu().setActiveLink('settings');
-	}
+        if (!(await this.checkSession())) {
+            if (currentPath != AppPage.Auth && currentPath != AppPage.Login) { this.navigateTo(AppPage.Auth, {}, true); } else { this.navigateTo(currentPath, {}, true); }
 
-	private handlerSecurity(state: any): void {
-		this.root.classList.remove('greeting');
-		this.emptyPage.rerender();
-		this.emptyPage.getNavMenu().setActiveLink('security');
-	}
+            return;
+        }
 
-	private handlerShop(state: any): void {
-		this.root.classList.remove('greeting');
-		this.emptyPage.rerender();
-		this.emptyPage.getNavMenu().setActiveLink('shop');
-	}
+        await this.navigateTo(currentPath);
 
-	private handlerStats(state: any): void {
-		this.root.classList.remove('greeting');
-		this.statPage.rerender();
-		this.statPage.getNavMenu().setActiveLink('stats');
-	}
+        const ID = store.getState('myID') as number;
+        const data = await api.getProfile(ID);
+        const ava = api.BASE_URL_PHOTO + data?.data?.photos[0];
+        const name = `${data?.data?.firstName} ${data?.data?.lastName}`;
 
-	private handlerComplaint(state: any): void {
-		this.root.classList.remove('greeting');
-		this.complaintPage.rerender();
-		this.complaintPage.getNavMenu().setActiveLink('complaint');
-	}
+        if (ava) { store.setState('ava', ava); }
+        if (name) { store.setState('profileName', name); }
+        if (data?.data?.isMale) { store.setState('isMale', data?.data?.isMale); }
+    }
 
-	private handlerMessenger(state: any): void {
-		this.root.classList.remove('greeting');
-		this.messagePage.rerender();
-		this.messagePage.getNavMenu().setActiveLink('messenger');
-	}
+    private checkCookie(page: AppPage): AppPage {
+        const inSession = store.getState('inSession');
+        if (!inSession && page != AppPage.Auth && page != AppPage.Login && page != AppPage.StepPage) { return AppPage.Auth; }
+        if (inSession && (page == AppPage.Auth || page == AppPage.Login || page == AppPage.StepPage)) { return AppPage.Settings; }
+        return page;
+    }
 
-	private handlerSearch(state: any): void {
-		this.root.classList.remove('greeting');
-		this.searchPage.rerender();
-		this.searchPage.getNavMenu().setActiveLink('search');
-	}
+    private handlerAuth(state: any): void {
+        this.root.classList.add('greeting');
+        this.authPage.rerender();
+    }
+
+    private handlerLogin(state: any): void {
+        this.root.classList.add('greeting');
+        this.loginPage.rerender();
+    }
+
+    private handlerStep(state: any): void {
+        this.root.classList.add('greeting');
+        this.stepPage.rerender();
+    }
+
+    private handlerFeed(state: any): void {
+        this.root.classList.remove('greeting');
+        this.feedPage.rerender();
+        this.feedPage.getNavMenu().setActiveLink('feed');
+    }
+
+    private handlerMatches(state: any): void {
+        this.root.classList.remove('greeting');
+        this.matchesPage.rerender();
+        this.matchesPage.getNavMenu().setActiveLink('matches');
+    }
+
+    private handlerSettings(state: any): void {
+        this.root.classList.remove('greeting');
+        this.profilePage.rerender();
+        this.profilePage.getNavMenu().setActiveLink('settings');
+    }
+
+    private handlerSecurity(state: any): void {
+        this.root.classList.remove('greeting');
+        this.emptyPage.rerender();
+        this.emptyPage.getNavMenu().setActiveLink('security');
+    }
+
+    private handlerShop(state: any): void {
+        this.root.classList.remove('greeting');
+        this.emptyPage.rerender();
+        this.emptyPage.getNavMenu().setActiveLink('shop');
+    }
+
+    private handlerStats(state: any): void {
+        this.root.classList.remove('greeting');
+        this.statPage.rerender();
+        this.statPage.getNavMenu().setActiveLink('stats');
+    }
+
+    private handlerComplaint(state: any): void {
+        this.root.classList.remove('greeting');
+        this.complaintPage.rerender();
+        this.complaintPage.getNavMenu().setActiveLink('complaint');
+    }
+
+    private handlerMessenger(state: any): void {
+        this.root.classList.remove('greeting');
+        this.messagePage.rerender();
+        this.messagePage.getNavMenu().setActiveLink('messenger');
+    }
+
+    private handlerSearch(state: any): void {
+        this.root.classList.remove('greeting');
+        this.searchPage.rerender();
+        this.searchPage.getNavMenu().setActiveLink('search');
+    }
 }
 
 const router = new Router();

@@ -10,22 +10,22 @@ interface NotificationParams {
 }
 
 export default class Notification extends BaseComponent {
-	constructor(paramsHBS: NotificationParams) {
-		const templateHTML = templateHBS(paramsHBS);
-		super(templateHTML, store.getState('notif_layer') as HTMLElement);
+    constructor(paramsHBS: NotificationParams) {
+        const templateHTML = templateHBS(paramsHBS);
+        super(templateHTML, store.getState('notif_layer') as HTMLElement);
 
-		this.addListener(
-			'click',
-			'.notification__cross',
-			(event: Event) => {
-				const target = event.target as HTMLElement;
-				target.parentElement?.parentElement?.remove();
-			}
-		);
-	}
+        this.addListener(
+            'click',
+            '.notification__cross',
+            (event: Event) => {
+                const target = event.target as HTMLElement;
+                target.parentElement?.parentElement?.remove();
+            }
+        );
+    }
 
-	render(): void {
-		this.parentElement.innerHTML = this.template;
-		this.attachListeners();
-	}
+    render(): void {
+        this.parentElement.innerHTML = this.template;
+        this.attachListeners();
+    }
 }

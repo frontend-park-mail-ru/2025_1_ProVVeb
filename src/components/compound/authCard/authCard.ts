@@ -12,38 +12,38 @@ interface ComponentConfig {
 }
 
 export default class AuthCard extends FormCard {
-	private components: Record<string, any>;
+    private components: Record<string, any>;
 
-	constructor(parentElement: HTMLElement) {
-		const componentConfigs: ComponentConfig[] = [
-			{ key: 'progressBar', class: ProgressBar, options: { progressPercent: 100 } },
-			{ key: 'linkToPage', class: LinkToLogin },
-			{ key: 'loginInput', class: LoginInput },
-			{ key: 'passwordInput', class: PasswordInput },
-			{ key: 'authButton', class: AuthButton },
-		];
+    constructor(parentElement: HTMLElement) {
+        const componentConfigs: ComponentConfig[] = [
+            { key: 'progressBar', class: ProgressBar, options: { progressPercent: 100 } },
+            { key: 'linkToPage', class: LinkToLogin },
+            { key: 'loginInput', class: LoginInput },
+            { key: 'passwordInput', class: PasswordInput },
+            { key: 'authButton', class: AuthButton },
+        ];
 
-		const components: Record<string, any> = {};
-		componentConfigs.forEach(({ key, class: ComponentClass, options }) => {
-			components[key] = new (ComponentClass as any)(parentElement, options);
-		});
+        const components: Record<string, any> = {};
+        componentConfigs.forEach(({ key, class: ComponentClass, options }) => {
+            components[key] = new (ComponentClass as any)(parentElement, options);
+        });
 
-		super(parentElement, {
-			progressBar: components.progressBar.template,
-			cardTitle: 'Здесь начнется поиск ❤️',
-			linkToPage: components.linkToPage.template,
-			fields: [
-				components.loginInput.template,
-				components.passwordInput.template,
-			],
-			button: components.authButton.template,
-		});
+        super(parentElement, {
+            progressBar: components.progressBar.template,
+            cardTitle: 'Здесь начнется поиск ❤️',
+            linkToPage: components.linkToPage.template,
+            fields: [
+                components.loginInput.template,
+                components.passwordInput.template,
+            ],
+            button: components.authButton.template,
+        });
 
-		this.components = components;
-	}
+        this.components = components;
+    }
 
-	render() {
-		super.render();
-		Object.values(this.components).forEach((component) => component.attachListeners());
-	}
+    render() {
+        super.render();
+        Object.values(this.components).forEach((component) => component.attachListeners());
+    }
 }

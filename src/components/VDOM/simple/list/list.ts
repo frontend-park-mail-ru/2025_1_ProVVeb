@@ -22,7 +22,7 @@ export const COUNTRIES: Country[] = [
     { name: 'Moldova', code: 'MD +373' },
     { name: 'Tajikistan', code: 'TJ +992' },
     { name: 'Uzbekistan', code: 'UZ +998' }
-]; 
+];
 
 export class VList extends VBC<CountryDropdownProps> {
     private clickOutsideHandler?: (e: MouseEvent) => void;
@@ -31,22 +31,22 @@ export class VList extends VBC<CountryDropdownProps> {
         super(
             templateHBS,
             {
-                countryCode: 'RU +7',
-                listVisible: false,
-                countries: COUNTRIES,
+            	countryCode: 'RU +7',
+            	listVisible: false,
+            	countries: COUNTRIES,
             } as CountryDropdownProps,
             '',
             [
-                {
-                    selector: ".country-dropdown__selected",
-                    eventType: "click",
-                    handler: () => this.toggleList(true)
-                },
-                {
-                    selector: ".country-dropdown__option",
-                    eventType: "click",
-                    handler: (e: Event) => this.handleOptionClick(e)
-                }
+            	{
+            		selector: '.country-dropdown__selected',
+            		eventType: 'click',
+            		handler: () => this.toggleList(true)
+            	},
+            	{
+            		selector: '.country-dropdown__option',
+            		eventType: 'click',
+            		handler: (e: Event) => this.handleOptionClick(e)
+            	}
             ],
             props
         );
@@ -58,10 +58,7 @@ export class VList extends VBC<CountryDropdownProps> {
             listVisible: visible ?? !this.props.listVisible
         };
 
-        if(this.clickOutsideHandler)
-            this.removeClickOutsideListener();
-        else
-            this.addClickOutsideListener();
+        if (this.clickOutsideHandler) { this.removeClickOutsideListener(); } else { this.addClickOutsideListener(); }
 
         // this.inject(undefined, ".underline { background-color: #010710; }");
         // this.update();
@@ -74,7 +71,7 @@ export class VList extends VBC<CountryDropdownProps> {
 
     private handleOptionClick(e: Event) {
         const target = e.currentTarget as HTMLElement;
-        const code = target.dataset.code;
+        const { code } = target.dataset;
 
         if (code) {
             const newProps = {
@@ -82,7 +79,7 @@ export class VList extends VBC<CountryDropdownProps> {
                 countryCode: code,
                 listVisible: false
             };
-            
+
             // this.inject(undefined, ".underline { background-color: var(--gray-line); }");
             // this.update();
             this.injectProps(newProps);
@@ -97,7 +94,7 @@ export class VList extends VBC<CountryDropdownProps> {
                 this.toggleList(false);
             }
         };
-        
+
         document.addEventListener('click', this.clickOutsideHandler);
     }
 

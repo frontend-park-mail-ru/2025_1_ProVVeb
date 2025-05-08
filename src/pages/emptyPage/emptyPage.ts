@@ -1,35 +1,36 @@
-import BasePage from '../BasePage';
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
+import BasePage from '../BasePage';
 
 export default class EmptyPage extends BasePage {
-	private components: Array<HeaderMain | NavMenu>;
-	private contentWrapper: HTMLElement;
+    private components: Array<HeaderMain | NavMenu>;
 
-	constructor(parentElement: HTMLElement) {
-		super(parentElement);
+    private contentWrapper: HTMLElement;
 
-		this.contentWrapper = document.createElement('div');
-		this.contentWrapper.className = 'mainContent';
+    constructor(parentElement: HTMLElement) {
+        super(parentElement);
 
-		this.components = [
-			new HeaderMain(parentElement),
-			new NavMenu(this.contentWrapper),
-		];
-	}
+        this.contentWrapper = document.createElement('div');
+        this.contentWrapper.className = 'mainContent';
 
-	render(): void {
-		this.contentWrapper.innerHTML = '';
-		this.components[0].render(); // HeaderMain
+        this.components = [
+            new HeaderMain(parentElement),
+            new NavMenu(this.contentWrapper),
+        ];
+    }
 
-		this.parentElement.appendChild(this.contentWrapper);
-		for (let i = 1; i < this.components.length; i++) {
-			this.components[i].render();
-		}
-		this.contentWrapper.insertAdjacentHTML('beforeend', "<p>В стадии разработки...</p>");
-	}
+    render(): void {
+        this.contentWrapper.innerHTML = '';
+        this.components[0].render(); // HeaderMain
 
-	public getNavMenu(): NavMenu {
-		return this.components[1] as NavMenu;
-	}
+        this.parentElement.appendChild(this.contentWrapper);
+        for (let i = 1; i < this.components.length; i++) {
+            this.components[i].render();
+        }
+        this.contentWrapper.insertAdjacentHTML('beforeend', '<p>В стадии разработки...</p>');
+    }
+
+    public getNavMenu(): NavMenu {
+        return this.components[1] as NavMenu;
+    }
 }

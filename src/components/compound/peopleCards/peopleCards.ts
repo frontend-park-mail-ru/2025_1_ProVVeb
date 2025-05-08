@@ -1,8 +1,8 @@
-import PersonCard from '../personCard/personCard';
 import BaseComponent from '@basecomp';
 import api, { Profile } from '@network';
 import store from '@store';
 import { parseBirthday } from '@modules/tools';
+import PersonCard from '../personCard/personCard';
 
 interface Listener {
 	event: string;
@@ -11,123 +11,126 @@ interface Listener {
 }
 
 export default class PeopleCards extends BaseComponent {
-	private currentIndex: number;
-	private CARDS: Profile[];
-	private isDataLoaded: boolean;
-	private currentCard: PersonCard | null;
+    private currentIndex: number;
 
-	constructor(parentElement: HTMLElement) {
-		super('', parentElement);
-		this.currentIndex = 0;
-		this.CARDS = [];
-		this.isDataLoaded = false;
-		this.currentCard = null;
-	}
+    private CARDS: Profile[];
 
-	// Метод для загрузки данных
-	private async loadData(): Promise<void> {
-		if (!this.isDataLoaded) {
-			const response = await api.getProfiles(store.getState('myID') as number);
-			this.CARDS = response.data || [];
-			this.isDataLoaded = true;
-		}
-	}
+    private isDataLoaded: boolean;
 
-	// Метод для рендеринга карточки
-	public async render(): Promise<void> {
-		if (this.currentCard) {
-			document.getElementById('idPersonCard')?.remove();
-		}
+    private currentCard: PersonCard | null;
 
-		await this.loadData();
+    constructor(parentElement: HTMLElement) {
+        super('', parentElement);
+        this.currentIndex = 0;
+        this.CARDS = [];
+        this.isDataLoaded = false;
+        this.currentCard = null;
+    }
 
-		const LISTENERS_ACTION_BTNS: Listener[] = [
-			{
-				event: 'click',
-				selector: '#dislikeButton',
-				callback: async () => {
-					let card = document.querySelector('.personCard');
-					card?.classList.add('personCard--disliked');
-					await this.handleDislike();
-				},
-			},
-			{
-				event: 'click',
-				selector: '#likeButton',
-				callback: async () => {
-					let card = document.querySelector('.personCard');
-					card?.classList.add('personCard--liked');
-					await this.handleLike();
-				},
-			},
-			{
-				event: 'click',
-				selector: '#repeatButton',
-				callback: () => this.handleRepeat(),
-			},
-			{
-				event: 'click',
-				selector: '#starButton',
-				callback: () => this.handleStar(),
-			},
-			{
-				event: 'click',
-				selector: '#lightningButton',
-				callback: () => this.handleLightning(),
-			},
-		];
+    // Метод для загрузки данных
+    private async loadData(): Promise<void> {
+        if (!this.isDataLoaded) {
+            const response = await api.getProfiles(store.getState('myID') as number);
+            this.CARDS = response.data || [];
+            this.isDataLoaded = true;
+        }
+    }
 
-		this.currentCard = new PersonCard(
-			this.parentElement,
-			{
-				personName: this.CARDS[this.currentIndex].firstName,
-				personAge: parseBirthday(this.CARDS[this.currentIndex].birthday)?.year ?? '≥ 18',
-				personDescription: this.CARDS[this.currentIndex].description,
-				srcPersonPhotos: this.CARDS[this.currentIndex].photos.map(
-					(photoPath: string) => `${api.BASE_URL_PHOTO}${photoPath}`
-				),
-			},
-			LISTENERS_ACTION_BTNS,
-		);
+    // Метод для рендеринга карточки
+    public async render(): Promise<void> {
+        if (this.currentCard) {
+            document.getElementById('idPersonCard')?.remove();
+        }
 
-		this.currentCard.render();
-	}
+        await this.loadData();
 
-	private animateDelay = 400;
+        const LISTENERS_ACTION_BTNS: Listener[] = [
+            {
+                event: 'click',
+                selector: '#dislikeButton',
+                callback: async () => {
+                    const card = document.querySelector('.personCard');
+                    card?.classList.add('personCard--disliked');
+                    await this.handleDislike();
+                },
+            },
+            {
+                event: 'click',
+                selector: '#likeButton',
+                callback: async () => {
+                    const card = document.querySelector('.personCard');
+                    card?.classList.add('personCard--liked');
+                    await this.handleLike();
+                },
+            },
+            {
+                event: 'click',
+                selector: '#repeatButton',
+                callback: () => this.handleRepeat(),
+            },
+            {
+                event: 'click',
+                selector: '#starButton',
+                callback: () => this.handleStar(),
+            },
+            {
+                event: 'click',
+                selector: '#lightningButton',
+                callback: () => this.handleLightning(),
+            },
+        ];
 
-	private async handleDislike(): Promise<void> {
-		const likeFrom = store.getState('myID') as number;
-		const likeTo = this.CARDS[this.currentIndex].profileId;
-		await api.Dislike(likeFrom, likeTo);
+        this.currentCard = new PersonCard(
+            this.parentElement,
+            {
+                personName: this.CARDS[this.currentIndex].firstName,
+                personAge: parseBirthday(this.CARDS[this.currentIndex].birthday)?.year ?? '≥ 18',
+                personDescription: this.CARDS[this.currentIndex].description,
+                srcPersonPhotos: this.CARDS[this.currentIndex].photos.map(
+                    (photoPath: string) => `${api.BASE_URL_PHOTO}${photoPath}`
+                ),
+            },
+            LISTENERS_ACTION_BTNS,
+        );
 
-		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
+        this.currentCard.render();
+    }
 
-		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
-		await this.render();
-	}
+    private animateDelay = 400;
 
-	private async handleLike(): Promise<void> {
-		const likeFrom = store.getState('myID') as number;
-		const likeTo = this.CARDS[this.currentIndex].profileId;
-		await api.Like(likeFrom, likeTo);
+    private async handleDislike(): Promise<void> {
+        const likeFrom = store.getState('myID') as number;
+        const likeTo = this.CARDS[this.currentIndex].profileId;
+        await api.Dislike(likeFrom, likeTo);
 
-		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
+        await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
 
-		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
-		await this.render();
-	}
+        this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
+        await this.render();
+    }
 
-	private handleRepeat(): void {
-		// console.log('Тык повторить');
-	}
+    private async handleLike(): Promise<void> {
+        const likeFrom = store.getState('myID') as number;
+        const likeTo = this.CARDS[this.currentIndex].profileId;
+        await api.Like(likeFrom, likeTo);
 
-	private handleStar(): void {
-		// console.log('Тык звезда');
-	}
+        await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
 
-	private handleLightning(): void {
-		// console.log('Тык молния');
-	}
+        this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
+        await this.render();
+    }
+
+    private handleRepeat(): void {
+        // console.log('Тык повторить');
+    }
+
+    private handleStar(): void {
+        // console.log('Тык звезда');
+    }
+
+    private handleLightning(): void {
+        // console.log('Тык молния');
+    }
 }
 
 // const MOCK_PERSON_CARDS = [

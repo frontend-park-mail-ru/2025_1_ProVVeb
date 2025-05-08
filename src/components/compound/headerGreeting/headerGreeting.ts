@@ -8,13 +8,13 @@ interface HeaderComponents {
 }
 
 export default class HeaderGreeting extends Header {
-	constructor(parentElement: HTMLElement) {
-		const DEFAULT_COMPONENTS: HeaderComponents = {
-			logotype: new Logo(parentElement).template,
-			profile: '',
-			isGreeting: true,
-		};
+    constructor(parentElement: HTMLElement) {
+        const DEFAULT_COMPONENTS: HeaderComponents = {
+            logotype: new Logo(parentElement).template,
+            profile: '',
+            isGreeting: true,
+        };
 
-		super(parentElement, DEFAULT_COMPONENTS);
-	}
+        super(parentElement, DEFAULT_COMPONENTS);
+    }
 }

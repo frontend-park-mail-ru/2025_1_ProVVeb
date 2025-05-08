@@ -15,26 +15,26 @@ interface TableParams {
 }
 
 const DEFAULT_PARAMS_TABLE: TableParams = {
-    width: "500px",
+    width: '500px',
     lines: [
         {
-            colorKey: "#000",
-            colorValue: "#000",
-            key: "KEY",
-            value: "VALUE",
+            colorKey: '#000',
+            colorValue: '#000',
+            key: 'KEY',
+            value: 'VALUE',
         }
     ],
-} 
+};
 
 export default class Table extends BaseComponent {
-	constructor(parentElement: HTMLElement, paramsHBS: Partial<TableParams> = {}) {
-		const finalParamsHBS = { ...DEFAULT_PARAMS_TABLE, ...paramsHBS };
-		const templateHTML = templateHBS(finalParamsHBS);
-		super(templateHTML, parentElement);
-	}
+    constructor(parentElement: HTMLElement, paramsHBS: Partial<TableParams> = {}) {
+        const finalParamsHBS = { ...DEFAULT_PARAMS_TABLE, ...paramsHBS };
+        const templateHTML = templateHBS(finalParamsHBS);
+        super(templateHTML, parentElement);
+    }
 
-	// render(): void {
-	// 	this.parentElement.innerHTML = this.template;
-	// 	this.attachListeners();
-	// }
+    // render(): void {
+    // 	this.parentElement.innerHTML = this.template;
+    // 	this.attachListeners();
+    // }
 }

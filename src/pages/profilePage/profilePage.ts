@@ -1,38 +1,39 @@
-import BasePage from '../BasePage';
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
 import ProfileInfo from '@compound/profileInfo/profileInfo';
+import BasePage from '../BasePage';
 
 export default class ProfilePage extends BasePage {
-	private components: Array<HeaderMain | NavMenu | ProfileInfo>;
-	private contentWrapper: HTMLElement;
+    private components: Array<HeaderMain | NavMenu | ProfileInfo>;
 
-	constructor(parentElement: HTMLElement) {
-		super(parentElement);
+    private contentWrapper: HTMLElement;
 
-		this.contentWrapper = document.createElement('div');
-		this.contentWrapper.className = 'mainContent';
+    constructor(parentElement: HTMLElement) {
+        super(parentElement);
 
-		this.components = [
-			new HeaderMain(parentElement),
-			new NavMenu(this.contentWrapper),
-			new ProfileInfo(this.contentWrapper),
-		];
-	}
+        this.contentWrapper = document.createElement('div');
+        this.contentWrapper.className = 'mainContent';
 
-	render(): void {
-		this.contentWrapper.innerHTML = '';
-		this.components[0].render(); // HeaderMain
+        this.components = [
+            new HeaderMain(parentElement),
+            new NavMenu(this.contentWrapper),
+            new ProfileInfo(this.contentWrapper),
+        ];
+    }
 
-		this.parentElement.appendChild(this.contentWrapper);
-		for (let i = 1; i < this.components.length; i++) {
-			this.components[i].render();
-		}
+    render(): void {
+        this.contentWrapper.innerHTML = '';
+        this.components[0].render(); // HeaderMain
 
-		// this.contentWrapper.style.border = '1px solid blue'; // Уберите это в продакшене
-	}
+        this.parentElement.appendChild(this.contentWrapper);
+        for (let i = 1; i < this.components.length; i++) {
+            this.components[i].render();
+        }
 
-	public getNavMenu(): NavMenu {
-		return this.components[1] as NavMenu;
-	}
+        // this.contentWrapper.style.border = '1px solid blue'; // Уберите это в продакшене
+    }
+
+    public getNavMenu(): NavMenu {
+        return this.components[1] as NavMenu;
+    }
 }

@@ -1,14 +1,14 @@
-import { Compounder } from "@modules/VDOM/Compounder";
-import { VBC } from "@modules/VDOM/VBC";
-import { CSS_center } from "@VDOM/defaultStyles/VStyles";
-import { VBackButton } from "@VDOM/simple/button/backButton/backButton";
-import { VButton } from "@VDOM/simple/button/button";
-import { VProgressBar } from "@VDOM/simple/progressBar/progressBar";
+import { Compounder } from '@modules/VDOM/Compounder';
+import { VBC } from '@modules/VDOM/VBC';
+import { CSS_center } from '@VDOM/defaultStyles/VStyles';
+import { VBackButton } from '@VDOM/simple/button/backButton/backButton';
+import { VButton } from '@VDOM/simple/button/button';
+import { VProgressBar } from '@VDOM/simple/progressBar/progressBar';
 
 export class CRegForm extends VBC {
     private main: Compounder = new Compounder();
 
-    constructor(width: number, progress: number, formTitle: string, comp: VBC){
+    constructor(width: number, progress: number, formTitle: string, comp: VBC) {
         const main = new Compounder();
         main.down('registrationForm', `
             padding: 40px;
@@ -36,8 +36,8 @@ export class CRegForm extends VBC {
                 }
             `
         );
-        
-        main.down('registrationForm__inner', CSS_center+`
+
+        main.down('registrationForm__inner', `${CSS_center}
             width: 100%;
             height: 100%;
             flex-direction: column
@@ -53,21 +53,21 @@ export class CRegForm extends VBC {
             align-items: center;
             padding: 20px 0px;
         `);
-        
+
         main.add(comp);
 
-        const backBtn = new VBackButton(()=>{});
-        const continueBtn = new VButton("Продолжить", ()=>{});
-        const empty = new VBackButton(()=>{});
-        empty.inject(undefined, `.backButton { cursor: default; opacity: 0; }`);
-        
+        const backBtn = new VBackButton(() => {});
+        const continueBtn = new VButton('Продолжить', () => {});
+        const empty = new VBackButton(() => {});
+        empty.inject(undefined, '.backButton { cursor: default; opacity: 0; }');
+
         main.up();
         main.down('buttons', `
                 width: 100%;
                 height: fit-content;
                 flex-direction: row;
                 gap: 10px;
-            `+CSS_center);
+            ${CSS_center}`);
         main.add(backBtn);
         main.add(continueBtn);
         main.add(empty);

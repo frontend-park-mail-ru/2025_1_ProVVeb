@@ -1,36 +1,38 @@
-import { Compounder } from "@modules/VDOM/Compounder";
-import { VirtualElement } from "@modules/VDOM/utils";
-import { VBC } from "@modules/VDOM/VBC";
-import store from "@store";
-import { VAddButton } from "@VDOM/simple/button/addButton/addButton";
-import { VInput } from "@VDOM/simple/input/input";
-import { VInteresInputFull } from "@VDOM/simple/input/interesInput/interesInput";
-import { VList } from "@VDOM/simple/list/list";
-import { VInteres } from "@VDOM/simple/option/interest/interes";
-import Notification from "@simple/notification/notification";
+import { Compounder } from '@modules/VDOM/Compounder';
+import { VirtualElement } from '@modules/VDOM/utils';
+import { VBC } from '@modules/VDOM/VBC';
+import store from '@store';
+import { VAddButton } from '@VDOM/simple/button/addButton/addButton';
+import { VInput } from '@VDOM/simple/input/input';
+import { VInteresInputFull } from '@VDOM/simple/input/interesInput/interesInput';
+import { VList } from '@VDOM/simple/list/list';
+import { VInteres } from '@VDOM/simple/option/interest/interes';
+import Notification from '@simple/notification/notification';
 
 export class CReg60 extends VBC {
     private arr: string[];
+
     private intereses: VInteres[];
+
     private add: VAddButton;
+
     private main: Compounder;
+
     private inputs: VInteresInputFull[] = [];
 
-    constructor(){
-        const arr = ["Музыка", "Кулинария", "Программирование", "Спорт",
-            "Рисования", "Видеоигры", "Танцы", "Рукоделие", "Учеба",
-            "Искусство", "Наука", "Путешествия", "Творчество",
-            "Общение", "Саморазвитие", "Отдых", "Природа",
-            "Технологии", "Настольные игры", "Книги", "Фильмы" ];
-        
-        const intereses: VInteres[] = arr.map((i: string)=>{
-            return new VInteres(i);
-        })
-        const add = new VAddButton(()=>{});
+    constructor() {
+        const arr = ['Музыка', 'Кулинария', 'Программирование', 'Спорт',
+            'Рисования', 'Видеоигры', 'Танцы', 'Рукоделие', 'Учеба',
+            'Искусство', 'Наука', 'Путешествия', 'Творчество',
+            'Общение', 'Саморазвитие', 'Отдых', 'Природа',
+            'Технологии', 'Настольные игры', 'Книги', 'Фильмы'];
+
+        const intereses: VInteres[] = arr.map((i: string) => new VInteres(i));
+        const add = new VAddButton(() => {});
 
         const main = new Compounder();
-        
-        main.down("ints", `
+
+        main.down('ints', `
             width: 100%;
             height: fit-content;
             display: flex;
@@ -39,15 +41,14 @@ export class CReg60 extends VBC {
             align-content: flex-start;
             gap: 5px;
         `);
-        for(let i of intereses)
-            main.add(i);
+        for (const i of intereses) { main.add(i); }
         main.add(add);
 
         super(main.getTemplate());
         this.vdom = main.getVDOM();
         this.setID();
 
-        add.injectScript(".addButton", "click", ()=>{
+        add.injectScript('.addButton', 'click', () => {
             this.old_vdom = JSON.parse(JSON.stringify(this.vdom));
             ((this.vdom as VirtualElement).children[0] as VirtualElement).children.pop();
             const buf = new VInteresInputFull();
@@ -69,11 +70,11 @@ export class CReg60 extends VBC {
     }
 
     public updateTemplate(): void {
-        const profile = store.getState("myProfile") as any;
+        const profile = store.getState('myProfile') as any;
         const ints = profile.interests;
 
-        for(let int of ints){
-            if(!this.arr.includes(int)){
+        for (const int of ints) {
+            if (!this.arr.includes(int)) {
                 this.old_vdom = JSON.parse(JSON.stringify(this.vdom));
                 ((this.vdom as VirtualElement).children[0] as VirtualElement).children.pop();
                 const buf = new VInteres(int);
@@ -87,40 +88,37 @@ export class CReg60 extends VBC {
             }
         }
 
-        for(let int of ints){
-            for(let i=0;i<this.arr.length;i++){
-                if(this.arr[i]==int){
+        for (const int of ints) {
+            for (let i = 0; i < this.arr.length; i++) {
+                if (this.arr[i] == int) {
                     this.intereses[i].isChecked = false;
                     this.intereses[i].setChecked();
                 }
             }
         }
 
-        for(let input of this.inputs)
-            (input.getDOM() as HTMLElement).style.display = 'none';
+        for (const input of this.inputs) { (input.getDOM() as HTMLElement).style.display = 'none'; }
     }
 
     public getInts(): string[] {
-        let ans: string[] = [];
+        const ans: string[] = [];
 
-        for(let i=0;i<this.arr.length;i++)
-            if(this.intereses[i].isChecked)
-                ans.push(this.intereses[i].getDOM()?.textContent as string);
+        for (let i = 0; i < this.arr.length; i++) { if (this.intereses[i].isChecked) { ans.push(this.intereses[i].getDOM()?.textContent as string); } }
 
-        for(let input of this.inputs){
+        for (const input of this.inputs) {
             const text = input.getDOM()?.textContent as string;
-            if(text != "")ans.push(text);
+            if (text != '') { ans.push(text); }
         }
 
         return ans;
     }
 
-    public async submit(): Promise<boolean>{
-        const profile = store.getState("myProfile") as any;
-        const ints =this.getInts();
-        if(ints.length==0){
+    public async submit(): Promise<boolean> {
+        const profile = store.getState('myProfile') as any;
+        const ints = this.getInts();
+        if (ints.length == 0) {
             new Notification({
-                headTitle: "Ошибка валидации",
+                headTitle: 'Ошибка валидации',
                 title: 'Вам необходимо интересоваться чем-то)',
                 isWarning: true,
                 isWithButton: true,
@@ -130,7 +128,7 @@ export class CReg60 extends VBC {
 
         profile.interests = this.getInts();
 
-        store.setState("myProfile", profile);
+        store.setState('myProfile', profile);
         return true;
     }
 }

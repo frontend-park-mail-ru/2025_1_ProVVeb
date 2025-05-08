@@ -10,18 +10,18 @@ interface FormCardParams {
 }
 
 const DEFAULT_PARAMS_FORM_CARD: FormCardParams = {
-	progressBar: '',
-	linkToPage: '',
-	cardTitle: 'Заголовок',
-	fields: [],
-	button: '',
+    progressBar: '',
+    linkToPage: '',
+    cardTitle: 'Заголовок',
+    fields: [],
+    button: '',
 };
 
 export default class FormCard extends BaseComponent {
-	constructor(parentElement: HTMLElement, paramsHBS: Partial<FormCardParams> = {}) {
-		const finalParamsHBS = { ...DEFAULT_PARAMS_FORM_CARD, ...paramsHBS };
+    constructor(parentElement: HTMLElement, paramsHBS: Partial<FormCardParams> = {}) {
+        const finalParamsHBS = { ...DEFAULT_PARAMS_FORM_CARD, ...paramsHBS };
 
-		const templateHTML = templateHBS(finalParamsHBS);
-		super(templateHTML, parentElement);
-	}
+        const templateHTML = templateHBS(finalParamsHBS);
+        super(templateHTML, parentElement);
+    }
 }

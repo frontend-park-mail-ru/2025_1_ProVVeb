@@ -1,4 +1,3 @@
-import BasePage from '../BasePage';
 import { Compounder } from '@modules/VDOM/Compounder';
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
@@ -7,105 +6,108 @@ import { VComplaintBody } from '@VDOM/simple/complaint/body/body';
 import { VButton } from '@VDOM/simple/button/button';
 import Notification from '@simple/notification/notification';
 import api from '@network';
+import BasePage from '../BasePage';
 
 export default class ComplaintPage extends BasePage {
-	private components: Array<HeaderMain | NavMenu>;
-	private contentWrapper: HTMLElement;
-	private compounder: Compounder = new Compounder;
+    private components: Array<HeaderMain | NavMenu>;
 
-	constructor(parentElement: HTMLElement) {
-		super(parentElement);
+    private contentWrapper: HTMLElement;
 
-		this.contentWrapper = document.createElement('div');
-		this.contentWrapper.className = 'mainContent';
+    private compounder: Compounder = new Compounder();
 
-		this.components = [
-			new HeaderMain(parentElement),
-			new NavMenu(this.contentWrapper),
-		];
-	}
+    constructor(parentElement: HTMLElement) {
+        super(parentElement);
 
-	async render(): Promise<void> {
-		this.compounder.clear();
+        this.contentWrapper = document.createElement('div');
+        this.contentWrapper.className = 'mainContent';
 
-		const complaintHeader = new VComplaintHeader();
-		const complaintBody = new VComplaintBody();
-		const button = new VButton('Отправить', async () => {
-			const header = complaintHeader.getDOM()?.querySelector('.complaintHeader__input') as HTMLInputElement | null;
-			const body = complaintBody.getDOM()?.querySelector('.complaintBody__input') as HTMLTextAreaElement | null;
-			const headerValue = header?.value.trim();
-			const bodyValue = body?.value.trim();
+        this.components = [
+            new HeaderMain(parentElement),
+            new NavMenu(this.contentWrapper),
+        ];
+    }
 
-			if (!headerValue) {
-				const notification = new Notification({
-					headTitle: "Незаполненное поле",
-					title: `Напишите тему обращения перед отправкой`,
-					isWarning: false,
-					isWithButton: true,
-				});
-				notification.render();
-				return;
-			}
+    async render(): Promise<void> {
+        this.compounder.clear();
 
-			if (!bodyValue) {
-				const notification = new Notification({
-					headTitle: "Незаполненное поле",
-					title: `Напишите текст обращения перед отправкой`,
-					isWarning: false,
-					isWithButton: true,
-				});
-				notification.render();
-				return;
-			}
+        const complaintHeader = new VComplaintHeader();
+        const complaintBody = new VComplaintBody();
+        const button = new VButton('Отправить', async () => {
+            const header = complaintHeader.getDOM()?.querySelector('.complaintHeader__input') as HTMLInputElement | null;
+            const body = complaintBody.getDOM()?.querySelector('.complaintBody__input') as HTMLTextAreaElement | null;
+            const headerValue = header?.value.trim();
+            const bodyValue = body?.value.trim();
 
-			console.log('headerValue', headerValue);
-			console.log('bodyValue', bodyValue);
+            if (!headerValue) {
+                const notification = new Notification({
+                    headTitle: 'Незаполненное поле',
+                    title: 'Напишите тему обращения перед отправкой',
+                    isWarning: false,
+                    isWithButton: true,
+                });
+                notification.render();
+                return;
+            }
 
-			const response = await api.sendComplaint(
-				headerValue,
-				bodyValue
-			);
+            if (!bodyValue) {
+                const notification = new Notification({
+                    headTitle: 'Незаполненное поле',
+                    title: 'Напишите текст обращения перед отправкой',
+                    isWarning: false,
+                    isWithButton: true,
+                });
+                notification.render();
+                return;
+            }
 
-			if (response.success && response.data) {
-				const notification = new Notification({
-					headTitle: "Успешно",
-					title: `Ваше обращение отправлено`,
-					isWarning: false,
-					isWithButton: true,
-				});
-				notification.render();
+            console.log('headerValue', headerValue);
+            console.log('bodyValue', bodyValue);
 
-				if (header) header.value = '';
-				if (body) body.value = '';
-			} else {
-				const notification = new Notification({
-					headTitle: "Ошибка отправки",
-					title: `Не удалось отправить обращение. Попробуйте позже`,
-					isWarning: false,
-					isWithButton: true,
-				});
-				notification.render();
-			}
-		});
+            const response = await api.sendComplaint(
+                headerValue,
+                bodyValue
+            );
 
-		this.compounder.down("complaintContainer", `
+            if (response.success && response.data) {
+                const notification = new Notification({
+                    headTitle: 'Успешно',
+                    title: 'Ваше обращение отправлено',
+                    isWarning: false,
+                    isWithButton: true,
+                });
+                notification.render();
+
+                if (header) { header.value = ''; }
+                if (body) { body.value = ''; }
+            } else {
+                const notification = new Notification({
+                    headTitle: 'Ошибка отправки',
+                    title: 'Не удалось отправить обращение. Попробуйте позже',
+                    isWarning: false,
+                    isWithButton: true,
+                });
+                notification.render();
+            }
+        });
+
+        this.compounder.down('complaintContainer', `
 			display: flex;
 			gap: 30px;
 			flex-direction: column;
 		`);
-		this.compounder.add(complaintHeader);
-		this.compounder.add(complaintBody);
-		this.compounder.add(button);
+        this.compounder.add(complaintHeader);
+        this.compounder.add(complaintBody);
+        this.compounder.add(button);
 
-		this.contentWrapper.innerHTML = '';
-		this.components[0].render();
-		this.parentElement.appendChild(this.contentWrapper);
-		this.components[1].render();
+        this.contentWrapper.innerHTML = '';
+        this.components[0].render();
+        this.parentElement.appendChild(this.contentWrapper);
+        this.components[1].render();
 
-		this.compounder.addTo(this.contentWrapper);
-	}
+        this.compounder.addTo(this.contentWrapper);
+    }
 
-	public getNavMenu(): NavMenu {
-		return this.components[1] as NavMenu;
-	}
+    public getNavMenu(): NavMenu {
+        return this.components[1] as NavMenu;
+    }
 }

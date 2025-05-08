@@ -12,21 +12,21 @@ interface LinkToParams {
 }
 
 const DEFAULT_LINK_TO_AUTH_PARAMS_BUTTON: LinkToParams = {
-	idLink: 'linkToAuth',
-	linkText: 'Уже есть аккаунт? Войти',
+    idLink: 'linkToAuth',
+    linkText: 'Уже есть аккаунт? Войти',
 };
 
 DEFAULT_LINK_TO_AUTH_PARAMS_BUTTON.listenRoute = {
-	eventType: 'click',
-	selector: `#${DEFAULT_LINK_TO_AUTH_PARAMS_BUTTON.idLink}`,
-	callback: () => {
-		router.navigateTo(AppPage.Auth);
-	},
+    eventType: 'click',
+    selector: `#${DEFAULT_LINK_TO_AUTH_PARAMS_BUTTON.idLink}`,
+    callback: () => {
+        router.navigateTo(AppPage.Auth);
+    },
 };
 
 export default class LinkToLogin extends LinkTo {
-	constructor(parentElement: HTMLElement, paramsHBS: Partial<LinkToParams> = {}) {
-		const finalParamsHBS: LinkToParams = { ...DEFAULT_LINK_TO_AUTH_PARAMS_BUTTON, ...paramsHBS };
-		super(parentElement, finalParamsHBS);
-	}
+    constructor(parentElement: HTMLElement, paramsHBS: Partial<LinkToParams> = {}) {
+        const finalParamsHBS: LinkToParams = { ...DEFAULT_LINK_TO_AUTH_PARAMS_BUTTON, ...paramsHBS };
+        super(parentElement, finalParamsHBS);
+    }
 }

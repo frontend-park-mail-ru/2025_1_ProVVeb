@@ -1,16 +1,16 @@
-import { VBC } from "@modules/VDOM/VBC";
+import { VBC } from '@modules/VDOM/VBC';
 import templateHBS from './starsFeedback.hbs';
 
 export class VStarsFeedback extends VBC {
-	constructor(startText: string){
+    constructor(startText: string) {
         super(
-            templateHBS, 
+            templateHBS,
             {
-                startText: "",
-            }, 
-            ``,
+                startText: '',
+            },
+            '',
             [],
-            {startText: startText}
+            { startText: startText }
         );
     }
 }
