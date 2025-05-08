@@ -12,8 +12,8 @@ async function sendRequest(url, method, data = null, isMultipart = false) {
 	try {
 		const options = {
 			method,
-			mode: "cors",
-			credentials: "include",
+			mode: 'cors',
+			credentials: 'include',
 		};
 
 		// Проверяем, нужен ли multipart
@@ -25,7 +25,7 @@ async function sendRequest(url, method, data = null, isMultipart = false) {
 				options.body = (data instanceof FormData) ? data : objectToFormData(data);
 			} else {
 				options.headers = {
-					"Content-Type": "application/json",
+					'Content-Type': 'application/json',
 				};
 				options.body = JSON.stringify(data);
 			}
@@ -50,8 +50,8 @@ async function sendRequest(url, method, data = null, isMultipart = false) {
 
 async function sendFeedback(score, answer) {
 	const url = `${BASE_URL}/queries/sendResp`;
-	console.log(url)
-	return sendRequest(url, 'POST', { name: "CSAT", score, answer });
+	console.log(url);
+	return sendRequest(url, 'POST', { name: 'CSAT', score, answer });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
