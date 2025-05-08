@@ -211,24 +211,28 @@ export default class MessagePage extends BasePage {
 		const chatInput = new VChatInput(profileId, () => {
 			const textArea = chatInput.getDOM()?.querySelector('.chatInput__input textarea') as HTMLTextAreaElement | null;
 			if (textArea) {
-				if (textArea.value.trim() === '') { return; }
+				const messageContent = textArea.value.trim();
+
+				if (messageContent === '') {
+					return;
+				}
+
+				textArea.value = '';
 
 				this.currentChatWS?.send(JSON.stringify({
 					type: 'create',
 					payload: {
 						chat_id: chatId,
 						user_id: (store.getState('myID') as number),
-						content: textArea.value.trim(),
+						content: messageContent,
 					}
 				}));
 
 				this.messageAreaCompounder.addToStart(new VChatMessage(
-					textArea.value.trim(), true
+					messageContent, true
 				));
 
-				store.setState(`${profileId}lastMessage`, textArea.value.trim());
-
-				textArea.value = '';
+				store.setState(`${profileId}lastMessage`, messageContent);
 
 				this.chatAreaCompounder.render(this.contentWrapper);
 			}
