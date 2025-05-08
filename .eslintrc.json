@@ -1,7 +1,7 @@
 {
     "env": {
 		// Устанавливает окружение как браузер (document, window и т.д. доступны)
-        "browser": true,
+        "browser": true
     },
 	// Наследует настройки стиля кода от AirBnb для базовых JavaScript файлов
     "parserOptions": {
@@ -12,8 +12,6 @@
 	"plugins": [],
 	"extends": [
 		"airbnb-base"
-		// "eslint:recommended",
-		// "plugin:@typescript-eslint/recommended"
 	],
     "rules": {
 		"import/extensions": [
