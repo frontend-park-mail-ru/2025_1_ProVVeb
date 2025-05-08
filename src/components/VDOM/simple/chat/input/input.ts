@@ -16,6 +16,16 @@ export class VChatInput extends VBC {
 					eventType: 'click',
 					handler: onClick
 				},
+				{
+					selector: '.chatInput__input',
+					eventType: 'keydown',
+					handler: (e: KeyboardEvent) => {
+						if (e.key === 'Enter' && !e.shiftKey) {
+							e.preventDefault();
+							onClick();
+						}
+					}
+				}
 			],
 			{ profileId },
 		);

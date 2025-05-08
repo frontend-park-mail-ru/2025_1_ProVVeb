@@ -44,7 +44,6 @@ export default class MessagePage extends BasePage {
 			this.notificationWS.close();
 		}
 
-		// Создаем новое соединение для уведомлений
 		this.notificationWS = new WebSocket(`${api.WS_NOTIF_URL}`);
 
 		this.notificationWS.onopen = () => { };
@@ -122,7 +121,6 @@ export default class MessagePage extends BasePage {
 		if (this.currentChatWS) {
 			this.currentChatWS.close();
 			this.currentChatWS = null;
-			console.log('WebSocket currentChatWS closed');
 		}
 
 		this.chatAreaCompounder.clear();
@@ -225,7 +223,7 @@ export default class MessagePage extends BasePage {
 				}));
 
 				this.messageAreaCompounder.addToStart(new VChatMessage(
-					textArea.value, true
+					textArea.value.trim(), true
 				));
 
 				store.setState(`${profileId}lastMessage`, textArea.value.trim());

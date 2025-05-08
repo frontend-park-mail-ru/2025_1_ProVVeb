@@ -43,6 +43,15 @@ export class VSearchInput extends VBC {
 					eventType: 'click',
 					handler: onClickClearBtn,
 				},
+				{
+					selector: '.searchInput__input',
+					eventType: 'keydown',
+					handler: (e: KeyboardEvent) => {
+						if (e.key === 'Enter') {
+							onClickSearchBtn();
+						}
+					}
+				}
 			],
 			{}
 		);
