@@ -23,7 +23,7 @@ function getDATA(cards: StatParams[]) {
     const ans = { n: 0, min: 5, max: 0 };
 
     for (const card of cards) {
-        if (card.name === 'CSAT') {
+        if (card.name == 'CSAT') {
             ans.min = Math.min(ans.min, card.score);
             ans.max = Math.max(ans.max, card.score);
             ans.n += 1;

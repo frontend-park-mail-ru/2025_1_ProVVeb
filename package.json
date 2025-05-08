@@ -15,7 +15,6 @@
 	"type": "module",
 	"main": "index.js",
 	"scripts": {
-		"prepare": "husky install",
 		"start": "webpack serve --mode development",
 		"build": "webpack --mode production",
 		"lint": "eslint src --ext .js,.ts",
@@ -23,6 +22,8 @@
 		"serve": "serve dist -p 8000"
 	},
 	"dependencies": {
+		"@typescript-eslint/eslint-plugin": "^8.32.0",
+		"@typescript-eslint/parser": "^8.32.0",
 		"express": "^4.21.2",
 		"globstar": "^1.0.0",
 		"nodemon": "^3.1.9"
@@ -32,8 +33,6 @@
 		"@babel/preset-env": "^7.26.9",
 		"@babel/preset-typescript": "^7.26.0",
 		"@eslint/js": "^8.0.0",
-		"@typescript-eslint/eslint-plugin": "^8.32.0",
-		"@typescript-eslint/parser": "^8.32.0",
 		"babel-loader": "^10.0.0",
 		"copy-webpack-plugin": "^13.0.0",
 		"css-loader": "^7.1.2",
@@ -44,7 +43,6 @@
 		"handlebars": "^4.7.8",
 		"handlebars-loader": "^1.7.3",
 		"html-webpack-plugin": "^5.6.3",
-		"husky": "^9.1.7",
 		"mini-css-extract-plugin": "^2.9.2",
 		"sass": "^1.86.0",
 		"sass-loader": "^16.0.5",
