@@ -81,6 +81,7 @@ export default class PeopleCards extends BaseComponent {
 		this.currentCard = new PersonCard(
 			this.parentElement,
 			{
+				personId: this.CARDS[this.currentIndex].profileId,
 				personName: this.CARDS[this.currentIndex].firstName,
 				personAge: parseBirthday(this.CARDS[this.currentIndex].birthday)?.year ?? '≥ 18',
 				personDescription: this.CARDS[this.currentIndex].description,

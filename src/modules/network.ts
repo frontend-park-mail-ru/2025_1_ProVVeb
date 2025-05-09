@@ -202,14 +202,14 @@ async function getCards() {
 async function sendComplaint(
 	header: string,
 	body: string,
-	forWhom?: string,
+	forWhom?: number,
 ): Promise<ApiResponse> {
 	const url = `${BASE_URL}/complaints/create`;
 
 	const params: {
 		complaint_type: string;
 		complaint_text: string;
-		complaint_on?: string
+		complaint_on?: number
 	} = {
 		complaint_type: header,
 		complaint_text: body,

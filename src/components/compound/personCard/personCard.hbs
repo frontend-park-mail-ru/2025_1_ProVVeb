@@ -1,4 +1,32 @@
 <div id="idPersonCard" class="personCard">
+	<div class="report-modal" id="reportModal">
+		<div class="report-modal__content">
+			<h3 class="report-modal__title">Пожаловаться на профиль</h3>
+
+			<div class="report-modal__section">
+				<label class="report-modal__label">Тема жалобы</label>
+				<select class="report-modal__select">
+					<option value="Неприемлемый контент">Неприемлемый контент</option>
+					<option value="Фейковый профиль">Фейковый профиль</option>
+					<option value="Спам">Спам</option>
+					<option value="Другое">Другое</option>
+				</select>
+			</div>
+
+			<div class="report-modal__section">
+				<label class="report-modal__label">Подробности</label>
+				<textarea class="report-modal__textarea" placeholder="Опишите проблему..."></textarea>
+			</div>
+
+			<div class="report-modal__buttons">
+				<button class="report-modal__cancel">Отмена</button>
+				<button class="report-modal__submit">Отправить</button>
+			</div>
+		</div>
+	</div>
+	<button class="personCard__reportButton" data-tooltip="Пожаловаться">
+		<img src="media/reportIcon.svg" alt="Пожаловаться" width="24" height="24">
+	</button>
 	<div class="personCard__photos">
 		{{#each srcPersonPhotos}}
 		<input type="radio" name="photo-slider" id="photo-{{@index}}" {{#if @first}}checked{{/if}}
