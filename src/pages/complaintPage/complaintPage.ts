@@ -1,10 +1,10 @@
-import { Compounder } from '@modules/VDOM/Compounder';
+import { Compounder } from '@VDOM/Compounder';
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
-import { VComplaintHeader } from '@VDOM/simple/complaint/header/header';
-import { VComplaintBody } from '@VDOM/simple/complaint/body/body';
-import { VButton } from '@VDOM/simple/button/button';
-import Notification from '@simple/notification/notification';
+import { VComplaintHeader } from '@ui/complaint/header/header';
+import { VComplaintBody } from '@ui/complaint/body/body';
+import { VButton } from '@ui/button/button';
+import Notification from '@notification';
 import api from '@network';
 import BasePage from '../BasePage';
 

@@ -18,33 +18,35 @@ export default {
 		extensions: ['.js', '.ts'],
 		alias: {
 			'@media': path.resolve(__dirname, 'src/media'),
-			'@store': path.resolve(__dirname, 'src/components/Store.ts'),
-			'@basecomp': path.resolve(__dirname, 'src/components/BaseComponent.ts'),
-			'@VDOM': path.resolve(__dirname, 'src/components/VDOM'),
-			'@compound': path.resolve(__dirname, 'src/components/compound'),
-			'@pattern': path.resolve(__dirname, 'src/components/pattern'),
-			'@simple': path.resolve(__dirname, 'src/components/simple'),
+			'@store': path.resolve(__dirname, 'src/core/Store.ts'),
+			'@basecomp': path.resolve(__dirname, 'src/core/BaseComponent.ts'),
+			'@VDOM': path.resolve(__dirname, 'src/core/VDOM'),
+			'@compound': path.resolve(__dirname, 'src/components/legacy/compound'),
+			'@pattern': path.resolve(__dirname, 'src/components/legacy/pattern'),
+			'@simple': path.resolve(__dirname, 'src/components/legacy/simple'),
 			'@modules': path.resolve(__dirname, 'src/modules'),
 			'@network': path.resolve(__dirname, 'src/modules/network.ts'),
 			'@validation': path.resolve(__dirname, 'src/modules/validation.ts'),
 			'@router': path.resolve(__dirname, 'src/modules/router.ts'),
-			'@mock': path.resolve(__dirname, 'src/mock'),
 			'@pages': path.resolve(__dirname, 'src/pages'),
 			'@styles': path.resolve(__dirname, 'src/styles/globals'),
-			'@notification': path.resolve(__dirname, 'src/components/simple/notification/notification.ts'),
+			'@vstyles': path.resolve(__dirname, 'src/styles/inlineStyles/VStyles.ts'),
+			'@ui': path.resolve(__dirname, 'src/components/modern/ui'),
+			'@features': path.resolve(__dirname, 'src/components/modern/features'),
+			'@notification': path.resolve(__dirname, 'src/components/legacy/simple/notification/notification.ts'),
 		},
 	},
 	entry: {
 		app: ['./src/index.ts'],
 		sw: {
 			import: './src/sw.ts',
-			filename: 'sw.js' // Фиксированное имя для Service Worker
+			filename: 'sw.js'
 		}
 	},
 	output: {
 		path: path.resolve(__dirname, 'dist'),
 		filename: '[name].[contenthash].js',
-		chunkFilename: '[name].[contenthash].js', // Фиксированное имя для Service Worker
+		chunkFilename: '[name].[contenthash].js',
 		publicPath: '/',
 		clean: true,
 	},
@@ -92,10 +94,6 @@ export default {
 		new HTMLWebpackPlugin({
 			template: './src/index.html',
 		}),
-		// new HTMLWebpackPlugin({
-		// 	template: './src/feedbackPage.html',
-		// 	filename: 'feedbackPage.html',
-		// }),
 		new MiniCssExtractPlugin({
 			filename: '[name].[contenthash].css',
 		}),
@@ -108,18 +106,6 @@ export default {
 				{
 					from: path.resolve(__dirname, 'src/media'),
 					to: path.resolve(__dirname, 'dist/media'),
-				},
-				{
-					from: path.resolve(__dirname, 'src/feedbackPage.html'),
-					to: path.resolve(__dirname, 'dist'),
-				},
-				{
-					from: path.resolve(__dirname, 'src/feedbackPage.css'),
-					to: path.resolve(__dirname, 'dist'),
-				},
-				{
-					from: path.resolve(__dirname, 'src/feedbackPage.js'),
-					to: path.resolve(__dirname, 'dist'),
 				},
 			],
 		}),

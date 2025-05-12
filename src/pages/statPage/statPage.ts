@@ -1,9 +1,9 @@
-import { Compounder } from '@modules/VDOM/Compounder';
+import { Compounder } from '@VDOM/Compounder';
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
-import { VBC } from '@modules/VDOM/VBC';
-import { VStatTable } from '@VDOM/compound/statTable/statTable';
-import { VStatCard } from '@VDOM/compound/statCard/statCard';
+import { VBC } from '@VDOM/VBC';
+import { VStatTable } from '@features/statTable/statTable';
+import { VStatCard } from '@features/statCard/statCard';
 import api from '@network';
 import store from '@store';
 import BasePage from '../BasePage';

@@ -1,16 +1,15 @@
-import { CRegForm } from '@VDOM/compound/regForm/regForm';
+import { CRegForm } from '@features/regForm/regForm';
 import HeaderGreeting from '@compound/headerGreeting/headerGreeting';
-import { CReg20 } from '@VDOM/compound/regForm/20/20';
-import { CReg40 } from '@VDOM/compound/regForm/40/40';
-import { CReg60 } from '@VDOM/compound/regForm/60/60';
-import { CReg80 } from '@VDOM/compound/regForm/80/80';
-import { CReg80_3 } from '@VDOM/compound/regForm/80/803/803';
-import { CReg100 } from '@VDOM/compound/regForm/100/100';
-import { CRegFinish } from '@VDOM/compound/regForm/finish/finish';
-import { VBC } from '@modules/VDOM/VBC';
+import { CReg20 } from '@features/regForm/steps/step1_intro';
+import { CReg40 } from '@features/regForm/steps/step2_conf';
+import { CReg60 } from '@features/regForm/steps/step3_interests';
+import { CReg80 } from '@features/regForm/steps/step4_prefs';
+import { CReg80_3 } from '@features/regForm/steps/step5_aboutMe';
+import { CReg100 } from '@features/regForm/steps/step6_photo';
+import { CRegFinish } from '@features/regForm/steps/step7_outro';
+import { VBC } from '@VDOM/VBC';
 import router, { AppPage } from '@modules/router';
 import store from '@store';
-import api from '@network';
 import Confirm from '@simple/confirm/confirm';
 import BasePage from '../BasePage';
 

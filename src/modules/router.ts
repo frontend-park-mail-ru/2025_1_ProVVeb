@@ -1,6 +1,6 @@
 import api from '@network';
 import store from '@store';
-import Notification from '@simple/notification/notification';
+import Notification from '@notification';
 import LoginPage from '@pages/loginPage/loginPage';
 import AuthPage from '@pages/authPage/authPage';
 import FeedPage from '@pages/feedPage/feedPage';

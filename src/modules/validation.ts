@@ -1,4 +1,4 @@
-import Notification from '@simple/notification/notification';
+import Notification from '@notification';
 
 interface ValidatorRule {
 	reg: RegExp;

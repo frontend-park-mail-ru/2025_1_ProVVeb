@@ -1,15 +1,15 @@
-import { Compounder } from '@modules/VDOM/Compounder';
+import { Compounder } from '@VDOM/Compounder';
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
-import { VChatMessage } from '@VDOM/simple/chat/message/chatMessage';
-import { VChatHeader } from '@VDOM/simple/chat/header/header';
-import { VChatInput } from '@VDOM/simple/chat/input/input';
-import { VUserItem } from '@VDOM/simple/chat/userItem/userItem';
-import { VStartMessage } from '@VDOM/simple/chat/startMessage/startMessage';
+import { VChatMessage } from '@ui/chat/message/chatMessage';
+import { VChatHeader } from '@ui/chat/header/header';
+import { VChatInput } from '@ui/chat/input/input';
+import { VUserItem } from '@ui/chat/userItem/userItem';
+import { VStartMessage } from '@ui/chat/startMessage/startMessage';
 import api from '@network';
-import Notification from '@simple/notification/notification';
+import Notification from '@notification';
 import store from '@store';
-import { VChatMobileToggle } from '@VDOM/simple/chat/chatMobileToggle/chatMobileToggle';
+import { VChatMobileToggle } from '@ui/chat/chatMobileToggle/chatMobileToggle';
 import BasePage from '../BasePage';
 
 export default class MessagePage extends BasePage {

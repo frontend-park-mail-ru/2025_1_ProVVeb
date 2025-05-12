@@ -1,11 +1,11 @@
-import { Compounder } from '@modules/VDOM/Compounder';
+import { Compounder } from '@VDOM/Compounder';
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
-import { VSearchInput } from '@VDOM/simple/search/searchInput/searchInput';
-import { VSearchItem } from '@VDOM/simple/search/searchItem/searchItem';
-import { VSearchStart } from '@VDOM/simple/search/searchStart/searchStart';
+import { VSearchInput } from '@ui/search/searchInput/searchInput';
+import { VSearchItem } from '@ui/search/searchItem/searchItem';
+import { VSearchStart } from '@ui/search/searchStart/searchStart';
 import api from '@network';
-import Notification from '@simple/notification/notification';
+import Notification from '@notification';
 import store from '@store';
 import BasePage from '../BasePage';
 
