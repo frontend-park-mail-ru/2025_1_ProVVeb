@@ -2,7 +2,6 @@ import {
 	VirtualNode,
 	parseHTML,
 	renderVDOM,
-	diff,
 	injectCSSIntoVDOM,
 	EventDescriptor,
 	VirtualElement,
@@ -50,15 +49,26 @@ export class VBC<P = {}> {
 		this.templateHBS = templateOrHBS;
 		this.style = style;
 		this.eventsList = eventsList;
-		const compiledHTML = this.compileTemplate();
-		this.vdom = parseHTML(compiledHTML);
-		this.vdom = injectCSSIntoVDOM(this.style, this.vdom);
-		this.eventsList.forEach((ev) => this.injectScript(ev.selector, ev.eventType, ev.handler));
+
+		this.vdom = this.createVDOM();
 
 		this.root = renderVDOM(this.vdom) as HTMLElement;
 		this.isRendered = false;
+		this.setID();
+		this.old_vdom = JSON.parse(JSON.stringify(this.vdom));
+	}
 
-		this.setAttribute('data-vbc-id', this.id);
+	private createVDOM() {
+		const compiledHTML = this.compileTemplate();
+		let newVDOM = parseHTML(compiledHTML);
+		newVDOM = injectCSSIntoVDOM(this.style, newVDOM);
+		this.eventsList.forEach((ev) => this.injectScript(ev.selector, ev.eventType, ev.handler, newVDOM));
+		this.setID(newVDOM);
+
+		return newVDOM;
+	}
+
+	private syncronize() {
 		this.old_vdom = JSON.parse(JSON.stringify(this.vdom));
 	}
 
@@ -78,32 +88,25 @@ export class VBC<P = {}> {
 			const currentDOM = this.getDOM();
 			if (currentDOM) { patchVDOM(this.old_vdom, this.vdom, currentDOM); }
 			this.root = renderVDOM(this.vdom) as HTMLElement;
-			this.old_vdom = JSON.parse(JSON.stringify(this.vdom));
+			this.syncronize();
 			return;
 		}
 
-		const compiledHTML = this.compileTemplate();
-		let newVDOM = parseHTML(compiledHTML);
-		newVDOM = injectCSSIntoVDOM(this.style, newVDOM);
-		this.eventsList.forEach((ev) => this.injectScript(ev.selector, ev.eventType, ev.handler, newVDOM));
-		this.setID(newVDOM);
+		let newVDOM = this.createVDOM();
 
 		const newRoot = renderVDOM(this.vdom) as HTMLElement;
 		const currentDOM = this.getDOM();
 		if (currentDOM) { patchVDOM(this.old_vdom, newVDOM, currentDOM); }
 
 		this.root = newRoot;
-		this.old_vdom = JSON.parse(JSON.stringify(this.vdom));
+		this.syncronize();
 		this.vdom = newVDOM;
 	}
 
 	public injectProps(newProps: Partial<P>): void {
 		this.props = { ...this.props, ...newProps };
 
-		const compiledHTML = this.compileTemplate();
-		this.vdom = parseHTML(compiledHTML);
-		this.vdom = injectCSSIntoVDOM(this.style, this.vdom);
-		this.eventsList.forEach((ev) => this.injectScript(ev.selector, ev.eventType, ev.handler));
+		this.vdom = this.createVDOM();
 	}
 
 	protected setAttribute(key: string, value: string, vdom = this.vdom): void {
@@ -156,10 +159,7 @@ export class VBC<P = {}> {
 	public inject(newTemplate?: string, newStyle?: string, newEvents?: EventDescriptor[]): void {
 		if (newTemplate) {
 			this.templateHBS = () => newTemplate;
-			const compiledHTML = this.compileTemplate();
-			this.vdom = parseHTML(compiledHTML);
-			this.vdom = injectCSSIntoVDOM(this.style, this.vdom);
-			this.eventsList.forEach((ev) => this.injectScript(ev.selector, ev.eventType, ev.handler));
+			this.vdom = this.createVDOM();
 		}
 		if (newStyle) {
 			this.style += `\n${newStyle}`;
@@ -188,7 +188,7 @@ export class VBC<P = {}> {
 		} else {
 			this.update();
 		}
-		this.old_vdom = JSON.parse(JSON.stringify(this.vdom));
+		this.syncronize();
 	}
 
 	public forceRender(mountPoint: HTMLElement): void {
