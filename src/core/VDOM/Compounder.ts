@@ -1,6 +1,6 @@
 import { VBC } from './VBC';
 import {
-	VirtualNode, renderVDOM, VirtualElement, parseStyle
+	VirtualNode, renderVDOM, VirtualElement, parseStyle, patchVDOM
 } from './utils';
 
 export class Compounder extends VBC {
@@ -24,43 +24,39 @@ export class Compounder extends VBC {
 		};
 		this.current = this.root_ as VirtualElement;
 		this.stack = [];
+		this.vdom = this.root_;
 	}
 
-	public add(component: VBC): void {
+	public add(component: VBC): this {
 		this.current.children.push(component.getVDOM());
-		this.vdom = this.root_;
+		return this;
 	}
 
-	public addToStart(component: VBC): void {
+	public addToStart(component: VBC): this {
 		this.current.children.unshift(component.getVDOM());
-		this.vdom = this.root_;
+		return this;
 	}
 
-	public down(arg: string | VirtualElement, inlineStyle?: string, tag?: string): void {
-		let newBlock: VirtualElement;
-		if (typeof arg === 'string') {
-			const TAG = tag || 'div';
-			newBlock = { tag: TAG, className: arg, children: [] };
-			if (inlineStyle) {
-				newBlock.style = parseStyle(inlineStyle);
-			}
-		} else {
-			newBlock = arg;
-		}
+	public down(arg: string | VirtualElement, inlineStyle?: string, tag?: string): this {
+		const newBlock: VirtualElement =
+			typeof arg === 'string'
+				? { tag: tag || 'div', className: arg, style: inlineStyle ? parseStyle(inlineStyle) : {}, children: [] }
+				: arg;
 		this.current.children.push(newBlock);
 		this.stack.push(this.current);
 		this.current = newBlock;
 
-		this.vdom = this.root_;
+		return this;
 	}
 
-	public up(): void {
+	public up(): this {
 		if (this.stack.length > 0) {
 			this.current = this.stack.pop() as VirtualElement;
 		}
+		return this;
 	}
 
-	public clear(): void {
+	public clear(): this {
 		this.root_ = {
 			tag: 'div',
 			style: {
@@ -70,6 +66,8 @@ export class Compounder extends VBC {
 		};
 		this.current = this.root_ as VirtualElement;
 		this.stack = [];
+		this.vdom = this.root_;
+		return this;
 	}
 
 	public addTo(mountPoint: HTMLElement): void {
@@ -80,6 +78,7 @@ export class Compounder extends VBC {
 	}
 
 	public render(mountPoint: HTMLElement): void {
+		this.mountPoint = mountPoint;
 		if (!this.isRendered) {
 			this.root = renderVDOM(this.vdom) as HTMLElement;
 			mountPoint.appendChild(this.root);
@@ -89,6 +88,7 @@ export class Compounder extends VBC {
 			mountPoint.replaceChild(newRoot, this.root as HTMLElement);
 			this.root = newRoot;
 		}
+		this.syncronize();
 	}
 
 	public getTemplate(): string {

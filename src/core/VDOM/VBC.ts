@@ -68,7 +68,7 @@ export class VBC<P = {}> {
 		return newVDOM;
 	}
 
-	private syncronize() {
+	protected syncronize() {
 		this.old_vdom = JSON.parse(JSON.stringify(this.vdom));
 	}
 
