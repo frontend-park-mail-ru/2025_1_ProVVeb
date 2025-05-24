@@ -4,6 +4,8 @@ import { createRequire } from 'module'; // Импортируем createRequire
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
 // Создаём аналог __dirname для ES модулей
 const __filename = fileURLToPath(import.meta.url);
@@ -48,6 +50,13 @@ export default {
 		publicPath: '/',
 		clean: true,
 	},
+	optimization: {
+		minimize: true,
+		minimizer: [
+			new TerserPlugin(), // Для JS
+			new CssMinimizerPlugin(), // Для CSS
+		],
+	},
 	devServer: {
 		static: path.resolve(__dirname, 'dist'),
 		port: 8000,
@@ -59,6 +68,27 @@ export default {
 	devtool: 'source-map',
 	module: {
 		rules: [
+			{
+				test: /\.(png|jpe?g|gif|webp)$/i,
+				use: [
+					{
+						loader: 'file-loader',
+						options: {
+							name: '[name].[contenthash].[ext]',
+						},
+					},
+					{
+						loader: 'image-webpack-loader',
+						options: {
+							mozjpeg: { progressive: true },
+							optipng: { enabled: false },
+							pngquant: { quality: [0.65, 0.90] },
+							gifsicle: { interlaced: false },
+							webp: { quality: 75 }
+						},
+					},
+				],
+			},
 			{
 				test: /\.hbs$/,
 				loader: 'handlebars-loader',

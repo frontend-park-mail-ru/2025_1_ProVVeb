@@ -10,6 +10,17 @@
         "sourceType": "module" // Указывает, что код будет использовать модули (import/export)
     },
     "rules": {
+		"import/no-extraneous-dependencies": [
+			"error", {
+				"devDependencies": [
+					"**/webpack.config.js",
+					"**/webpack.*.js",
+					"**/*.webpack.config.js",
+					"**/terser-webpack-plugin",
+					"**/css-minimizer-webpack-plugin"
+				]
+			}
+    	],
 		"import/extensions": [
 			"error",
 			"ignorePackages", // Игнорирует проверки для пакетов
