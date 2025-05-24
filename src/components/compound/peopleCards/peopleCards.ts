@@ -3,6 +3,7 @@ import BaseComponent from '@basecomp';
 import api, { Profile } from '@network';
 import store from '@store';
 import { parseBirthday } from '@modules/tools';
+import Notification from '@simple/notification/notification';
 
 interface Listener {
 	event: string;
@@ -15,6 +16,7 @@ export default class PeopleCards extends BaseComponent {
 	private CARDS: Profile[];
 	private isDataLoaded: boolean;
 	private currentCard: PersonCard | null;
+	private canGoBack: boolean;
 
 	constructor(parentElement: HTMLElement) {
 		super('', parentElement);
@@ -22,9 +24,9 @@ export default class PeopleCards extends BaseComponent {
 		this.CARDS = [];
 		this.isDataLoaded = false;
 		this.currentCard = null;
+		this.canGoBack = false;
 	}
 
-	// Метод для загрузки данных
 	private async loadData(): Promise<void> {
 		if (!this.isDataLoaded) {
 			const response = await api.getProfiles(store.getState('myID') as number);
@@ -33,7 +35,6 @@ export default class PeopleCards extends BaseComponent {
 		}
 	}
 
-	// Метод для рендеринга карточки
 	public async render(): Promise<void> {
 		if (this.currentCard) {
 			document.getElementById('idPersonCard')?.remove();
@@ -46,7 +47,7 @@ export default class PeopleCards extends BaseComponent {
 				event: 'click',
 				selector: '#dislikeButton',
 				callback: async () => {
-					let card = document.querySelector('.personCard');
+					const card = document.querySelector('.personCard');
 					card?.classList.add('personCard--disliked');
 					await this.handleDislike();
 				},
@@ -55,7 +56,7 @@ export default class PeopleCards extends BaseComponent {
 				event: 'click',
 				selector: '#likeButton',
 				callback: async () => {
-					let card = document.querySelector('.personCard');
+					const card = document.querySelector('.personCard');
 					card?.classList.add('personCard--liked');
 					await this.handleLike();
 				},
@@ -100,8 +101,9 @@ export default class PeopleCards extends BaseComponent {
 		const likeTo = this.CARDS[this.currentIndex].profileId;
 		await api.Dislike(likeFrom, likeTo);
 
-		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
+		this.canGoBack = true;
 
+		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
 		await this.render();
 	}
@@ -111,42 +113,44 @@ export default class PeopleCards extends BaseComponent {
 		const likeTo = this.CARDS[this.currentIndex].profileId;
 		await api.Like(likeFrom, likeTo);
 
-		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
+		this.canGoBack = true;
 
+		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
 		await this.render();
 	}
 
-	private handleRepeat(): void {
-		// console.log('Тык повторить');
+	private async handleRepeat(): Promise<void> {
+		if (this.currentIndex === 0) {
+			new Notification({
+				headTitle: '🚫 Возврат недоступен',
+				title: 'Вы находитесь в начале списка',
+				isWarning: false,
+				isWithButton: true,
+			}).render();
+			return;
+		}
+
+		if (!this.canGoBack) {
+			new Notification({
+				headTitle: '⏪ Доступен только один возврат',
+				title: 'Вы уже вернулись к предыдущей карточке',
+				isWarning: false,
+				isWithButton: true,
+			}).render();
+			return;
+		}
+
+		this.currentIndex--;
+		this.canGoBack = false;
+		await this.render();
 	}
 
 	private handleStar(): void {
-		// console.log('Тык звезда');
+		console.log('Тык звезда');
 	}
 
 	private handleLightning(): void {
-		// console.log('Тык молния');
+		console.log('Тык молния');
 	}
 }
-
-// const MOCK_PERSON_CARDS = [
-// 	{
-// 		srcPersonPicture: '/mock/girl.jpg',
-// 		personName: 'Катя',
-// 		personAge: 19,
-// 		personDescription: 'Ого...',
-// 	},
-// 	{
-// 		srcPersonPicture: '/mock/man.jpg',
-// 		personName: 'Макс',
-// 		personAge: 21,
-// 		personDescription: 'Люблю путешествовать и играть в игры.',
-// 	},
-// 	{
-// 		srcPersonPicture: '/mock/sofia.jpg',
-// 		personName: 'Анна',
-// 		personAge: 25,
-// 		personDescription: 'Фотографирую закаты и пеку вкусные пироги.',
-// 	}
-// ];
