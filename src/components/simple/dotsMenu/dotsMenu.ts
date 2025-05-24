@@ -1,8 +1,9 @@
-import templateHBS from './dotsMenu.hbs';
 import BaseComponent from '@basecomp';
 import api from '@network';
 import router, { AppPage } from '@router';
 import store from '@store';
+import Notification from '@simple/notification/notification';
+import templateHBS from './dotsMenu.hbs';
 
 interface DotsMenuParams {
 	idDotsMenu: string;
@@ -31,13 +32,17 @@ const LINKS: LinkConfig[] = [
 			selector: '#{id}',
 			callback: () => {
 				api.logoutUser()
-					.then((response) => {
-						// console.log('Выход выполнен успешно:', response);
+					.then(() => {
 						store.setState('inSession', false);
 						router.navigateTo(AppPage.Auth);
 					})
-					.catch((error) => {
-						console.error('Ошибка при выходе:', error);
+					.catch(() => {
+						new Notification({
+							headTitle: 'Что-то пошло не так...',
+							title: 'Ошибка сервера. Попробуйте позже',
+							isWarning: false,
+							isWithButton: true
+						}).render();
 					});
 			},
 		},

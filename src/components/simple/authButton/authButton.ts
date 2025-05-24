@@ -34,28 +34,27 @@ DEFAULT_AUTH_PARAMS_BUTTON.listenButton = {
 
 					const data = await api.getProfile(respond.data.user_id);
 
-					const ava = api.BASE_URL_PHOTO + data?.data?.photos[0];
-					const name = data?.data?.firstName + ' ' + data?.data?.lastName;
+					const ava = api.BASE_URL_PHOTO + (data?.data?.photos[0] ?? '');
+					const name = `${data?.data?.firstName} ${data?.data?.lastName}`;
 
-					if (name) store.setState('profileName', name);
-					if (ava) store.setState('ava', ava);
-					if (data?.data?.isMale) store.setState('isMale', data?.data?.isMale);
+					if (name) { store.setState('profileName', name); }
+					if (ava) { store.setState('ava', ava); }
+					if (data?.data?.isMale) { store.setState('isMale', data?.data?.isMale); }
 
 					await router.navigateTo(AppPage.Feed);
 				} else {
 					const JSONans = JSON.parse(respond.message as string);
 
-					if (JSONans.message == 'sql: no rows in result set') {
+					if (JSONans.message === 'sql: no rows in result set') {
 						const confirmComponent = new Confirm({
 							headTitle: 'Упс... Такого аккаунта не существует',
 							title: 'Хотите перейти в Login?',
 							isWarning: true,
 						});
 						const confirm = await confirmComponent.render();
-						if (confirm) router.navigateTo(AppPage.Login);
+						if (confirm) { router.navigateTo(AppPage.Login); }
 
 						return;
-						// ans = 'Такого аккаунта не существует';
 					}
 
 					const error = new Notification({
@@ -65,14 +64,13 @@ DEFAULT_AUTH_PARAMS_BUTTON.listenButton = {
 					});
 					error.render();
 				}
-			}).catch((error: Error) => {
+			}).catch(() => {
 				const Error = new Notification({
 					isWarning: true,
 					isWithButton: true,
-					title: "Ошибка сети. Попробуйте позже",
+					title: 'Ошибка сети. Попробуйте позже',
 				});
 				Error.render();
-				console.error(error.message);
 			});
 		}
 	},

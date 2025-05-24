@@ -2,11 +2,11 @@ import BaseComponent from '@basecomp';
 import templateHBS from './table.hbs';
 
 interface LineParams {
-    srcIcon?: string;
-    colorKey?: string;
-    colorValue?: string;
-    key: string;
-    value: string;
+	srcIcon?: string;
+	colorKey?: string;
+	colorValue?: string;
+	key: string;
+	value: string;
 }
 
 interface TableParams {
@@ -15,16 +15,16 @@ interface TableParams {
 }
 
 const DEFAULT_PARAMS_TABLE: TableParams = {
-    width: "500px",
-    lines: [
-        {
-            colorKey: "#000",
-            colorValue: "#000",
-            key: "KEY",
-            value: "VALUE",
-        }
-    ],
-} 
+	width: '500px',
+	lines: [
+		{
+			colorKey: '#000',
+			colorValue: '#000',
+			key: 'KEY',
+			value: 'VALUE',
+		}
+	],
+};
 
 export default class Table extends BaseComponent {
 	constructor(parentElement: HTMLElement, paramsHBS: Partial<TableParams> = {}) {
@@ -32,9 +32,4 @@ export default class Table extends BaseComponent {
 		const templateHTML = templateHBS(finalParamsHBS);
 		super(templateHTML, parentElement);
 	}
-
-	// render(): void {
-	// 	this.parentElement.innerHTML = this.template;
-	// 	this.attachListeners();
-	// }
 }

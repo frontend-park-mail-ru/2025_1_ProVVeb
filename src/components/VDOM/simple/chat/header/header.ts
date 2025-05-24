@@ -1,4 +1,4 @@
-import { VBC } from "@modules/VDOM/VBC";
+import { VBC } from '@modules/VDOM/VBC';
 import templateHBS from './header.hbs';
 
 export class VChatHeader extends VBC {
@@ -6,7 +6,7 @@ export class VChatHeader extends VBC {
 		super(
 			templateHBS,
 			{},
-			``,
+			'',
 			[],
 			{ avatarSrc, name, additionally },
 		);

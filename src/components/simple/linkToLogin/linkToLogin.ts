@@ -1,5 +1,5 @@
 import LinkTo from '@pattern/linkTo/linkTo';
-import router from '@router';
+import router, { AppPage } from '@router';
 
 interface LinkToParams {
 	idLink: string;
@@ -20,7 +20,7 @@ DEFAULT_LINK_TO_LOGIN_PARAMS_BUTTON.listenRoute = {
 	eventType: 'click',
 	selector: `#${DEFAULT_LINK_TO_LOGIN_PARAMS_BUTTON.idLink}`,
 	callback: () => {
-		router.navigateTo('login');
+		router.navigateTo(AppPage.Login);
 	},
 };
 

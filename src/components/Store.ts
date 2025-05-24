@@ -1,6 +1,8 @@
 class Store {
 	private static instance: Store;
+
 	private state: Record<string, unknown>;
+
 	private listeners: Record<string, ((value: unknown) => void)[]>;
 
 	private constructor() {
@@ -33,7 +35,7 @@ class Store {
 
 	public update(key: string): void {
 		const value = this.getState(key);
-		if(value) this.setState(key, value);
+		if (value) { this.setState(key, value); }
 	}
 
 	private notify(key: string): void {

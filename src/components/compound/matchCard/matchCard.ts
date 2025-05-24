@@ -7,7 +7,7 @@ interface MatchCardParams {
 	personName: string;
 	personAge: number;
 	personDescription: string;
-    personInterests: string[];
+	personInterests: string[];
 	id: number;
 }
 
@@ -23,7 +23,7 @@ const DEFAULT_PARAMS_MATCH_CARD: MatchCardParams = {
 	personName: 'Имя',
 	personAge: 16,
 	personDescription: 'Краткое описание человека',
-    personInterests: [],
+	personInterests: [],
 	id: 0,
 };
 

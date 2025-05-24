@@ -1,9 +1,10 @@
-import BasePage from '../BasePage';
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
+import BasePage from '../BasePage';
 
 export default class EmptyPage extends BasePage {
 	private components: Array<HeaderMain | NavMenu>;
+
 	private contentWrapper: HTMLElement;
 
 	constructor(parentElement: HTMLElement) {
@@ -20,13 +21,13 @@ export default class EmptyPage extends BasePage {
 
 	render(): void {
 		this.contentWrapper.innerHTML = '';
-		this.components[0].render(); // HeaderMain
+		this.components[0].render();
 
 		this.parentElement.appendChild(this.contentWrapper);
 		for (let i = 1; i < this.components.length; i++) {
 			this.components[i].render();
 		}
-		this.contentWrapper.insertAdjacentHTML('beforeend', "<p>В стадии разработки...</p>");
+		this.contentWrapper.insertAdjacentHTML('beforeend', '<p>В стадии разработки...</p>');
 	}
 
 	public getNavMenu(): NavMenu {

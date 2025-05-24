@@ -5,7 +5,6 @@ interface HeaderParams {
 	isGreeting: boolean;
 	logotype: string;
 	profile: string;
-	// logoutSessionBtn: string;
 	dotsMenu: string;
 }
 

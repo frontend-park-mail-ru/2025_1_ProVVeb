@@ -38,8 +38,7 @@ const DEFAULT_LOGIN_PARAMS_INPUT: InputParams = {
 					error.render();
 					loginElement.classList.add('incorrect');
 
-					// Form Validation
-					const feedbackElement = document.querySelector(`#feedback_loginInput_01`);
+					const feedbackElement = document.querySelector('#feedback_loginInput_01');
 
 					if (feedbackElement) {
 						feedbackElement.classList.add('noneHide');

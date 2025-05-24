@@ -1,10 +1,10 @@
-import BaseComponent from "@basecomp";
+import BaseComponent from '@basecomp';
 import api, { Profile } from '@network';
-import store from "@store";
-import MatchesCard from "@compound/matchCard/matchCard";
+import store from '@store';
+import MatchesCard from '@compound/matchCard/matchCard';
 import { parseBirthday } from '@modules/tools';
-import router, { AppPage } from "@modules/router";
-import Notification from "@simple/notification/notification";
+import router, { AppPage } from '@modules/router';
+import Notification from '@simple/notification/notification';
 
 interface Listener {
 	event: string;
@@ -12,30 +12,24 @@ interface Listener {
 	callback: () => void;
 }
 
-const currentYear = new Date().getFullYear();
 const ageMajority = 18;
 
 export default class MatchesCards extends BaseComponent {
 	private DATA: Profile[];
-	// private isDataLoaded: boolean;
+
 	private centralElement: HTMLElement;
 
 	constructor(parentElement: HTMLElement) {
 		super('', parentElement);
 		this.DATA = [];
-		// this.isDataLoaded = false;
 
 		this.centralElement = document.createElement('div');
 		this.centralElement.className = 'mainContent__central';
 	}
 
 	private async loadData(): Promise<void> {
-		// if (this.isDataLoaded)
-		// 	return;
 		const response = await api.getMatches(store.getState('myID') as number);
 		this.DATA = response.data || [];
-		// // console.log(this.DATA);
-		// this.isDataLoaded = true;
 	}
 
 	public async render() {
@@ -45,22 +39,19 @@ export default class MatchesCards extends BaseComponent {
 
 		let currentID: number = -1;
 
-		//Да-да костыль... так очищаю контейнер
-		let buffer = this.parentElement.querySelector('.mainContent__central');
-		if (buffer)
-			buffer.innerHTML = '';
+		const buffer = this.parentElement.querySelector('.mainContent__central');
+		if (buffer) { buffer.innerHTML = ''; }
 
-		if (this.DATA.length == 0 && buffer)
-			buffer.innerHTML = 'Любовь никогда не дремлет. Она скоро тебя найдет!';
+		if (this.DATA.length === 0 && buffer) { buffer.innerHTML = 'Любовь никогда не дремлет. Она скоро тебя найдет!'; }
 
-		for (let data of this.DATA as Profile[]) {
+		(this.DATA as Profile[]).forEach((data) => {
 			currentID++;
 
 			let finalPersonInterests: string[];
-			if(data.interests.length > 5){
+			if (data.interests.length > 5) {
 				finalPersonInterests = data.interests.slice(0, 3);
-				finalPersonInterests.push("...");
-			}else{
+				finalPersonInterests.push('...');
+			} else {
 				finalPersonInterests = data.interests;
 			}
 
@@ -96,7 +87,7 @@ export default class MatchesCards extends BaseComponent {
 			);
 
 			currentCard.render();
-		}
+		});
 	}
 
 	private handleDelete(e: Event): void {
@@ -105,19 +96,17 @@ export default class MatchesCards extends BaseComponent {
 		card?.remove();
 	}
 
-	private handleLike(): void {
-		// console.log("Button Like Match is worked!");
-	}
+	private handleLike(): void { }
 
 	private async handleMessage(id: number): Promise<void> {
-		const firstID = store.getState("myID") as number;
+		const firstID = store.getState('myID') as number;
 		const respond = await api.createChat(firstID, id);
-		if(respond.success){
+		if (respond.success) {
 			router.navigateTo(AppPage.Messenger);
-		}else{
+		} else {
 			new Notification({
-				headTitle: "Что-то пошло не так...",
-				title: "Ошибка сети. Попробуйте позже",
+				headTitle: 'Что-то пошло не так...',
+				title: 'Ошибка сети. Попробуйте позже',
 				isWarning: false,
 				isWithButton: true
 			}).render();

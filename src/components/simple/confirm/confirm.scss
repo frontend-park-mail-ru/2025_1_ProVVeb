@@ -15,7 +15,7 @@
 	z-index: 100;
 	animation: confirm_fade-in-out 0.5s ease-in-out forwards;
 
-	&__animation{
+	&__animation {
 		animation: confirm_fade-out-in 0.5s ease-in-out forwards;
 	}
 
@@ -57,7 +57,7 @@
 		}
 	}
 
-	.confirm__buttons{
+	.confirm__buttons {
 		width: 295px;
 		height: 100%;
 		display: flex;
@@ -69,25 +69,25 @@
 		text-align: center;
 		color: var(--font-accent);
 
-		&_positive{
+		&_positive {
 			background: var(--main-theme);
 			color: var(--white-bg-color);
 		}
 
-		&_negative{
+		&_negative {
 			background: var(--white-bg-color);
 			color: var(--font-accent);
 		}
 	}
 
-	.confirm__button{
+	.confirm__button {
 		width: 124px;
 		height: 26px;
 		border-radius: 111px;
 		box-shadow: 0 7px 23px 0 rgba(0, 0, 0, 0.25);
-		transition: 0.5s ;
+		transition: 0.5s;
 
-		&:hover{
+		&:hover {
 			transform: scale(1.1);
 		}
 	}

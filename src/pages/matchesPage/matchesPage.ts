@@ -1,10 +1,11 @@
-import BasePage from '../BasePage';
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
 import MatchesCards from '@compound/matchesCards/matchesCards';
+import BasePage from '../BasePage';
 
 export default class MatchesPage extends BasePage {
 	private components: Array<HeaderMain | NavMenu | MatchesCards>;
+
 	private contentWrapper: HTMLElement;
 
 	constructor(parentElement: HTMLElement) {
@@ -22,14 +23,12 @@ export default class MatchesPage extends BasePage {
 
 	render(): void {
 		this.contentWrapper.innerHTML = '';
-		this.components[0].render(); // HeaderMain
+		this.components[0].render();
 
 		this.parentElement.appendChild(this.contentWrapper);
 		for (let i = 1; i < this.components.length; i++) {
 			this.components[i].render();
 		}
-
-		// this.contentWrapper.style.border = '1px solid red'; // Уберите это в продакшене
 	}
 
 	public getNavMenu(): NavMenu {

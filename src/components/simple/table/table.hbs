@@ -1,15 +1,15 @@
 <div class="table" style="width: {{width}};">
-    {{#each lines}}
-        <div class="table__line">
-            <div class="line__key">
-                {{#if srcIcon}}
-                    <img src="{{srcIcon}}" alt="иконка" class="key__img">
-                {{/if}}
-                <p class="key__text" {{#if colorKey}}style="color: {{colorKey}}"{{/if}}>{{key}}</p>
-            </div>
-            <div class="line__value">
-                <p class="value__text" {{#if colorValue}}style="color: {{colorValue}}"{{/if}}>{{value}}</p>
-            </div>
-        </div>
-    {{/each}}
+	{{#each lines}}
+	<div class="table__line">
+		<div class="line__key">
+			{{#if srcIcon}}
+			<img src="{{srcIcon}}" alt="иконка" class="key__img">
+			{{/if}}
+			<p class="key__text" {{#if colorKey}}style="color: {{colorKey}}" {{/if}}>{{key}}</p>
+		</div>
+		<div class="line__value">
+			<p class="value__text" {{#if colorValue}}style="color: {{colorValue}}" {{/if}}>{{value}}</p>
+		</div>
+	</div>
+	{{/each}}
 </div>

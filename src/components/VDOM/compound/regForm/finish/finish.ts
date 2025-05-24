@@ -1,27 +1,27 @@
-import router, { AppPage } from "@modules/router";
-import { Compounder } from "@modules/VDOM/Compounder";
-import { VBC } from "@modules/VDOM/VBC";
+import router, { AppPage } from '@modules/router';
+import { Compounder } from '@modules/VDOM/Compounder';
+import { VBC } from '@modules/VDOM/VBC';
 
 export class CRegFinish extends VBC {
-    constructor(){
-        const arr = [
-            {
-                title: "Будь собой",
-                text: "Сервис обеспечит полную конфидециальность. Ни один злоумышленник не получит твои данные"
-            },
-            {
-                title: "Познай позитив",
-                text: "Даже если никто не лайкнет твой профиль - знай, люди еще не увидели твою истинную красоту"
-            },
-            {
-                title: "Уважай комьюнити",
-                text: "Только в том случае, когда каждый уважает своих окружающих - появляется тот самый вайб :)"
-            }
-        ]
+	constructor() {
+		const arr = [
+			{
+				title: 'Будь собой',
+				text: 'Сервис обеспечит полную конфидециальность. Ни один злоумышленник не получит твои данные'
+			},
+			{
+				title: 'Познай позитив',
+				text: 'Даже если никто не лайкнет твой профиль - знай, люди еще не увидели твою истинную красоту'
+			},
+			{
+				title: 'Уважай комьюнити',
+				text: 'Только в том случае, когда каждый уважает своих окружающих - появляется тот самый вайб :)'
+			}
+		];
 
-        const main = new Compounder();
-        const components = arr.forEach((el)=>{
-            const text1 = new VBC(`
+		const main = new Compounder();
+		const components = arr.forEach((el) => {
+			const text1 = new VBC(`
                 <div class="textBlock">
                     <div class="textBlock__title">
                         <img class="title__img" src="./media/icons/check.svg">
@@ -31,8 +31,7 @@ export class CRegFinish extends VBC {
                         <p class="text__content">${el.text}</p>
                     </div>
                 </div>
-                `, {},
-                `
+                `, {}, `
                     .textBlock {
                         width: 336px;
                         height: fit-content;
@@ -63,14 +62,14 @@ export class CRegFinish extends VBC {
                         gap: 19px;
                     }
                 `
-            );
-            main.add(text1);
-        });
+			);
+			main.add(text1);
+		});
 
-        super(main.getTemplate());
-        this.vdom = main.getVDOM();
-        this.setID();
-    }
+		super(main.getTemplate());
+		this.vdom = main.getVDOM();
+		this.setID();
+	}
 
-    public submit(){ router.navigateTo(AppPage.Feed); }
+	public submit() { router.navigateTo(AppPage.Feed); }
 }

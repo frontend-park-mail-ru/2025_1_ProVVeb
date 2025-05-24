@@ -32,8 +32,8 @@ export default class Input extends BaseComponent {
 
 		const templateHTML = templateHBS(finalParamsHBS);
 		super(templateHTML, parentElement);
-		
-		finalParamsHBS.listeners.forEach(listener => {
+
+		finalParamsHBS.listeners.forEach((listener) => {
 			this.addListener(
 				listener.eventType,
 				listener.selector,

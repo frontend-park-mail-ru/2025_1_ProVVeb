@@ -1,12 +1,12 @@
 import BaseComponent from '@basecomp';
-import templateHBS from './profileInfo.hbs';
 import api from '@network';
 import store from '@store';
-import { parseBirthday } from '@modules/tools';
-import { arraysEqual } from '@modules/tools';
+import { parseBirthday, arraysEqual } from '@modules/tools';
+
 import Notification from '@simple/notification/notification';
 import Confirm from '@simple/confirm/confirm';
 import { ProfileValidators } from '@modules/validation';
+import templateHBS from './profileInfo.hbs';
 
 interface ProfileInfoParams {
 	firstName: string;
@@ -56,11 +56,17 @@ interface Callback {
 
 export default class ProfileInfoCard extends BaseComponent {
 	private callbacks: Callback[];
+
 	private initialParams: Partial<ProfileInfoParams>;
+
 	private retryCallback: (() => void) | null;
+
 	private currentPhotos: Array<{ id: number; src: string; isNew?: boolean } | null>;
+
 	private initialPhotosFromData: Array<{ id: number; src: string; isNew?: boolean }> = [];
+
 	private lastUsedId = 0;
+
 	private isMale: boolean;
 
 	constructor(
@@ -140,9 +146,8 @@ export default class ProfileInfoCard extends BaseComponent {
 				const file = fileInput.files[0];
 				if (!file.type.match('image.*')) {
 
-					// alert('Выберите файл с форматом изображения');
 					const notification = new Notification({
-						headTitle: "Важное сообщение",
+						headTitle: 'Важное сообщение',
 						title: 'Выберите файл с форматом изображения',
 						isWarning: false,
 						isWithButton: true,
@@ -159,7 +164,7 @@ export default class ProfileInfoCard extends BaseComponent {
 						return;
 					}
 
-					const emptySlotIndex = this.currentPhotos.findIndex(p => p === null);
+					const emptySlotIndex = this.currentPhotos.findIndex((p) => p === null);
 
 					if (emptySlotIndex !== -1) {
 						this.currentPhotos[emptySlotIndex] = {
@@ -168,12 +173,18 @@ export default class ProfileInfoCard extends BaseComponent {
 							isNew: true
 						};
 						this.renderPhotos();
-						this.updateSubmitButton(); // Обновляем состояние кнопки
+						this.updateSubmitButton();
 					}
 				};
 
 				reader.onerror = () => {
-					console.error('Ошибка при чтении файла');
+					const notification = new Notification({
+						headTitle: 'Что-то пошло не так...',
+						title: 'Ошибка при чтении файла. Попробуйте еще раз',
+						isWarning: false,
+						isWithButton: true,
+					});
+					notification.render();
 				};
 
 				reader.readAsDataURL(file);
@@ -185,23 +196,22 @@ export default class ProfileInfoCard extends BaseComponent {
 
 	private async handleRemovePhoto(removeButton: HTMLElement): Promise<void> {
 		const photoItem = removeButton.closest('.photosGrid__item');
-		if (!photoItem) return;
+		if (!photoItem) { return; }
 
-		const photoId = parseInt(photoItem.getAttribute('data-id') as string);
-		const photoIndex = this.currentPhotos.findIndex(p => p?.id === photoId);
+		const photoId = parseInt(photoItem.getAttribute('data-id') as string, 10);
+		const photoIndex = this.currentPhotos.findIndex((p) => p?.id === photoId);
 
-		if (photoIndex === -1) return;
+		if (photoIndex === -1) { return; }
 
 		const photo = this.currentPhotos[photoIndex];
-		if (!photo) return;
+		if (!photo) { return; }
 
-		const savedPhotosCount = this.currentPhotos.filter(p => p && !p.isNew).length;
-		const newPhotosCount = this.currentPhotos.filter(p => p?.isNew).length;
+		const savedPhotosCount = this.currentPhotos.filter((p) => p && !p.isNew).length;
+		const newPhotosCount = this.currentPhotos.filter((p) => p?.isNew).length;
 
 		if (!photo.isNew && savedPhotosCount <= 1 && newPhotosCount > 0) {
-			// alert('Нельзя удалить последнюю сохранённую фотографию, пока есть несохранённые изменения');
 			const notification = new Notification({
-				headTitle: "Что-то пошло не так...",
+				headTitle: 'Что-то пошло не так...',
 				title: 'Нельзя удалить последнюю сохранённую фотографию, пока есть несохранённые изменения',
 				isWarning: false,
 				isWithButton: true,
@@ -211,11 +221,9 @@ export default class ProfileInfoCard extends BaseComponent {
 		}
 
 		// Проверяем общее минимальное количество фотографий
-		if (this.currentPhotos.filter(p => p !== null).length <= 1) {
-
-			// alert('В профиле должна быть хотя бы одна фотография');
+		if (this.currentPhotos.filter((p) => p !== null).length <= 1) {
 			const notification = new Notification({
-				headTitle: "Что-то пошло не так...",
+				headTitle: 'Что-то пошло не так...',
 				title: 'В профиле должна быть хотя бы одна фотография',
 				isWarning: false,
 				isWithButton: true,
@@ -237,17 +245,15 @@ export default class ProfileInfoCard extends BaseComponent {
 			});
 			const confirm = await confirmComponent.render();
 
-			if (!confirm) return;
+			if (!confirm) { return; }
 
 			try {
 				const fullUrl = photo.src;
 				const fileName = fullUrl.split('/').pop();
 
 				if (!fileName) {
-
-					// alert('Не удалось определить имя файла');
 					const notification = new Notification({
-						headTitle: "Что-то пошло не так...",
+						headTitle: 'Что-то пошло не так...',
 						title: 'Не удалось определить имя файла',
 						isWarning: false,
 						isWithButton: true,
@@ -271,10 +277,8 @@ export default class ProfileInfoCard extends BaseComponent {
 						store.setState('ava', this.currentPhotos[0]?.src);
 					}
 				} else {
-
-					// alert('Неизвестная ошибка при удалении фотографии');
 					const notification = new Notification({
-						headTitle: "Что-то пошло не так...",
+						headTitle: 'Что-то пошло не так...',
 						title: 'Неизвестная ошибка при удалении фотографии',
 						isWarning: false,
 						isWithButton: true,
@@ -283,12 +287,9 @@ export default class ProfileInfoCard extends BaseComponent {
 
 				}
 			} catch (error) {
-				console.error('Ошибка при удалении фотографии:', error);
 				this.showErrorState('Ошибка удаления фотографии', () => this.render());
-
-				// alert('Не удалось удалить фотографию');
 				const notification = new Notification({
-					headTitle: "Что-то пошло не так...",
+					headTitle: 'Что-то пошло не так...',
 					title: 'Не удалось удалить фотографию',
 					isWarning: false,
 					isWithButton: true,
@@ -300,62 +301,31 @@ export default class ProfileInfoCard extends BaseComponent {
 
 		this.updateSubmitButton();
 	}
+
 	private setupPhotoHandlers(): void {
 		const photosGrid = this.parentElement.querySelector('#photosGridId');
-		if (!photosGrid) return;
+		if (!photosGrid) { return; }
 
 		photosGrid.addEventListener('click', (e) => {
 			const target = e.target as HTMLElement;
 			if (target.classList.contains('uploadPhotos__addPhotoBtn')) {
 				this.handleAddPhoto();
 			} else if (target.classList.contains('uploadPhotos__removePhotoBtn')) {
-				e.stopPropagation(); // Предотвращаем всплытие события
-				e.preventDefault(); // Предотвращаем действие по умолчанию
+				e.stopPropagation();
+				e.preventDefault();
 				this.handleRemovePhoto(target);
 			}
 		});
-
-		const cancelBtn = this.parentElement.querySelector('.uploadPhotos__cancelBtn');
-		if (cancelBtn) {
-			cancelBtn.addEventListener('click', () => {
-				const hasChanges = !arraysEqual(
-					this.currentPhotos.map(p => p?.src),
-					this.initialPhotosFromData.map(p => p.src)
-				);
-
-				if (hasChanges) {
-					if (confirm('Вы уверены, что хотите отменить все изменения?' +
-						'Все добавленные фотографии будут удалены')) {
-						this.currentPhotos = [
-							...this.initialPhotosFromData,
-							...Array(DEFAULT_PARAMS_PROFILE_INFO.maxPhotos - this.initialPhotosFromData.length).fill(null)
-						].slice(0, DEFAULT_PARAMS_PROFILE_INFO.maxPhotos);
-						this.renderPhotos();
-						alert('Все изменения отменены. Возвращено исходное состояние');
-					}
-				} else {
-					// alert('Нет изменений для отмены');
-					const notification = new Notification({
-						headTitle: "Что-то пошло не так...",
-						title: 'Нет изменений для отмены',
-						isWarning: false,
-						isWithButton: true,
-					});
-					notification.render();
-				}
-			});
-		}
 
 		const uploadPhotosFrom = this.parentElement.querySelector('#uploadPhotos__form');
 		if (uploadPhotosFrom) {
 			uploadPhotosFrom.addEventListener('submit', async (e) => {
 				e.preventDefault();
-				const photos = this.currentPhotos.filter(p => p !== null) as { id: number, src: string, isNew?: boolean }[];
+				const photos = this.currentPhotos.filter((p) => p !== null) as { id: number, src: string, isNew?: boolean }[];
 
 				if (photos.length === 0) {
-					// alert('Должна быть хотя бы одна фотография!');
 					const notification = new Notification({
-						headTitle: "Что-то пошло не так...",
+						headTitle: 'Что-то пошло не так...',
 						title: 'Должна быть хотя бы одна фотография!',
 						isWarning: false,
 						isWithButton: true,
@@ -364,7 +334,7 @@ export default class ProfileInfoCard extends BaseComponent {
 					return;
 				}
 
-				const newPhotos = photos.filter(photo => photo.isNew);
+				const newPhotos = photos.filter((photo) => photo.isNew);
 
 				try {
 					const response = await api.uploadPhotos(store.getState('myID') as number, newPhotos);
@@ -373,7 +343,7 @@ export default class ProfileInfoCard extends BaseComponent {
 						const uploadedFiles = response.data.uploaded_files || [];
 
 						let uploadedIndex = 0;
-						this.currentPhotos = this.currentPhotos.map(photo => {
+						this.currentPhotos = this.currentPhotos.map((photo) => {
 							if (photo && photo.isNew && uploadedIndex < uploadedFiles.length) {
 								return {
 									...photo,
@@ -385,13 +355,12 @@ export default class ProfileInfoCard extends BaseComponent {
 						});
 
 						this.initialPhotosFromData = this.currentPhotos
-							.filter(p => p !== null)
-							.map(p => ({ id: p!.id, src: p!.src }));
+							.filter((p) => p !== null)
+							.map((p) => ({ id: p!.id, src: p!.src }));
 
 						this.renderPhotos();
-						this.updateSubmitButton(); // Обновляем состояние кнопки после сохранения
+						this.updateSubmitButton();
 
-						// alert(`Сохранено ${uploadedFiles.length} фотографий`);
 						const notification = new Notification({
 							title: `Сохранено ${uploadedFiles.length} фотографий`,
 							isWarning: false,
@@ -404,21 +373,18 @@ export default class ProfileInfoCard extends BaseComponent {
 						}
 					} else {
 						this.showErrorState('Ошибка загрузки профиля', () => this.render());
-						// alert(`Ошибка при сохранении фотографий`);
 						const notification = new Notification({
-							headTitle: "Что-то пошло не так...",
-							title: `Ошибка при сохранении фотографий`,
+							headTitle: 'Что-то пошло не так...',
+							title: 'Ошибка при сохранении фотографий',
 							isWarning: false,
 							isWithButton: true,
 						});
 						notification.render();
 					}
 				} catch (error) {
-					console.error('Ошибка при загрузке фотографий:', error);
 					this.showErrorState('Ошибка соединения', () => this.render());
-					// alert('Ошибка при сохранении фотографий');
 					const notification = new Notification({
-						headTitle: "Что-то пошло не так...",
+						headTitle: 'Что-то пошло не так...',
 						title: 'Ошибка при сохранении фотографий',
 						isWarning: false,
 						isWithButton: true,
@@ -476,15 +442,15 @@ export default class ProfileInfoCard extends BaseComponent {
 
 	private updateSubmitButton(): void {
 		const submitBtn = this.parentElement.querySelector('.uploadPhotos__submitBtn') as HTMLButtonElement;
-		if (!submitBtn) return;
+		if (!submitBtn) { return; }
 
-		const hasNewPhotos = this.currentPhotos.some(p => p?.isNew);
+		const hasNewPhotos = this.currentPhotos.some((p) => p?.isNew);
 		submitBtn.disabled = !hasNewPhotos;
 	}
 
 	private renderPhotos(): void {
 		const photosGrid = this.parentElement.querySelector('#photosGridId');
-		if (!photosGrid) return;
+		if (!photosGrid) { return; }
 
 		photosGrid.innerHTML = '';
 
@@ -539,7 +505,7 @@ export default class ProfileInfoCard extends BaseComponent {
 			this.showErrorState('Ошибка соединения', () => this.render());
 		}
 
-		document.querySelectorAll<HTMLButtonElement>('.editBtn').forEach(btn => {
+		document.querySelectorAll<HTMLButtonElement>('.editBtn').forEach((btn) => {
 			btn.addEventListener('click', function () {
 				let type: string;
 
@@ -552,7 +518,7 @@ export default class ProfileInfoCard extends BaseComponent {
 				} else if (this.classList.contains('editBtn--interests')) {
 					type = 'interests';
 				} else {
-					return
+					return;
 				}
 
 				this.style.display = 'none';
@@ -566,14 +532,12 @@ export default class ProfileInfoCard extends BaseComponent {
 					const lastName = document.querySelector('.firstInfo__lastName')?.textContent || '';
 					const age = document.querySelector('.firstInfo__age')?.textContent || '';
 
-					// Сохраняем исходные значения в data-атрибуты родителя
 					const content = document.querySelector('.firstInfo__content');
 					if (content) {
 						content.setAttribute('data-original-firstName', firstName);
 						content.setAttribute('data-original-lastName', lastName);
 						content.setAttribute('data-original-age', age);
 
-						// Заменяем на input-поля
 						content.innerHTML = `
 						<input type="text" class="nameInput" value="${firstName.trim()}" placeholder="Имя">
 						<input type="text" class="nameInput" value="${lastName.trim()}" placeholder="Фамилия">
@@ -590,7 +554,7 @@ export default class ProfileInfoCard extends BaseComponent {
 						editInput.value = aboutText;
 					}
 				} else if (type === 'data') {
-					document.querySelectorAll('.personData__content').forEach(content => {
+					document.querySelectorAll('.personData__content').forEach((content) => {
 						content.style.display = 'none';
 						const next = content.nextElementSibling as HTMLElement;
 						next.style.display = 'block';
@@ -603,9 +567,8 @@ export default class ProfileInfoCard extends BaseComponent {
 					interestsContainer.style.display = 'none';
 					editContainer.style.display = 'flex';
 
-					// Заполняем поля для редактирования
 					editItemsContainer.innerHTML = '';
-					Array.from(interestsContainer.querySelectorAll('.interests__item')).forEach(item => {
+					Array.from(interestsContainer.querySelectorAll('.interests__item')).forEach((item) => {
 						addInterestInput(item.textContent || '');
 					});
 				}
@@ -624,7 +587,6 @@ export default class ProfileInfoCard extends BaseComponent {
 
 			editItemsContainer.appendChild(item);
 
-			// Фокус на новом поле
 			const input = item.querySelector('.interests__editInput') as HTMLInputElement;
 			input.focus();
 
@@ -637,9 +599,9 @@ export default class ProfileInfoCard extends BaseComponent {
 			addInterestInput();
 		});
 
-		document.querySelectorAll<HTMLButtonElement>('.saveBtn').forEach(btn => {
-			const isMale = this.isMale;
-			btn.addEventListener('click', async function() {
+		document.querySelectorAll<HTMLButtonElement>('.saveBtn').forEach((btn) => {
+			const { isMale } = this;
+			btn.addEventListener('click', async function () {
 				let type: string;
 				const controls = this.closest('.editControls');
 
@@ -652,7 +614,7 @@ export default class ProfileInfoCard extends BaseComponent {
 				} else if (controls?.classList.contains('editControls--interests')) {
 					type = 'interests';
 				} else {
-					return
+					return;
 				}
 
 				if (type === 'name') {
@@ -680,8 +642,8 @@ export default class ProfileInfoCard extends BaseComponent {
 						} else {
 							self.showErrorState('Ошибка при обновлении имени или фамилии', () => self.render());
 							const notification = new Notification({
-								headTitle: "Что-то пошло не так...",
-								title: `Ошибка при обновлении имени или фамилии`,
+								headTitle: 'Что-то пошло не так...',
+								title: 'Ошибка при обновлении имени или фамилии',
 								isWarning: false,
 								isWithButton: true,
 							});
@@ -690,8 +652,8 @@ export default class ProfileInfoCard extends BaseComponent {
 					} catch (e) {
 						self.showErrorState('Сервер недоступен', () => self.render());
 						const notification = new Notification({
-							headTitle: "Что-то пошло не так...",
-							title: `Сервер недоступен`,
+							headTitle: 'Что-то пошло не так...',
+							title: 'Сервер недоступен',
 							isWarning: false,
 							isWithButton: true,
 						});
@@ -718,7 +680,7 @@ export default class ProfileInfoCard extends BaseComponent {
 						} else {
 							self.showErrorState('Ошибка при обновлении описания', () => self.render());
 							const notification = new Notification({
-								headTitle: "Что-то пошло не так...",
+								headTitle: 'Что-то пошло не так...',
 								title: 'Ошибка при обновлении описания',
 								isWarning: false,
 								isWithButton: true,
@@ -728,7 +690,7 @@ export default class ProfileInfoCard extends BaseComponent {
 					} catch (e) {
 						self.showErrorState('Сервер недоступен', () => self.render());
 						const notification = new Notification({
-							headTitle: "Что-то пошло не так...",
+							headTitle: 'Что-то пошло не так...',
 							title: 'Сервер недоступен',
 							isWarning: false,
 							isWithButton: true,
@@ -738,7 +700,7 @@ export default class ProfileInfoCard extends BaseComponent {
 				} else if (type === 'data') {
 					const updatedData: Record<string, string> = {};
 
-					document.querySelectorAll('.personData__item').forEach(item => {
+					document.querySelectorAll('.personData__item').forEach((item) => {
 						const titleElement = item.querySelector('.personData__field');
 						const inputElement = item.querySelector('.personData__editInput');
 
@@ -756,7 +718,7 @@ export default class ProfileInfoCard extends BaseComponent {
 						const heightValidation = ProfileValidators.validateHeight(updatedData['Рост']);
 						if (!heightValidation.isValid) {
 							new Notification({
-								headTitle: "Ошибка валидации",
+								headTitle: 'Ошибка валидации',
 								title: heightValidation.message || 'Некорректный рост',
 								isWarning: false,
 								isWithButton: true,
@@ -769,7 +731,7 @@ export default class ProfileInfoCard extends BaseComponent {
 						const genderValidation = ProfileValidators.validateGender(updatedData['Гендер']);
 						if (!genderValidation.isValid) {
 							new Notification({
-								headTitle: "Ошибка валидации",
+								headTitle: 'Ошибка валидации',
 								title: genderValidation.message || 'Некорректный гендер',
 								isWarning: false,
 								isWithButton: true,
@@ -782,7 +744,7 @@ export default class ProfileInfoCard extends BaseComponent {
 						const birthdayValidation = ProfileValidators.validateBirthday(updatedData['Дата рождения']);
 						if (!birthdayValidation.isValid) {
 							new Notification({
-								headTitle: "Ошибка валидации",
+								headTitle: 'Ошибка валидации',
 								title: birthdayValidation.message || 'Некорректная дата рождения',
 								isWarning: false,
 								isWithButton: true,
@@ -796,7 +758,7 @@ export default class ProfileInfoCard extends BaseComponent {
 					};
 
 					if ('Гендер' in updatedData) {
-						apiData.isMale = Boolean((Number(updatedData['Гендер'] === 'Мужчина') + Number(isMale))%2);
+						apiData.isMale = Boolean((Number(updatedData['Гендер'] === 'Мужчина') + Number(isMale)) % 2);
 					}
 
 					if ('Дата рождения' in updatedData) {
@@ -806,7 +768,7 @@ export default class ProfileInfoCard extends BaseComponent {
 					}
 
 					if ('Рост' in updatedData) {
-						apiData.height = parseInt(updatedData['Рост']);
+						apiData.height = parseInt(updatedData['Рост'], 10);
 					}
 
 					if ('Локация' in updatedData) {
@@ -817,7 +779,7 @@ export default class ProfileInfoCard extends BaseComponent {
 						const res = await api.updateProfile(apiData);
 
 						if (res.success) {
-							document.querySelectorAll('.personData__editInput').forEach(input => {
+							document.querySelectorAll('.personData__editInput').forEach((input) => {
 								const newValue = (input as HTMLInputElement).value.trim();
 								input.previousElementSibling!.textContent = newValue;
 								input.style.display = 'none';
@@ -828,7 +790,6 @@ export default class ProfileInfoCard extends BaseComponent {
 							const personDataContent = document.querySelectorAll('.personData__content')[3]?.textContent;
 
 							if (ageElement && personDataContent) {
-								console.log('1', 1)
 								const birthday = Number(personDataContent.split('.').at(-1));
 								const currentYear = new Date().getFullYear();
 
@@ -847,8 +808,8 @@ export default class ProfileInfoCard extends BaseComponent {
 						} else {
 							self.showErrorState('Ошибка при обновлении данных', () => self.render());
 							const notification = new Notification({
-								headTitle: "Что-то пошло не так...",
-								title: `Ошибка при обновлении данных`,
+								headTitle: 'Что-то пошло не так...',
+								title: 'Ошибка при обновлении данных',
 								isWarning: false,
 								isWithButton: true,
 							});
@@ -857,8 +818,8 @@ export default class ProfileInfoCard extends BaseComponent {
 					} catch (error) {
 						self.showErrorState('Сервер недоступен', () => self.render());
 						const notification = new Notification({
-							headTitle: "Что-то пошло не так...",
-							title: `Сервер недоступен`,
+							headTitle: 'Что-то пошло не так...',
+							title: 'Сервер недоступен',
 							isWarning: false,
 							isWithButton: true,
 						});
@@ -869,8 +830,8 @@ export default class ProfileInfoCard extends BaseComponent {
 					const editContainer = document.querySelector('.interests__editContainer') as HTMLElement;
 
 					const newInterests = Array.from(document.querySelectorAll('.interests__editInput'))
-						.map(input => (input as HTMLInputElement).value.trim())
-						.filter(interest => interest !== '');
+						.map((input) => (input as HTMLInputElement).value.trim())
+						.filter((interest) => interest !== '');
 
 					try {
 						const res = await api.updateProfile({
@@ -880,7 +841,7 @@ export default class ProfileInfoCard extends BaseComponent {
 
 						if (res.success) {
 							interestsContainer.innerHTML = '';
-							newInterests.forEach(interest => {
+							newInterests.forEach((interest) => {
 								const item = document.createElement('span');
 								item.className = 'interests__item';
 								item.textContent = interest;
@@ -892,7 +853,7 @@ export default class ProfileInfoCard extends BaseComponent {
 						} else {
 							self.showErrorState('Ошибка при обновлении интересов', () => self.render());
 							const notification = new Notification({
-								headTitle: "Что-то пошло не так...",
+								headTitle: 'Что-то пошло не так...',
 								title: 'Ошибка при обновлении интересов',
 								isWarning: false,
 								isWithButton: true,
@@ -902,7 +863,7 @@ export default class ProfileInfoCard extends BaseComponent {
 					} catch (e) {
 						self.showErrorState('Сервер недоступен', () => self.render());
 						const notification = new Notification({
-							headTitle: "Что-то пошло не так...",
+							headTitle: 'Что-то пошло не так...',
 							title: 'Сервер недоступен',
 							isWarning: false,
 							isWithButton: true,
@@ -920,7 +881,7 @@ export default class ProfileInfoCard extends BaseComponent {
 			});
 		});
 
-		document.querySelectorAll<HTMLButtonElement>('.cancelBtn').forEach(btn => {
+		document.querySelectorAll<HTMLButtonElement>('.cancelBtn').forEach((btn) => {
 			btn.addEventListener('click', function () {
 				let type: string;
 				const controls = this.closest('.editControls');
@@ -934,7 +895,7 @@ export default class ProfileInfoCard extends BaseComponent {
 				} else if (controls?.classList.contains('editControls--interests')) {
 					type = 'interests';
 				} else {
-					return
+					return;
 				}
 
 				if (type === 'name') {
@@ -958,7 +919,7 @@ export default class ProfileInfoCard extends BaseComponent {
 						editInput.style.display = 'none';
 					}
 				} else if (type === 'data') {
-					document.querySelectorAll('.personData__editInput').forEach(input => {
+					document.querySelectorAll('.personData__editInput').forEach((input) => {
 						input.style.display = 'none';
 						const prev = input.previousElementSibling as HTMLElement;
 						prev.style.display = 'block';

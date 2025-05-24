@@ -1,4 +1,3 @@
-import BasePage from '../BasePage';
 import { Compounder } from '@modules/VDOM/Compounder';
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
@@ -7,11 +6,14 @@ import { VComplaintBody } from '@VDOM/simple/complaint/body/body';
 import { VButton } from '@VDOM/simple/button/button';
 import Notification from '@simple/notification/notification';
 import api from '@network';
+import BasePage from '../BasePage';
 
 export default class ComplaintPage extends BasePage {
 	private components: Array<HeaderMain | NavMenu>;
+
 	private contentWrapper: HTMLElement;
-	private compounder: Compounder = new Compounder;
+
+	private compounder: Compounder = new Compounder();
 
 	constructor(parentElement: HTMLElement) {
 		super(parentElement);
@@ -38,8 +40,8 @@ export default class ComplaintPage extends BasePage {
 
 			if (!headerValue) {
 				const notification = new Notification({
-					headTitle: "Незаполненное поле",
-					title: `Напишите тему обращения перед отправкой`,
+					headTitle: 'Незаполненное поле',
+					title: 'Напишите тему обращения перед отправкой',
 					isWarning: false,
 					isWithButton: true,
 				});
@@ -49,17 +51,14 @@ export default class ComplaintPage extends BasePage {
 
 			if (!bodyValue) {
 				const notification = new Notification({
-					headTitle: "Незаполненное поле",
-					title: `Напишите текст обращения перед отправкой`,
+					headTitle: 'Незаполненное поле',
+					title: 'Напишите текст обращения перед отправкой',
 					isWarning: false,
 					isWithButton: true,
 				});
 				notification.render();
 				return;
 			}
-
-			console.log('headerValue', headerValue);
-			console.log('bodyValue', bodyValue);
 
 			const response = await api.sendComplaint(
 				headerValue,
@@ -68,19 +67,19 @@ export default class ComplaintPage extends BasePage {
 
 			if (response.success && response.data) {
 				const notification = new Notification({
-					headTitle: "Успешно",
-					title: `Ваше обращение отправлено`,
+					headTitle: 'Успешно',
+					title: 'Ваше обращение отправлено',
 					isWarning: false,
 					isWithButton: true,
 				});
 				notification.render();
 
-				if (header) header.value = '';
-				if (body) body.value = '';
+				if (header) { header.value = ''; }
+				if (body) { body.value = ''; }
 			} else {
 				const notification = new Notification({
-					headTitle: "Ошибка отправки",
-					title: `Не удалось отправить обращение. Попробуйте позже`,
+					headTitle: 'Ошибка отправки',
+					title: 'Не удалось отправить обращение. Попробуйте позже',
 					isWarning: false,
 					isWithButton: true,
 				});
@@ -88,7 +87,7 @@ export default class ComplaintPage extends BasePage {
 			}
 		});
 
-		this.compounder.down("complaintContainer", `
+		this.compounder.down('complaintContainer', `
 			display: flex;
 			gap: 30px;
 			flex-direction: column;

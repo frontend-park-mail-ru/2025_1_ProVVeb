@@ -33,7 +33,6 @@ const update = async (request: Request): Promise<void> => {
 const cacheFirstAndUpdate = (event: FetchEvent) => {
 	const url = new URL(event.request.url);
 
-	// Пропускаем chrome-extension и другие неподдерживаемые схемы
 	if (!['http:', 'https:'].includes(url.protocol)) {
 		return fetch(event.request);
 	}
@@ -78,7 +77,6 @@ const nonGetRequestNetworkFirst = (event: FetchEvent): void => {
 	})());
 };
 
-// Приводим self к нужному типу
 const _self = self as unknown as ServiceWorkerGlobalScope;
 
 _self.addEventListener('install', (e: ExtendableEvent) => {

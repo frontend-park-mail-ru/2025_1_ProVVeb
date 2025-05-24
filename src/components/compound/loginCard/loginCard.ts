@@ -42,21 +42,21 @@ export default class LoginCard extends FormCard {
 					listeners: [
 						{
 							eventType: 'click',
-							selector: `.passwordInput_01`,
+							selector: '.passwordInput_01',
 							callback: (event: Event) => {
 								const target = event.target as HTMLElement;
-								const input = target.parentElement?.previousElementSibling?.previousElementSibling as HTMLInputElement; 
+								const input = target.parentElement?.previousElementSibling?.previousElementSibling as HTMLInputElement;
 								const toggle = target.parentElement;
 								const closedEye = toggle?.querySelector('.eye-icon--closed') as HTMLElement;
 								const openedEye = toggle?.querySelector('.eye-icon--opened') as HTMLElement;
-								
-								if(input?.type == undefined) return;
 
-								if(input.type == 'password'){
+								if (input?.type === undefined) { return; }
+
+								if (input.type === 'password') {
 									input.type = 'text';
 									closedEye.style.display = 'none';
 									openedEye.style.display = 'block';
-								}else{
+								} else {
 									input.type = 'password';
 									closedEye.style.display = 'block';
 									openedEye.style.display = 'none';
@@ -92,8 +92,7 @@ export default class LoginCard extends FormCard {
 									error.render();
 									passwordElement.classList.add('incorrect');
 
-									// Form Validation
-									const feedbackElement = document.querySelector(`#feedback_passwordInput_01`);
+									const feedbackElement = document.querySelector('#feedback_passwordInput_01');
 
 									if (feedbackElement) {
 										feedbackElement.classList.add('noneHide');
@@ -118,21 +117,21 @@ export default class LoginCard extends FormCard {
 					listeners: [
 						{
 							eventType: 'click',
-							selector: `.passwordInput_02`,
+							selector: '.passwordInput_02',
 							callback: (event: Event) => {
 								const target = event.target as HTMLElement;
-								const input = target.parentElement?.previousElementSibling?.previousElementSibling as HTMLInputElement; 
+								const input = target.parentElement?.previousElementSibling?.previousElementSibling as HTMLInputElement;
 								const toggle = target.parentElement;
 								const closedEye = toggle?.querySelector('.eye-icon--closed') as HTMLElement;
 								const openedEye = toggle?.querySelector('.eye-icon--opened') as HTMLElement;
-								
-								if(input?.type == undefined) return;
 
-								if(input.type == 'password'){
+								if (input?.type === undefined) { return; }
+
+								if (input.type === 'password') {
 									input.type = 'text';
 									closedEye.style.display = 'none';
 									openedEye.style.display = 'block';
-								}else{
+								} else {
 									input.type = 'password';
 									closedEye.style.display = 'block';
 									openedEye.style.display = 'none';
@@ -168,8 +167,7 @@ export default class LoginCard extends FormCard {
 									error.render();
 									passwordElement.classList.add('incorrect');
 
-									// Form Validation
-									const feedbackElement = document.querySelector(`#feedback_passwordInput_02`);
+									const feedbackElement = document.querySelector('#feedback_passwordInput_02');
 
 									if (feedbackElement) {
 										feedbackElement.classList.add('noneHide');

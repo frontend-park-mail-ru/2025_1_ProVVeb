@@ -36,16 +36,27 @@ interface PathStructure {
 
 class Router {
 	private root: HTMLElement;
+
 	private authPage: AuthPage;
+
 	private loginPage: LoginPage;
+
 	private feedPage: FeedPage;
+
 	private profilePage: ProfilePage;
+
 	private matchesPage: MathesPage;
+
 	private emptyPage: EmptyPage;
+
 	private statPage: StatPage;
+
 	private complaintPage: ComplaintPage;
+
 	private messagePage: MessagePage;
+
 	private stepPage: StepPage;
+
 	private searchPage: SearchPage;
 
 	private PATHS: PathStructure[];
@@ -53,7 +64,7 @@ class Router {
 	constructor() {
 		const rootElement = document.getElementById('root');
 		if (!rootElement) {
-			throw new Error("Root element with id 'root' not found");
+			throw new Error('Root element with id \'root\' not found');
 		}
 
 		this.root = rootElement;
@@ -76,18 +87,18 @@ class Router {
 			this.navigateTo(path as AppPage, event.state, true);
 		});
 
-		this.register("feed", this.handlerFeed.bind(this));
-		this.register("auth", this.handlerAuth.bind(this));
-		this.register("login", this.handlerLogin.bind(this));
-		this.register("matches", this.handlerMatches.bind(this));
-		this.register("settings", this.handlerSettings.bind(this));
-		this.register("security", this.handlerSecurity.bind(this));
-		this.register("shop", this.handlerShop.bind(this));
-		this.register("stats", this.handlerStats.bind(this));
-		this.register("complaint", this.handlerComplaint.bind(this));
-		this.register("messenger", this.handlerMessenger.bind(this));
-		this.register("step", this.handlerStep.bind(this));
-		this.register("search", this.handlerSearch.bind(this));
+		this.register('feed', this.handlerFeed.bind(this));
+		this.register('auth', this.handlerAuth.bind(this));
+		this.register('login', this.handlerLogin.bind(this));
+		this.register('matches', this.handlerMatches.bind(this));
+		this.register('settings', this.handlerSettings.bind(this));
+		this.register('security', this.handlerSecurity.bind(this));
+		this.register('shop', this.handlerShop.bind(this));
+		this.register('stats', this.handlerStats.bind(this));
+		this.register('complaint', this.handlerComplaint.bind(this));
+		this.register('messenger', this.handlerMessenger.bind(this));
+		this.register('step', this.handlerStep.bind(this));
+		this.register('search', this.handlerSearch.bind(this));
 	}
 
 	private async checkSession(): Promise<boolean> {
@@ -101,7 +112,6 @@ class Router {
 				return true;
 			}
 		} catch (error) {
-			console.error('Ошибка при проверке сессии:', error);
 			const notification = new Notification({
 				title: 'Ошибка сети. Перенаправление на логин',
 				isWarning: true,
@@ -119,22 +129,24 @@ class Router {
 	}
 
 	public renderPage(path: string, state = {}) {
-		this.PATHS.forEach(data => {
-			if (data.path == path) data.callback(state);
-		})
+		this.PATHS.forEach((data) => {
+			if (data.path === path) { data.callback(state); }
+		});
 	}
 
 	public async navigateTo(page: AppPage, state: any = {}, isReplace = false): Promise<void> {
-		let cookie = this.checkCookie(page) as AppPage;
-		if (cookie != page) {
+		const cookie = this.checkCookie(page) as AppPage;
+		if (cookie !== page) {
 			isReplace = true;
 			page = cookie;
 		}
 
-		if (isReplace)
+		if (isReplace) {
 			window.history.replaceState(state, '', page);
-		else
+		} else {
 			window.history.pushState(state, '', page);
+
+		}
 
 		await this.renderPage(page, state);
 
@@ -146,32 +158,35 @@ class Router {
 		const currentPath = window.location.pathname.split('/')[1] as AppPage || AppPage.Feed;
 
 		if (!(await this.checkSession())) {
-			if (currentPath != AppPage.Auth && currentPath != AppPage.Login)
+			if (currentPath !== AppPage.Auth && currentPath !== AppPage.Login) {
 				this.navigateTo(AppPage.Auth, {}, true);
-			else
+			} else {
 				this.navigateTo(currentPath, {}, true);
+			}
 
 			return;
 		}
 
 		await this.navigateTo(currentPath);
 
-		const ID = store.getState("myID") as number;
+		const ID = store.getState('myID') as number;
 		const data = await api.getProfile(ID);
-		const ava = api.BASE_URL_PHOTO + data?.data?.photos[0];
-		const name = data?.data?.firstName + ' ' + data?.data?.lastName;
+		const ava = api.BASE_URL_PHOTO + (data?.data?.photos[0] ?? '');
+		const name = `${data?.data?.firstName} ${data?.data?.lastName}`;
 
-		if (ava) store.setState('ava', ava);
-		if (name) store.setState('profileName', name);
-		if (data?.data?.isMale) store.setState('isMale', data?.data?.isMale);
+		if (ava) { store.setState('ava', ava); }
+		if (name) { store.setState('profileName', name); }
+		if (data?.data?.isMale) { store.setState('isMale', data?.data?.isMale); }
 	}
 
 	private checkCookie(page: AppPage): AppPage {
 		const inSession = store.getState('inSession');
-		if (!inSession && page != AppPage.Auth && page != AppPage.Login && page != AppPage.StepPage)
+		if (!inSession && page !== AppPage.Auth && page !== AppPage.Login && page !== AppPage.StepPage) {
 			return AppPage.Auth;
-		if (inSession && (page == AppPage.Auth || page == AppPage.Login || page == AppPage.StepPage))
+		}
+		if (inSession && (page === AppPage.Auth || page === AppPage.Login || page === AppPage.StepPage)) {
 			return AppPage.Settings;
+		}
 		return page;
 	}
 

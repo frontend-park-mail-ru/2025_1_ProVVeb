@@ -1,29 +1,16 @@
 <div class="country-dropdown">
-  <div 
-    class="country-dropdown__selected"
-    tabindex="0"
-    aria-haspopup="listbox"
-    aria-expanded="{{listVisible}}"
-  >
-    {{countryCode}}
-    <div class="underline"></div>
-  </div>
+	<div class="country-dropdown__selected" tabindex="0" aria-haspopup="listbox" aria-expanded="{{listVisible}}">
+		{{countryCode}}
+		<div class="underline"></div>
+	</div>
 
-  {{#if listVisible}}
-    <div 
-      class="country-dropdown__list"
-      role="listbox"
-    >
-      {{#each countries}}
-        <div 
-          class="country-dropdown__option" 
-          role="option"
-          tabindex="0" 
-          data-code="{{code}}"
-        >
-          {{name}} ({{code}})
-        </div>
-      {{/each}}
-    </div>
-  {{/if}}
+	{{#if listVisible}}
+	<div class="country-dropdown__list" role="listbox">
+		{{#each countries}}
+		<div class="country-dropdown__option" role="option" tabindex="0" data-code="{{code}}">
+			{{name}} ({{code}})
+		</div>
+		{{/each}}
+	</div>
+	{{/if}}
 </div>

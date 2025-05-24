@@ -1,4 +1,4 @@
-import { VBC } from "@modules/VDOM/VBC";
+import { VBC } from '@modules/VDOM/VBC';
 import templateHBS from './searchStart.hbs';
 
 export class VSearchStart extends VBC {
@@ -9,7 +9,7 @@ export class VSearchStart extends VBC {
 		super(
 			templateHBS,
 			{},
-			``,
+			'',
 			[],
 			{ text, hint },
 		);

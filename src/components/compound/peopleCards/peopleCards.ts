@@ -1,9 +1,9 @@
-import PersonCard from '../personCard/personCard';
 import BaseComponent from '@basecomp';
 import api, { Profile } from '@network';
 import store from '@store';
 import { parseBirthday } from '@modules/tools';
 import Notification from '@simple/notification/notification';
+import PersonCard from '../personCard/personCard';
 
 interface Listener {
 	event: string;
@@ -13,8 +13,11 @@ interface Listener {
 
 export default class PeopleCards extends BaseComponent {
 	private currentIndex: number;
+
 	private CARDS: Profile[];
+
 	private isDataLoaded: boolean;
+
 	private currentCard: PersonCard | null;
 	private canGoBack: boolean;
 
@@ -81,12 +84,14 @@ export default class PeopleCards extends BaseComponent {
 		this.currentCard = new PersonCard(
 			this.parentElement,
 			{
+				personId: this.CARDS[this.currentIndex].profileId,
 				personName: this.CARDS[this.currentIndex].firstName,
 				personAge: parseBirthday(this.CARDS[this.currentIndex].birthday)?.year ?? '≥ 18',
 				personDescription: this.CARDS[this.currentIndex].description,
 				srcPersonPhotos: this.CARDS[this.currentIndex].photos.map(
 					(photoPath: string) => `${api.BASE_URL_PHOTO}${photoPath}`
 				),
+				isSinglePhoto: this.CARDS[this.currentIndex].photos.length === 1,
 			},
 			LISTENERS_ACTION_BTNS,
 		);
@@ -102,6 +107,7 @@ export default class PeopleCards extends BaseComponent {
 		await api.Dislike(likeFrom, likeTo);
 
 		this.canGoBack = true;
+		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
 
 		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
@@ -114,6 +120,7 @@ export default class PeopleCards extends BaseComponent {
 		await api.Like(likeFrom, likeTo);
 
 		this.canGoBack = true;
+		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
 
 		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;

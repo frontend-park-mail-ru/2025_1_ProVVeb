@@ -1,5 +1,5 @@
-import { VBC } from "@modules/VDOM/VBC";
-import templateHBS from "./input.hbs";
+import { VBC } from '@modules/VDOM/VBC';
+import templateHBS from './input.hbs';
 
 export class VChatInput extends VBC {
 	constructor(
@@ -16,16 +16,16 @@ export class VChatInput extends VBC {
 					eventType: 'click',
 					handler: onClick
 				},
-				// {
-				// 	selector: '.chatInput__input textarea',
-				// 	eventType: 'keydown',
-				// 	handler: (e: Event) => {
-				// 		if (e.key === 'Enter' && !e.shiftKey) {
-				// 			e.preventDefault(); // Предотвращаем перенос строки
-				// 			onClick(); // Вызываем тот же обработчик
-				// 		}
-				// 	}
-				// },
+				{
+					selector: '.chatInput__input',
+					eventType: 'keydown',
+					handler: (e: KeyboardEvent) => {
+						if (e.key === 'Enter' && !e.shiftKey) {
+							e.preventDefault();
+							onClick();
+						}
+					}
+				}
 			],
 			{ profileId },
 		);
