@@ -2,6 +2,7 @@ import BaseComponent from '@basecomp';
 import api, { Profile } from '@network';
 import store from '@store';
 import { parseBirthday } from '@modules/utils';
+import Notification from '@simple/notification/notification';
 import PersonCard from '../personCard/personCard';
 
 interface Listener {
@@ -18,6 +19,7 @@ export default class PeopleCards extends BaseComponent {
 	private isDataLoaded: boolean;
 
 	private currentCard: PersonCard | null;
+	private canGoBack: boolean;
 
 	constructor(parentElement: HTMLElement) {
 		super('', parentElement);
@@ -25,6 +27,7 @@ export default class PeopleCards extends BaseComponent {
 		this.CARDS = [];
 		this.isDataLoaded = false;
 		this.currentCard = null;
+		this.canGoBack = false;
 	}
 
 	private async loadData(): Promise<void> {
@@ -103,8 +106,10 @@ export default class PeopleCards extends BaseComponent {
 		const likeTo = this.CARDS[this.currentIndex].profileId;
 		await api.Dislike(likeFrom, likeTo);
 
+		this.canGoBack = true;
 		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
 
+		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
 		await this.render();
 	}
@@ -114,15 +119,45 @@ export default class PeopleCards extends BaseComponent {
 		const likeTo = this.CARDS[this.currentIndex].profileId;
 		await api.Like(likeFrom, likeTo);
 
+		this.canGoBack = true;
 		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
 
+		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
 		await this.render();
 	}
 
-	private handleRepeat(): void { }
+	private async handleRepeat(): Promise<void> {
+		if (this.currentIndex === 0) {
+			new Notification({
+				headTitle: '🚫 Возврат недоступен',
+				title: 'Вы находитесь в начале списка',
+				isWarning: false,
+				isWithButton: true,
+			}).render();
+			return;
+		}
 
-	private handleStar(): void { }
+		if (!this.canGoBack) {
+			new Notification({
+				headTitle: '⏪ Доступен только один возврат',
+				title: 'Вы уже вернулись к предыдущей карточке',
+				isWarning: false,
+				isWithButton: true,
+			}).render();
+			return;
+		}
 
-	private handleLightning(): void { }
+		this.currentIndex--;
+		this.canGoBack = false;
+		await this.render();
+	}
+
+	private handleStar(): void {
+		console.log('Тык звезда');
+	}
+
+	private handleLightning(): void {
+		console.log('Тык молния');
+	}
 }
