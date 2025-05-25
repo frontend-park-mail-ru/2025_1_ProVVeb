@@ -1,5 +1,6 @@
 // const IP = '213.219.214.83';
-const IP = 'localhost';
+// const IP = 'localhost';
+const IP = 'beameye.ru';
 
 const BASE_URL = `http://${IP}/api`;
 const BASE_URL_PHOTO = `http://${IP}/img/profile-photos`;
