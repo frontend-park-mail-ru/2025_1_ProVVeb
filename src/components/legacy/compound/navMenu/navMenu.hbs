@@ -11,6 +11,7 @@
 			<div id="{{this.id}}" class="navMenu__link{{#if this.isDev}} navMenu__link--dev{{/if}}">
 				<img src="{{this.srcIcon}}" alt="Иконка {{this.title}}">
 				<span class="">{{this.title}}</span>
+				<span class="notification-badge hidden" id="notif-{{id}}">0</span>
 			</div>
 			{{/each}}
 		</div>

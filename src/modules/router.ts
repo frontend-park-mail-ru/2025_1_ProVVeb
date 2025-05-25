@@ -137,9 +137,13 @@ class Router {
 	}
 
 	public renderPage(path: string, state = {}) {
-		this.PATHS.forEach((data) => {
-			if (data.path === path) { data.callback(state); }
-		});
+		for (const data of this.PATHS) {
+			if (data.path === path) {
+				data.callback(state);
+				return;
+			}
+		}
+		this.navigateTo('feed' as AppPage, {}, true);
 	}
 
 	public async navigateTo(page: AppPage, state: any = {}, isReplace = false): Promise<void> {
@@ -153,7 +157,6 @@ class Router {
 			window.history.replaceState(state, '', page);
 		} else {
 			window.history.pushState(state, '', page);
-
 		}
 
 		await this.renderPage(page, state);
@@ -219,54 +222,81 @@ class Router {
 		this.root.classList.remove('greeting');
 		this.feedPage.rerender();
 		this.feedPage.getNavMenu().setActiveLink('feed');
+
+		store.update('notif_messanger');
+		store.update('notif_matches');
 	}
 
 	private handlerMatches(state: any): void {
 		this.root.classList.remove('greeting');
 		this.matchesPage.rerender();
 		this.matchesPage.getNavMenu().setActiveLink('matches');
+
+		store.update('notif_messanger');
+		store.update('notif_matches');
 	}
 
 	private handlerSettings(state: any): void {
 		this.root.classList.remove('greeting');
 		this.profilePage.rerender();
 		this.profilePage.getNavMenu().setActiveLink('settings');
+
+		store.update('notif_messanger');
+		store.update('notif_matches');
 	}
 
 	private handlerSecurity(state: any): void {
 		this.root.classList.remove('greeting');
 		this.securityPage.rerender();
 		this.securityPage.getNavMenu().setActiveLink('security');
+
+		store.update('notif_messanger');
+		store.update('notif_matches');
 	}
 
 	private handlerShop(state: any): void {
 		this.root.classList.remove('greeting');
 		this.shopPage.rerender();
 		this.shopPage.getNavMenu().setActiveLink('shop');
+
+		store.update('notif_messanger');
+		store.update('notif_matches');
 	}
 
 	private handlerStats(state: any): void {
 		this.root.classList.remove('greeting');
 		this.statPage.rerender();
 		this.statPage.getNavMenu().setActiveLink('stats');
+
+		store.update('notif_messanger');
+		store.update('notif_matches');
 	}
 
 	private handlerComplaint(state: any): void {
 		this.root.classList.remove('greeting');
 		this.complaintPage.rerender();
 		this.complaintPage.getNavMenu().setActiveLink('complaint');
+
+		store.update('notif_messanger');
+		store.update('notif_matches');
 	}
 
 	private handlerMessenger(state: any): void {
 		this.root.classList.remove('greeting');
 		this.messagePage.rerender();
 		this.messagePage.getNavMenu().setActiveLink('messenger');
+
+		store.update('notif_messanger');
+		store.update('notif_matches');
 	}
 
 	private handlerSearch(state: any): void {
 		this.root.classList.remove('greeting');
 		this.searchPage.rerender();
 		this.searchPage.getNavMenu().setActiveLink('search');
+
+		store.update('notif_messanger');
+		store.update('notif_matches');
 	}
 }
 
