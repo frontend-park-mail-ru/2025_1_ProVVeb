@@ -1,0 +1,63 @@
+.usersListMobileToggle {
+	display: none;
+}
+
+.chatMobileToggle {
+	position: absolute;
+	top: -36px;
+	right: 20px;
+	z-index: 1000;
+}
+
+.chatMobileToggle__input {
+	display: none;
+}
+
+.chatMobileToggle label {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	background: linear-gradient(180deg, #FF7854 0%, #FE3675 100%);
+	border-radius: 50%;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+	cursor: pointer;
+	transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.chatMobileToggle label:hover {
+	transform: scale(1.05);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.chatMobileToggle label img {
+	width: 20px;
+	height: 20px;
+	filter: brightness(0) invert(1);
+	transition: transform 0.3s ease;
+	transform-origin: center;
+}
+
+.chatMobileToggle__input:checked+label img {
+	transform: rotate(180deg);
+}
+
+.chatMobileToggle__input:checked+label {
+	background: linear-gradient(180deg, #FE3675 0%, #FF7854 100%);
+}
+
+@media (max-width: 985px) {
+	.chatHeader__additionally {
+		display: none;
+	}
+
+	.usersListMobileToggle {
+		display: contents;
+	}
+
+	.usersList {
+		position: absolute;
+		right: 59px;
+	}
+}

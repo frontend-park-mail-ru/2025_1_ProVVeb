@@ -1,5 +1,5 @@
-const IP = '213.219.214.83';
-// const IP = 'localhost';
+// const IP = '213.219.214.83';
+const IP = 'localhost';
 
 const BASE_URL = `http://${IP}/api`;
 const BASE_URL_PHOTO = `http://${IP}/img/profile-photos`;
@@ -49,20 +49,18 @@ async function sendRequest<T>(
 	try {
 		const options: RequestInit = {
 			method,
-			mode: "cors",
-			credentials: "include",
+			mode: 'cors',
+			credentials: 'include',
 		};
 
-		// Если передается FormData, автоматически определяем multipart
 		const isActuallyMultipart = isMultipart || data instanceof FormData;
 
 		if (data) {
 			if (isActuallyMultipart) {
-				// Для FormData Content-Type НЕ указываем вручную, браузер сам добавит boundary
 				options.body = data instanceof FormData ? data : objectToFormData(data);
 			} else {
 				options.headers = {
-					"Content-Type": "application/json",
+					'Content-Type': 'application/json',
 				};
 
 				options.body = JSON.stringify(data);
@@ -101,12 +99,10 @@ function objectToFormData(obj: object): FormData {
 }
 
 function base64ToBlob(base64: string): Blob {
-	// Разделяем строку на части (тип MIME и данные)
 	const [mimePart, dataPart] = base64.split(';base64,');
-	const mime = mimePart.split(':')[1]; // "image/png"
-	const byteString = atob(dataPart); // Декодируем base64
+	const mime = mimePart.split(':')[1];
+	const byteString = atob(dataPart);
 
-	// Преобразуем в ArrayBuffer
 	const arrayBuffer = new ArrayBuffer(byteString.length);
 	const uintArray = new Uint8Array(arrayBuffer);
 	for (let i = 0; i < byteString.length; i++) {
@@ -115,7 +111,6 @@ function base64ToBlob(base64: string): Blob {
 
 	return new Blob([arrayBuffer], { type: mime });
 }
-
 
 async function uploadPhotos(
 	userId: number,
@@ -130,8 +125,6 @@ async function uploadPhotos(
 		if (photo.src.startsWith('data:')) {
 			const blob = base64ToBlob(photo.src);
 			formData.append('images', blob, `image_${photo.id}.png`);
-		} else {
-			// console.log(`Skipping already uploaded photo with ID: ${photo.id}`);
 		}
 	});
 
@@ -142,8 +135,6 @@ async function deletePhoto(userId: number, srcPhoto: string): Promise<ApiRespons
 	const url = `${BASE_URL}/profiles/deletePhoto?id=${userId}&file_url=${srcPhoto}`;
 	return sendRequest(url, 'DELETE');
 }
-
-// Функции API
 
 async function loginUser(user: User, profile: Profile): Promise<ApiResponse> {
 	const url = `${BASE_URL}/users`;
@@ -204,26 +195,25 @@ async function updateProfile(data: {
 
 async function sendFeedback(score: number, answer: string): Promise<ApiResponse> {
 	const url = `${BASE_URL}/queries/sendResp`;
-	return sendRequest(url, 'POST', { name: "CSAT", score, answer });
+	return sendRequest(url, 'POST', { name: 'CSAT', score, answer });
 }
 
 async function getCards() {
 	const url = `${BASE_URL}/queries/getForQuery`;
-	console.log(url);
 	return sendRequest(url, 'GET');
 }
 
 async function sendComplaint(
 	header: string,
 	body: string,
-	forWhom?: string,
+	forWhom?: number,
 ): Promise<ApiResponse> {
 	const url = `${BASE_URL}/complaints/create`;
 
 	const params: {
 		complaint_type: string;
 		complaint_text: string;
-		complaint_on?: string
+		complaint_on?: number
 	} = {
 		complaint_type: header,
 		complaint_text: body,

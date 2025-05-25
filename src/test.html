@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Banner Shop Preview</title>
+	<style>
+		:root {
+			--font-color: #333;
+		}
+
+		body {
+			background: #f0f0f0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+			margin: 0;
+			font-family: Gotham, sans-serif;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		p {
+			margin: 0;
+		}
+
+		.banner-shop {
+			border: 1px solid #A952EA;
+			background: white;
+			border-radius: 10px;
+			padding: 0px 0px 10px 0px;
+			width: 197px;
+			height: 248px;
+			transition: 0.5s;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+			position: relative;
+		}
+
+		.banner-shop:hover {
+			transform: scale(1.1);
+		}
+
+		.banner-shop__border {
+			position: absolute;
+			top: 0;
+			left: 0;
+			background: #A952EA;
+			border-radius: 10px 10px 0 0;
+			width: 100%;
+			height: 16px;
+		}
+
+		.banner-shop__inner {
+			margin-top: 35px;
+			margin-bottom: 19px;
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			position: relative;
+			align-items: center;
+			gap: 4px;
+		}
+
+		.banner-shop__duration,
+		.banner-shop__old-sale,
+		.banner-shop__new-sale,
+		.banner-shop__discount {
+			width: 100%;
+			height: fit-content;
+			text-align: center;
+		}
+
+		.banner-shop__duration {
+			font-weight: 500;
+			font-size: 20px;
+			color: var(--font-color);
+		}
+
+		.banner-shop__old-sale {
+			font-weight: 500;
+			font-size: 24px;
+			color: black;
+			text-decoration: line-through;
+		}
+
+		.banner-shop__old-sale p {
+			margin-right: 40px;
+		}
+
+		.banner-shop__new-sale {
+			font-weight: 500;
+			font-size: 24px;
+			color: black;
+		}
+
+		.banner-shop__new-sale sub {
+			font-size: 16px;
+			/* vertical-align: top; */
+			margin-left: 2px;
+		}
+
+		.banner-shop__discount {
+			font-weight: 500;
+			font-size: 24px;
+			color: black;
+		}
+
+		.banner-shop__button {
+			width: 135px;
+			height: 31px;
+			padding: auto;
+			border-radius: 111px;
+			background: #A952EA;
+			cursor: pointer;
+			transition: 0.5s;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+
+		.banner-shop__button:hover {
+			transform: scale(1.1);
+		}
+
+		.banner-shop__button button {
+			all: unset;
+			color: white;
+			font-weight: 500;
+			font-size: 16px;
+			line-height: 150%;
+			text-align: center;
+			cursor: pointer;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="banner-shop">
+		<div class="banner-shop__border"></div>
+		<div class="banner-shop__inner">
+			<div class="banner-shop__duration">
+				<p>12 месяцев</p>
+			</div>
+			<div class="banner-shop__old-sale">
+				<p>1990₽</p>
+			</div>
+			<div class="banner-shop__new-sale">
+				<p>990₽<sub>/мес</sub></p>
+			</div>
+			<div class="banner-shop__discount">
+				<p>-50%</p>
+			</div>
+		</div>
+		<div class="banner-shop__button">
+			<button>
+				<p>Приобрести</p>
+			</button>
+		</div>
+	</div>
+</body>
+
+</html>

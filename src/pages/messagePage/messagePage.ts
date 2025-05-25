@@ -1,25 +1,31 @@
-import BasePage from '../BasePage';
-import { Compounder } from '@modules/VDOM/Compounder';
+import { Compounder } from '@VDOM/Compounder';
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
-import { VChatMessage } from '@VDOM/simple/chat/message/chatMessage';
-import { VChatHeader } from '@VDOM/simple/chat/header/header';
-import { VChatInput } from '@VDOM/simple/chat/input/input';
-import { VUserItem } from '@VDOM/simple/chat/userItem/userItem';
-import { VStartMessage } from '@VDOM/simple/chat/startMessage/startMessage';
+import { VChatMessage } from '@ui/chat/message/chatMessage';
+import { VChatHeader } from '@ui/chat/header/header';
+import { VChatInput } from '@ui/chat/input/input';
+import { VUserItem } from '@ui/chat/userItem/userItem';
+import { VStartMessage } from '@ui/chat/startMessage/startMessage';
 import api from '@network';
-import Notification from '@simple/notification/notification';
+import Notification from '@notification';
 import store from '@store';
-import { VChatMobileToggle } from '@VDOM/simple/chat/chatMobileToggle/chatMobileToggle';
+import { VChatMobileToggle } from '@ui/chat/chatMobileToggle/chatMobileToggle';
+import BasePage from '../BasePage';
 
 export default class MessagePage extends BasePage {
 	private components: Array<HeaderMain | NavMenu>;
+
 	private contentWrapper: HTMLElement;
-	private chatAreaCompounder: Compounder = new Compounder;
-	private messageAreaCompounder: Compounder = new Compounder;
-	private usersListCompounder: Compounder = new Compounder;
-	private currentChatWS: WebSocket | null = null; // Текущее WebSocket соединение
-	private notificationWS: WebSocket | null = null; // WebSocket для уведомлений
+
+	private chatAreaCompounder: Compounder = new Compounder();
+
+	private messageAreaCompounder: Compounder = new Compounder();
+
+	private usersListCompounder: Compounder = new Compounder();
+
+	private currentChatWS: WebSocket | null = null;
+
+	private notificationWS: WebSocket | null = null;
 
 	constructor(parentElement: HTMLElement) {
 		super(parentElement);
@@ -34,25 +40,18 @@ export default class MessagePage extends BasePage {
 	}
 
 	async render(): Promise<void> {
-		// Закрываем предыдущее соединение уведомлений, если оно есть
 		if (this.notificationWS) {
 			this.notificationWS.close();
 		}
 
-		// Создаем новое соединение для уведомлений
 		this.notificationWS = new WebSocket(`${api.WS_NOTIF_URL}`);
 
-		this.notificationWS.onopen = () => {
-			console.log('WebSocket connection for notifications opened');
-		};
+		this.notificationWS.onopen = () => { };
 
-		this.notificationWS.onclose = () => {
-			console.log('WebSocket connection for notifications closed');
-		};
+		this.notificationWS.onclose = () => { };
 
 		this.notificationWS.onmessage = (response) => {
 			const message = JSON.parse(response.data);
-			console.log('notification message:', message);
 		};
 
 		this.chatAreaCompounder.clear();
@@ -78,13 +77,12 @@ export default class MessagePage extends BasePage {
 			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 			border: 1px solid rgba(0, 0, 0, 0.05);
         `);
-		// height: 100%;
 
 		const { success, data: usersList } = await this.getUsersList();
 
 		if (!success) {
 			const notification = new Notification({
-				headTitle: "Ошибка сети",
+				headTitle: 'Ошибка сети',
 				title: 'Не получилось получить список чатов',
 				isWarning: false,
 				isWithButton: true,
@@ -120,11 +118,9 @@ export default class MessagePage extends BasePage {
 		profileDescription: string,
 		profileId: number
 	) {
-		// Закрываем предыдущее WebSocket соединение, если оно есть
 		if (this.currentChatWS) {
 			this.currentChatWS.close();
 			this.currentChatWS = null;
-			console.log('WebSocket currentChatWS closed');
 		}
 
 		this.chatAreaCompounder.clear();
@@ -139,7 +135,8 @@ export default class MessagePage extends BasePage {
 
 		const chatHeader = new VChatHeader(
 			api.BASE_URL_PHOTO + profilePicture,
-			profileName, profileDescription
+			profileName,
+			profileDescription
 		);
 		this.chatAreaCompounder.add(chatHeader);
 
@@ -154,35 +151,29 @@ export default class MessagePage extends BasePage {
 
 		this.chatAreaCompounder.add(this.messageAreaCompounder);
 
-		// Создаем новое WebSocket соединение для текущего чата
 		this.currentChatWS = new WebSocket(`${api.WS_CHAT_URL}/${chatId}`);
 
-		this.currentChatWS.onopen = () => {
-			console.log('WebSocket connection for chat opened');
-		};
+		this.currentChatWS.onopen = () => { };
 
-		this.currentChatWS.onclose = () => {
-			console.log('WebSocket connection for chat closed');
-		};
+		this.currentChatWS.onclose = () => { };
 
 		this.currentChatWS.onmessage = (response) => {
 			const data = JSON.parse(response.data);
 
 			if (data.type === 'init_messages') {
-				let len = data.messages
-				if (!len) len=0;
-				else len = data.messages.length;
+				let len = data.messages;
+				if (!len) { len = 0; } else { len = data.messages.length; }
 
 				for (let i = len - 1; i >= 0; --i) {
 					const message = data.messages[i];
 					this.messageAreaCompounder.add(new VChatMessage(
 						message.text,
-						message.senderid === (store.getState("myID") as number)
+						message.senderid === (store.getState('myID') as number)
 					));
 				}
 
 				this.currentChatWS?.send(JSON.stringify({
-					type: "read",
+					type: 'read',
 					payload: {
 						chat_id: chatId,
 					}
@@ -191,22 +182,23 @@ export default class MessagePage extends BasePage {
 				this.chatAreaCompounder.render(this.contentWrapper);
 			}
 
-			if (data.type === 'created') {
-				console.log('Send message');
-			}
+			if (data.type === 'created') { }
 
 			if (data.type === 'new_messages') {
 				for (let i = data.messages.length - 1; i >= 0; --i) {
 					const message = data.messages[i];
-					if (message.status !== 1) continue;
+					if (message.status !== 1) {
+						continue;
+					}
+
 					this.messageAreaCompounder.addToStart(new VChatMessage(
 						message.text,
-						message.senderid === (store.getState("myID") as number)
+						message.senderid === (store.getState('myID') as number)
 					));
 				}
 
 				this.currentChatWS?.send(JSON.stringify({
-					type: "read",
+					type: 'read',
 					payload: {
 						chat_id: chatId,
 					}
@@ -219,24 +211,28 @@ export default class MessagePage extends BasePage {
 		const chatInput = new VChatInput(profileId, () => {
 			const textArea = chatInput.getDOM()?.querySelector('.chatInput__input textarea') as HTMLTextAreaElement | null;
 			if (textArea) {
-				if (textArea.value.trim() === '') return;
+				const messageContent = textArea.value.trim();
+
+				if (messageContent === '') {
+					return;
+				}
+
+				textArea.value = '';
 
 				this.currentChatWS?.send(JSON.stringify({
-					type: "create",
+					type: 'create',
 					payload: {
 						chat_id: chatId,
-						user_id: (store.getState("myID") as number),
-						content: textArea.value.trim(),
+						user_id: (store.getState('myID') as number),
+						content: messageContent,
 					}
 				}));
 
 				this.messageAreaCompounder.addToStart(new VChatMessage(
-					textArea.value, true
+					messageContent, true
 				));
 
-				store.setState(`${profileId}lastMessage`, textArea.value.trim());
-
-				textArea.value = '';
+				store.setState(`${profileId}lastMessage`, messageContent);
 
 				this.chatAreaCompounder.render(this.contentWrapper);
 			}
@@ -249,11 +245,11 @@ export default class MessagePage extends BasePage {
 		const usersList = await api.getChats();
 
 		if (!usersList.success) {
-			return { success: false, data: [] }
+			return { success: false, data: [] };
 		}
 
 		if (!usersList.data) {
-			return { success: true, data: [] }
+			return { success: true, data: [] };
 		}
 
 		const usersListWithClick = usersList.data.reverse().map((user) => {
@@ -265,7 +261,7 @@ export default class MessagePage extends BasePage {
 				() => {
 					const parentElement = userItem.getDOM()?.parentElement;
 					if (parentElement) {
-						[...parentElement.children].forEach(child => child.classList.remove('isActive'));
+						[...parentElement.children].forEach((child) => child.classList.remove('isActive'));
 					}
 					userItem.getDOM()?.classList.add('isActive');
 
@@ -292,7 +288,7 @@ export default class MessagePage extends BasePage {
 				const element = userItem.getDOM() as HTMLElement;
 				parent.insertBefore(element, parent.firstChild);
 
-			})
+			});
 			return userItem;
 		});
 

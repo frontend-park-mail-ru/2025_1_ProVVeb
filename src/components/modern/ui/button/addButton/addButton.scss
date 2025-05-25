@@ -1,0 +1,13 @@
+.addButton {
+	transition: 0.5s;
+	background: none;
+
+	&__img {
+		width: 24px;
+		height: 24px;
+	}
+
+	&:hover {
+		transform: scale(1.1);
+	}
+}

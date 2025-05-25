@@ -1,0 +1,38 @@
+@use '@styles/mixins';
+
+.formCard {
+	margin-top: 100px;
+	height: 500px;
+	width: 410px;
+	@include mixins.center-horizontal;
+	padding: 40px;
+	background-color: var(--white-bg-color);
+	border-radius: 12px;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+	&__inner {
+		height: 100%;
+		@include mixins.flex-column-center;
+		justify-content: space-between;
+	}
+
+	&__header {
+		width: 100%;
+		text-align: center;
+	}
+
+	&__fields {
+		width: 100%;
+		@include mixins.flex-column-center;
+		gap: 32px;
+	}
+
+	&__buttonField {
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
+	}
+}

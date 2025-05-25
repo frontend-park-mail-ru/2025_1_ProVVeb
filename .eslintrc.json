@@ -4,12 +4,24 @@
         "browser": true 
     },
 	// Наследует настройки стиля кода от AirBnb для базовых JavaScript файлов
-    "extends": "airbnb-base", 
+    "extends": "airbnb-base",
+	"parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": "latest", // Указывает ESLint использовать последнюю версию ECMAScript
         "sourceType": "module" // Указывает, что код будет использовать модули (import/export)
     },
     "rules": {
+		"import/no-extraneous-dependencies": [
+			"error", {
+				"devDependencies": [
+					"**/webpack.config.js",
+					"**/webpack.*.js",
+					"**/*.webpack.config.js",
+					"**/terser-webpack-plugin",
+					"**/css-minimizer-webpack-plugin"
+				]
+			}
+    	],
 		"import/extensions": [
 			"error",
 			"ignorePackages", // Игнорирует проверки для пакетов
@@ -24,8 +36,6 @@
 		"no-tabs": "off",
 		// Предупреждение при использовании неправильного отступа, требуя tab
         "indent": ["warn", "tab", { "SwitchCase": 1 }], 
-		// Устанавливает макc. длину строки кода и комментариев 
-        "max-len": ["warn", {"code": 200, "comments": 200}],
 		// Отключает правило, требующее новой строки для закрывающей скобки в функциях 
         "function-paren-newline": "off",
 		// Требование пустой строки в конце файла 
@@ -59,9 +69,13 @@
 		// Правило сокращенной записи
 		"object-shorthand": "off",
 		// Отключить правило циклической зависимостью
-		"import/no-cycle": "off"
+		"import/no-cycle": "off",
+		// Разрешать использование ++
+		"no-plusplus": "off",
+		// Разрешать использование тернарных операторов
+		"no-nested-ternary": "off"
 		// Отключить комментарии
-		// "no-comment": 2
+		// "no-comment": 2,
     },
     "globals": {
 		// Указывает ESLint, что глобальная переменная Handlebars доступна, но не может быть изменена

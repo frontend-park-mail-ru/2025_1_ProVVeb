@@ -1,13 +1,13 @@
-import BasePage from '../BasePage';
-import { Compounder } from '@modules/VDOM/Compounder';
+import { Compounder } from '@VDOM/Compounder';
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
-import { VSearchInput } from '@VDOM/simple/search/searchInput/searchInput';
-import { VSearchItem } from '@VDOM/simple/search/searchItem/searchItem';
-import { VSearchStart } from '@VDOM/simple/search/searchStart/searchStart';
+import { VSearchInput } from '@ui/search/searchInput/searchInput';
+import { VSearchItem } from '@ui/search/searchItem/searchItem';
+import { VSearchStart } from '@ui/search/searchStart/searchStart';
 import api from '@network';
-import Notification from '@simple/notification/notification';
+import Notification from '@notification';
 import store from '@store';
+import BasePage from '../BasePage';
 
 enum Gender {
 	Male = 'Male',
@@ -35,9 +35,10 @@ interface FoundProfile {
 
 export default class SearchPage extends BasePage {
 	private components: Array<HeaderMain | NavMenu>;
+
 	private contentWrapper: HTMLElement;
-	private pageCompounder: Compounder = new Compounder;
-	// private userItemsCompounder: Compounder = new Compounder;
+
+	private pageCompounder: Compounder = new Compounder();
 
 	constructor(parentElement: HTMLElement) {
 		super(parentElement);
@@ -65,12 +66,10 @@ export default class SearchPage extends BasePage {
 			const country = document.getElementById('country') as HTMLInputElement;
 			const city = document.getElementById('city') as HTMLInputElement;
 
-			console.log(ageMin.value, ageMax.value, heightMin.value, heightMax.value, input.value.trim(), selectedGender.value, country.value, city.value);
-
 			const { success, data: searchItems } = await this.getItemsBySearch({
 				input: input.value.trim(),
-				isMale: Object.values(Gender).includes(selectedGender.value as Gender) ?
-					selectedGender.value as Gender : Gender.Any,
+				isMale: Object.values(Gender).includes(selectedGender.value as Gender)
+					? selectedGender.value as Gender : Gender.Any,
 				ageMin: !Number.isNaN(Number(ageMin.value)) ? Number(ageMin.value) : 18,
 				ageMax: !Number.isNaN(Number(ageMax.value)) ? Number(ageMax.value) : 125,
 				heightMin: !Number.isNaN(Number(heightMin.value)) ? Number(heightMin.value) : 100,
@@ -82,8 +81,8 @@ export default class SearchPage extends BasePage {
 
 			if (!success) {
 				const notification = new Notification({
-					headTitle: "Ошибка сети",
-					title: `Не удалось отправить ваш запрос поиска. Попробуйте позже`,
+					headTitle: 'Ошибка сети',
+					title: 'Не удалось отправить ваш запрос поиска. Попробуйте позже',
 					isWarning: false,
 					isWithButton: true,
 				});
@@ -196,8 +195,8 @@ export default class SearchPage extends BasePage {
 
 		if (!response.success) {
 			const notification = new Notification({
-				headTitle: "Ошибка сети",
-				title: `Не удалось отправить ваши пожелания. Попробуйте позже`,
+				headTitle: 'Ошибка сети',
+				title: 'Не удалось отправить ваши пожелания. Попробуйте позже',
 				isWarning: false,
 				isWithButton: true,
 			});
@@ -218,34 +217,5 @@ export default class SearchPage extends BasePage {
 				age: profile.age || 16,
 			}))
 		};
-
-		// return {
-		// 	success: true,
-		// 	data: [
-		// 		{
-		// 			idUser: 1,
-		// 			firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 			fullname: 'John Doe',
-		// 			age: 25,
-		// 		},
-		// 		{
-		// 			idUser: 1,
-		// 			firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 			fullname: 'John Doe',
-		// 			age: 25,
-		// 		},
-		// 		{
-		// 			idUser: 1,
-		// 			firstImgSrc: 'https://avatars.mds.yandex.net/i?id=b820b49c4c850aafa15656d3f5fd60f5_l-5277098-images-thumbs&n=13',
-		// 			fullname: 'John Doe',
-		// 			age: 25,
-		// 		},
-		// 	],
-		// }
-
-		// return {
-		// 	success: true,
-		// 	data: [],
-		// }
 	}
 }
