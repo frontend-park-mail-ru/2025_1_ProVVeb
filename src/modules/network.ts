@@ -25,6 +25,10 @@ export interface Profile {
 	likedBy: number[];
 	photos: string[];
 	preferences: { [key: string]: string; };
+	premium: {
+		status: boolean;
+		border?: number;
+	};
 }
 
 export interface User {
