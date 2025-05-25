@@ -4,8 +4,8 @@ const IP = 'beameye.ru';
 
 const BASE_URL = `https://${IP}/api`;
 const BASE_URL_PHOTO = `https://${IP}/img/profile-photos`;
-const WS_CHAT_URL = `ws://${IP}/api/chats`;
-const WS_NOTIF_URL = `ws://${IP}/api/notifications`;
+const WS_CHAT_URL = `wss://${IP}/api/chats`;
+const WS_NOTIF_URL = `wss://${IP}/api/notifications`;
 // const BASE_URL = `http://${IP}:8080`;
 // const BASE_URL_PHOTO = `http://${IP}:8030/profile-photos`;
 // const WS_CHAT_URL = `ws://${IP}:8080/chats`;
