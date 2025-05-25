@@ -34,19 +34,20 @@ export default class ShopPage extends BasePage {
 
 		this.main = new Compounder();
 		this.main.down('mainContent__central', `
-				display: flex;
-				flex-direction: column;
 				justify-content: center;
 				align-items: center;
-				width: 665px;
+				gap: 20px;
 			`);
 		this.main.add(this.banner);
+
 		this.main.down('plans', `
 				display: flex;
+				flex-wrap: wrap;
 				flex-direction: row;
 				width: 100%;
-				justify-content: space-between;
-				align-items: center;
+				gap: 20px;
+				justify-content: center;
+				align-items: center;	
 			`);
 		this.main.add(this.plan1).add(this.plan2).add(this.plan3);
 	}
