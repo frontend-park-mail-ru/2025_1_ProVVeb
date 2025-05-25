@@ -12,6 +12,7 @@
 	&__link {
 		width: fit-content;
 		@include mixins.flex-center-horizontal;
+		position: relative;
 		gap: 14px;
 		cursor: pointer;
 		font-weight: 500;
@@ -167,4 +168,24 @@
 		display: block;
 		opacity: 1;
 	}
+}
+
+.notification-badge {
+	position: absolute;
+	top: 9px;
+	right: -15px;
+	background: var(--main-theme);
+	color: white;
+	border-radius: 50%;
+	font-size: 12px;
+	width: 20px;
+	height: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1;
+}
+
+.notification-badge.hidden {
+	display: none;
 }

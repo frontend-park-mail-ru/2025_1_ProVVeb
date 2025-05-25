@@ -1,6 +1,7 @@
 import BaseComponent from '@basecomp';
 import router, { AppPage } from '@router';
 import templateHBS from './navMenu.hbs';
+import store from '@store';
 
 interface NavMenuParams {
 	idNavLink: string;
@@ -135,6 +136,13 @@ export default class NavMenu extends BaseComponent {
 		const templateHTML = templateHBS({ ...finalParamsHBS, links: LINKS });
 		super(templateHTML, parentElement);
 
+		store.subscribe("notif_messanger", (data) => {
+			this.setNotification("messenger", data as number);
+		});
+		store.subscribe("notif_matches", (data) => {
+			this.setNotification("matches", data as number);
+		});
+
 		LINKS.forEach((link) => {
 			if (link.isDev) { return; }
 
@@ -201,5 +209,21 @@ export default class NavMenu extends BaseComponent {
 				if (otherImg) { otherImg.src = otherLink.srcIcon; }
 			}
 		});
+	}
+
+	public setNotification(linkID: string, count: number): void {
+		const notifElement = document.getElementById(`notif-${linkID}${uniqId}`);
+		if (!notifElement) return;
+
+		if (count > 0) {
+			notifElement.textContent = String(count);
+			notifElement.classList.remove('hidden');
+		} else {
+			notifElement.classList.add('hidden');
+		}
+	}
+
+	public clearNotification(linkID: string): void {
+		this.setNotification(linkID, 0);
 	}
 }
