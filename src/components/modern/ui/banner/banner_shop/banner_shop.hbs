@@ -15,8 +15,19 @@
 		</div>
 	</div>
 	<div class="banner-shop__button">
-		<button>
-			<p>Приобрести</p>
-		</button>
+		<form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST">
+			<input type="hidden" name="receiver" value="4100119158566116">
+			<input type="hidden" name="quickpay-form" value="shop">
+			<input type="hidden" name="targets" value="Покупка премиума">
+			<input type="hidden" name="sum" value="{{newSale}}">
+			<input type="hidden" name="label" value="{{orderId}}">
+
+			<input type="hidden" name="successURL" value="http://localhost:8000/shop">
+			<input type="hidden" name="failURL" value="http://localhost:8000/shop">
+			<input type="hidden" name="notification_url" value="{{!-- РУЧКА БЭКА --}}">
+			<button type="submit">
+				<p>Приобрести</p>
+			</button>
+		</form>
 	</div>
 </div>
