@@ -137,9 +137,13 @@ class Router {
 	}
 
 	public renderPage(path: string, state = {}) {
-		this.PATHS.forEach((data) => {
-			if (data.path === path) { data.callback(state); }
-		});
+		for (const data of this.PATHS) {
+			if (data.path === path) {
+				data.callback(state);
+				return;
+			}
+		}
+		this.navigateTo('feed' as AppPage, {}, true);
 	}
 
 	public async navigateTo(page: AppPage, state: any = {}, isReplace = false): Promise<void> {
@@ -153,7 +157,6 @@ class Router {
 			window.history.replaceState(state, '', page);
 		} else {
 			window.history.pushState(state, '', page);
-
 		}
 
 		await this.renderPage(page, state);
