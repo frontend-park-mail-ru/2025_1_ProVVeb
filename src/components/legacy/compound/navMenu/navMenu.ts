@@ -72,7 +72,6 @@ const LINKS: LinkConfig[] = [
 		},
 	},
 	{
-		isDev: true,
 		title: 'Магазин',
 		srcIcon: 'media/navMenu/shop.svg',
 		srcIconHover: 'media/navMenu/active/shop_gradient.svg',
@@ -84,7 +83,6 @@ const LINKS: LinkConfig[] = [
 		},
 	},
 	{
-		isDev: true,
 		title: 'Настройки',
 		srcIcon: 'media/navMenu/security.svg',
 		srcIconHover: 'media/navMenu/active/security_gradient.svg',

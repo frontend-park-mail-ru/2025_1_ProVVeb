@@ -12,6 +12,8 @@ import ComplaintPage from '@pages/complaintPage/complaintPage';
 import MessagePage from '@pages/messagePage/messagePage';
 import StepPage from '@pages/stepLoginPage/stepLoginPage';
 import SearchPage from '@pages/searchPage/searchPage';
+import ShopPage from '@pages/shopPage/shopPage';
+import SecurityPage from '@pages/securityPage/securityPage';
 
 enum AppPage {
 	Auth = 'auth',
@@ -59,6 +61,10 @@ class Router {
 
 	private searchPage: SearchPage;
 
+	private shopPage: ShopPage;
+
+	private securityPage: SecurityPage;
+
 	private PATHS: PathStructure[];
 
 	constructor() {
@@ -79,6 +85,8 @@ class Router {
 		this.messagePage = new MessagePage(this.root);
 		this.stepPage = new StepPage(this.root);
 		this.searchPage = new SearchPage(this.root);
+		this.shopPage = new ShopPage(this.root);
+		this.securityPage = new SecurityPage(this.root);
 
 		this.PATHS = [];
 
@@ -225,14 +233,14 @@ class Router {
 
 	private handlerSecurity(state: any): void {
 		this.root.classList.remove('greeting');
-		this.emptyPage.rerender();
-		this.emptyPage.getNavMenu().setActiveLink('security');
+		this.securityPage.rerender();
+		this.securityPage.getNavMenu().setActiveLink('security');
 	}
 
 	private handlerShop(state: any): void {
 		this.root.classList.remove('greeting');
-		this.emptyPage.rerender();
-		this.emptyPage.getNavMenu().setActiveLink('shop');
+		this.shopPage.rerender();
+		this.shopPage.getNavMenu().setActiveLink('shop');
 	}
 
 	private handlerStats(state: any): void {

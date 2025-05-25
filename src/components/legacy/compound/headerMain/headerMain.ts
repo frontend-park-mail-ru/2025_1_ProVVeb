@@ -17,7 +17,6 @@ export default class HeaderMain extends Header {
 		const componentConfigs: ComponentConfig[] = [
 			{ key: 'logotype', class: LogoMain },
 			{ key: 'profile', class: Profile },
-			{ key: 'dotsMenu', class: DotsMenu },
 		];
 
 		const components: Record<string, any> = {};
@@ -29,7 +28,6 @@ export default class HeaderMain extends Header {
 			isGreeting: false,
 			logotype: components.logotype.template,
 			profile: components.profile.template,
-			dotsMenu: components.dotsMenu.template,
 		});
 
 		this.addListener(
