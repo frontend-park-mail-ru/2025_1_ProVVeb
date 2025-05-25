@@ -13,11 +13,6 @@
 	justify-content: flex-start;
 	align-items: center;
 
-	&:hover {
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15),
-			0 6px 16px rgba(0, 0, 0, 0.12);
-	}
-
 	&__inner {
 		display: flex;
 		align-items: flex-start;

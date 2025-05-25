@@ -47,11 +47,12 @@ export default class SecurityPage extends BasePage {
 			`
 		);
 		this.main.add(lable).down('buttons', `
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: center;
-			`);
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			gap: 80px;
+		`);
 		this.button1 = new VButton("Выйти из аккаунта", () => {
 			api.logoutUser()
 				.then(() => {
