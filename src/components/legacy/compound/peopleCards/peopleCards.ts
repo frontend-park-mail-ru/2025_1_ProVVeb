@@ -4,6 +4,7 @@ import store from '@store';
 import { parseBirthday } from '@modules/utils';
 import Notification from '@simple/notification/notification';
 import PersonCard from '../personCard/personCard';
+import router, { AppPage } from '@modules/router';
 
 function toPrimeClass(border: number): string {
 	const classMap: Record<number, string> = {
@@ -194,14 +195,28 @@ export default class PeopleCards extends BaseComponent {
 		const likeFrom = store.getState('myID') as number;
 		const likeTo = this.CARDS[this.currentIndex].profileId;
 
+		await api.SuperLike(likeFrom, likeTo);
+		this.canGoBack = false;
+		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
+		router.navigateTo(AppPage.Matches);
+	}
+
+	private async handleLightning(): Promise<void> {
 		const btns = document.querySelector('.personCard__btns') as HTMLElement;
 		if (btns) {
 			btns.style.pointerEvents = 'none';
 			btns.style.opacity = '0.6';
 		}
 
-		await api.SuperLike(likeFrom, likeTo);
-		this.canGoBack = true;
+		const notificationWS = store.getState('notificationWS') as WebSocket;
+		notificationWS.send(JSON.stringify({
+			type: 'sendFlowers',
+			payload: {
+				user_id: this.CARDS[this.currentIndex].profileId,
+			}
+		}));
+
+		this.canGoBack = false;
 
 		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
@@ -211,15 +226,5 @@ export default class PeopleCards extends BaseComponent {
 			btns.style.pointerEvents = 'auto';
 			btns.style.opacity = '1';
 		}
-	}
-
-	private handleLightning(): void {
-		const notificationWS = store.getState('notificationWS') as WebSocket;
-		notificationWS.send(JSON.stringify({
-			type: 'sendFlowers',
-			payload: {
-				user_id: this.CARDS[this.currentIndex].profileId,
-			}
-		}));
 	}
 }

@@ -101,15 +101,6 @@ export default class MatchesCards extends BaseComponent {
 	private async handleMessage(id: number): Promise<void> {
 		const firstID = store.getState('myID') as number;
 		const respond = await api.createChat(firstID, id);
-		if (respond.success) {
-			router.navigateTo(AppPage.Messenger);
-		} else {
-			new Notification({
-				headTitle: 'Что-то пошло не так...',
-				title: 'Ошибка сети. Попробуйте позже',
-				isWarning: false,
-				isWithButton: true
-			}).render();
-		}
+		router.navigateTo(AppPage.Messenger);
 	}
 }

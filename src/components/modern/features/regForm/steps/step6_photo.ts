@@ -5,7 +5,7 @@ import store from '@store';
 import { photo_params, VPhotoInput } from '@ui/input/photoInput/photoInut';
 import api from '@network';
 
-const max_photo = 6;
+const max_photo = 2;
 
 export class CReg100 extends VBC {
 	private components: VPhotoInput[] = [];
