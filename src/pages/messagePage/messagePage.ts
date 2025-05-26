@@ -44,16 +44,6 @@ export default class MessagePage extends BasePage {
 			this.notificationWS.close();
 		}
 
-		this.notificationWS = new WebSocket(`${api.WS_NOTIF_URL}`);
-
-		this.notificationWS.onopen = () => { };
-
-		this.notificationWS.onclose = () => { };
-
-		this.notificationWS.onmessage = (response) => {
-			const message = JSON.parse(response.data);
-		};
-
 		this.chatAreaCompounder.clear();
 		this.chatAreaCompounder.add(new VStartMessage());
 

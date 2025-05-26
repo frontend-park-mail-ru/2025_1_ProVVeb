@@ -1,3 +1,6 @@
+import api from '@network';
+import store from '@store';
+
 export function parseBirthday(dateStr: string): { year: number; month: number; day: number } | null {
 	try {
 		const date = new Date(dateStr);
@@ -27,4 +30,31 @@ export function arraysEqual(a1: (string | undefined)[], a2: (string | undefined)
 		}
 	}
 	return true;
+}
+
+export function startNotifications() {
+	const notificationWS = new WebSocket(`${api.WS_NOTIF_URL}`);
+	store.setState('notificationWS', notificationWS);
+
+	notificationWS.onopen = () => { };
+	notificationWS.onclose = () => { };
+
+	notificationWS.onmessage = (response) => {
+		const message = JSON.parse(response.data);
+		let a = 0, b = 0;
+
+		for (let data of message.notifications) {
+			if (data.type == 'message' && data.read == 0)
+				a++;
+			if (data.type == 'match' && data.read == 0)
+				b++;
+			if (data.type == 'flowers' && data.read == 0) {
+				const anim = document.getElementsByClassName("base-anim")[0];
+				anim.classList.toggle('anim');
+				setTimeout(() => { anim.classList.toggle('anim'); }, 500);
+			}
+		}
+		store.setState('notif_messanger', a);
+		store.setState('notif_matches', b);
+	};
 }
