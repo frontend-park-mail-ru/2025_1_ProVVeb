@@ -190,11 +190,36 @@ export default class PeopleCards extends BaseComponent {
 		await this.render();
 	}
 
-	private handleStar(): void {
-		console.log('Тык звезда');
+	private async handleStar(): Promise<void> {
+		const likeFrom = store.getState('myID') as number;
+		const likeTo = this.CARDS[this.currentIndex].profileId;
+
+		const btns = document.querySelector('.personCard__btns') as HTMLElement;
+		if (btns) {
+			btns.style.pointerEvents = 'none';
+			btns.style.opacity = '0.6';
+		}
+
+		await api.SuperLike(likeFrom, likeTo);
+		this.canGoBack = true;
+
+		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
+		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
+		await this.render();
+
+		if (btns) {
+			btns.style.pointerEvents = 'auto';
+			btns.style.opacity = '1';
+		}
 	}
 
 	private handleLightning(): void {
-		console.log('Тык молния');
+		const notificationWS = store.getState('notificationWS') as WebSocket;
+		notificationWS.send(JSON.stringify({
+			type: 'sendFlowers',
+			payload: {
+				user_id: this.CARDS[this.currentIndex].profileId,
+			}
+		}));
 	}
 }

@@ -1,11 +1,11 @@
 // const IP = '213.219.214.83';
-const IP = 'localhost';
-// const IP = 'beameye.ru';
+// const IP = 'localhost';
+const IP = 'beameye.ru';
 
-const BASE_URL = `http://${IP}/api`;
-const BASE_URL_PHOTO = `http://${IP}/img/profile-photos`;
-const WS_CHAT_URL = `ws://${IP}/api/chats`;
-const WS_NOTIF_URL = `ws://${IP}/api/notifications`;
+const BASE_URL = `https://${IP}/api`;
+const BASE_URL_PHOTO = `https://${IP}/img/profile-photos`;
+const WS_CHAT_URL = `wss://${IP}/api/chats`;
+const WS_NOTIF_URL = `wss://${IP}/api/notifications`;
 // const BASE_URL = `http://${IP}:8080`;
 // const BASE_URL_PHOTO = `http://${IP}:8030/profile-photos`;
 // const WS_CHAT_URL = `ws://${IP}:8080/chats`;
@@ -186,6 +186,11 @@ async function Like(likeFrom: number, likeTo: number): Promise<ApiResponse> {
 	return sendRequest(url, 'POST', { likeFrom, likeTo, status: 1 });
 }
 
+async function SuperLike(likeFrom: number, likeTo: number): Promise<ApiResponse> {
+	const url = `${BASE_URL}/profiles/like`;
+	return sendRequest(url, 'POST', { likeFrom, likeTo, status: 3 });
+}
+
 async function Dislike(likeFrom: number, likeTo: number): Promise<ApiResponse> {
 	const url = `${BASE_URL}/profiles/like`;
 	return sendRequest(url, 'POST', { likeFrom, likeTo, status: -1 });
@@ -275,6 +280,48 @@ async function changeBorder(new_border: number) {
 	return sendRequest(url, 'POST', { new_border });
 }
 
+async function subscribe(): Promise<ApiResponse> {
+	const url = `${BASE_URL}/subscription`;
+	return sendRequest(url, 'POST', { label: "0" });
+}
+
+function payWithYooMoney(params: {
+	receiver: string;
+	targets: string;
+	sum: number | string;
+	label: string;
+	successURL: string;
+	failURL: string;
+	notification_url: string;
+}) {
+	const form = document.createElement('form');
+	form.method = 'POST';
+	form.action = 'https://yoomoney.ru/quickpay/confirm.xml';
+
+	const fields: Record<string, string> = {
+		receiver: '4100119158566116',
+		'quickpay-form': 'shop',
+		targets: 'Покупка премиума',
+		sum: String(params.sum),
+		label: params.label,
+		successURL: ``,
+		failURL: '',
+		notification_url: ``,
+	};
+
+	Object.entries(fields).forEach(([name, value]) => {
+		const inp = document.createElement('input');
+		inp.type = 'hidden';
+		inp.name = name;
+		inp.value = value;
+		form.appendChild(inp);
+	});
+
+	document.body.appendChild(form);
+	form.submit();
+	document.body.removeChild(form);
+}
+
 export default {
 	BASE_URL_PHOTO,
 	BASE_URL,
@@ -300,4 +347,6 @@ export default {
 	getChats,
 	createChat,
 	changeBorder,
+	subscribe,
+	SuperLike
 };

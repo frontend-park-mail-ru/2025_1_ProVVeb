@@ -15,6 +15,7 @@
 		</div>
 	</div>
 	<div class="banner-shop__button">
+		{{#if isYoomoney}}
 		<form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST">
 			<input type="hidden" name="receiver" value="4100119158566116">
 			<input type="hidden" name="quickpay-form" value="shop">
@@ -29,5 +30,10 @@
 				<p>Приобрести</p>
 			</button>
 		</form>
+		{{else}}
+		<button>
+			<p>Приобрести</p>
+		</button>
+		{{/if}}
 	</div>
 </div>

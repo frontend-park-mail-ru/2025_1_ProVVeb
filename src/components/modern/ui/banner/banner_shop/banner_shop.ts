@@ -1,18 +1,26 @@
 import { VBC } from '@VDOM/VBC';
+import api from '@network';
 import templateHBS from './banner_shop.hbs';
 
 export class VPlan extends VBC {
-	constructor(duration: string, old_sale: number, new_sale: number, discount: number, color: string) {
+	constructor(
+		duration: string,
+		old_sale: number,
+		new_sale: number,
+		discount: number,
+		color: string,
+		isYoomoney: boolean
+	) {
 		let id: number = 0;
 		switch (duration) {
-			case '1 месяц': id = 0; break;
-			case '6 месяцев': id = 1; break;
-			case '1 год': id = 2; break;
+			case '3 дня': id = 0; break;
+			case '1 месяц': id = 1; break;
+			case '6 месяцев': id = 2; break;
 		}
 		super(
 			templateHBS,
 			{
-				duration, oldSale: old_sale, newSale: new_sale, discount, orderId: id
+				duration, oldSale: old_sale, newSale: new_sale, discount, orderId: id, isYoomoney
 			}, `
 				.banner-shop {
 					border: 1px solid ${color};
@@ -28,7 +36,10 @@ export class VPlan extends VBC {
 				{
 					eventType: 'click',
 					selector: '.banner-shop__button',
-					handler: () => { console.log("Subscribe button pressed"); }
+					handler: () => {
+						if (!isYoomoney)
+							api.subscribe();
+					}
 				}
 			]
 		);

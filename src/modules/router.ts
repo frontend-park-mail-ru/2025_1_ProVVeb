@@ -14,6 +14,7 @@ import StepPage from '@pages/stepLoginPage/stepLoginPage';
 import SearchPage from '@pages/searchPage/searchPage';
 import ShopPage from '@pages/shopPage/shopPage';
 import SecurityPage from '@pages/securityPage/securityPage';
+import { startNotifications } from './utils';
 
 enum AppPage {
 	Auth = 'auth',
@@ -179,6 +180,7 @@ class Router {
 		}
 
 		await this.navigateTo(currentPath);
+		startNotifications();
 
 		const ID = store.getState('myID') as number;
 		const data = await api.getProfile(ID);
@@ -233,8 +235,15 @@ class Router {
 		this.matchesPage.rerender();
 		this.matchesPage.getNavMenu().setActiveLink('matches');
 
-		store.update('notif_messanger');
-		store.update('notif_matches');
+		const notificationWS = store.getState('notificationWS') as WebSocket;
+		notificationWS.send(JSON.stringify({
+			type: 'read',
+			payload: {
+				NotifType: 'match'
+			}
+		}));
+		store.setState('notif_messanger', 0);
+		store.setState('notif_matches', 0);
 	}
 
 	private handlerSettings(state: any): void {
@@ -289,6 +298,16 @@ class Router {
 
 		store.update('notif_messanger');
 		store.update('notif_matches');
+
+		const notificationWS = store.getState('notificationWS') as WebSocket;
+		notificationWS.send(JSON.stringify({
+			type: 'read',
+			payload: {
+				NotifType: 'message'
+			}
+		}));
+		store.setState('notif_messanger', 0);
+		store.setState('notif_matches', 0);
 	}
 
 	private handlerSearch(state: any): void {
