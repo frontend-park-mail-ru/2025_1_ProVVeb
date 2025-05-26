@@ -109,6 +109,7 @@ export default class StatPage extends BasePage {
 
 		store.update('ava');
 		store.update('profileName');
+		store.update('premiumBorder');
 	}
 
 	public getNavMenu(): NavMenu {

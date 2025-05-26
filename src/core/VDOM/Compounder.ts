@@ -95,4 +95,8 @@ export class Compounder extends VBC {
 		return (renderVDOM(this.root_) as HTMLElement).outerHTML;
 	}
 
+	public forceRender(mountPoint: HTMLElement): void {
+		this.isRendered = false;
+		this.render(mountPoint);
+	}
 }

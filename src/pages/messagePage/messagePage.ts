@@ -95,6 +95,7 @@ export default class MessagePage extends BasePage {
 
 		store.update('profileName');
 		store.update('ava');
+		store.update('premiumBorder');
 	}
 
 	public getNavMenu(): NavMenu {

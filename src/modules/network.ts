@@ -1,11 +1,11 @@
 // const IP = '213.219.214.83';
-// const IP = 'localhost';
-const IP = 'beameye.ru';
+const IP = 'localhost';
+// const IP = 'beameye.ru';
 
-const BASE_URL = `https://${IP}/api`;
-const BASE_URL_PHOTO = `https://${IP}/img/profile-photos`;
-const WS_CHAT_URL = `wss://${IP}/api/chats`;
-const WS_NOTIF_URL = `wss://${IP}/api/notifications`;
+const BASE_URL = `http://${IP}/api`;
+const BASE_URL_PHOTO = `http://${IP}/img/profile-photos`;
+const WS_CHAT_URL = `ws://${IP}/api/chats`;
+const WS_NOTIF_URL = `ws://${IP}/api/notifications`;
 // const BASE_URL = `http://${IP}:8080`;
 // const BASE_URL_PHOTO = `http://${IP}:8030/profile-photos`;
 // const WS_CHAT_URL = `ws://${IP}:8080/chats`;
@@ -276,7 +276,7 @@ async function createChat(
 }
 
 async function changeBorder(new_border: number) {
-	const url = `${BASE_URL}/subsription/changeborder`;
+	const url = `${BASE_URL}/subscription/changeborder`;
 	return sendRequest(url, 'POST', { new_border });
 }
 

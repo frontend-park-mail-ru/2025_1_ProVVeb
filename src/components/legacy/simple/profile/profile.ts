@@ -2,6 +2,7 @@ import BaseComponent from '@basecomp';
 import store from '@store';
 import router, { AppPage } from '@modules/router';
 import templateHBS from './profile.hbs';
+import { toPrimeClass } from '@modules/utils';
 
 interface ProfileParams {
 	profileName: string;
@@ -32,6 +33,12 @@ export default class Profile extends BaseComponent {
 				const avaElement = profileElement.children[1] as HTMLElement;
 				const imgElement = avaElement.querySelector('img');
 				if (imgElement) { imgElement.src = newAva as string; }
+			}
+		});
+		store.subscribe('premiumBorder', (newPremiumBorder: unknown) => {
+			const photoBlock = parentElement.querySelector('.profile__photoBlock');
+			if (photoBlock) {
+				photoBlock.className = `profile__photoBlock ${toPrimeClass(newPremiumBorder as number)}`;
 			}
 		});
 

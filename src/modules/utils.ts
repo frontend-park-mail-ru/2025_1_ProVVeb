@@ -64,3 +64,14 @@ export function startNotifications() {
 		store.setState('notif_matches', b);
 	};
 }
+
+export function toPrimeClass(border: number): string {
+	const classMap: Record<number, string> = {
+		0: 'cyberpunk-wave-border',
+		1: 'neon-explosion-border',
+		2: 'gold-barrier-border',
+		3: 'pink-cotton-border',
+		4: 'dark-matter-border',
+	};
+	return classMap[border] ?? '';
+}

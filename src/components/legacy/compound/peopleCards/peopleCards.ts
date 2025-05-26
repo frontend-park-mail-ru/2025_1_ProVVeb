@@ -1,20 +1,9 @@
 import BaseComponent from '@basecomp';
 import api, { Profile } from '@network';
 import store from '@store';
-import { parseBirthday } from '@modules/utils';
+import { parseBirthday, toPrimeClass } from '@modules/utils';
 import Notification from '@simple/notification/notification';
 import PersonCard from '../personCard/personCard';
-
-function toPrimeClass(border: number): string {
-	const classMap: Record<number, string> = {
-		0: 'cyberpunk-wave-border',
-		1: 'neon-explosion-border',
-		2: 'gold-barrier-border',
-		3: 'pink-cotton-border',
-		4: 'dark-matter-border',
-	};
-	return classMap[border] ?? '';
-}
 
 interface Listener {
 	event: string;

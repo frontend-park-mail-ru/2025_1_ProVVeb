@@ -27,7 +27,7 @@ export class CReg40 extends VBC {
 		const country = new VInput('Страна');
 		const city = new VInput('Город');
 		const district = new VInput('Район');
-		const mail = new VInput('Почтовый адрес');
+		const mail = new VInput('Твой email');
 
 		const list = new VList();
 		const phone = new VInput('(012) 345-67-89');

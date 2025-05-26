@@ -20,8 +20,8 @@ export default class SecurityPage extends BasePage {
 	private main: Compounder;
 	private premium: Compounder;
 	private danger: Compounder;
-	private outButton: VButton;
-	private deleteButton: VButton;
+	// private outButton: VButton;
+	// private deleteButton: VButton;
 
 	constructor(parentElement: HTMLElement) {
 		super(parentElement);
@@ -35,19 +35,29 @@ export default class SecurityPage extends BasePage {
 		];
 
 		this.main = new Compounder();
+		this.premium = new Compounder();
+		this.danger = new Compounder();
+	}
+
+	async render() {
+		this.premium.clear();
+		this.danger.clear();
+		this.main.clear();
+
+		const userId = store.getState('myID');
+		const response = await api.getProfile(userId as number);
+		const data = response.data;
+
 		this.main.down('mainContent__central', `
 			gap: 35px;
 		`);
 
-		this.premium = new Compounder();
 		this.main.add(this.premium);
-		console.log(store.getState('isPremium') as boolean);
-		// if (store.getState('isPremium') as boolean) {
-		this.premium.down('premiumContainer', `
-			
-		`);
 
-		const premiumLabel = new VBC(`
+		if (data?.Premium.Status) {
+			this.premium.down('premiumContainer', ``);
+
+			const premiumLabel = new VBC(`
 				<p class="premium_title">Настройки подписки</p>
 			`, {}, `
 				.premium_title {
@@ -57,33 +67,28 @@ export default class SecurityPage extends BasePage {
 					font-size: 18px;
 					color: #4A4A4A;
 				}
-			`
-		);
+			`);
 
-		this.premium.add(premiumLabel);
+			this.premium.add(premiumLabel);
 
-		console.log(store.getState('premiumBorder') as number)
-		const premiumBorder = 2; // store.getState('premiumBorder') as number;
-		console.log(premiumBorder);
-		const objBorders = Object.fromEntries(
-			Array.from({ length: 5 }, (_, i) => [i, premiumBorder === i])
-		);
+			const premiumBorder = data?.Premium.Border;
+			const objBorders = Object.fromEntries(
+				Array.from({ length: 5 }, (_, i) => [i, premiumBorder === i])
+			);
 
-		const changeBorders = new VChangeBorders(
-			objBorders[0],
-			objBorders[1],
-			objBorders[2],
-			objBorders[3],
-			objBorders[4]
-		);
+			const changeBorders = new VChangeBorders(
+				objBorders[0],
+				objBorders[1],
+				objBorders[2],
+				objBorders[3],
+				objBorders[4]
+			);
 
-		this.premium.add(changeBorders);
+			this.premium.add(changeBorders);
 
-		this.premium.up();
-		// }
+			this.premium.up();
+		}
 
-
-		this.danger = new Compounder();
 		this.main.add(this.danger);
 
 		this.danger.down('dangerContainer', `
@@ -117,7 +122,7 @@ export default class SecurityPage extends BasePage {
 			gap: 80px;
 		`);
 
-		this.outButton = new VButton("Выйти из аккаунта", () => {
+		const outButton = new VButton("Выйти из аккаунта", () => {
 			api.logoutUser()
 				.then(() => {
 					store.setState('inSession', false);
@@ -133,7 +138,7 @@ export default class SecurityPage extends BasePage {
 				});
 		});
 
-		this.outButton.inject(undefined, `
+		outButton.inject(undefined, `
 			.btn__title {
 				font-weight: 500;
 				font-size: 16px;
@@ -142,7 +147,7 @@ export default class SecurityPage extends BasePage {
 			}
 		`)
 
-		this.deleteButton = new VButton("Удалить аккаунт", async () => {
+		const deleteButton = new VButton("Удалить аккаунт", async () => {
 			const confirmCMP = new Confirm(
 				{
 					headTitle: "Уверены?",
@@ -159,7 +164,7 @@ export default class SecurityPage extends BasePage {
 			}
 		});
 
-		this.deleteButton.inject(undefined, `
+		deleteButton.inject(undefined, `
 			.btn__title {
 				font-weight: 500;
 				font-size: 16px;
@@ -171,16 +176,19 @@ export default class SecurityPage extends BasePage {
 			}
 		`)
 
-		this.danger.add(this.outButton).add(this.deleteButton);
-	}
+		this.danger.add(outButton).add(deleteButton);
 
-	render(): void {
-		this.main.delete();
 		this.contentWrapper.innerHTML = '';
 		this.components[0].render();
 		this.parentElement.appendChild(this.contentWrapper);
 		this.components[1].render();
-		this.main.render(this.contentWrapper);
+		console.log('this.main', this.main)
+
+		this.main.addTo(this.contentWrapper);
+
+		store.update('ava');
+		store.update('profileName');
+		store.update('premiumBorder');
 	}
 
 	public getNavMenu(): NavMenu {

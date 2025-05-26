@@ -164,6 +164,7 @@ class Router {
 
 		store.update('profileName');
 		store.update('ava');
+		store.update('premiumBorder');
 	}
 
 	public async start() {
