@@ -37,6 +37,7 @@ const DEFAULT_PARAMS_PERSON_CARD: PersonCardParams = {
 
 export default class PersonCard extends BaseComponent {
 	private callbacks: Callback[];
+
 	private personId: number;
 
 	constructor(parentElement: HTMLElement, paramsHBS: Partial<PersonCardParams> = {}, callbacks: Callback[] = []) {

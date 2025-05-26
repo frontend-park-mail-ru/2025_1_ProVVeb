@@ -38,10 +38,11 @@ export class Compounder extends VBC {
 	}
 
 	public down(arg: string | VirtualElement, inlineStyle?: string, tag?: string): this {
-		const newBlock: VirtualElement =
-			typeof arg === 'string'
-				? { tag: tag || 'div', className: arg, style: inlineStyle ? parseStyle(inlineStyle) : {}, children: [] }
-				: arg;
+		const newBlock: VirtualElement =			typeof arg === 'string'
+			? {
+				tag: tag || 'div', className: arg, style: inlineStyle ? parseStyle(inlineStyle) : {}, children: []
+			}
+			: arg;
 		this.current.children.push(newBlock);
 		this.stack.push(this.current);
 		this.current = newBlock;

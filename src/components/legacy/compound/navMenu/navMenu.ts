@@ -1,7 +1,7 @@
 import BaseComponent from '@basecomp';
 import router, { AppPage } from '@router';
-import templateHBS from './navMenu.hbs';
 import store from '@store';
+import templateHBS from './navMenu.hbs';
 
 interface NavMenuParams {
 	idNavLink: string;
@@ -136,11 +136,11 @@ export default class NavMenu extends BaseComponent {
 		const templateHTML = templateHBS({ ...finalParamsHBS, links: LINKS });
 		super(templateHTML, parentElement);
 
-		store.subscribe("notif_messanger", (data) => {
-			this.setNotification("messenger", data as number);
+		store.subscribe('notif_messanger', (data) => {
+			this.setNotification('messenger', data as number);
 		});
-		store.subscribe("notif_matches", (data) => {
-			this.setNotification("matches", data as number);
+		store.subscribe('notif_matches', (data) => {
+			this.setNotification('matches', data as number);
 		});
 
 		LINKS.forEach((link) => {
@@ -213,7 +213,7 @@ export default class NavMenu extends BaseComponent {
 
 	public setNotification(linkID: string, count: number): void {
 		const notifElement = document.getElementById(`notif-${linkID}${uniqId}`);
-		if (!notifElement) return;
+		if (!notifElement) { return; }
 
 		if (count > 0) {
 			notifElement.textContent = String(count);

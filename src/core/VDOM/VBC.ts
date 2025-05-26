@@ -92,7 +92,7 @@ export class VBC<P = {}> {
 			return;
 		}
 
-		let newVDOM = this.createVDOM();
+		const newVDOM = this.createVDOM();
 
 		const newRoot = renderVDOM(this.vdom) as HTMLElement;
 		const currentDOM = this.getDOM();
@@ -150,8 +150,7 @@ export class VBC<P = {}> {
 		}
 		if (vdom) {
 			traverse(vdom);
-		}
-		else {
+		} else {
 			traverse(this.vdom);
 		}
 	}

@@ -1,16 +1,16 @@
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
-import BasePage from '../BasePage';
 import { VButton } from '@ui/button/button';
 import { Compounder } from '@VDOM/Compounder';
 import { VBC } from '@VDOM/VBC';
 import api from '@network';
 import Notification from '@simple/notification/notification';
 import store from '@store';
-import { AppPage } from '@modules/router';
-import router from '@modules/router';
+import router, { AppPage } from '@modules/router';
+
 import Confirm from '@simple/confirm/confirm';
 import { VChangeBorders } from '@ui/changeBorders/changeBorders';
+import BasePage from '../BasePage';
 
 export default class SecurityPage extends BasePage {
 	private components: Array<HeaderMain | NavMenu>;
@@ -18,7 +18,9 @@ export default class SecurityPage extends BasePage {
 	private contentWrapper: HTMLElement;
 
 	private main: Compounder;
+
 	private premium: Compounder;
+
 	private danger: Compounder;
 	// private outButton: VButton;
 	// private deleteButton: VButton;
@@ -46,7 +48,7 @@ export default class SecurityPage extends BasePage {
 
 		const userId = store.getState('myID');
 		const response = await api.getProfile(userId as number);
-		const data = response.data;
+		const { data } = response;
 
 		this.main.down('mainContent__central', `
 			gap: 35px;
@@ -55,7 +57,7 @@ export default class SecurityPage extends BasePage {
 		this.main.add(this.premium);
 
 		if (data?.Premium.Status) {
-			this.premium.down('premiumContainer', ``);
+			this.premium.down('premiumContainer', '');
 
 			const premiumLabel = new VBC(`
 				<p class="premium_title">Настройки подписки</p>
@@ -122,7 +124,7 @@ export default class SecurityPage extends BasePage {
 			gap: 80px;
 		`);
 
-		const outButton = new VButton("Выйти из аккаунта", () => {
+		const outButton = new VButton('Выйти из аккаунта', () => {
 			api.logoutUser()
 				.then(() => {
 					store.setState('inSession', false);
@@ -145,13 +147,13 @@ export default class SecurityPage extends BasePage {
 				text-align: center;
 				color: #010710;
 			}
-		`)
+		`);
 
-		const deleteButton = new VButton("Удалить аккаунт", async () => {
+		const deleteButton = new VButton('Удалить аккаунт', async () => {
 			const confirmCMP = new Confirm(
 				{
-					headTitle: "Уверены?",
-					title: "Вы действительно хотите удалить аккаунт?",
+					headTitle: 'Уверены?',
+					title: 'Вы действительно хотите удалить аккаунт?',
 					isWarning: false
 				}
 			);
@@ -174,7 +176,7 @@ export default class SecurityPage extends BasePage {
 			.btn {
 				border: 1px solid #FF4D4F;
 			}
-		`)
+		`);
 
 		this.danger.add(outButton).add(deleteButton);
 
@@ -182,7 +184,7 @@ export default class SecurityPage extends BasePage {
 		this.components[0].render();
 		this.parentElement.appendChild(this.contentWrapper);
 		this.components[1].render();
-		console.log('this.main', this.main)
+		console.log('this.main', this.main);
 
 		this.main.addTo(this.contentWrapper);
 

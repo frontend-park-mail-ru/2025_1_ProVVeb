@@ -3,8 +3,8 @@ import api, { Profile } from '@network';
 import store from '@store';
 import { parseBirthday, toPrimeClass } from '@modules/utils';
 import Notification from '@simple/notification/notification';
-import PersonCard from '../personCard/personCard';
 import router, { AppPage } from '@modules/router';
+import PersonCard from '../personCard/personCard';
 
 interface Listener {
 	event: string;
@@ -20,6 +20,7 @@ export default class PeopleCards extends BaseComponent {
 	private isDataLoaded: boolean;
 
 	private currentCard: PersonCard | null;
+
 	private canGoBack: boolean;
 
 	constructor(parentElement: HTMLElement) {
@@ -94,9 +95,9 @@ export default class PeopleCards extends BaseComponent {
 				),
 				isSinglePhoto: this.CARDS[this.currentIndex].photos.length === 1,
 				isPersonPremium: this.CARDS[this.currentIndex].Premium.Status,
-				personBorderClass: this.CARDS[this.currentIndex].Premium.Status ?
-					toPrimeClass(this.CARDS[this.currentIndex].Premium.Border) :
-					'',
+				personBorderClass: this.CARDS[this.currentIndex].Premium.Status
+					? toPrimeClass(this.CARDS[this.currentIndex].Premium.Border)
+					: '',
 				isAccountPremium: store.getState('isPremium') as boolean,
 
 			},
@@ -121,7 +122,7 @@ export default class PeopleCards extends BaseComponent {
 		await api.Dislike(likeFrom, likeTo);
 		this.canGoBack = true;
 
-		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
+		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
 		await this.render();
 
@@ -144,7 +145,7 @@ export default class PeopleCards extends BaseComponent {
 		await api.Like(likeFrom, likeTo);
 		this.canGoBack = true;
 
-		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
+		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
 		await this.render();
 
@@ -207,7 +208,7 @@ export default class PeopleCards extends BaseComponent {
 
 		this.canGoBack = false;
 
-		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
+		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
 		await this.render();
 

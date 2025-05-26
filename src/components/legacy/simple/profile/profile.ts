@@ -1,8 +1,8 @@
 import BaseComponent from '@basecomp';
 import store from '@store';
 import router, { AppPage } from '@modules/router';
-import templateHBS from './profile.hbs';
 import { toPrimeClass } from '@modules/utils';
+import templateHBS from './profile.hbs';
 
 interface ProfileParams {
 	profileName: string;

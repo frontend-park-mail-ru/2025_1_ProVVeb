@@ -1,8 +1,8 @@
 import { VBC } from '@VDOM/VBC';
-import templateHBS from './changeBorders.hbs';
 import api, { Profile } from '@network';
 import Notification from '@notification';
 import store from '@store';
+import templateHBS from './changeBorders.hbs';
 
 export class VChangeBorders extends VBC {
 	constructor(isFirst: boolean, isSecond: boolean, isThird: boolean, isFourth: boolean, isFifth: boolean) {
@@ -35,7 +35,9 @@ export class VChangeBorders extends VBC {
 					},
 				},
 			],
-			{ isFirst: isFirst, isSecond: isSecond, isThird: isThird, isFourth: isFourth, isFifth: isFifth }
+			{
+				isFirst: isFirst, isSecond: isSecond, isThird: isThird, isFourth: isFourth, isFifth: isFifth
+			}
 		);
 	}
 }

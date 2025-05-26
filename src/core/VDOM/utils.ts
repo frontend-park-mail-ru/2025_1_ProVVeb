@@ -64,7 +64,7 @@ export function parseStyle(styleString: string): Record<string, string> {
 	return Object.fromEntries(
 		styleString
 			.split(';')
-			.map(rule => rule.split(':').map(x => x.trim()))
+			.map((rule) => rule.split(':').map((x) => x.trim()))
 			.filter(([prop, val]) => prop && val)
 			.map(([prop, val]) => [
 				prop.replace(/-([a-z])/g, (_, c) => c.toUpperCase()),

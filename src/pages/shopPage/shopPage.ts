@@ -1,9 +1,9 @@
 import HeaderMain from '@compound/headerMain/headerMain';
 import NavMenu from '@compound/navMenu/navMenu';
-import BasePage from '../BasePage';
 import { VBanner } from '@features/plan/plan';
 import { VPlan } from '@ui/banner/banner_shop/banner_shop';
 import { Compounder } from '@VDOM/Compounder';
+import BasePage from '../BasePage';
 
 export default class ShopPage extends BasePage {
 	private components: Array<HeaderMain | NavMenu>;
@@ -11,9 +11,13 @@ export default class ShopPage extends BasePage {
 	private contentWrapper: HTMLElement;
 
 	private banner: VBanner;
+
 	private plan1: VPlan;
+
 	private plan2: VPlan;
+
 	private plan3: VPlan;
+
 	private main: Compounder;
 
 	constructor(parentElement: HTMLElement) {
@@ -28,9 +32,9 @@ export default class ShopPage extends BasePage {
 		];
 
 		this.banner = new VBanner();
-		this.plan1 = new VPlan("3 дня", 500, 0, 100, "#A952EA", false);
-		this.plan2 = new VPlan("1 месяц", 500, 390, 22, "#F1D373", true);
-		this.plan3 = new VPlan("6 месяцев", 6000, 1190, 80, "#6FE7C1", true);
+		this.plan1 = new VPlan('3 дня', 500, 0, 100, '#A952EA', false);
+		this.plan2 = new VPlan('1 месяц', 500, 390, 22, '#F1D373', true);
+		this.plan3 = new VPlan('6 месяцев', 6000, 1190, 80, '#6FE7C1', true);
 
 		this.main = new Compounder();
 		this.main.down('mainContent__central', `

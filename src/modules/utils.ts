@@ -41,21 +41,20 @@ export function startNotifications() {
 
 	notificationWS.onmessage = (response) => {
 		const message = JSON.parse(response.data);
-		let a = 0, b = 0;
+		let a = 0; let
+			b = 0;
 
-		for (let data of message.notifications) {
-			if (data.type == 'message' && data.read == 0)
-				a++;
-			if (data.type == 'match' && data.read == 0)
-				b++;
+		for (const data of message.notifications) {
+			if (data.type == 'message' && data.read == 0) { a++; }
+			if (data.type == 'match' && data.read == 0) { b++; }
 			if (data.type == 'flowers' && data.read == 0) {
-				const anim = document.getElementsByClassName("base-anim")[0];
+				const anim = document.getElementsByClassName('base-anim')[0];
 				anim.classList.toggle('anim');
 				setTimeout(() => { anim.classList.toggle('anim'); }, 3000);
 				notificationWS.send(JSON.stringify({
 					type: 'read',
 					payload: {
-						'notif_type': 'flowers'
+						notif_type: 'flowers'
 					}
 				}));
 			}

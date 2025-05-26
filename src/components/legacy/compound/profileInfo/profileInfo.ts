@@ -77,7 +77,7 @@ export default class ProfileInfoCard extends BaseComponent {
 		const finalParamsHBS = { ...DEFAULT_PARAMS_PROFILE_INFO, ...paramsHBS };
 
 		if (store.getState('isPremium') as boolean) {
-			DEFAULT_PARAMS_PROFILE_INFO.maxPhotos = 6
+			DEFAULT_PARAMS_PROFILE_INFO.maxPhotos = 6;
 		}
 
 		const templateHTML = templateHBS(finalParamsHBS);

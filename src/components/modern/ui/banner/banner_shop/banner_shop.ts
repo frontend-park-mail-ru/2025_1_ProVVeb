@@ -1,7 +1,7 @@
 import { VBC } from '@VDOM/VBC';
 import api from '@network';
-import templateHBS from './banner_shop.hbs';
 import Notification from '@simple/notification/notification';
+import templateHBS from './banner_shop.hbs';
 
 export class VPlan extends VBC {
 	constructor(
@@ -22,7 +22,8 @@ export class VPlan extends VBC {
 			templateHBS,
 			{
 				duration, oldSale: old_sale, newSale: new_sale, discount, orderId: id, isYoomoney
-			}, `
+			},
+			`
 				.banner-shop {
 					border: 1px solid ${color};
 				}
@@ -42,8 +43,8 @@ export class VPlan extends VBC {
 							const response = await api.subscribe();
 							if (response.success) {
 								new Notification({
-									headTitle: "Успех!",
-									title: "Подписка успешно добавлена!",
+									headTitle: 'Успех!',
+									title: 'Подписка успешно добавлена!',
 									isWarning: false,
 									isWithButton: true,
 								}).render();

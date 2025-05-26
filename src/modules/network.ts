@@ -282,7 +282,7 @@ async function changeBorder(new_border: number) {
 
 async function subscribe(): Promise<ApiResponse> {
 	const url = `${BASE_URL}/subscription`;
-	return sendRequest(url, 'POST', { label: "0" });
+	return sendRequest(url, 'POST', { label: '0' });
 }
 
 function payWithYooMoney(params: {
@@ -304,9 +304,9 @@ function payWithYooMoney(params: {
 		targets: 'Покупка премиума',
 		sum: String(params.sum),
 		label: params.label,
-		successURL: ``,
+		successURL: '',
 		failURL: '',
-		notification_url: ``,
+		notification_url: '',
 	};
 
 	Object.entries(fields).forEach(([name, value]) => {
