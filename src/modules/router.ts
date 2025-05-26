@@ -167,7 +167,6 @@ class Router {
 	}
 
 	public async start() {
-		startNotifications();
 		const currentPath = window.location.pathname.split('/')[1] as AppPage || AppPage.Feed;
 
 		if (!(await this.checkSession())) {
@@ -181,6 +180,7 @@ class Router {
 		}
 
 		await this.navigateTo(currentPath);
+		startNotifications();
 
 		const ID = store.getState('myID') as number;
 		const data = await api.getProfile(ID);
@@ -236,7 +236,10 @@ class Router {
 
 		const notificationWS = store.getState('notificationWS') as WebSocket;
 		notificationWS.send(JSON.stringify({
-			type: 'read'
+			type: 'read',
+			payload: {
+				NotifType: 'match'
+			}
 		}));
 		store.setState('notif_messanger', 0);
 		store.setState('notif_matches', 0);
@@ -297,7 +300,10 @@ class Router {
 
 		const notificationWS = store.getState('notificationWS') as WebSocket;
 		notificationWS.send(JSON.stringify({
-			type: 'read'
+			type: 'read',
+			payload: {
+				NotifType: 'message'
+			}
 		}));
 		store.setState('notif_messanger', 0);
 		store.setState('notif_matches', 0);

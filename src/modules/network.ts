@@ -190,6 +190,11 @@ async function Like(likeFrom: number, likeTo: number): Promise<ApiResponse> {
 	return sendRequest(url, 'POST', { likeFrom, likeTo, status: 1 });
 }
 
+async function SuperLike(likeFrom: number, likeTo: number): Promise<ApiResponse> {
+	const url = `${BASE_URL}/profiles/like`;
+	return sendRequest(url, 'POST', { likeFrom, likeTo, status: 3 });
+}
+
 async function Dislike(likeFrom: number, likeTo: number): Promise<ApiResponse> {
 	const url = `${BASE_URL}/profiles/like`;
 	return sendRequest(url, 'POST', { likeFrom, likeTo, status: -1 });
@@ -276,7 +281,7 @@ async function createChat(
 
 async function subscribe(): Promise<ApiResponse> {
 	const url = `${BASE_URL}/subscription`;
-	return sendRequest(url, 'POST', { sub_type: 0 });
+	return sendRequest(url, 'POST', { label: "0" });
 }
 
 function payWithYooMoney(params: {
@@ -340,5 +345,6 @@ export default {
 	profilesBySearch,
 	getChats,
 	createChat,
-	subscribe
+	subscribe,
+	SuperLike
 };

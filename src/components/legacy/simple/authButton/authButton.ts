@@ -5,6 +5,7 @@ import api from '@network';
 import router, { AppPage } from '@router';
 import Notification from '@notification';
 import Confirm from '@simple/confirm/confirm';
+import { startNotifications } from '@modules/utils';
 
 interface AuthButtonParams {
 	buttonText: string;
@@ -42,6 +43,7 @@ DEFAULT_AUTH_PARAMS_BUTTON.listenButton = {
 					if (data?.data?.isMale) { store.setState('isMale', data?.data?.isMale); }
 
 					await router.navigateTo(AppPage.Feed);
+					startNotifications();
 				} else {
 					const JSONans = JSON.parse(respond.message as string);
 

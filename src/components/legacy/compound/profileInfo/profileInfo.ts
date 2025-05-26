@@ -424,7 +424,7 @@ export default class ProfileInfoCard extends BaseComponent {
 			interests: data.interests || DEFAULT_PARAMS_PROFILE_INFO.interests,
 			data: [
 				{ title: 'Рост', content: data.height || 'Не указан' },
-				{ title: 'Локация', content: data.location || 'Не указан' },
+				{ title: 'Локация', content: data.location.split('@').join(', ') || 'Не указан' },
 				{ title: 'Гендер', content: data.isMale ? 'Мужчина' : 'Женщина' },
 				{ title: 'Дата рождения', content: formattedBirthday },
 			],
@@ -772,7 +772,7 @@ export default class ProfileInfoCard extends BaseComponent {
 					}
 
 					if ('Локация' in updatedData) {
-						apiData.location = updatedData['Локация'];
+						apiData.location = updatedData['Локация'].split(', ').join('@');
 					}
 
 					try {

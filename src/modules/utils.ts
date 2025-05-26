@@ -51,7 +51,13 @@ export function startNotifications() {
 			if (data.type == 'flowers' && data.read == 0) {
 				const anim = document.getElementsByClassName("base-anim")[0];
 				anim.classList.toggle('anim');
-				setTimeout(() => { anim.classList.toggle('anim'); }, 500);
+				setTimeout(() => { anim.classList.toggle('anim'); }, 3000);
+				notificationWS.send(JSON.stringify({
+					type: 'read',
+					payload: {
+						NotifType: 'flowers'
+					}
+				}));
 			}
 		}
 		store.setState('notif_messanger', a);

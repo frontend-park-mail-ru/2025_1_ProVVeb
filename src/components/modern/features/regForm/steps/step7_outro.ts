@@ -1,4 +1,5 @@
 import router, { AppPage } from '@modules/router';
+import { startNotifications } from '@modules/utils';
 import { Compounder } from '@VDOM/Compounder';
 import { VBC } from '@VDOM/VBC';
 
@@ -71,5 +72,8 @@ export class CRegFinish extends VBC {
 		this.setID();
 	}
 
-	public submit() { router.navigateTo(AppPage.Feed); }
+	public submit() {
+		router.navigateTo(AppPage.Feed);
+		startNotifications();
+	}
 }
