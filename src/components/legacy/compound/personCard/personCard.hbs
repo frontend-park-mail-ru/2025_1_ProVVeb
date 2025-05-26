@@ -1,4 +1,4 @@
-<div id="idPersonCard" class="personCard">
+<div id="idPersonCard" class="personCard {{personBorderClass}}">
 	<div class="report-modal" id="reportModal">
 		<div class="report-modal__content">
 			<h3 class="report-modal__title">Пожаловаться на профиль</h3>
@@ -52,26 +52,32 @@
 		<p class="personCard__description">{{ personDescription }}</p>
 	</div>
 
-	<div class="personCard__btns">
+	<div class="personCard__btns" style="{{#unless isAccountPremium}}justify-content: space-evenly{{/unless}}">
+		{{#if isAccountPremium}}
 		<button data-tooltip="Предыдущая карточка" class="personCard__iconButton tooltip" id="repeatButton">
 			<img class="personCard__imgButton" src="media/btn/actionBtnRepeat.svg" alt="Кнопка Повтор" width="56"
 				height="56">
 		</button>
+		{{/if}}
 		<button data-tooltip="Дизлайк" class="personCard__iconButton tooltip" id="dislikeButton">
 			<img class="personCard__imgButton" src="media/btn/actionBtnDislike.svg" alt="Кнопка Дизлайк" width="70"
 				height="70">
 		</button>
+		{{#if isAccountPremium}}
 		<button data-tooltip="Суперлайк" class="personCard__iconButton tooltip" id="starButton">
 			<img class="personCard__imgButton" src="media/btn/actionBtnStar.svg" alt="Кнопка Звезда" width="56"
 				height="56">
 		</button>
+		{{/if}}
 		<button data-tooltip="Лайк" class="personCard__iconButton tooltip" id="likeButton">
 			<img class="personCard__imgButton" src="media/btn/actionBtnLike.svg" alt="Кнопка Лайк" width="70"
 				height="70">
 		</button>
+		{{#if isAccountPremium}}
 		<button data-tooltip="В разработке" class="personCard__iconButton tooltip" id="lightningButton">
 			<img class="personCard__imgButton" src="media/btn/actionBtnLightning.svg" alt="Кнопка Молния" width="56"
 				height="56">
 		</button>
+		{{/if}}
 	</div>
 </div>

@@ -1,6 +1,20 @@
 @use './styles/globals';
 @use './components/components';
 
+// Shop
+// .plans> :nth-child(1) {
+// 	justify-self: start;
+// }
+
+// .plans> :nth-child(2) {
+// 	justify-self: end;
+// }
+
+// .plans> :nth-child(3) {
+// 	grid-column: 1 / -1;
+// 	justify-self: center;
+// }
+
 #root {
 	background-color: var(--white-bg-color);
 

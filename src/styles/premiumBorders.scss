@@ -1,0 +1,64 @@
+@mixin gradient-border($colors, $shadow-color) {
+	position: relative;
+
+	&::before {
+		content: "";
+		position: absolute;
+		top: -3px;
+		left: -3px;
+		right: -3px;
+		bottom: -3px;
+		border-radius: 17px;
+		z-index: -1;
+		filter: blur(1.5px) brightness(1.1);
+		animation: gradientFlow 8s linear infinite;
+		background: linear-gradient(45deg, $colors...);
+		background-size: 400% 400%;
+		box-shadow: 0 0 10px $shadow-color;
+	}
+}
+
+@keyframes gradientFlow {
+	0% {
+		background-position: 0% 50%;
+	}
+
+	50% {
+		background-position: 100% 50%;
+	}
+
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+
+// Киберпанк-волна
+.cyberpunk-wave-border {
+	@include gradient-border((#ff00cc, #3333ff, #00ccff, #ff00cc, #3333ff),
+		rgba(0, 204, 255, 0.5));
+}
+
+// Неоновый взрыв
+.neon-explosion-border {
+	@include gradient-border((#ff00ff, #ff0066, #ff6600, #ffff00, #ff00ff),
+		rgba(255, 0, 255, 0.5));
+}
+
+// Золотой барьер
+.gold-barrier-border {
+	@include gradient-border((#ffd700, #ffaa00, #ff9500, #ffd700),
+		rgba(255, 215, 0, 0.5));
+}
+
+// Сладкая вата
+.pink-cotton-border {
+	@include gradient-border((#ff9cee, #ff6bdc, #d16bff, #a18aff, #ff9cee),
+		rgba(255, 110, 220, 0.6));
+}
+
+// Тёмная материя
+.dark-matter-border {
+	@include gradient-border((#0f0c29, #302b63, #24243e, #0f0c29),
+		rgba(48, 43, 99, 0.7));
+}

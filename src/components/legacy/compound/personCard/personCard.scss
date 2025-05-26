@@ -8,11 +8,13 @@
 	border-radius: 14px;
 	padding: 0 8px 20px 8px;
 	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
-	overflow: hidden;
+	overflow: visible;
 	display: flex;
 	flex-direction: column;
 	justify-content: flex-end;
 	transition: box-shadow 0.4s ease-out;
+	z-index: 1;
+
 
 	&__photos {
 		position: absolute;
@@ -36,6 +38,7 @@
 		position: absolute;
 		top: 0;
 		left: 0;
+		border-radius: 14px;
 		width: 100%;
 		height: 100%;
 		background-size: cover;

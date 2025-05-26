@@ -5,6 +5,17 @@ import { parseBirthday } from '@modules/utils';
 import Notification from '@simple/notification/notification';
 import PersonCard from '../personCard/personCard';
 
+function toPrimeClass(border: number): string {
+	const classMap: Record<number, string> = {
+		0: 'cyberpunk-wave-border',
+		1: 'neon-explosion-border',
+		2: 'gold-barrier-border',
+		3: 'pink-cotton-border',
+		4: 'dark-matter-border',
+	};
+	return classMap[border] ?? '';
+}
+
 interface Listener {
 	event: string;
 	selector: string;
@@ -92,6 +103,10 @@ export default class PeopleCards extends BaseComponent {
 					(photoPath: string) => `${api.BASE_URL_PHOTO}${photoPath}`
 				),
 				isSinglePhoto: this.CARDS[this.currentIndex].photos.length === 1,
+				isPersonPremium: true, // this.CARDS[this.currentIndex].premium.status
+				personBorderClass: toPrimeClass(this.CARDS[this.currentIndex].premium?.border ?? -1),
+				isAccountPremium: store.getState('isPremium') as boolean,
+
 			},
 			LISTENERS_ACTION_BTNS,
 		);
@@ -104,27 +119,47 @@ export default class PeopleCards extends BaseComponent {
 	private async handleDislike(): Promise<void> {
 		const likeFrom = store.getState('myID') as number;
 		const likeTo = this.CARDS[this.currentIndex].profileId;
-		await api.Dislike(likeFrom, likeTo);
 
+		const btns = document.querySelector('.personCard__btns') as HTMLElement;
+		if (btns) {
+			btns.style.pointerEvents = 'none';
+			btns.style.opacity = '0.6';
+		}
+
+		await api.Dislike(likeFrom, likeTo);
 		this.canGoBack = true;
-		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
 
 		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
 		await this.render();
+
+		if (btns) {
+			btns.style.pointerEvents = 'auto';
+			btns.style.opacity = '1';
+		}
 	}
 
 	private async handleLike(): Promise<void> {
 		const likeFrom = store.getState('myID') as number;
 		const likeTo = this.CARDS[this.currentIndex].profileId;
-		await api.Like(likeFrom, likeTo);
 
+		const btns = document.querySelector('.personCard__btns') as HTMLElement;
+		if (btns) {
+			btns.style.pointerEvents = 'none';
+			btns.style.opacity = '0.6';
+		}
+
+		await api.Like(likeFrom, likeTo);
 		this.canGoBack = true;
-		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
 
 		await new Promise(resolve => setTimeout(resolve, this.animateDelay));
 		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
 		await this.render();
+
+		if (btns) {
+			btns.style.pointerEvents = 'auto';
+			btns.style.opacity = '1';
+		}
 	}
 
 	private async handleRepeat(): Promise<void> {

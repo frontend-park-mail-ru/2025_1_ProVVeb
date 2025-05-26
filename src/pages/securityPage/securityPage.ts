@@ -41,18 +41,19 @@ export default class SecurityPage extends BasePage {
 					width: 100%;
 					text-align: center;
 					font-weight: 700;
-					font-size: 15px;
+					font-size: 18px;
 					color: #4A4A4A;
 				}
 			`
 		);
 		this.main.add(lable).down('buttons', `
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: center;
-			`);
-		this.button1 = new VButton("ВЫЙТИ ИЗ АККАУНТА", () => {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
+			gap: 80px;
+		`);
+		this.button1 = new VButton("Выйти из аккаунта", () => {
 			api.logoutUser()
 				.then(() => {
 					store.setState('inSession', false);
@@ -70,12 +71,12 @@ export default class SecurityPage extends BasePage {
 		this.button1.inject(undefined, `
 				.btn__title {
 					font-weight: 500;
-					font-size: 14px;
+					font-size: 16px;
 					text-align: center;
 					color: #010710;
 				}
 			`)
-		this.button2 = new VButton("УДАЛИТЬ АККАУНТ", async () => {
+		this.button2 = new VButton("Удалить аккаунт", async () => {
 			const confirmCMP = new Confirm(
 				{
 					headTitle: "Уверены?",
@@ -94,7 +95,7 @@ export default class SecurityPage extends BasePage {
 		this.button2.inject(undefined, `
 				.btn__title {
 					font-weight: 500;
-					font-size: 14px;
+					font-size: 16px;
 					text-align: center;
 					color: #010710;
 				}
