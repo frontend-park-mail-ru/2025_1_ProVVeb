@@ -55,7 +55,7 @@ export function startNotifications() {
 				notificationWS.send(JSON.stringify({
 					type: 'read',
 					payload: {
-						NotifType: 'flowers'
+						'notif_type': 'flowers'
 					}
 				}));
 			}
