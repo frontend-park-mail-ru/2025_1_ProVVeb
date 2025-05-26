@@ -400,7 +400,14 @@ export default class ProfileInfoCard extends BaseComponent {
 		}
 	}
 
-	private updateTemplate(data: any): void {
+	private async updateTemplate(data: any): Promise<void> {
+		const userId = store.getState('myID');
+		const response = await api.getProfile(userId as number);
+		const dataResponse = response.data;
+		if (dataResponse?.Premium.Status) {
+			DEFAULT_PARAMS_PROFILE_INFO.maxPhotos = 6;
+		}
+
 		const { year, month, day } = parseBirthday(data.birthday) || {};
 		const currentYear = new Date().getFullYear();
 		const formattedBirthday = (day && month && year)
