@@ -1,6 +1,7 @@
 import { VBC } from '@VDOM/VBC';
 import api from '@network';
 import templateHBS from './banner_shop.hbs';
+import Notification from '@simple/notification/notification';
 
 export class VPlan extends VBC {
 	constructor(
@@ -36,9 +37,18 @@ export class VPlan extends VBC {
 				{
 					eventType: 'click',
 					selector: '.banner-shop__button',
-					handler: () => {
-						if (!isYoomoney)
-							api.subscribe();
+					handler: async () => {
+						if (!isYoomoney) {
+							const response = await api.subscribe();
+							if (response.success) {
+								new Notification({
+									headTitle: "Успех!",
+									title: "Подписка успешно добавлена!",
+									isWarning: false,
+									isWithButton: true,
+								}).render();
+							}
+						}
 					}
 				}
 			]

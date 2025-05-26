@@ -240,10 +240,9 @@ class Router {
 		notificationWS.send(JSON.stringify({
 			type: 'read',
 			payload: {
-				NotifType: 'match'
+				'notif_type': 'match'
 			}
 		}));
-		store.setState('notif_messanger', 0);
 		store.setState('notif_matches', 0);
 	}
 
@@ -301,14 +300,14 @@ class Router {
 		store.update('notif_matches');
 
 		const notificationWS = store.getState('notificationWS') as WebSocket;
+		if (notificationWS == undefined) return;
 		notificationWS.send(JSON.stringify({
 			type: 'read',
 			payload: {
-				NotifType: 'message'
+				'notif_type': 'message'
 			}
 		}));
 		store.setState('notif_messanger', 0);
-		store.setState('notif_matches', 0);
 	}
 
 	private handlerSearch(state: any): void {
