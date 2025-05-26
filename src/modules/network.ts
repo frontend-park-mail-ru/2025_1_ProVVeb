@@ -6,10 +6,14 @@ const IP = 'localhost';
 // const BASE_URL_PHOTO = `https://${IP}/img/profile-photos`;
 // const WS_CHAT_URL = `wss://${IP}/api/chats`;
 // const WS_NOTIF_URL = `wss://${IP}/api/notifications`;
-const BASE_URL = `http://${IP}:8080`;
-const BASE_URL_PHOTO = `http://${IP}:8030/profile-photos`;
-const WS_CHAT_URL = `ws://${IP}:8080/chats`;
-const WS_NOTIF_URL = `ws://${IP}:8080/notifications`;
+// const BASE_URL = `http://${IP}:8080`;
+// const BASE_URL_PHOTO = `http://${IP}:8030/profile-photos`;
+// const WS_CHAT_URL = `ws://${IP}:8080/chats`;
+// const WS_NOTIF_URL = `ws://${IP}:8080/notifications`;
+const BASE_URL = `http://${IP}/api`;
+const BASE_URL_PHOTO = `http://${IP}/img/profile-photos`;
+const WS_CHAT_URL = `ws://${IP}/api/chats`;
+const WS_NOTIF_URL = `ws://${IP}/api/notifications`;
 
 interface ApiResponse<T = any> {
 	success: boolean;
@@ -270,6 +274,48 @@ async function createChat(
 	return sendRequest(url, 'POST', { firstID, secondID });
 }
 
+async function subscribe(): Promise<ApiResponse> {
+	const url = `${BASE_URL}/subscription`;
+	return sendRequest(url, 'POST', { sub_type: 0 });
+}
+
+function payWithYooMoney(params: {
+	receiver: string;
+	targets: string;
+	sum: number | string;
+	label: string;
+	successURL: string;
+	failURL: string;
+	notification_url: string;
+}) {
+	const form = document.createElement('form');
+	form.method = 'POST';
+	form.action = 'https://yoomoney.ru/quickpay/confirm.xml';
+
+	const fields: Record<string, string> = {
+		receiver: '4100119158566116',
+		'quickpay-form': 'shop',
+		targets: 'Покупка премиума',
+		sum: String(params.sum),
+		label: params.label,
+		successURL: ``,
+		failURL: '',
+		notification_url: ``,
+	};
+
+	Object.entries(fields).forEach(([name, value]) => {
+		const inp = document.createElement('input');
+		inp.type = 'hidden';
+		inp.name = name;
+		inp.value = value;
+		form.appendChild(inp);
+	});
+
+	document.body.appendChild(form);
+	form.submit();
+	document.body.removeChild(form);
+}
+
 export default {
 	BASE_URL_PHOTO,
 	BASE_URL,
@@ -294,4 +340,5 @@ export default {
 	profilesBySearch,
 	getChats,
 	createChat,
+	subscribe
 };

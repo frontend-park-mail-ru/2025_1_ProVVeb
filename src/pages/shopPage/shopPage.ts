@@ -28,9 +28,9 @@ export default class ShopPage extends BasePage {
 		];
 
 		this.banner = new VBanner();
-		this.plan1 = new VPlan("1 месяц", 1000, 1000, 0, "#A952EA");
-		this.plan2 = new VPlan("6 месяцев", 1000, 800, 15, "#F1D373");
-		this.plan3 = new VPlan("1 год", 1000, 625, 60, "#6FE7C1");
+		this.plan1 = new VPlan("3 дня", 500, 0, 100, "#A952EA", false);
+		this.plan2 = new VPlan("1 месяц", 500, 390, 22, "#F1D373", true);
+		this.plan3 = new VPlan("6 месяцев", 6000, 1190, 80, "#6FE7C1", true);
 
 		this.main = new Compounder();
 		this.main.down('mainContent__central', `
