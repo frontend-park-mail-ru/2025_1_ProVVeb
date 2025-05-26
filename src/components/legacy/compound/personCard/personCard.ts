@@ -130,7 +130,7 @@ export default class PersonCard extends BaseComponent {
 			const response = await api.sendComplaint(
 				select?.value,
 				textarea?.value,
-				this.personId,
+				String(this.personId),
 			);
 
 			if (response.success && response.data) {

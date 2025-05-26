@@ -35,7 +35,7 @@ class Store {
 
 	public update(key: string): void {
 		const value = this.getState(key);
-		if (value) { this.setState(key, value); }
+		if (value != undefined) { this.setState(key, value); }
 	}
 
 	private notify(key: string): void {
