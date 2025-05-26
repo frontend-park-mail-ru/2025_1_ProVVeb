@@ -184,12 +184,13 @@ class Router {
 		const data = await api.getProfile(ID);
 		const ava = api.BASE_URL_PHOTO + (data?.data?.photos[0] ?? '');
 		const name = `${data?.data?.firstName} ${data?.data?.lastName}`;
-		const isPremium = data?.data?.premium?.status;
+		const isPremium = data?.data?.Premium.Status;
+		const premiumBorder = data?.data?.Premium.Border;
 
 		if (ava) { store.setState('ava', ava); }
 		if (name) { store.setState('profileName', name); }
 		if (data?.data?.isMale) { store.setState('isMale', data?.data?.isMale); }
-		if (isPremium) { store.setState('isPremium', isPremium); }
+		if (isPremium) { store.setState('isPremium', isPremium); store.setState('premiumBorder', premiumBorder); }
 	}
 
 	private checkCookie(page: AppPage): AppPage {

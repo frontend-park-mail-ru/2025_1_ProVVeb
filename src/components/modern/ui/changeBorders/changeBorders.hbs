@@ -1,0 +1,42 @@
+<div class="changeBorders">
+	<h3 class="changeBorders__title">Выберите стиль оформления:</h3>
+
+	<div id="borderForm" class="changeBorders__form">
+		<div class="changeBorders__options">
+			<label class="changeBorders__option">
+				<input type="radio" name="borderStyle" value="1" class="changeBorders__radio" {{#if
+					isFirst}}checked{{/if}}>
+				<div class="changeBorders__option-block cyberpunk-wave-border"></div>
+				<span class="changeBorders__option-label">Киберпанк-волна</span>
+			</label>
+
+			<label class="changeBorders__option">
+				<input type="radio" name="borderStyle" value="2" class="changeBorders__radio" {{#if
+					isSecond}}checked{{/if}}>
+				<div class="changeBorders__option-block neon-explosion-border"></div>
+				<span class="changeBorders__option-label">Неоновый взрыв</span>
+			</label>
+
+			<label class="changeBorders__option">
+				<input type="radio" name="borderStyle" value="3" class="changeBorders__radio" {{#if
+					isThird}}checked{{/if}}>
+				<div class="changeBorders__option-block gold-barrier-border"></div>
+				<span class="changeBorders__option-label">Золотой барьер</span>
+			</label>
+
+			<label class="changeBorders__option">
+				<input type="radio" name="borderStyle" value="4" class="changeBorders__radio" {{#if
+					isFourth}}checked{{/if}}>
+				<div class="changeBorders__option-block pink-cotton-border"></div>
+				<span class="changeBorders__option-label">Сладкая вата</span>
+			</label>
+
+			<label class="changeBorders__option">
+				<input type="radio" name="borderStyle" value="5" class="changeBorders__radio" {{#if
+					isFifth}}checked{{/if}}>
+				<div class="changeBorders__option-block dark-matter-border"></div>
+				<span class="changeBorders__option-label">Тёмная материя</span>
+			</label>
+		</div>
+	</div>
+</div>

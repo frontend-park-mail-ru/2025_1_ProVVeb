@@ -103,8 +103,10 @@ export default class PeopleCards extends BaseComponent {
 					(photoPath: string) => `${api.BASE_URL_PHOTO}${photoPath}`
 				),
 				isSinglePhoto: this.CARDS[this.currentIndex].photos.length === 1,
-				isPersonPremium: true, // this.CARDS[this.currentIndex].premium.status
-				personBorderClass: toPrimeClass(this.CARDS[this.currentIndex].premium?.border ?? -1),
+				isPersonPremium: this.CARDS[this.currentIndex].Premium.Status,
+				personBorderClass: this.CARDS[this.currentIndex].Premium.Status ?
+					toPrimeClass(this.CARDS[this.currentIndex].Premium.Border) :
+					'',
 				isAccountPremium: store.getState('isPremium') as boolean,
 
 			},

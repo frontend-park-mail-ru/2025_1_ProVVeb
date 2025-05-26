@@ -43,9 +43,9 @@ const DEFAULT_PARAMS_PROFILE_INFO: ProfileInfoParams = {
 	isError: false,
 	errorMessage: '',
 	photos: [
-		...Array(6).fill(null)
+		...Array(2).fill(null)
 	],
-	maxPhotos: 6
+	maxPhotos: 2
 };
 
 interface Callback {
@@ -75,6 +75,11 @@ export default class ProfileInfoCard extends BaseComponent {
 		callbacks: Callback[] = []
 	) {
 		const finalParamsHBS = { ...DEFAULT_PARAMS_PROFILE_INFO, ...paramsHBS };
+
+		if (store.getState('isPremium') as boolean) {
+			DEFAULT_PARAMS_PROFILE_INFO.maxPhotos = 6
+		}
+
 		const templateHTML = templateHBS(finalParamsHBS);
 		super(templateHTML, parentElement);
 

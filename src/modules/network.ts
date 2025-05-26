@@ -2,14 +2,14 @@
 const IP = 'localhost';
 // const IP = 'beameye.ru';
 
-// const BASE_URL = `https://${IP}/api`;
-// const BASE_URL_PHOTO = `https://${IP}/img/profile-photos`;
-// const WS_CHAT_URL = `wss://${IP}/api/chats`;
-// const WS_NOTIF_URL = `wss://${IP}/api/notifications`;
-const BASE_URL = `http://${IP}:8080`;
-const BASE_URL_PHOTO = `http://${IP}:8030/profile-photos`;
-const WS_CHAT_URL = `ws://${IP}:8080/chats`;
-const WS_NOTIF_URL = `ws://${IP}:8080/notifications`;
+const BASE_URL = `http://${IP}/api`;
+const BASE_URL_PHOTO = `http://${IP}/img/profile-photos`;
+const WS_CHAT_URL = `ws://${IP}/api/chats`;
+const WS_NOTIF_URL = `ws://${IP}/api/notifications`;
+// const BASE_URL = `http://${IP}:8080`;
+// const BASE_URL_PHOTO = `http://${IP}:8030/profile-photos`;
+// const WS_CHAT_URL = `ws://${IP}:8080/chats`;
+// const WS_NOTIF_URL = `ws://${IP}:8080/notifications`;
 
 interface ApiResponse<T = any> {
 	success: boolean;
@@ -30,9 +30,9 @@ export interface Profile {
 	likedBy: number[];
 	photos: string[];
 	preferences: { [key: string]: string; };
-	premium: {
-		status: boolean;
-		border: number;
+	Premium: {
+		Status: boolean;
+		Border: number;
 	}
 }
 
@@ -270,6 +270,11 @@ async function createChat(
 	return sendRequest(url, 'POST', { firstID, secondID });
 }
 
+async function changeBorder(new_border: number) {
+	const url = `${BASE_URL}/subsription/changeborder`;
+	return sendRequest(url, 'POST', { new_border });
+}
+
 export default {
 	BASE_URL_PHOTO,
 	BASE_URL,
@@ -294,4 +299,5 @@ export default {
 	profilesBySearch,
 	getChats,
 	createChat,
+	changeBorder,
 };
