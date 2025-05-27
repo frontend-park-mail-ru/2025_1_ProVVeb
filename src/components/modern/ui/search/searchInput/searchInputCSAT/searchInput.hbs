@@ -1,0 +1,35 @@
+<div class="searchInput" style="width: 100%;">
+	<div class="searchInput__buttonContainer">
+		<button class="searchInput__button" type="button">
+			<img src="/media/search/search.svg" alt="Search" />
+		</button>
+	</div>
+	<div class="searchInput__inputContainer">
+		<input class="searchInput__input" type="text" placeholder="Поиск" />
+		<button class="searchInput__clearButton" type="button">
+			<img src="/media/search/clear.svg" alt="Clear" />
+		</button>
+	</div>
+	<div class="searchInput__filterContainer">
+		<input class="searchInput__filterCheckbox" type="checkbox" id="filterToggle" />
+		<label for="filterToggle" class="searchInput__filterButton">
+			<img src="/media/search/filter.svg" alt="Filter" />
+		</label>
+		<div class="searchInput__filter">
+			<div class="range-slider age-slider">
+				<p>Оценка
+					<span>
+						<span id="ageMinValue">1</span> - <span id="ageMaxValue">5</span>
+					</span>
+				</p>
+				<div class="slider-container">
+					<div class="slider-track">
+						<div class="slider-track-fill"></div>
+					</div>
+					<input type="range" class="slider" id="ageMin" min="1" max="5" value="1" step="1">
+					<input type="range" class="slider" id="ageMax" min="1" max="5" value="5" step="1">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

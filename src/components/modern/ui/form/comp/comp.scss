@@ -1,0 +1,129 @@
+.comp-form {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: flex-end;
+	position: relative;
+	border-radius: 8.68px;
+	overflow: hidden;
+	border: 1px solid black;
+
+	&__header {
+		width: 450px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 5px 15px 0 15px;
+		background-color: transparent;
+
+		.header__left,
+		.header__right {
+			display: flex;
+			align-items: flex-start;
+			gap: 10px;
+			flex: 1;
+			flex-grow: 1;
+		}
+
+		.header__left-1,
+		.header__right-1 {
+			position: relative;
+			width: fit-content;
+			margin-top: -1px;
+			font-weight: 700;
+			font-size: 14px;
+			letter-spacing: 0;
+			line-height: normal;
+			color: var(--accent-color-font);
+		}
+
+		.header__left-2,
+		.header__right-2 {
+			position: relative;
+			width: fit-content;
+			margin-top: -1px;
+			font-family: "Gotham-Bold", Helvetica;
+			font-weight: 700;
+			font-size: 14px;
+			letter-spacing: 0;
+			line-height: normal;
+			color: var(--font-color); // replace with your variable
+		}
+	}
+
+	&__central {
+		display: inline-flex;
+		align-items: flex-start;
+		padding: 10px 0;
+		position: relative;
+		flex: 0 0 auto;
+
+		.central__title {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			padding-left: 15px;
+			position: relative;
+			align-self: stretch;
+			flex: 0 0 auto;
+
+			.central__inner {
+				position: relative;
+				width: 350px;
+				font-weight: 500;
+				font-size: 13px;
+				letter-spacing: 0;
+				line-height: normal;
+				color: var(--font-color); // replace with your variable
+			}
+		}
+
+		.central__buttons {
+			display: flex;
+			flex-direction: column;
+			width: 50px;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+			position: relative;
+			align-self: stretch;
+
+			.buttons__accept,
+			.buttons__deny {
+				position: relative;
+				width: 30px;
+				height: 30px;
+				cursor: pointer;
+				transition: 0.5s;
+
+				&:hover {
+					transform: scale(1.1);
+				}
+
+				&:active {
+					transform: scale(0.7);
+				}
+			}
+		}
+	}
+
+	&__footer {
+		display: inline-flex;
+		align-items: flex-start;
+		padding: 0 10px;
+		position: relative;
+		flex: 0 0 auto;
+		background-color: transparent;
+
+		.footer__inner {
+			position: relative;
+			width: fit-content;
+			margin-top: -1px;
+			font-weight: 700;
+			font-size: 14px;
+			letter-spacing: 0;
+			line-height: normal;
+			color: rgba(147, 147, 147, 1);
+		}
+	}
+}

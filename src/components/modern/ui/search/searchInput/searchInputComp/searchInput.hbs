@@ -1,0 +1,38 @@
+<div class="searchInput" style="width: 100%;">
+	<div class="searchInput__buttonContainer">
+		<button class="searchInput__button" type="button">
+			<img src="/media/search/search.svg" alt="Search" />
+		</button>
+	</div>
+	<div class="searchInput__inputContainer">
+		<input class="searchInput__input" type="text" placeholder="Поиск" />
+		<button class="searchInput__clearButton" type="button">
+			<img src="/media/search/clear.svg" alt="Clear" />
+		</button>
+	</div>
+	<div class="searchInput__filterContainer">
+		<input class="searchInput__filterCheckbox" type="checkbox" id="filterToggle" />
+		<label for="filterToggle" class="searchInput__filterButton">
+			<img src="/media/search/filter.svg" alt="Filter" />
+		</label>
+		<div class="searchInput__filter">
+			<div class="searchInput__genderSelection">
+				<p>Статус</p>
+				<div class="gender-options">
+					<label class="gender-option">
+						<input type="radio" name="gender" value="Male" />
+						<span>Обработано</span>
+					</label>
+					<label class="gender-option">
+						<input type="radio" name="gender" value="Any" checked />
+						<span style="white-space: nowrap;">В работе</span>
+					</label>
+					<label class="gender-option">
+						<input type="radio" name="gender" value="Female" />
+						<span>Отклонено</span>
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

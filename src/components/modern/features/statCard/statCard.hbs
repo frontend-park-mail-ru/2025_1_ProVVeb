@@ -2,9 +2,16 @@
 	<div class="statCard__left">
 		<div class="left__login">{{login}}:</div>
 		{{{stars}}}
+		<div class="left__footer">{{date}}</div>
+	</div>
+	<div class="statCard__central">
+		<p class="central__title">Отзыв:</p>
+		<p class="central__text">{{review}}</p>
 	</div>
 	<div class="statCard__right">
-		<p class="right__title">Отзыв:</p>
-		<p class="right__text">{{review}}</p>
+		<div class="right__buttons">
+			<img class="buttons__accept" src="media/btn/accept.svg" />
+			<img class="buttons__deny" src="media/btn/deny.svg" />
+		</div>
 	</div>
 </div>

@@ -15,6 +15,7 @@ import SearchPage from '@pages/searchPage/searchPage';
 import ShopPage from '@pages/shopPage/shopPage';
 import SecurityPage from '@pages/securityPage/securityPage';
 import { startNotifications } from './utils';
+import AdminPage from '@pages/adminPage/adminPage';
 
 enum AppPage {
 	Auth = 'auth',
@@ -30,6 +31,7 @@ enum AppPage {
 	Messenger = 'messenger',
 	StepPage = 'step',
 	Search = 'search',
+	Admin = 'admin'
 }
 
 interface PathStructure {
@@ -64,6 +66,8 @@ class Router {
 
 	private shopPage: ShopPage;
 
+	private adminPage: AdminPage;
+
 	private securityPage: SecurityPage;
 
 	private PATHS: PathStructure[];
@@ -88,6 +92,7 @@ class Router {
 		this.searchPage = new SearchPage(this.root);
 		this.shopPage = new ShopPage(this.root);
 		this.securityPage = new SecurityPage(this.root);
+		this.adminPage = new AdminPage(this.root);
 
 		this.PATHS = [];
 
@@ -103,7 +108,7 @@ class Router {
 		this.register('settings', this.handlerSettings.bind(this));
 		this.register('security', this.handlerSecurity.bind(this));
 		this.register('shop', this.handlerShop.bind(this));
-		this.register('stats', this.handlerStats.bind(this));
+		this.register('admin', this.handlerAdmin.bind(this));
 		this.register('complaint', this.handlerComplaint.bind(this));
 		this.register('messenger', this.handlerMessenger.bind(this));
 		this.register('step', this.handlerStep.bind(this));
@@ -273,10 +278,10 @@ class Router {
 		store.update('notif_matches');
 	}
 
-	private handlerStats(state: any): void {
+	private handlerAdmin(state: any): void {
 		this.root.classList.remove('greeting');
-		this.statPage.rerender();
-		this.statPage.getNavMenu().setActiveLink('stats');
+		this.adminPage.rerender();
+		this.adminPage.getNavMenu().setActiveLink('admin');
 
 		store.update('notif_messanger');
 		store.update('notif_matches');

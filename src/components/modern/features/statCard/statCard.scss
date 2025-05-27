@@ -1,51 +1,101 @@
 .statCard {
-	max-width: 440px;
-	height: fit-content;
-	display: flex;
-	flex-direction: row;
+	display: inline-flex;
 	align-items: flex-start;
-	justify-content: flex-start;
-	border: 1px solid var(--accent-font-color);
-	border-radius: 9px;
-	transition: 0.25s;
-
-	padding: 20px;
 	gap: 29px;
+	padding: 5px 0 20px 20px;
+	position: relative;
+	border-radius: 8.68px;
+	border: 1px solid black;
 
 	&__left {
-		max-width: 136px;
-		height: 47px;
 		display: flex;
 		flex-direction: column;
-		justify-content: flex-start;
+		width: 136px;
+		align-items: flex-start;
+		gap: 10px;
+		position: relative;
+		min-width: 0;
+
+		.left__login {
+			font-weight: 700;
+			font-size: 14px;
+			line-height: normal;
+			color: var(--accent-color-font);
+			margin-top: -1px;
+
+			overflow-wrap: anywhere;
+			word-break: break-word;
+			white-space: normal;
+		}
+
+		.left__footer {
+			font-weight: 700;
+			font-size: 14px;
+			line-height: normal;
+			color: rgba(147, 147, 147, 1);
+			margin-top: -1px;
+		}
+	}
+
+	&__central {
+		display: flex;
+		flex-direction: column;
+		width: 235px;
 		align-items: flex-start;
 		gap: 5px;
+		position: relative;
+		min-width: 0;
+
+		.central__title {
+			font-weight: 700;
+			font-size: 14px;
+			line-height: normal;
+			color: var(--accent-color-font);
+			margin: 0;
+		}
+
+		.central__text {
+			font-weight: 500;
+			font-size: 13px;
+			line-height: normal;
+			color: var(--font-color);
+			margin: 0;
+			overflow-wrap: anywhere;
+			word-break: break-word;
+			white-space: normal;
+		}
 	}
 
 	&__right {
-		width: 100%;
-		height: 100%;
 		display: flex;
 		flex-direction: column;
-		justify-content: flex-start;
 		align-items: flex-start;
-		gap: 5px;
+		position: relative;
+
+		.right__buttons {
+			display: flex;
+			flex-direction: column;
+			width: 50px;
+			align-items: center;
+			justify-content: center;
+			gap: 10px;
+
+			.buttons__accept,
+			.buttons__deny {
+				position: relative;
+				width: 30px;
+				height: 30px;
+				cursor: pointer;
+				transition: 0.5s;
+
+				&:hover {
+					transform: scale(1.1);
+				}
+
+				&:active {
+					transform: scale(0.7);
+				}
+			}
+		}
 	}
-
-	&:hover {
-		border: 1px solid var(--main);
-	}
-}
-
-.left__login,
-.right__title {
-	font-weight: 700;
-	font-size: 14px;
-	color: var(--accent-font-color);
-}
-
-.right__text {
-	font-weight: 500;
-	font-size: 13px;
-	color: var(--font-color);
 }

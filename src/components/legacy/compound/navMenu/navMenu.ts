@@ -106,11 +106,10 @@ const LINKS: LinkConfig[] = [
 		},
 	},
 	{
-		isDev: true,
-		title: 'Статистика',
+		title: 'Админка',
 		srcIcon: 'media/navMenu/active/stats_gradient.svg',
 		srcIconHover: 'media/navMenu/stats.svg',
-		id: `stats${uniqId}`,
+		id: `admin${uniqId}`,
 		listener: {
 			eventType: 'click',
 			selector: '#{id}',
