@@ -2,8 +2,8 @@
 const IP = 'localhost';
 // const IP = 'beameye.ru';
 
-const BASE_URL = `http://${IP}/api`;
-const BASE_URL_PHOTO = `http://${IP}/img/profile-photos`;
+const BASE_URL = `https://${IP}/api`;
+const BASE_URL_PHOTO = `https://${IP}/img/profile-photos`;
 const WS_CHAT_URL = `ws://${IP}/api/chats`;
 const WS_NOTIF_URL = `ws://${IP}/api/notifications`;
 // const BASE_URL = `http://${IP}:8080`;
