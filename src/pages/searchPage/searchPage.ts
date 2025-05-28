@@ -105,7 +105,7 @@ export default class SearchPage extends BasePage {
 				overflow: auto;
 				scrollbar-width: none;
 			`);
-
+			console.log('searchItems.length', searchItems.length)
 			if (searchItems.length === 0) {
 				this.pageCompounder.add(new VSearchStart(
 					'Мы не нашли такую (',
@@ -204,7 +204,7 @@ export default class SearchPage extends BasePage {
 			return { success: false, data: [] };
 		}
 
-		if (!response.data) {
+		if (response.data?.message !== undefined) {
 			return { success: true, data: [] };
 		}
 

@@ -322,6 +322,54 @@ function payWithYooMoney(params: {
 	document.body.removeChild(form);
 }
 
+function findComplaints(
+	complaint_by?: number,
+	name_by?: string,
+	complaint_on?: number,
+	name_on?: string,
+	complaint_type?: string,
+	status?: number
+) {
+	const url = `${BASE_URL}/complaints/find`;
+	const params = {
+		complaint_by,
+		name_by,
+		complaint_on,
+		name_on,
+		complaint_type,
+		status
+	};
+	return sendRequest(url, 'POST', params);
+}
+
+function deleteComplaint(complaint_by: number) {
+	const url = `${BASE_URL}/complaints/delete`;
+	return sendRequest(url, 'DELETE', { complaint_by });
+}
+
+function handleComplaint(
+	complaint_id: number,
+	new_status: number
+) {
+	const url = `${BASE_URL}/complaints/handle`;
+	return sendRequest(url, 'POST', { complaint_id, new_status });
+}
+
+function findQueries(
+	name?: string,
+) {
+	const url = `${BASE_URL}/queries/findQuery`;
+	return sendRequest(url, 'POST', { name, query_id: 0 });
+}
+
+function deleteQuery(
+	query_name: string,
+	user_id: number
+) {
+	const url = `${BASE_URL}/queries/deleteAnswer`;
+	return sendRequest(url, 'POST', { query_name, user_id });
+}
+
 export default {
 	BASE_URL_PHOTO,
 	BASE_URL,
@@ -348,5 +396,9 @@ export default {
 	createChat,
 	changeBorder,
 	subscribe,
-	SuperLike
+	SuperLike,
+	findComplaints,
+	handleComplaint,
+	findQueries,
+	deleteQuery
 };

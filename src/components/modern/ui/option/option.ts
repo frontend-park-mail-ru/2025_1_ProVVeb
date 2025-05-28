@@ -8,13 +8,13 @@ const DEFAULT_OPTION_PARAMS = {
 export class VOption extends VBC {
 	public isChecked: boolean;
 
-	constructor(title: string) {
+	constructor(title: string, isFirst: boolean = false) {
 		super(
 			templateHBS,
 			DEFAULT_OPTION_PARAMS,
 			'',
 			[],
-			{ title: title }
+			{ title: title, isFirst: isFirst }
 		);
 		this.isChecked = false;
 		this.inject(undefined, '', [{

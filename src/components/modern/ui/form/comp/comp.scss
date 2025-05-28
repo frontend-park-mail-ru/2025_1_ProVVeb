@@ -1,129 +1,253 @@
+:root {
+	--accent-color-font: #2c3e50;
+	--font-color: #34495e;
+	--border-color: #e0e0e0;
+	--background-color: #ffffff;
+	--footer-color: rgba(147, 147, 147, 1);
+	--button-hover-color: #f5f5f5;
+	--border-radius: 8.68px;
+	--transition-speed: 0.2s;
+}
+
 .comp-form {
-	display: inline-flex;
+	display: flex;
 	flex-direction: column;
-	align-items: flex-end;
+	width: 100%;
+	max-width: 450px;
 	position: relative;
-	border-radius: 8.68px;
+	border-radius: var(--border-radius);
 	overflow: hidden;
-	border: 1px solid black;
+	border: 1px solid var(--border-color);
+	background-color: var(--background-color);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	font-family: 'Helvetica Neue', Arial, sans-serif;
+	transition: box-shadow var(--transition-speed) ease;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 10px;
+
+	&:hover {
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	}
 
 	&__header {
-		width: 450px;
 		display: flex;
-		align-items: center;
+		flex-wrap: wrap;
 		justify-content: space-between;
-		padding: 5px 15px 0 15px;
+		padding: 12px 15px;
 		background-color: transparent;
+		border-bottom: 1px solid var(--border-color);
 
 		.header__left,
 		.header__right {
 			display: flex;
-			align-items: flex-start;
-			gap: 10px;
+			align-items: center;
+			gap: 8px;
 			flex: 1;
-			flex-grow: 1;
+			min-width: 150px;
+			margin-bottom: 4px;
 		}
 
 		.header__left-1,
 		.header__right-1 {
-			position: relative;
-			width: fit-content;
-			margin-top: -1px;
-			font-weight: 700;
-			font-size: 14px;
-			letter-spacing: 0;
-			line-height: normal;
+			font-weight: 600;
+			font-size: 13px;
 			color: var(--accent-color-font);
+			opacity: 0.8;
 		}
 
 		.header__left-2,
 		.header__right-2 {
-			position: relative;
-			width: fit-content;
-			margin-top: -1px;
-			font-family: "Gotham-Bold", Helvetica;
 			font-weight: 700;
 			font-size: 14px;
-			letter-spacing: 0;
-			line-height: normal;
-			color: var(--font-color); // replace with your variable
+			color: var(--font-color);
+			word-break: break-word;
+			font-style: italic;
 		}
 	}
 
 	&__central {
-		display: inline-flex;
-		align-items: flex-start;
-		padding: 10px 0;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 15px;
 		position: relative;
-		flex: 0 0 auto;
 
 		.central__title {
-			display: inline-flex;
-			align-items: center;
-			justify-content: center;
-			gap: 10px;
-			padding-left: 15px;
-			position: relative;
-			align-self: stretch;
-			flex: 0 0 auto;
+			flex: 1;
+			padding-right: 15px;
 
 			.central__inner {
-				position: relative;
-				width: 350px;
 				font-weight: 500;
-				font-size: 13px;
-				letter-spacing: 0;
-				line-height: normal;
-				color: var(--font-color); // replace with your variable
+				font-size: 14px;
+				line-height: 1.4;
+				color: var(--font-color);
+				margin: 0;
 			}
 		}
 
 		.central__buttons {
 			display: flex;
 			flex-direction: column;
-			width: 50px;
-			align-items: center;
-			justify-content: center;
-			gap: 10px;
-			position: relative;
-			align-self: stretch;
+			gap: 12px;
+			padding-left: 10px;
+			border-left: 1px solid var(--border-color);
 
 			.buttons__accept,
 			.buttons__deny {
-				position: relative;
-				width: 30px;
-				height: 30px;
+				width: 32px;
+				height: 32px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 50%;
 				cursor: pointer;
-				transition: 0.5s;
+				transition: all var(--transition-speed) ease;
+				background-color: transparent;
 
 				&:hover {
-					transform: scale(1.1);
+					background-color: var(--button-hover-color);
+					transform: scale(1.05);
 				}
 
 				&:active {
-					transform: scale(0.7);
+					transform: scale(0.95);
+				}
+
+				img {
+					width: 25px;
+					height: 25px;
+					pointer-events: none;
 				}
 			}
 		}
 	}
 
 	&__footer {
-		display: inline-flex;
-		align-items: flex-start;
-		padding: 0 10px;
-		position: relative;
-		flex: 0 0 auto;
+		padding: 8px 15px;
 		background-color: transparent;
+		border-top: 1px solid var(--border-color);
+		text-align: right;
 
 		.footer__inner {
+			font-weight: 500;
+			font-size: 12px;
+			color: var(--footer-color);
+		}
+	}
+
+	&--resolved {
+		border-color: #4caf50;
+		background-color: rgba(76, 175, 80, 0.03);
+		opacity: 0.9;
+
+		.comp-form__header {
+			border-bottom-color: rgba(76, 175, 80, 0.3);
+
+			.header__left-2,
+			.header__right-2 {
+				color: #4caf50;
+			}
+		}
+
+		.comp-form__central {
+			.central__buttons {
+				opacity: 0.6;
+				pointer-events: none;
+
+				.buttons__accept {
+					background-color: rgba(76, 175, 80, 0.1);
+
+					img {
+						filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(409%) hue-rotate(81deg) brightness(95%) contrast(87%);
+					}
+				}
+
+				.buttons__deny {
+					display: none;
+				}
+			}
+		}
+
+		.comp-form__footer {
+			border-top-color: rgba(76, 175, 80, 0.3);
+
+			.footer__inner {
+				color: #4caf50;
+				position: relative;
+			}
+		}
+	}
+
+	&--rejected {
+		border-color: #f44336;
+		opacity: 0.9;
+		background-color: rgba(244, 67, 54, 0.03);
+
+		.comp-form__header {
+			border-bottom-color: rgba(244, 67, 54, 0.3);
+
+			.header__left-2,
+			.header__right-2 {
+				color: #f44336;
+			}
+		}
+
+		.comp-form__central {
+			.central__buttons {
+				opacity: 0.6;
+				pointer-events: none;
+
+				.buttons__deny {
+					background-color: rgba(244, 67, 54, 0.1);
+
+					img {
+						filter: brightness(0) saturate(100%) invert(37%) sepia(93%) saturate(747%) hue-rotate(331deg) brightness(94%) contrast(96%);
+					}
+				}
+
+				.buttons__accept {
+					display: none;
+				}
+			}
+		}
+
+		.comp-form__footer {
+			border-top-color: rgba(244, 67, 54, 0.3);
+
+			.footer__inner {
+				color: #f44336;
+				position: relative;
+			}
+		}
+	}
+
+	&--rejected {
+		.comp-form__header {
 			position: relative;
-			width: fit-content;
-			margin-top: -1px;
-			font-weight: 700;
-			font-size: 14px;
-			letter-spacing: 0;
-			line-height: normal;
-			color: rgba(147, 147, 147, 1);
+		}
+	}
+}
+
+@media (max-width: 480px) {
+	.comp-form {
+		max-width: 100%;
+
+		&__header {
+			flex-direction: column;
+			gap: 8px;
+
+			.header__left,
+			.header__right {
+				min-width: 100%;
+			}
+		}
+
+		&__central {
+			.central__buttons {
+				padding-left: 8px;
+				gap: 8px;
+			}
 		}
 	}
 }

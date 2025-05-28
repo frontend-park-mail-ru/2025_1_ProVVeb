@@ -142,6 +142,7 @@ export default class NavMenu extends BaseComponent {
 			this.setNotification('matches', data as number);
 		});
 
+
 		LINKS.forEach((link) => {
 			if (link.isDev) { return; }
 
@@ -225,4 +226,5 @@ export default class NavMenu extends BaseComponent {
 	public clearNotification(linkID: string): void {
 		this.setNotification(linkID, 0);
 	}
+
 }

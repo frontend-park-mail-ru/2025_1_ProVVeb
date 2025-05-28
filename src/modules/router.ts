@@ -170,6 +170,7 @@ class Router {
 		store.update('profileName');
 		store.update('ava');
 		store.update('premiumBorder');
+		store.update('isAdmin');
 	}
 
 	public async start() {
@@ -194,11 +195,13 @@ class Router {
 		const name = `${data?.data?.firstName} ${data?.data?.lastName}`;
 		const isPremium = data?.data?.Premium.Status;
 		const premiumBorder = data?.data?.Premium.Border;
+		const isAdmin = data?.data?.isAdmin;
 
 		if (ava) { store.setState('ava', ava); }
 		if (name) { store.setState('profileName', name); }
 		if (data?.data?.isMale) { store.setState('isMale', data?.data?.isMale); }
 		if (isPremium) { store.setState('isPremium', isPremium); store.setState('premiumBorder', premiumBorder); }
+		if (isAdmin) { store.setState('isAdmin', isAdmin); }
 	}
 
 	private checkCookie(page: AppPage): AppPage {
