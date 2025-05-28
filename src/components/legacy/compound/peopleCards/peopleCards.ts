@@ -35,7 +35,7 @@ export default class PeopleCards extends BaseComponent {
 	private async loadData(): Promise<void> {
 		if (!this.isDataLoaded) {
 			const response = await api.getProfiles(store.getState('myID') as number);
-			this.CARDS = response.data || [];
+			this.CARDS = response.data.profiles || [];
 			this.isDataLoaded = true;
 		}
 	}

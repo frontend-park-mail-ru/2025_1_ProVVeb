@@ -117,7 +117,7 @@ const LINKS: LinkConfig[] = [
 		},
 	},
 	{
-		title: 'Жалобы',
+		title: 'Обратная связь',
 		srcIcon: 'media/navMenu/complaint.svg',
 		srcIconHover: 'media/navMenu/active/complaint_gradient.svg',
 		id: `complaint${uniqId}`,

@@ -105,10 +105,10 @@ export default class SearchPage extends BasePage {
 				overflow: auto;
 				scrollbar-width: none;
 			`);
-			console.log('searchItems.length', searchItems.length)
+
 			if (searchItems.length === 0) {
 				this.pageCompounder.add(new VSearchStart(
-					'Мы не нашли такую (',
+					'Не удалось найти (',
 					'Попробуй изменить параметры поиска'
 				));
 			} else {
@@ -171,6 +171,7 @@ export default class SearchPage extends BasePage {
 		if (!response.success) {
 			return { success: false, data: [] };
 		}
+		console.log('response.data', response.data)
 		return {
 			success: true,
 			data: response.data.map((profile) => new VSearchItem(
@@ -210,7 +211,7 @@ export default class SearchPage extends BasePage {
 
 		return {
 			success: true,
-			data: response.data.map((profile: any) => ({
+			data: response.data.profiles.map((profile: any) => ({
 				idUser: profile.idUser || store.getState('myID') as number,
 				firstImgSrc: profile.firstImgSrc || '/frontend/src/media/error/400x600.jpg',
 				fullname: profile.fullname || 'Мое имя, хи-хи',

@@ -110,12 +110,12 @@ export default class AdminPage extends BasePage {
 
 				if (feedbacksData.data.answers === null) {
 					new Notification({
-						headTitle: 'Отзывы не найдены',
-						title: 'С текущими параметрами не найдено отзывов',
+						headTitle: 'Нет данных',
+						title: 'Отзывы не найдены',
 						isWarning: false,
 						isWithButton: true,
 					}).render();
-					return;
+					feedbacksData.data.answers = [];
 				}
 
 				const pageCSAT = new VAdminCSAT(feedbacksData.data.answers as []);

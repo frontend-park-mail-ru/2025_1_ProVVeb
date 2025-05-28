@@ -2,7 +2,7 @@ import { VBC } from '@VDOM/VBC';
 import templateHBS from './body.hbs';
 
 export class VComplaintBody extends VBC {
-	constructor(titleText: string = 'Жалоба:', inputText: string = 'Расскажи о проблеме') {
+	constructor(titleText: string = 'Пожелания:', inputText: string = 'Мне все нравится))') {
 		super(
 			templateHBS,
 			{},

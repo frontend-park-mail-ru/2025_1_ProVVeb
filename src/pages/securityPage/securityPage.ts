@@ -184,7 +184,6 @@ export default class SecurityPage extends BasePage {
 		this.components[0].render();
 		this.parentElement.appendChild(this.contentWrapper);
 		this.components[1].render();
-		console.log('this.main', this.main);
 
 		this.main.addTo(this.contentWrapper);
 

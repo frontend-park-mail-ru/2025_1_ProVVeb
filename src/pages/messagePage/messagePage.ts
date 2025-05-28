@@ -239,11 +239,11 @@ export default class MessagePage extends BasePage {
 			return { success: false, data: [] };
 		}
 
-		if (!usersList.data) {
+		if (!usersList.data.chats) {
 			return { success: true, data: [] };
 		}
 
-		const usersListWithClick = usersList.data.reverse().map((user) => {
+		const usersListWithClick = usersList.data.chats.reverse().map((user) => {
 			const userItem = new VUserItem(
 				api.BASE_URL_PHOTO + user.profilePicture,
 				user.profileName,
