@@ -121,7 +121,7 @@ export default class SecurityPage extends BasePage {
 			flex-direction: row;
 			justify-content: center;
 			align-items: center;
-			gap: 80px;
+			gap: 20px;
 		`);
 
 		const outButton = new VButton('Выйти из аккаунта', () => {

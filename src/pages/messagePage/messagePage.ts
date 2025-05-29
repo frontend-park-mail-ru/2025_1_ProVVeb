@@ -91,7 +91,7 @@ export default class MessagePage extends BasePage {
 		this.components[1].render();
 
 		this.chatAreaCompounder.addTo(this.contentWrapper);
-		this.usersListCompounder.addTo(this.contentWrapper);
+		if (usersList.length != 0) this.usersListCompounder.addTo(this.contentWrapper);
 
 		store.update('profileName');
 		store.update('ava');

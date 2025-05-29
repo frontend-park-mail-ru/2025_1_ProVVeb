@@ -5,6 +5,7 @@ import { parseBirthday, toPrimeClass } from '@modules/utils';
 import Notification from '@simple/notification/notification';
 import router, { AppPage } from '@modules/router';
 import PersonCard from '../personCard/personCard';
+import { VBC } from '@VDOM/VBC';
 
 interface Listener {
 	event: string;
@@ -82,6 +83,14 @@ export default class PeopleCards extends BaseComponent {
 				callback: () => this.handleLightning(),
 			},
 		];
+
+		if (this.CARDS.length == 0) {
+			const follback = new VBC(
+				`<img draggable="false" src="media/error/follback.svg" alt="follback" class="follback" />`
+			);
+			follback.render(this.parentElement);
+			return;
+		}
 
 		this.currentCard = new PersonCard(
 			this.parentElement,

@@ -186,7 +186,8 @@ class Router {
 			return;
 		}
 
-		await this.navigateTo(currentPath);
+		if (currentPath == 'admin') await this.navigateTo(AppPage.Feed);
+		else await this.navigateTo(currentPath);
 		startNotifications();
 
 		const ID = store.getState('myID') as number;
@@ -197,11 +198,11 @@ class Router {
 		const premiumBorder = data?.data?.Premium.Border;
 		const isAdmin = data?.data?.isAdmin;
 
-		if (ava) { store.setState('ava', ava); }
-		if (name) { store.setState('profileName', name); }
-		if (data?.data?.isMale) { store.setState('isMale', data?.data?.isMale); }
-		if (isPremium) { store.setState('isPremium', isPremium); store.setState('premiumBorder', premiumBorder); }
-		if (isAdmin) { store.setState('isAdmin', isAdmin); }
+		if (ava != undefined) { store.setState('ava', ava); }
+		if (name != undefined) { store.setState('profileName', name); }
+		if (data?.data?.isMale != undefined) { store.setState('isMale', data?.data?.isMale); }
+		if (isPremium != undefined) { store.setState('isPremium', isPremium); store.setState('premiumBorder', premiumBorder); }
+		if (isAdmin != undefined) { store.setState('isAdmin', isAdmin); }
 	}
 
 	private checkCookie(page: AppPage): AppPage {

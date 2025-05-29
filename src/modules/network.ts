@@ -2,8 +2,8 @@
 const IP = 'localhost';
 // const IP = 'beameye.ru';
 
-const BASE_URL = `https://${IP}/api`;
-const BASE_URL_PHOTO = `https://${IP}/img/profile-photos`;
+const BASE_URL = `http://${IP}/api`;
+const BASE_URL_PHOTO = `http://${IP}/img/profile-photos`;
 const WS_CHAT_URL = `ws://${IP}/api/chats`;
 const WS_NOTIF_URL = `ws://${IP}/api/notifications`;
 // const BASE_URL = `http://${IP}:8080`;
@@ -34,6 +34,7 @@ export interface Profile {
 		Status: boolean;
 		Border: number;
 	}
+	isAdmin: boolean;
 }
 
 export interface User {
@@ -370,6 +371,49 @@ function deleteQuery(
 	return sendRequest(url, 'POST', { query_name, user_id });
 }
 
+function getStatComplaints() {
+	const url = `${BASE_URL}/complaints/getStatistics`;
+	return sendRequest(url, 'POST', {
+		Time_From: '1970-01-01T00:00:00',
+		Time_To: new Date().toISOString()
+	});
+}
+
+function getStatQueries() {
+	const url = `${BASE_URL}/queries/getStatistics`;
+	return sendRequest(url, 'POST', {
+		query_id: 1
+	});
+}
+
+async function getStat() {
+	const raw_data1 = await getStatComplaints() as any;
+	const raw_data2 = await getStatQueries() as any;
+
+	const success = raw_data1.success && raw_data2.success;
+	const data1 = raw_data1.data;
+	const data2 = raw_data2.data;
+
+	return {
+		success,
+		data: {
+			A_Total: data2.TotalAnswers || 0,
+			A_AverageScore: data2.AverageScore || 0,
+			A_MinScore: data2.MinScore || 0,
+			A_MaxScore: data2.MaxScore || 0,
+
+			C_Total: data1.total_complaints || 0,
+			C_Rejected: data1.rejected || 0,
+			C_Pending: data1.pending || 0,
+			C_Approved: data1.approved || 0,
+			С_TotalBy: data1.reported || 0,
+			C_TotalOn: data1.complaints || 0,
+			C_FirstComplaint: data1.first_complaint || 'N/A',
+			C_LastComplaint: data1.last_complaint || 'N/A'
+		}
+	}
+}
+
 export default {
 	BASE_URL_PHOTO,
 	BASE_URL,
@@ -400,5 +444,6 @@ export default {
 	findComplaints,
 	handleComplaint,
 	findQueries,
-	deleteQuery
+	deleteQuery,
+	getStat
 };

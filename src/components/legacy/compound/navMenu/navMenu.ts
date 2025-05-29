@@ -141,7 +141,15 @@ export default class NavMenu extends BaseComponent {
 		store.subscribe('notif_matches', (data) => {
 			this.setNotification('matches', data as number);
 		});
-
+		store.subscribe('isAdmin', (data) => {
+			if (data) return;
+			const element = document.getElementById('admin_navMenu');
+			if (element)
+				element.style = 'display: none;';
+			LINKS.splice(7, 1);
+			const templateHTML = templateHBS({ ...finalParamsHBS, links: LINKS });
+			this.template = templateHTML;
+		});
 
 		LINKS.forEach((link) => {
 			if (link.isDev) { return; }

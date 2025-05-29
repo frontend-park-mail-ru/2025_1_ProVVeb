@@ -10,6 +10,7 @@ import { VirtualElement } from '@VDOM/utils';
 import api from '@network';
 import store from '@store';
 import Notification from '@simple/notification/notification';
+import { statistic_params, VAdminStat } from './adminStat/adminStat';
 
 export default class AdminPage extends BasePage {
 	private components: Array<HeaderMain | NavMenu>;
@@ -29,6 +30,7 @@ export default class AdminPage extends BasePage {
 
 		const complaintsOption = new VOption('Жалобы');
 		const feedbackOption = new VOption('Отзывы');
+		const statisticOption = new VOption('Статистика');
 
 		complaintsOption.inject(undefined, '', [{
 			selector: '.option',
@@ -36,22 +38,12 @@ export default class AdminPage extends BasePage {
 			handler: async () => {
 				if (complaintsOption.getDOM()?.classList.contains('option-checked')) return;
 
-				if (store.getState('isAdmin') === false) {
-					new Notification({
-						headTitle: 'У тебя нет прав(',
-						title: 'У тебя нет права на админа',
-						isWarning: false,
-						isWithButton: true,
-					}).render();
-					return;
-				}
-
 				const complaintsData = await api.findComplaints();
 
 				if (!complaintsData.success) {
 					new Notification({
 						headTitle: 'Ошибка сети',
-						title: 'Не удалось получить данные: проверь подключение или ты просто не админ)',
+						title: 'Не удалось получить данные: проверь подключение)',
 						isWarning: false,
 						isWithButton: true,
 					}).render();
@@ -70,6 +62,7 @@ export default class AdminPage extends BasePage {
 
 				const pageComp = new VAdminComp(complaintsData.data.complaints as []);
 				complaintsOption.getDOM()?.classList.add('option-checked');
+				statisticOption.getDOM()?.classList.remove('option-checked');
 				feedbackOption.getDOM()?.classList.remove('option-checked');
 
 				const link = ((this.main.getVDOM() as VirtualElement).children[0] as VirtualElement).children;
@@ -86,22 +79,12 @@ export default class AdminPage extends BasePage {
 			handler: async () => {
 				if (feedbackOption.getDOM()?.classList.contains('option-checked')) return;
 
-				if (store.getState('isAdmin') === false) {
-					new Notification({
-						headTitle: 'У тебя нет прав(',
-						title: 'У тебя нет права на админа',
-						isWarning: false,
-						isWithButton: true,
-					}).render();
-					return;
-				}
-
 				const feedbacksData = await api.findQueries();
 
 				if (!feedbacksData.success) {
 					new Notification({
 						headTitle: 'Ошибка сети',
-						title: 'Не удалось получить данные: проверь подключение или ты просто не админ)',
+						title: 'Не удалось получить данные: проверь подключение)',
 						isWarning: false,
 						isWithButton: true,
 					}).render();
@@ -120,12 +103,44 @@ export default class AdminPage extends BasePage {
 
 				const pageCSAT = new VAdminCSAT(feedbacksData.data.answers as []);
 				complaintsOption.getDOM()?.classList.remove('option-checked');
+				statisticOption.getDOM()?.classList.remove('option-checked');
 				feedbackOption.getDOM()?.classList.add('option-checked');
 
 				const link = ((this.main.getVDOM() as VirtualElement).children[0] as VirtualElement).children;
 				if (link.length == 2) link.pop();
 
 				this.main.add(pageCSAT);
+				this.main.update(true);
+			}
+		}]);
+
+		statisticOption.inject(undefined, '', [{
+			selector: '.option',
+			eventType: 'click',
+			handler: async () => {
+				if (statisticOption.getDOM()?.classList.contains('option-checked')) return;
+
+				const statisticData = await api.getStat();
+
+				if (!statisticData.success) {
+					new Notification({
+						headTitle: 'Ошибка сети',
+						title: 'Не удалось получить данные: проверь подключение или ты просто не админ)',
+						isWarning: false,
+						isWithButton: true,
+					}).render();
+					return;
+				}
+
+				const pageStat = new VAdminStat(statisticData.data as statistic_params);
+				complaintsOption.getDOM()?.classList.remove('option-checked');
+				feedbackOption.getDOM()?.classList.remove('option-checked');
+				statisticOption.getDOM()?.classList.add('option-checked');
+
+				const link = ((this.main.getVDOM() as VirtualElement).children[0] as VirtualElement).children;
+				if (link.length == 2) link.pop();
+
+				this.main.add(pageStat);
 				this.main.update(true);
 			}
 		}]);
@@ -140,6 +155,7 @@ export default class AdminPage extends BasePage {
 		${CSS_center}`);
 		this.main.add(complaintsOption);
 		this.main.add(feedbackOption);
+		this.main.add(statisticOption);
 		this.main.up();
 		this.main.setID();
 
