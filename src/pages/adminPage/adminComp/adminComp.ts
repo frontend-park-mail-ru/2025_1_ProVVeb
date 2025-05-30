@@ -26,7 +26,7 @@ export class VAdminComp extends VBC {
 				undefined,
 				input.value.trim(),
 				undefined,
-				input.value.trim(),
+				undefined,
 				undefined,
 				Number(selectedStatus.value)
 			);

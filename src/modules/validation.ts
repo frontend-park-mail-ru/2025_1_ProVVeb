@@ -238,27 +238,89 @@ export function isValidHeight(height: string): boolean {
 	return !Number.isNaN(heightNum) && heightNum >= 100 && heightNum <= 150;
 }
 
-export function isValidBirthDate(dateStr: string): boolean {
-	if (dateStr.length !== 8) { return false; }
+export function validateBirthDate(dateStr: string): { isValid: boolean; error?: string } {
+	if (dateStr.length !== 8) {
+		return {
+			isValid: false,
+			error: 'Дата должна содержать ровно 8 цифр (ДД/ММ/ГГГГ)'
+		};
+	}
+
+	if (!/^\d+$/.test(dateStr)) {
+		return {
+			isValid: false,
+			error: 'Дата должна содержать только цифры'
+		};
+	}
 
 	const day = parseInt(dateStr.substring(0, 2), 10);
 	const month = parseInt(dateStr.substring(2, 4), 10);
 	const year = parseInt(dateStr.substring(4, 8), 10);
 
-	if (year < 1925 || year > 2025) { return false; }
-	if (month < 1 || month > 12) { return false; }
-	if (day < 1 || day > 31) { return false; }
+	if (year < 1925 || year > new Date().getFullYear()) {
+		return {
+			isValid: false,
+			error: `Год должен быть между 1925 и ${new Date().getFullYear()}`
+		};
+	}
+
+	if (month < 1 || month > 12) {
+		return {
+			isValid: false,
+			error: 'Месяц должен быть от 01 до 12'
+		};
+	}
+
+	if (day < 1 || day > 31) {
+		return {
+			isValid: false,
+			error: 'День должен быть от 01 до 31'
+		};
+	}
 
 	const date = new Date(year, month - 1, day);
-	return (
-		date.getFullYear() === year
-		&& date.getMonth() === month - 1
-		&& date.getDate() === day
-	);
+	if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+		return {
+			isValid: false,
+			error: 'Некорректная дата (например, 30 февраля)'
+		};
+	}
+
+	return { isValid: true };
 }
 
-export function isValidLocation(location: string): boolean {
-	return location.length >= 3 && location.length <= 15;
+export function validLocation(location: string): { isValid: boolean; error?: string } {
+	if (location.length < 3 || location.length > 15) {
+		return {
+			isValid: false,
+			error: 'Название должно содержать от 3 до 15 символов'
+		};
+	}
+
+	// Проверка допустимых символов:
+	// - Русские буквы (а-яёА-ЯЁ)
+	// - Английские буквы (a-zA-Z)
+	// - Пробелы и дефисы
+	const validCharsRegex = /^[\p{L}\s-]+$/u;
+	if (!validCharsRegex.test(location)) {
+		return {
+			isValid: false,
+			error: 'Название должно содержать только буквы, пробелы и дефисы'
+		};
+	}
+
+	// Дополнительная проверка на валидность:
+	// - Не должно быть нескольких пробелов/дефисов подряд
+	// - Не должно начинаться/заканчиваться пробелом или дефисом
+	const invalidPatternsRegex = /(^\s|^-)|(\s$|-$)|([\s-]{2,})/;
+	if (invalidPatternsRegex.test(location)) {
+		return {
+			isValid: false,
+			error: 'Нельзя использовать несколько пробелов/дефисов подряд или в начале/конце'
+		};
+	}
+
+	return { isValid: true };
 }
 
 export function isValidEmail(email: string): boolean {
@@ -266,7 +328,10 @@ export function isValidEmail(email: string): boolean {
 }
 
 export function isValidPhone(phone: string): boolean {
-	return /^\(\d{3}\)\d{7}$/.test(phone);
+	// Проверяем оба формата:
+	// 1. 0123456789 (ровно 10 цифр без пробелов)
+	// 2. 012 345 67 89 (10 цифр с пробелами в любых местах)
+	return /^\d{10}$/.test(phone) || /^(\d{3}\s?\d{3}\s?\d{2}\s?\d{2})$/.test(phone);
 }
 
 export function isValidNationality(nationality: string): boolean {

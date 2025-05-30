@@ -28,11 +28,7 @@ export class VAdminCSAT extends VBC {
 				}).render();
 				return;
 			}
-			const min = Number(store.getState('minValueFilter')?.textContent || '1');
-			const max = Number(store.getState('maxValueFilter')?.textContent || '5');
-			feedbacksData.data.answers = feedbacksData.data.answers.filter(query => {
-				return query.name == 'CSAT' && min <= query.score && query.score <= max;
-			});
+
 			if (feedbacksData.data.answers === null) {
 				new Notification({
 					headTitle: 'Отзывы не найдены',

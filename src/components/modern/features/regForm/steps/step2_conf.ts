@@ -5,7 +5,7 @@ import { VInput } from '@ui/input/input';
 import { VList, COUNTRIES } from '@ui/list/list';
 import Notification from '@notification';
 import {
-	isValidLocation,
+	validLocation,
 	isValidEmail,
 	isValidPhone
 } from '@validation';
@@ -30,7 +30,7 @@ export class CReg40 extends VBC {
 		const mail = new VInput('Твой email');
 
 		const list = new VList();
-		const phone = new VInput('(012) 345-67-89');
+		const phone = new VInput('012 345 67 89');
 
 		const main = new Compounder();
 		main.down('location', `
@@ -95,21 +95,46 @@ export class CReg40 extends VBC {
 		const city = this.city.getValue();
 		const district = this.district.getValue();
 
-		if (!isValidLocation(country) || !isValidLocation(city) || !isValidLocation(district)) {
+
+		const countryValidation = validLocation(country);
+		if (!countryValidation.isValid) {
 			new Notification({
-				headTitle: 'Ошибка валидации',
-				title: 'Каждое поле (страна/город/район) должно быть 3-15 символов',
+				headTitle: 'Некорректная страна',
+				title: countryValidation.error || 'Некорректное название страны',
 				isWarning: true,
 				isWithButton: true,
 			}).render();
 			return false;
 		}
+
+		const cityValidation = validLocation(city);
+		if (!cityValidation.isValid) {
+			new Notification({
+				headTitle: 'Некорректный город',
+				title: cityValidation.error || 'Некорректное название города',
+				isWarning: true,
+				isWithButton: true,
+			}).render();
+			return false;
+		}
+
+		const districtValidation = validLocation(district);
+		if (!districtValidation.isValid) {
+			new Notification({
+				headTitle: 'Некорректный район',
+				title: districtValidation.error || 'Некорректное название района',
+				isWarning: true,
+				isWithButton: true,
+			}).render();
+			return false;
+		}
+
 		profile.location = `${country}@${city}@${district}`;
 
 		const email = this.mail.getValue();
 		if (!isValidEmail(email)) {
 			new Notification({
-				headTitle: 'Ошибка валидации',
+				headTitle: 'Некорректный email',
 				title: 'Введите корректный email (например: example@mail.com)',
 				isWarning: true,
 				isWithButton: true,
@@ -123,8 +148,8 @@ export class CReg40 extends VBC {
 
 		if (!isValidPhone(phoneNumber)) {
 			new Notification({
-				headTitle: 'Ошибка валидации',
-				title: 'Телефон должен быть в формате (123)4567890',
+				headTitle: 'Некорректный номер телефона',
+				title: 'Телефон должен быть в формате \n0123456789 или 012 345 67 89',
 				isWarning: true,
 				isWithButton: true,
 			}).render();

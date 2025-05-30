@@ -38,7 +38,7 @@ export class VComps extends VBC {
 		this.complaints.forEach(i => {
 			const el = new VComp(
 				i.status === 3,
-				i.status === 0,
+				i.status === -1,
 				i.complaint_by,
 				i.complaint_on,
 				i.complaint_text,
