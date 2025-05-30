@@ -65,6 +65,7 @@ export default class AdminPage extends BasePage {
 				statisticOption.getDOM()?.classList.remove('option-checked');
 				feedbackOption.getDOM()?.classList.remove('option-checked');
 
+				console.log(this.main);
 				const link = ((this.main.getVDOM() as VirtualElement).children[0] as VirtualElement).children;
 				if (link.length == 2) link.pop();
 
@@ -90,7 +91,7 @@ export default class AdminPage extends BasePage {
 					}).render();
 					return;
 				}
-
+				feedbacksData.data.answers = feedbacksData.data.answers.filter(query => query.name == 'CSAT');
 				if (feedbacksData.data.answers === null) {
 					new Notification({
 						headTitle: 'Нет данных',
@@ -186,6 +187,10 @@ export default class AdminPage extends BasePage {
 		this.components[0].render();
 		this.parentElement.appendChild(this.contentWrapper);
 		this.components[1].render();
+
+		const element = ((this.main.getVDOM() as VirtualElement).children[0] as VirtualElement).children;
+		if (element.length == 2) element.pop();
+
 		this.main.render(this.contentWrapper);
 	}
 

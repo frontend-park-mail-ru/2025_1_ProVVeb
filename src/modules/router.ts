@@ -186,10 +186,6 @@ class Router {
 			return;
 		}
 
-		if (currentPath == 'admin') await this.navigateTo(AppPage.Feed);
-		else await this.navigateTo(currentPath);
-		startNotifications();
-
 		const ID = store.getState('myID') as number;
 		const data = await api.getProfile(ID);
 		const ava = api.BASE_URL_PHOTO + (data?.data?.photos[0] ?? '');
@@ -203,6 +199,10 @@ class Router {
 		if (data?.data?.isMale != undefined) { store.setState('isMale', data?.data?.isMale); }
 		if (isPremium != undefined) { store.setState('isPremium', isPremium); store.setState('premiumBorder', premiumBorder); }
 		if (isAdmin != undefined) { store.setState('isAdmin', isAdmin); }
+
+		if (currentPath == 'admin') await this.navigateTo(AppPage.Feed);
+		else await this.navigateTo(currentPath);
+		startNotifications();
 	}
 
 	private checkCookie(page: AppPage): AppPage {

@@ -21,8 +21,6 @@ export class VAdminComp extends VBC {
 		const input = new VSearchInputComp(async () => {
 			const input = document.querySelector('.searchInput__input') as HTMLInputElement;
 			const selectedStatus = document.querySelector('input[name="gender"]:checked') as HTMLInputElement;
-			console.log('input.value', input.value)
-			console.log('selectedStatus.value', selectedStatus.value)
 
 			const complaintsData = await api.findComplaints(
 				undefined,

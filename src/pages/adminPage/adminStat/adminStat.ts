@@ -27,54 +27,54 @@ export class VAdminStat extends VBC {
 		`;
 		const data1 = [
 			{
-				key: new VBC(`<div class='a-total-key'>Общее количество:</div>`, `.a-total-key {${style}}`),
-				value: new VBC(`<div class='a-total-value'>${values.A_Total}</div>`, `.a-total-value {${style}}`)
+				key: new VBC(`<div class='a-total-key'>Общее количество:</div>`, {}, `.a-total-key {${style}}`),
+				value: new VBC(`<div class='a-total-value'>${values.A_Total}</div>`, {}, `.a-total-value {${style}}`)
 			},
 			{
-				key: new VBC(`<div class='a-avgScore-key'>Средняя оценка:</div>`, `.a-avgScore-key {${style}}`),
-				value: new VBC(`<div class='a-avgScore-value'>${values.A_AverageScore}</div>`, `.a-avgScore-value {${style}}`)
+				key: new VBC(`<div class='a-avgScore-key'>Средняя оценка:</div>`, {}, `.a-avgScore-key {${style}}`),
+				value: new VBC(`<div class='a-avgScore-value'>${values.A_AverageScore}</div>`, {}, `.a-avgScore-value {${style}}`)
 			},
 			{
-				key: new VBC(`<div class='a-minScore-key'>Минимальная оценка:</div>`, `.a-minScore-key {${style}}`),
-				value: new VBC(`<div class='a-minScore-value'>${values.A_MinScore}</div>`, `.a-minScore-value {${style}}`)
+				key: new VBC(`<div class='a-minScore-key'>Минимальная оценка:</div>`, {}, `.a-minScore-key {${style}}`),
+				value: new VBC(`<div class='a-minScore-value'>${values.A_MinScore}</div>`, {}, `.a-minScore-value {${style}}`)
 			},
 			{
-				key: new VBC(`<div class='a-maxScore-key'>Максимальная оценка:</div>`, `.a-maxScore-key {${style}}`),
-				value: new VBC(`<div class='a-maxScore-value'>${values.A_MaxScore}</div>`, `.a-maxScore-value {${style}}`)
+				key: new VBC(`<div class='a-maxScore-key'>Максимальная оценка:</div>`, {}, `.a-maxScore-key {${style}}`),
+				value: new VBC(`<div class='a-maxScore-value'>${values.A_MaxScore}</div>`, {}, `.a-maxScore-value {${style}}`)
 			}
 		];
 		const data2 = [
 			{
-				key: new VBC(`<div class='c-total-key'>Общее количество:</div>`, `.c-total-key {${style}}`),
-				value: new VBC(`<div class='c-total-value'>${values.C_Total}</div>`, `.c-total-value {${style}}`)
+				key: new VBC(`<div class='c-total-key'>Общее количество:</div>`, {}, `.c-total-key {${style}}`),
+				value: new VBC(`<div class='c-total-value'>${values.C_Total}</div>`, {}, `.c-total-value {${style}}`)
 			},
 			{
-				key: new VBC(`<div class='c-rejected-key'>Количество отклоненных:</div>`, `.c-rejected-key {${style}}`),
-				value: new VBC(`<div class='c-rejected-value'>${values.C_Rejected}</div>`, `.c-rejected-value {${style}}`)
+				key: new VBC(`<div class='c-rejected-key'>Количество отклоненных:</div>`, {}, `.c-rejected-key {${style}}`),
+				value: new VBC(`<div class='c-rejected-value'>${values.C_Rejected}</div>`, {}, `.c-rejected-value {${style}}`)
 			},
 			{
-				key: new VBC(`<div class='c-pending-key'>Количество текущих жалоб:</div>`, `.c-pending-key {${style}}`),
-				value: new VBC(`<div class='c-pending-value'>${values.C_Pending}</div>`, `.c-pending-value {${style}}`)
+				key: new VBC(`<div class='c-pending-key'>Количество текущих жалоб:</div>`, {}, `.c-pending-key {${style}}`),
+				value: new VBC(`<div class='c-pending-value'>${values.C_Pending}</div>`, {}, `.c-pending-value {${style}}`)
 			},
 			{
-				key: new VBC(`<div class='c-approved-key'>Количество обработанных:</div>`, `.c-approved-key {${style}}`),
-				value: new VBC(`<div class='c-approved-value'>${values.C_Approved}</div>`, `.c-approved-value {${style}}`)
+				key: new VBC(`<div class='c-approved-key'>Количество обработанных:</div>`, {}, `.c-approved-key {${style}}`),
+				value: new VBC(`<div class='c-approved-value'>${values.C_Approved}</div>`, {}, `.c-approved-value {${style}}`)
 			},
 			{
-				key: new VBC(`<div class='c-totalBy-key'>Количество обвинителей:</div>`, `.c-totalBy-key {${style}}`),
-				value: new VBC(`<div class='c-totalBy-value'>${values.С_TotalBy}</div>`, `.c-totalBy-value {${style}}`)
+				key: new VBC(`<div class='c-totalBy-key'>Количество обвинителей:</div>`, {}, `.c-totalBy-key {${style}}`),
+				value: new VBC(`<div class='c-totalBy-value'>${values.С_TotalBy}</div>`, {}, `.c-totalBy-value {${style}}`)
 			},
 			{
-				key: new VBC(`<div class='c-totalOn-key'>Количество обвиняемых:</div>`, `.c-totalOn-key {${style}}`),
-				value: new VBC(`<div class='c-totalOn-value'>${values.C_TotalOn}</div>`, `.c-totalOn-value {${style}}`)
+				key: new VBC(`<div class='c-totalOn-key'>Количество обвиняемых:</div>`, {}, `.c-totalOn-key {${style}}`),
+				value: new VBC(`<div class='c-totalOn-value'>${values.C_TotalOn}</div>`, {}, `.c-totalOn-value {${style}}`)
 			},
 			{
-				key: new VBC(`<div class='c-firstDate-key'>Дата первой жалобы:</div>`, `.c-firstDate-key {${style}}`),
-				value: new VBC(`<div class='c-firstDate-value'>${values.C_FirstComplaint}</div>`, `.c-firstDate-value {${style}}`)
+				key: new VBC(`<div class='c-firstDate-key'>Дата первой жалобы:</div>`, {}, `.c-firstDate-key {${style}}`),
+				value: new VBC(`<div class='c-firstDate-value'>${values.C_FirstComplaint}</div>`, {}, `.c-firstDate-value {${style}}`)
 			},
 			{
-				key: new VBC(`<div class='c-lastDate-key'>Дата последней жалобы:</div>`, `.c-lastDate-key {${style}}`),
-				value: new VBC(`<div class='c-lastDate-value'>${values.C_LastComplaint}</div>`, `.c-lastDate-value {${style}}`)
+				key: new VBC(`<div class='c-lastDate-key'>Дата последней жалобы:</div>`, {}, `.c-lastDate-key {${style}}`),
+				value: new VBC(`<div class='c-lastDate-value'>${values.C_LastComplaint}</div>`, {}, `.c-lastDate-value {${style}}`)
 			},
 		];
 		const main = new Compounder();
@@ -87,7 +87,7 @@ export class VAdminStat extends VBC {
 			gap: 10px;
 		`);
 		const title1 = new VBC(
-			`<p class="title1">Статистика по отзывам</p>`,
+			`<p class="title1">Статистика по отзывам</p>`, {},
 			`.title1 {
 				font-weight: 700;
 				font-size: 20px;
@@ -95,7 +95,7 @@ export class VAdminStat extends VBC {
 			}`
 		);
 		const title2 = new VBC(
-			`<p class="title2">Статистика по жалобам</p>`,
+			`<p class="title2">Статистика по жалобам</p>`, {},
 			`.title2 {
 				font-weight: 700;
 				font-size: 20px;

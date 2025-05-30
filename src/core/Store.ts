@@ -26,8 +26,8 @@ class Store {
 		return this.state[key] as T;
 	}
 
-	public subscribe(key: string, callback: (value: unknown) => void): void {
-		if (!this.listeners[key]) {
+	public subscribe(key: string, callback: (value: unknown) => void, reset = false): void {
+		if (!this.listeners[key] || reset) {
 			this.listeners[key] = [];
 		}
 		this.listeners[key].push(callback);
