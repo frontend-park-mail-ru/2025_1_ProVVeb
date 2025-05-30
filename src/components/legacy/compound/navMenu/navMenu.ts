@@ -142,15 +142,28 @@ export default class NavMenu extends BaseComponent {
 			this.setNotification('matches', data as number);
 		});
 		store.subscribe('isAdmin', (data) => {
-			if (data) return;
+			if (data) {
+				let flag = true;
+				for (let i = 0; i < LINKS.length; i++)
+					if (LINKS[i].title == 'Админка')
+						flag = false;
+				if (flag) LINKS.splice(7, 0, adminLink);
+				return;
+			}
 			const element = document.getElementById('admin_navMenu');
 			if (element)
 				element.style = 'display: none;';
-			LINKS.splice(7, 1);
+			for (let i = 0; i < LINKS.length; i++) {
+				if (LINKS[i].title == 'Админка') {
+					LINKS.splice(i, 1);
+					break;
+				}
+			}
 			const templateHTML = templateHBS({ ...finalParamsHBS, links: LINKS });
 			this.template = templateHTML;
-		});
+		}, true);
 
+		const adminLink = LINKS[7];
 		LINKS.forEach((link) => {
 			if (link.isDev) { return; }
 

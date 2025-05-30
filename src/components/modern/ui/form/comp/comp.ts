@@ -22,7 +22,7 @@ export class VComp extends VBC {
 					eventType: 'click',
 					handler: (event) => {
 						api.handleComplaint(complaint_id, 3);
-						event.target?.closest('.comp-form').remove();
+						event.target?.closest('.comp-form').classList.add('comp-form--resolved');
 					}
 				},
 				{
@@ -30,7 +30,7 @@ export class VComp extends VBC {
 					eventType: 'click',
 					handler: (event) => {
 						api.handleComplaint(complaint_id, 0);
-						event.target?.closest('.comp-form').remove();
+						event.target?.closest('.comp-form').classList.add('comp-form--rejected');
 					}
 				}
 			]

@@ -76,6 +76,7 @@ export function toPrimeClass(border: number): string {
 }
 
 export function formatISODate(isoString: string) {
+	if (isoString == 'N/A') return isoString;
 	const date = new Date(isoString);
 	const pad = (num) => num.toString().padStart(2, '0');
 

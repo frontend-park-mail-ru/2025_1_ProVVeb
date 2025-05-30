@@ -14,17 +14,17 @@ export class VSearchInputComp extends VBC {
 					handler: (e: Event) => this.handleFilterToggle(e)
 				},
 				{
-					selector: '.searchInput__buttonContainer',
+					selector: '#searchInput__buttonContainer-C',
 					eventType: 'click',
 					handler: onClickSearchBtn,
 				},
 				{
-					selector: '.searchInput__clearButton',
+					selector: '#searchInput__clearButton-C',
 					eventType: 'click',
 					handler: onClickClearBtn,
 				},
 				{
-					selector: '.searchInput__input',
+					selector: '#searchInput__input-C',
 					eventType: 'keydown',
 					handler: (e: Event) => {
 						const event = e as KeyboardEvent;

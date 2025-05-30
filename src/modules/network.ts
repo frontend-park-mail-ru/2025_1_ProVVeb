@@ -1,3 +1,5 @@
+import { formatISODate } from "./utils";
+
 // const IP = 'localhost';
 // const BASE_URL = `http://${IP}/api`;
 // const BASE_URL_PHOTO = `http://${IP}/img/profile-photos`;
@@ -404,11 +406,11 @@ async function getStat() {
 			C_Total: data1.total_complaints || 0,
 			C_Rejected: data1.rejected || 0,
 			C_Pending: data1.pending || 0,
-			C_Approved: data1.approved || 0,
-			С_TotalBy: data1.reported || 0,
-			C_TotalOn: data1.complaints || 0,
-			C_FirstComplaint: data1.first_complaint || 'N/A',
-			C_LastComplaint: data1.last_complaint || 'N/A'
+			C_Approved: data1.closed || 0,
+			С_TotalBy: data1.total_complainants || 0,
+			C_TotalOn: data1.total_reported || 0,
+			C_FirstComplaint: formatISODate(data1.first_complaint || 'N/A'),
+			C_LastComplaint: formatISODate(data1.last_complaint || 'N/A')
 		}
 	}
 }

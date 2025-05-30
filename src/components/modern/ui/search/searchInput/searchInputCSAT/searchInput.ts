@@ -1,5 +1,6 @@
 import { VBC } from '@VDOM/VBC';
 import templateHBS from './searchInput.hbs';
+import store from '@store';
 
 export class VSearchInputCSAT extends VBC {
 	constructor(onClickSearchBtn: () => void, onClickClearBtn: () => void) {
@@ -19,17 +20,17 @@ export class VSearchInputCSAT extends VBC {
 					handler: () => this.handleSliderChange('age')
 				},
 				{
-					selector: '.searchInput__buttonContainer',
+					selector: '#searchInput__buttonContainer-Q',
 					eventType: 'click',
 					handler: onClickSearchBtn,
 				},
 				{
-					selector: '.searchInput__clearButton',
+					selector: '#searchInput__clearButton-Q',
 					eventType: 'click',
 					handler: onClickClearBtn,
 				},
 				{
-					selector: '.searchInput__input',
+					selector: '#searchInput__input-Q',
 					eventType: 'keydown',
 					handler: (e: Event) => {
 						const event = e as KeyboardEvent;
@@ -49,6 +50,10 @@ export class VSearchInputCSAT extends VBC {
 		const minValue = document.getElementById(`${type}MinValue`) as HTMLInputElement;
 		const maxValue = document.getElementById(`${type}MaxValue`) as HTMLInputElement;
 		const trackFill = document.querySelector(`.${type}-slider .slider-track-fill`) as HTMLElement;
+
+		store.setState('minValueFilter', minValue);
+		store.setState('maxValueFilter', maxValue);
+
 		this.updateDoubleSlider(minSlider, maxSlider, minValue, maxValue, trackFill);
 	}
 
