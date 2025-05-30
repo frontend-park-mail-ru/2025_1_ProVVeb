@@ -72,8 +72,8 @@ export class CRegFinish extends VBC {
 		this.setID();
 	}
 
-	public submit() {
+	public async submit() {
 		router.navigateTo(AppPage.Feed);
-		startNotifications();
+		await startNotifications();
 	}
 }

@@ -2,6 +2,7 @@ import Button from '@pattern/button/button';
 import api from '@network';
 import router, { AppPage } from '@router';
 import Notification from '@notification';
+import store from '@store';
 
 interface ButtonListenParams {
 	eventType: string;
@@ -25,6 +26,8 @@ const DEFAULT_LOGOUT_PARAMS_BUTTON: LogoutButtonParams = {
 			api.logoutUser()
 				.then(() => {
 					router.navigateTo(AppPage.Auth);
+					const ws = store.getState('notificationWS') as WebSocket;
+					if (ws != undefined) ws.close();
 				})
 				.catch(() => {
 					new Notification({

@@ -48,7 +48,7 @@ DEFAULT_AUTH_PARAMS_BUTTON.listenButton = {
 					if (isPremium != undefined) { store.setState('isPremium', isPremium); store.setState('premiumBorder', premiumBorder); }
 
 					await router.navigateTo(AppPage.Feed);
-					startNotifications();
+					await startNotifications();
 				} else {
 					const JSONans = JSON.parse(respond.message as string);
 

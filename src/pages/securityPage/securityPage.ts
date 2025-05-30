@@ -42,9 +42,18 @@ export default class SecurityPage extends BasePage {
 	}
 
 	async render() {
+		this.premium.delete();
+		this.danger.delete();
+		this.main.delete();
+
 		this.premium.clear();
 		this.danger.clear();
 		this.main.clear();
+
+		this.contentWrapper.innerHTML = '';
+		this.components[0].render();
+		this.parentElement.appendChild(this.contentWrapper);
+		this.components[1].render();
 
 		const userId = store.getState('myID');
 		const response = await api.getProfile(userId as number);
@@ -130,6 +139,8 @@ export default class SecurityPage extends BasePage {
 				.then(() => {
 					store.setState('inSession', false);
 					router.navigateTo(AppPage.Auth);
+					const ws = store.getState('notificationWS') as WebSocket;
+					if (ws != undefined) ws.close();
 				})
 				.catch(() => {
 					new Notification({
@@ -163,6 +174,8 @@ export default class SecurityPage extends BasePage {
 				api.deleteUser(store.getState('myID') as number).then(() => {
 					store.setState('inSession', false);
 					router.navigateTo(AppPage.Auth);
+					const ws = store.getState('notificationWS') as WebSocket;
+					if (ws != undefined) ws.close();
 				});
 			}
 		});
@@ -181,16 +194,13 @@ export default class SecurityPage extends BasePage {
 
 		this.danger.add(outButton).add(deleteButton);
 
-		this.contentWrapper.innerHTML = '';
-		this.components[0].render();
-		this.parentElement.appendChild(this.contentWrapper);
-		this.components[1].render();
-
 		this.main.addTo(this.contentWrapper);
 
-		store.update('ava');
-		store.update('profileName');
-		store.update('premiumBorder');
+		// store.update('profileName');
+		// store.update('ava');
+		// store.update('premiumBorder');
+		// store.update('isAdmin');
+		// store.update('isPremium');
 	}
 
 	public getNavMenu(): NavMenu {
