@@ -95,7 +95,7 @@ export class CReg20 extends VBC {
 	public async submit(): Promise<boolean> {
 		const profile = store.getState('myProfile') as any;
 
-		const firstName = this.name.getValue();
+		const firstName = this.name.getValue().trim();
 		if (!isValidName(firstName)) {
 			new Notification({
 				headTitle: 'Некорректное имя',
@@ -106,7 +106,7 @@ export class CReg20 extends VBC {
 			return false;
 		}
 
-		const lastName = this.surname.getValue();
+		const lastName = this.surname.getValue().trim();
 		if (!isValidSurname(lastName)) {
 			new Notification({
 				headTitle: 'Некорректная фамилия',

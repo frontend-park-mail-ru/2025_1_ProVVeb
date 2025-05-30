@@ -91,10 +91,9 @@ export class CReg40 extends VBC {
 		const user = store.getState('myUser') as any;
 		const profile = store.getState('myProfile') as any;
 
-		const country = this.country.getValue();
-		const city = this.city.getValue();
-		const district = this.district.getValue();
-
+		const country = this.country.getValue().trim();
+		const city = this.city.getValue().trim();
+		const district = this.district.getValue().trim();
 
 		const countryValidation = validLocation(country);
 		if (!countryValidation.isValid) {
@@ -131,7 +130,7 @@ export class CReg40 extends VBC {
 
 		profile.location = `${country}@${city}@${district}`;
 
-		const email = this.mail.getValue();
+		const email = this.mail.getValue().trim();
 		if (!isValidEmail(email)) {
 			new Notification({
 				headTitle: 'Некорректный email',
@@ -143,13 +142,13 @@ export class CReg40 extends VBC {
 		}
 
 		const phonePrefix = this.list.getDOM()?.textContent?.split(' ')[1] || '';
-		const phoneNumber = this.phone.getValue();
+		const phoneNumber = this.phone.getValue().trim();
 		const fullPhone = phonePrefix + phoneNumber;
 
 		if (!isValidPhone(phoneNumber)) {
 			new Notification({
 				headTitle: 'Некорректный номер телефона',
-				title: 'Телефон должен быть в формате \n0123456789 или 012 345 67 89',
+				title: 'Телефон должен быть в формате 0123456789 или 012 345 67 89',
 				isWarning: true,
 				isWithButton: true,
 			}).render();

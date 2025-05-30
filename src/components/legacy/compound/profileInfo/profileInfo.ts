@@ -345,7 +345,7 @@ export default class ProfileInfoCard extends BaseComponent {
 					const response = await api.uploadPhotos(store.getState('myID') as number, newPhotos);
 
 					if (response.success && response.data) {
-						const uploadedFiles = response.data.uploaded_files || [];
+						const uploadedFiles = response.data.sucessful_uploads || [];
 
 						let uploadedIndex = 0;
 						this.currentPhotos = this.currentPhotos.map((photo) => {
@@ -509,7 +509,7 @@ export default class ProfileInfoCard extends BaseComponent {
 			const response = await api.getProfile(userId as number);
 
 			if (response.success && response.data) {
-				this.updateTemplate(response.data);
+				await this.updateTemplate(response.data);
 			} else {
 				this.showErrorState('Ошибка загрузки профиля', () => this.render());
 			}
@@ -520,7 +520,7 @@ export default class ProfileInfoCard extends BaseComponent {
 		document.querySelectorAll<HTMLButtonElement>('.editBtn').forEach((btn) => {
 			btn.addEventListener('click', function () {
 				let type: string;
-
+				console.log(this.classList, 'Я ТУТЫ');
 				if (this.classList.contains('editBtn--name')) {
 					type = 'name';
 				} else if (this.classList.contains('editBtn--about')) {

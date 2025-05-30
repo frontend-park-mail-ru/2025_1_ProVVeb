@@ -74,8 +74,8 @@ export default class SearchPage extends BasePage {
 				ageMax: !Number.isNaN(Number(ageMax.value)) ? Number(ageMax.value) : 125,
 				heightMin: !Number.isNaN(Number(heightMin.value)) ? Number(heightMin.value) : 100,
 				heightMax: !Number.isNaN(Number(heightMax.value)) ? Number(heightMax.value) : 250,
-				country: country.value.trim(),
-				city: city.value.trim(),
+				country: '', // country.value.trim(),
+				city: '', // city.value.trim(),
 
 			});
 
@@ -174,7 +174,7 @@ export default class SearchPage extends BasePage {
 		console.log('response.data', response.data)
 		return {
 			success: true,
-			data: response.data.map((profile) => new VSearchItem(
+			data: response.data.slice(0, 10).map((profile) => new VSearchItem(
 				api.BASE_URL_PHOTO + profile.firstImgSrc,
 				profile.fullname,
 				profile.age

@@ -114,7 +114,7 @@ const EMOJI = /^[^\p{Extended_Pictographic}]*$/u;
 export const LOGIN_RULES: ValidatorRule[] = [
 	{
 		reg: /^[a-zA-Z0-9._]+$/,
-		message: 'Логин должен содержать латинские буквы, цифры, точку и нижнее подчеркивание',
+		message: 'Логин может содержать латинские буквы, цифры, точку и нижнее подчеркивание',
 	},
 	{
 		reg: EMOJI,
@@ -137,7 +137,7 @@ export const LOGIN_RULES: ValidatorRule[] = [
 export const LOGIN_BRIEF_RULES: ValidatorRule[] = [
 	{
 		reg: /^[a-zA-Z0-9._]+$/,
-		message: 'Логин должен содержать латинские буквы, цифры, точку и нижнее подчеркивание',
+		message: 'Логин может содержать латинские буквы, цифры, точку и нижнее подчеркивание',
 	},
 	{
 		reg: EMOJI,

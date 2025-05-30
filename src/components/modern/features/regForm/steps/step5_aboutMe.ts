@@ -36,11 +36,11 @@ export class CReg80_3 extends VBC {
 	public async submit(page?: CReg100): Promise<boolean> {
 		const buffer = store.getState('myProfile') as any;
 
-		const description = this.comp.getValue();
+		const description = this.comp.getValue().trim();
 		if (description === '') {
 			new Notification({
-				headTitle: 'Ошибка валидации',
-				title: 'Описание обязательное поле',
+				headTitle: 'Пустое описание',
+				title: 'Описание обязательный этап регистрации',
 				isWarning: true,
 				isWithButton: true,
 			}).render();

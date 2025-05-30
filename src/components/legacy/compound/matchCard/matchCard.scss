@@ -12,6 +12,7 @@
 	box-sizing: border-box;
 	transition: border-color 0.3s ease;
 	overflow: hidden;
+	padding: 6px;
 
 	&:hover {
 		border-color: #FE3675;
@@ -23,6 +24,7 @@
 		border-radius: 10px;
 		overflow: hidden;
 		flex-shrink: 0;
+		width: 28%;
 	}
 
 	&__img {
@@ -112,7 +114,7 @@
 		border-radius: 25px;
 		padding: 5px 9px;
 		transition: all 0.3s ease;
-		cursor: pointer;
+		user-select: none;
 
 		&:hover {
 			color: #FE3675;

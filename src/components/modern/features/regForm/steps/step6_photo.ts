@@ -36,7 +36,7 @@ export class CReg100 extends VBC {
 			const response = await api.uploadPhotos(store.getState('myID') as number, newPhotos);
 
 			if (response.success && response.data) {
-				const uploadedFiles = response.data.failed_uploads || [];
+				const uploadedFiles = response.data.sucessful_uploads || [];
 				console.log('uploadedFiles', uploadedFiles, uploadedFiles.length)
 				new Notification({
 					headTitle: 'Успех!',
