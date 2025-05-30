@@ -167,6 +167,11 @@ class Router {
 
 		await this.renderPage(page, state);
 
+		if (page != AppPage.Messenger) {
+			const ws = store.getState('currentChatWS') as WebSocket;
+			if (ws != undefined) ws.close(4000, 'manual');
+		}
+
 		store.update('profileName');
 		store.update('ava');
 		store.update('premiumBorder');
@@ -201,9 +206,9 @@ class Router {
 		if (isPremium != undefined) { store.setState('isPremium', isPremium); store.setState('premiumBorder', premiumBorder); }
 		if (isAdmin != undefined) { store.setState('isAdmin', isAdmin); }
 
+		await startNotifications();
 		if (currentPath == 'admin') await this.navigateTo(AppPage.Feed);
 		else await this.navigateTo(currentPath);
-		startNotifications();
 	}
 
 	private checkCookie(page: AppPage): AppPage {

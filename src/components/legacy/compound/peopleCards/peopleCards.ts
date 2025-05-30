@@ -34,6 +34,13 @@ export default class PeopleCards extends BaseComponent {
 	}
 
 	private async loadData(): Promise<void> {
+		if (this.currentIndex == this.CARDS.length) {
+			this.currentIndex = 0;
+			this.CARDS = [];
+			this.isDataLoaded = false;
+			this.currentCard = null;
+			this.canGoBack = false;
+		}
 		if (!this.isDataLoaded) {
 			const response = await api.getProfiles(store.getState('myID') as number);
 			this.CARDS = response.data.profiles || [];
@@ -132,7 +139,7 @@ export default class PeopleCards extends BaseComponent {
 		this.canGoBack = true;
 
 		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
-		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
+		this.currentIndex = this.currentIndex + 1;
 		await this.render();
 
 		if (btns) {
@@ -155,7 +162,7 @@ export default class PeopleCards extends BaseComponent {
 		this.canGoBack = true;
 
 		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
-		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
+		this.currentIndex = this.currentIndex + 1;
 		await this.render();
 
 		if (btns) {
@@ -196,7 +203,7 @@ export default class PeopleCards extends BaseComponent {
 
 		await api.SuperLike(likeFrom, likeTo);
 		this.canGoBack = false;
-		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
+		this.currentIndex = this.currentIndex + 1;
 		router.navigateTo(AppPage.Matches);
 	}
 
@@ -218,7 +225,7 @@ export default class PeopleCards extends BaseComponent {
 		this.canGoBack = false;
 
 		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
-		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
+		this.currentIndex = this.currentIndex + 1;
 		await this.render();
 
 		if (btns) {
