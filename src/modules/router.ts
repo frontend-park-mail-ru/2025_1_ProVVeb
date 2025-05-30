@@ -171,6 +171,7 @@ class Router {
 		store.update('ava');
 		store.update('premiumBorder');
 		store.update('isAdmin');
+		store.update('isPremium');
 	}
 
 	public async start() {

@@ -11,6 +11,7 @@ import api from '@network';
 import store from '@store';
 import Notification from '@simple/notification/notification';
 import { statistic_params, VAdminStat } from './adminStat/adminStat';
+import { formatISODate } from "@modules/utils";
 
 export default class AdminPage extends BasePage {
 	private components: Array<HeaderMain | NavMenu>;
@@ -65,7 +66,6 @@ export default class AdminPage extends BasePage {
 				statisticOption.getDOM()?.classList.remove('option-checked');
 				feedbackOption.getDOM()?.classList.remove('option-checked');
 
-				console.log(this.main);
 				const link = ((this.main.getVDOM() as VirtualElement).children[0] as VirtualElement).children;
 				if (link.length == 2) link.pop();
 
@@ -91,7 +91,7 @@ export default class AdminPage extends BasePage {
 					}).render();
 					return;
 				}
-				feedbacksData.data.answers = feedbacksData.data.answers.filter(query => query.name == 'CSAT');
+
 				if (feedbacksData.data.answers === null) {
 					new Notification({
 						headTitle: 'Нет данных',
@@ -133,7 +133,23 @@ export default class AdminPage extends BasePage {
 					return;
 				}
 
-				const pageStat = new VAdminStat(statisticData.data as statistic_params);
+				const formattedData = {
+					A_Total: statisticData.queriesData?.TotalAnswers || 0,
+					A_AverageScore: statisticData.queriesData?.AverageScore || 0,
+					A_MinScore: statisticData.queriesData?.MinScore || 0,
+					A_MaxScore: statisticData.queriesData?.MaxScore || 0,
+
+					C_Total: statisticData.complaintsData?.total_complaints || 0,
+					C_Rejected: statisticData.complaintsData?.rejected || 0,
+					C_Pending: statisticData.complaintsData?.pending || 0,
+					C_Approved: statisticData.complaintsData?.closed || 0,
+					С_TotalBy: statisticData.complaintsData?.total_complainants || 0,
+					C_TotalOn: statisticData.complaintsData?.total_reported || 0,
+					C_FirstComplaint: formatISODate(statisticData.complaintsData?.first_complaint || 'N/A'),
+					C_LastComplaint: formatISODate(statisticData.complaintsData?.last_complaint || 'N/A')
+				};
+
+				const pageStat = new VAdminStat(formattedData as statistic_params);
 				complaintsOption.getDOM()?.classList.remove('option-checked');
 				feedbackOption.getDOM()?.classList.remove('option-checked');
 				statisticOption.getDOM()?.classList.add('option-checked');
@@ -187,10 +203,6 @@ export default class AdminPage extends BasePage {
 		this.components[0].render();
 		this.parentElement.appendChild(this.contentWrapper);
 		this.components[1].render();
-
-		const element = ((this.main.getVDOM() as VirtualElement).children[0] as VirtualElement).children;
-		if (element.length == 2) element.pop();
-
 		this.main.render(this.contentWrapper);
 	}
 

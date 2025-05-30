@@ -39,7 +39,7 @@ export class CReg60 extends VBC {
             flex-wrap: wrap;
             align-items: center;
             align-content: flex-start;
-            gap: 5px;
+            gap: 10px;
         `);
 		for (const i of intereses) {
 			main.add(i);

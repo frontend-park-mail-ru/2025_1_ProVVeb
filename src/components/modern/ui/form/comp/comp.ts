@@ -29,7 +29,7 @@ export class VComp extends VBC {
 					selector: '.buttons__deny',
 					eventType: 'click',
 					handler: (event) => {
-						api.handleComplaint(complaint_id, 0);
+						api.handleComplaint(complaint_id, -1);
 						event.target?.closest('.comp-form').classList.add('comp-form--rejected');
 					}
 				}

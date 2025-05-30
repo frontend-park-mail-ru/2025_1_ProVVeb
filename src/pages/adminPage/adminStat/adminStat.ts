@@ -32,7 +32,7 @@ export class VAdminStat extends VBC {
 			},
 			{
 				key: new VBC(`<div class='a-avgScore-key'>Средняя оценка:</div>`, {}, `.a-avgScore-key {${style}}`),
-				value: new VBC(`<div class='a-avgScore-value'>${values.A_AverageScore}</div>`, {}, `.a-avgScore-value {${style}}`)
+				value: new VBC(`<div class='a-avgScore-value'>${Number(Number(values.A_AverageScore).toFixed(2))}</div>`, {}, `.a-avgScore-value {${style}}`)
 			},
 			{
 				key: new VBC(`<div class='a-minScore-key'>Минимальная оценка:</div>`, {}, `.a-minScore-key {${style}}`),

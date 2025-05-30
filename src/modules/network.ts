@@ -1,5 +1,3 @@
-import { formatISODate } from "./utils";
-
 // const IP = '213.219.214.83';
 const IP = 'localhost';
 // const IP = 'beameye.ru';
@@ -389,31 +387,14 @@ function getStatQueries() {
 }
 
 async function getStat() {
-	const raw_data1 = await getStatComplaints() as any;
-	const raw_data2 = await getStatQueries() as any;
-
-	const success = raw_data1.success && raw_data2.success;
-	const data1 = raw_data1.data;
-	const data2 = raw_data2.data;
+	const raw_data1 = await getStatComplaints();
+	const raw_data2 = await getStatQueries();
 
 	return {
-		success,
-		data: {
-			A_Total: data2.TotalAnswers || 0,
-			A_AverageScore: data2.AverageScore || 0,
-			A_MinScore: data2.MinScore || 0,
-			A_MaxScore: data2.MaxScore || 0,
-
-			C_Total: data1.total_complaints || 0,
-			C_Rejected: data1.rejected || 0,
-			C_Pending: data1.pending || 0,
-			C_Approved: data1.closed || 0,
-			С_TotalBy: data1.total_complainants || 0,
-			C_TotalOn: data1.total_reported || 0,
-			C_FirstComplaint: formatISODate(data1.first_complaint || 'N/A'),
-			C_LastComplaint: formatISODate(data1.last_complaint || 'N/A')
-		}
-	}
+		success: raw_data1.success && raw_data2.success,
+		complaintsData: raw_data1.success ? raw_data1.data : null,
+		queriesData: raw_data2.success ? raw_data2.data : null
+	};
 }
 
 export default {

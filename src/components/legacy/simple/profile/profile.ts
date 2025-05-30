@@ -37,7 +37,8 @@ export default class Profile extends BaseComponent {
 		});
 		store.subscribe('premiumBorder', (newPremiumBorder: unknown) => {
 			const photoBlock = parentElement.querySelector('.profile__photoBlock');
-			if (photoBlock) {
+
+			if (store.getState('isPremium') && photoBlock) {
 				photoBlock.className = `profile__photoBlock ${toPrimeClass(newPremiumBorder as number)}`;
 			}
 		});
