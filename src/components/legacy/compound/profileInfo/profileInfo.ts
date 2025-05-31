@@ -417,10 +417,12 @@ export default class ProfileInfoCard extends BaseComponent {
 			: 'Не указан';
 
 		if (data.photos && data.photos.length > 0) {
-			this.initialPhotosFromData = data.photos.map((photo: string) => ({
-				id: this.generateId(),
-				src: api.BASE_URL_PHOTO + photo
-			}));
+			this.initialPhotosFromData = data.photos
+				.slice(0, DEFAULT_PARAMS_PROFILE_INFO.maxPhotos)
+				.map((photo: string) => ({
+					id: this.generateId(),
+					src: api.BASE_URL_PHOTO + photo
+				}));
 
 			this.currentPhotos = [
 				...this.initialPhotosFromData,
@@ -522,7 +524,6 @@ export default class ProfileInfoCard extends BaseComponent {
 		document.querySelectorAll<HTMLButtonElement>('.editBtn').forEach((btn) => {
 			btn.addEventListener('click', function () {
 				let type: string;
-				console.log(this.classList, 'Я ТУТЫ');
 				if (this.classList.contains('editBtn--name')) {
 					type = 'name';
 				} else if (this.classList.contains('editBtn--about')) {
@@ -786,7 +787,61 @@ export default class ProfileInfoCard extends BaseComponent {
 					}
 
 					if ('Локация' in updatedData) {
-						apiData.location = updatedData['Локация'].split(', ').join('@');
+						const locationValue = updatedData['Локация']?.trim();
+
+						if (!locationValue) {
+							new Notification({
+								headTitle: 'Пустая локация',
+								title: 'Укажите локацию в формате: Страна, Город, Район',
+								isWarning: false,
+								isWithButton: true,
+							}).render();
+							return;
+						}
+
+						const parts = locationValue.split(',').map(part => part.trim());
+
+						if (parts.length < 3) {
+							new Notification({
+								headTitle: 'Неполная локация',
+								title: `Недостаточно данных (${parts.length} из 3). Требуется: Страна, Город, Район`,
+								isWarning: false,
+								isWithButton: true,
+							}).render();
+							return;
+						}
+
+
+						if (parts.length > 3) {
+							new Notification({
+								headTitle: 'Избыточные локация',
+								title: `Обнаружено ${parts.length} частей вместо 3. Требуется: Страна, Город, Район`,
+								isWarning: false,
+								isWithButton: true,
+							}).render();
+							return;
+						}
+
+						const emptyParts = parts.reduce((acc, part, index) => {
+							if (!part) {
+								acc.push(['Страна', 'Город', 'Район'][index]);
+							}
+							return acc;
+						}, []);
+
+						if (emptyParts.length > 0) {
+							new Notification({
+								headTitle: 'Пустые значения в локации',
+								title: `Не заполнены: ${emptyParts.join(', ')}`,
+								isWarning: false,
+								isWithButton: true,
+							}).render();
+							return;
+						}
+
+						apiData.location = parts.join('@');
+
+						// apiData.location = updatedData['Локация'].split(', ').join('@');
 					}
 
 					try {
