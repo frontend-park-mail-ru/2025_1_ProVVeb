@@ -389,6 +389,8 @@ export default class ProfileInfoCard extends BaseComponent {
 						notification.render();
 					}
 				} catch (error) {
+					console.log("1 ");
+					console.log("1 ");
 					this.showErrorState('Ошибка соединения', () => this.render());
 					const notification = new Notification({
 						headTitle: 'Что-то пошло не так...',
@@ -517,6 +519,8 @@ export default class ProfileInfoCard extends BaseComponent {
 				this.showErrorState('Ошибка загрузки профиля', () => this.render());
 			}
 		} catch (error) {
+			console.log("1 ");
+			console.log("1 ");
 			this.showErrorState('Ошибка соединения', () => this.render());
 		}
 
