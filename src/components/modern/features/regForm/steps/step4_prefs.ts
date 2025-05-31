@@ -262,8 +262,10 @@ export class CReg80 extends VBC {
 
 		if (!isMy) {
 			profile.preferences = this.insert();
-		} else if (profile.data) {
-			profile.data = this.insert();
+		} else if (profile.parameters) {
+			const arr = this.insert();
+			profile.parameters = arr;
+			profile.height = Number(arr[3].preference_value || "180");
 		}
 
 		store.setState('myProfile', profile);

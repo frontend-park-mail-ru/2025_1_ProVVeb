@@ -157,6 +157,7 @@ export default class StepPage extends BasePage {
 			interests: [],
 			likedBy: [],
 			preferences: [],
+			parameters: [],
 			photos: []
 		};
 		store.setState('myProfile', profile);

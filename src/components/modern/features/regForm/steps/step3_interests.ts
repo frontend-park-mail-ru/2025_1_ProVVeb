@@ -44,7 +44,7 @@ export class CReg60 extends VBC {
 		for (const i of intereses) {
 			main.add(i);
 		}
-		main.add(add);
+		// main.add(add);
 
 		super(main.getTemplate());
 		this.vdom = main.getVDOM();
