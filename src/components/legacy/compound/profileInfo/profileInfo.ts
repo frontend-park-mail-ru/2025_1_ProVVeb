@@ -423,6 +423,10 @@ export default class ProfileInfoCard extends BaseComponent {
 				src: api.BASE_URL_PHOTO + photo
 			}));
 
+			console.log(DEFAULT_PARAMS_PROFILE_INFO.maxPhotos);
+			console.log(this.initialPhotosFromData.length);
+			console.log(DEFAULT_PARAMS_PROFILE_INFO.maxPhotos - this.initialPhotosFromData.length);
+
 			this.currentPhotos = [
 				...this.initialPhotosFromData,
 				...Array(DEFAULT_PARAMS_PROFILE_INFO.maxPhotos - this.initialPhotosFromData.length).fill(null)
