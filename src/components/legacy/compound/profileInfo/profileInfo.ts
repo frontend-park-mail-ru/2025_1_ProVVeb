@@ -520,7 +520,7 @@ export default class ProfileInfoCard extends BaseComponent {
 			}
 		} catch (error) {
 			console.log("1 ");
-			console.log("1 ");
+			console.error('Произошла ошибка:', error);
 			this.showErrorState('Ошибка соединения', () => this.render());
 		}
 
