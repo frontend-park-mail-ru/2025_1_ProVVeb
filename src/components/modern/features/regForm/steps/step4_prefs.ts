@@ -4,6 +4,7 @@ import store from '@store';
 import { VTable } from '@features/table/table';
 import { VInput } from '@ui/input/input';
 import { VCatalog } from '@ui/list/catalog/catalog';
+import Notification from '@simple/notification/notification';
 
 export class CReg80 extends VBC {
 	private data: any;
@@ -127,7 +128,16 @@ export class CReg80 extends VBC {
                         text-align: center;
                         padding-right: 0;
                     }
-                `);
+                `, [
+					{
+						selector: '.inputContainer__input',
+						eventType: 'input',
+						handler: (e: Event) => {
+							const event = e as InputEvent;
+							event.target.value = event.target.value.replace(/\D/g, '').slice(0, 3);
+						}
+					}
+				]);
 			}
 
 			data.push({ key: k, value: v });
@@ -226,7 +236,7 @@ export class CReg80 extends VBC {
 	public updateTemplate(isMy: boolean): void {
 		const profile = store.getState('myProfile') as any;
 		if (isMy && profile.data) {
-			for (const preference of profile.data) {
+			for (const preference of profile.parameters) {
 				this.updateCells(preference);
 			}
 		} else if (!isMy) {
@@ -264,6 +274,19 @@ export class CReg80 extends VBC {
 			profile.preferences = this.insert();
 		} else if (profile.parameters) {
 			const arr = this.insert();
+			let height = Number(arr[3].preference_value);
+			if (height < 100 || height > 250) {
+				if (height != 0) {
+					new Notification({
+						headTitle: "Ты точно человек?",
+						title: "Рост должен быть в пределах от 100 до 250",
+						isWarning: true,
+						isWithButton: true
+					}).render();
+					return false;
+				}
+				height = 180;
+			}
 			profile.parameters = arr;
 			profile.height = Number(arr[3].preference_value || "180");
 		}
