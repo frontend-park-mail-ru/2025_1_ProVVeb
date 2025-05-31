@@ -49,6 +49,11 @@ export default class MessagePage extends BasePage {
 			console.log(event);
 			if (event.code === 1006) {
 				this.rerender();
+				store.update('profileName');
+				store.update('ava');
+				store.update('premiumBorder');
+				store.update('isAdmin');
+				store.update('isPremium');
 			}
 		};
 	}
@@ -202,7 +207,18 @@ export default class MessagePage extends BasePage {
 					}
 				}));
 
+				const textarea1 = document.querySelector<HTMLTextAreaElement>('.chatInput[data-chat-id="2"] textarea');
+				const text = textarea1?.value;
+				const savedStart = textarea1?.selectionStart;
+				const savedEnd = textarea1?.selectionEnd;
+
 				this.chatAreaCompounder.render(this.contentWrapper);
+				const textarea2 = document.querySelector<HTMLTextAreaElement>('.chatInput[data-chat-id="2"] textarea');
+				if (textarea2)
+					textarea2.value = text;
+				if (typeof savedStart === 'number' && typeof savedEnd === 'number')
+					textarea2?.setSelectionRange(savedStart, savedEnd);
+				textarea2?.focus();
 			}
 		});
 
@@ -283,6 +299,8 @@ export default class MessagePage extends BasePage {
 				userItem.update();
 
 				const parent = userItem.getDOM()?.parentElement as HTMLElement;
+
+				if (parent == undefined) return;
 				const element = userItem.getDOM() as HTMLElement;
 				parent.insertBefore(element, parent.firstChild);
 
