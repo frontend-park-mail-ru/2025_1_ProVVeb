@@ -377,8 +377,6 @@ export default class ProfileInfoCard extends BaseComponent {
 							store.setState('ava', this.currentPhotos[0]?.src);
 						}
 					} else {
-						console.log(response.success);
-						console.log(response.data);
 						this.showErrorState('Ошибка загрузки профиля', () => this.render());
 						const notification = new Notification({
 							headTitle: 'Что-то пошло не так...',
@@ -389,8 +387,6 @@ export default class ProfileInfoCard extends BaseComponent {
 						notification.render();
 					}
 				} catch (error) {
-					console.log("1 ");
-					console.log("1 ");
 					this.showErrorState('Ошибка соединения', () => this.render());
 					const notification = new Notification({
 						headTitle: 'Что-то пошло не так...',
@@ -425,11 +421,6 @@ export default class ProfileInfoCard extends BaseComponent {
 					id: this.generateId(),
 					src: api.BASE_URL_PHOTO + photo
 				}));
-
-			console.log(DEFAULT_PARAMS_PROFILE_INFO.maxPhotos);
-			console.log(this.initialPhotosFromData);
-			console.log(this.initialPhotosFromData.length);
-			console.log(DEFAULT_PARAMS_PROFILE_INFO.maxPhotos - this.initialPhotosFromData.length);
 
 			this.currentPhotos = [
 				...this.initialPhotosFromData,
@@ -522,20 +513,15 @@ export default class ProfileInfoCard extends BaseComponent {
 			if (response.success && response.data) {
 				await this.updateTemplate(response.data);
 			} else {
-				console.log(response.success);
-				console.log(response.data);
 				this.showErrorState('Ошибка загрузки профиля', () => this.render());
 			}
 		} catch (error) {
-			console.log("1 ");
-			console.error('Произошла ошибка:', error);
 			this.showErrorState('Ошибка соединения', () => this.render());
 		}
 
 		document.querySelectorAll<HTMLButtonElement>('.editBtn').forEach((btn) => {
 			btn.addEventListener('click', function () {
 				let type: string;
-				console.log(this.classList, 'Я ТУТЫ');
 				if (this.classList.contains('editBtn--name')) {
 					type = 'name';
 				} else if (this.classList.contains('editBtn--about')) {
