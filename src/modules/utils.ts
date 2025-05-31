@@ -1,5 +1,6 @@
 import api from '@network';
 import store from '@store';
+import { AppPage } from './router';
 
 export function parseBirthday(dateStr: string): { year: number; month: number; day: number } | null {
 	try {
@@ -38,17 +39,14 @@ export function startNotifications() {
 		store.setState('notificationWS', notificationWS);
 
 		notificationWS.onopen = () => {
-			console.log('WebSocket открыт');
 			resolve(notificationWS);
 		};
 
 		notificationWS.onerror = (event) => {
-			console.error('Ошибка WebSocket:', event);
 			reject(new Error('Не удалось подключиться к WebSocket'));
 		};
 
 		notificationWS.onclose = (event) => {
-			console.warn('WebSocket закрылся:', event);
 			if (event.code == 1006)
 				startNotifications();
 		};
@@ -71,7 +69,9 @@ export function startNotifications() {
 				}
 			}
 
-			store.setState('notif_messanger', a);
+			const currentPath = window.location.pathname.split('/')[1] as AppPage;
+			if (currentPath != AppPage.Messenger)
+				store.setState('notif_messanger', a);
 			store.setState('notif_matches', b);
 		};
 	});

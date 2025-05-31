@@ -404,9 +404,11 @@ export default class ProfileInfoCard extends BaseComponent {
 		const userId = store.getState('myID');
 		const response = await api.getProfile(userId as number);
 		const dataResponse = response.data;
-		if (dataResponse?.Premium.Status) {
+		if (dataResponse?.Premium.Status)
 			DEFAULT_PARAMS_PROFILE_INFO.maxPhotos = 6;
-		}
+		else
+			DEFAULT_PARAMS_PROFILE_INFO.maxPhotos = 2;
+
 
 		const { year, month, day } = parseBirthday(data.birthday) || {};
 		const currentYear = new Date().getFullYear();

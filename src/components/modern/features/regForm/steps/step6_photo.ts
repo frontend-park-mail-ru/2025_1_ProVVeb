@@ -51,7 +51,7 @@ export class CReg100 extends VBC {
 			new Notification({
 				headTitle: 'Что-то пошло не так...',
 				title: 'Ошибка при сохранении фотографий',
-				isWarning: false,
+				isWarning: true,
 				isWithButton: true,
 			}).render();
 
@@ -60,7 +60,7 @@ export class CReg100 extends VBC {
 			new Notification({
 				headTitle: 'Что-то пошло не так...',
 				title: 'Ошибка при сохранении фотографий',
-				isWarning: false,
+				isWarning: true,
 				isWithButton: true,
 			}).render();
 		}
@@ -106,6 +106,7 @@ export class CReg100 extends VBC {
 			}
 
 			const response = await api.getProfile(userId as number);
+			console.log(response);
 
 			if (response.success && response.data) {
 				this.photos = [];
