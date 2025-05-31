@@ -377,6 +377,8 @@ export default class ProfileInfoCard extends BaseComponent {
 							store.setState('ava', this.currentPhotos[0]?.src);
 						}
 					} else {
+						console.log(response.success);
+						console.log(response.data);
 						this.showErrorState('Ошибка загрузки профиля', () => this.render());
 						const notification = new Notification({
 							headTitle: 'Что-то пошло не так...',
@@ -510,6 +512,8 @@ export default class ProfileInfoCard extends BaseComponent {
 			if (response.success && response.data) {
 				await this.updateTemplate(response.data);
 			} else {
+				console.log(response.success);
+				console.log(response.data);
 				this.showErrorState('Ошибка загрузки профиля', () => this.render());
 			}
 		} catch (error) {
