@@ -169,6 +169,7 @@ export default class AdminPage extends BasePage {
 			height: fit-content;
 			flex-direction: row;
 			gap: 10px;
+			flex-wrap: wrap;
 		${CSS_center}`);
 		this.main.add(complaintsOption);
 		this.main.add(feedbackOption);

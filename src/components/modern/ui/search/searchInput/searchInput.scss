@@ -331,3 +331,16 @@
 	}
 
 }
+
+@media (max-width: 426px) {
+	.searchInput__filter {
+		min-width: 280px;
+	}
+}
+
+
+@media (max-width: 375px) {
+	.searchInput__filter {
+		right: -24px;
+	}
+}

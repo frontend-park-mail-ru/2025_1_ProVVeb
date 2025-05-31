@@ -1,7 +1,7 @@
 @use '@styles/mixins';
 
 .formCard {
-	margin-top: 100px;
+	margin-top: 60px;
 	height: 500px;
 	width: 410px;
 	@include mixins.center-horizontal;
