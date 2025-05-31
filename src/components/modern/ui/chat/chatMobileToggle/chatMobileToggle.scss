@@ -59,5 +59,12 @@
 	.usersList {
 		position: absolute;
 		right: 59px;
+		margin-left: 57px;
+	}
+}
+
+@media (max-width: 330px) {
+	.usersList {
+		right: 18px;
 	}
 }
