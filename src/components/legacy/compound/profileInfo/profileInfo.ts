@@ -411,6 +411,7 @@ export default class ProfileInfoCard extends BaseComponent {
 		if (dataResponse?.Premium.Status) {
 			DEFAULT_PARAMS_PROFILE_INFO.maxPhotos = 6;
 		}
+
 		const { year, month, day } = parseBirthday(data.birthday) || {};
 		const currentYear = new Date().getFullYear();
 		const formattedBirthday = (day && month && year)
@@ -418,10 +419,12 @@ export default class ProfileInfoCard extends BaseComponent {
 			: 'Не указан';
 
 		if (data.photos && data.photos.length > 0) {
-			this.initialPhotosFromData = data.photos.map((photo: string) => ({
-				id: this.generateId(),
-				src: api.BASE_URL_PHOTO + photo
-			}));
+			this.initialPhotosFromData = data.photos
+				.slice(0, DEFAULT_PARAMS_PROFILE_INFO.maxPhotos)
+				.map((photo: string) => ({
+					id: this.generateId(),
+					src: api.BASE_URL_PHOTO + photo
+				}));
 
 			console.log(DEFAULT_PARAMS_PROFILE_INFO.maxPhotos);
 			console.log(this.initialPhotosFromData);
