@@ -4,6 +4,8 @@ import { VBanner } from '@features/plan/plan';
 import { VPlan } from '@ui/banner/banner_shop/banner_shop';
 import { Compounder } from '@VDOM/Compounder';
 import BasePage from '../BasePage';
+import store from '@store';
+import { VirtualElement } from '@VDOM/utils';
 
 export default class ShopPage extends BasePage {
 	private components: Array<HeaderMain | NavMenu>;
@@ -53,7 +55,8 @@ export default class ShopPage extends BasePage {
 				justify-content: center;
 				align-items: center;	
 			`);
-		this.main.add(this.plan1).add(this.plan2).add(this.plan3);
+		this.main.add(this.plan1);
+		this.main.add(this.plan2).add(this.plan3);
 	}
 
 	render(): void {
@@ -62,6 +65,11 @@ export default class ShopPage extends BasePage {
 		this.components[0].render();
 		this.parentElement.appendChild(this.contentWrapper);
 		this.components[1].render();
+		if (store.getState('isPremium') == true) {
+			const buffer = ((this.main.getVDOM() as VirtualElement).children[0] as VirtualElement).children[1];
+			const element = (buffer as VirtualElement).children;
+			if (element.length == 3) element.splice(0, 1);
+		}
 		this.main.render(this.contentWrapper);
 	}
 

@@ -5,7 +5,7 @@ import { VInput } from '@ui/input/input';
 import { VList, COUNTRIES } from '@ui/list/list';
 import Notification from '@notification';
 import {
-	isValidLocation,
+	validLocation,
 	isValidEmail,
 	isValidPhone
 } from '@validation';
@@ -30,7 +30,7 @@ export class CReg40 extends VBC {
 		const mail = new VInput('Твой email');
 
 		const list = new VList();
-		const phone = new VInput('(012) 345-67-89');
+		const phone = new VInput('012 345 67 89');
 
 		const main = new Compounder();
 		main.down('location', `
@@ -91,25 +91,49 @@ export class CReg40 extends VBC {
 		const user = store.getState('myUser') as any;
 		const profile = store.getState('myProfile') as any;
 
-		const country = this.country.getValue();
-		const city = this.city.getValue();
-		const district = this.district.getValue();
+		const country = this.country.getValue().trim();
+		const city = this.city.getValue().trim();
+		const district = this.district.getValue().trim();
 
-		if (!isValidLocation(country) || !isValidLocation(city) || !isValidLocation(district)) {
+		const countryValidation = validLocation(country);
+		if (!countryValidation.isValid) {
 			new Notification({
-				headTitle: 'Ошибка валидации',
-				title: 'Каждое поле (страна/город/район) должно быть 3-15 символов',
+				headTitle: 'Некорректная страна',
+				title: countryValidation.error || 'Некорректное название страны',
 				isWarning: true,
 				isWithButton: true,
 			}).render();
 			return false;
 		}
+
+		const cityValidation = validLocation(city);
+		if (!cityValidation.isValid) {
+			new Notification({
+				headTitle: 'Некорректный город',
+				title: cityValidation.error || 'Некорректное название города',
+				isWarning: true,
+				isWithButton: true,
+			}).render();
+			return false;
+		}
+
+		const districtValidation = validLocation(district);
+		if (!districtValidation.isValid) {
+			new Notification({
+				headTitle: 'Некорректный район',
+				title: districtValidation.error || 'Некорректное название района',
+				isWarning: true,
+				isWithButton: true,
+			}).render();
+			return false;
+		}
+
 		profile.location = `${country}@${city}@${district}`;
 
-		const email = this.mail.getValue();
+		const email = this.mail.getValue().trim();
 		if (!isValidEmail(email)) {
 			new Notification({
-				headTitle: 'Ошибка валидации',
+				headTitle: 'Некорректный email',
 				title: 'Введите корректный email (например: example@mail.com)',
 				isWarning: true,
 				isWithButton: true,
@@ -118,13 +142,13 @@ export class CReg40 extends VBC {
 		}
 
 		const phonePrefix = this.list.getDOM()?.textContent?.split(' ')[1] || '';
-		const phoneNumber = this.phone.getValue();
+		const phoneNumber = this.phone.getValue().trim();
 		const fullPhone = phonePrefix + phoneNumber;
 
 		if (!isValidPhone(phoneNumber)) {
 			new Notification({
-				headTitle: 'Ошибка валидации',
-				title: 'Телефон должен быть в формате (123)4567890',
+				headTitle: 'Некорректный номер телефона',
+				title: 'Телефон должен быть в формате 0123456789 или 012 345 67 89',
 				isWarning: true,
 				isWithButton: true,
 			}).render();

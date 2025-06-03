@@ -120,7 +120,7 @@ export default class StepPage extends BasePage {
 
 			form.injectScript('.backButton', 'click', async () => {
 				if (index > 0) {
-					if (onNext && index != 7 && index != 5) {
+					if (onNext && index != 7 && index != 6 && index != 5) {
 						onNext();
 					}
 
@@ -157,6 +157,7 @@ export default class StepPage extends BasePage {
 			interests: [],
 			likedBy: [],
 			preferences: [],
+			parameters: [],
 			photos: []
 		};
 		store.setState('myProfile', profile);

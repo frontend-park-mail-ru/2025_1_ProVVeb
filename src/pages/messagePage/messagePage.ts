@@ -39,7 +39,34 @@ export default class MessagePage extends BasePage {
 		];
 	}
 
+	private startChatWS(chatId: number, callback: (response) => {}) {
+		this.currentChatWS = new WebSocket(`${api.WS_CHAT_URL}/${chatId}`);
+		store.setState('currentChatWS', this.currentChatWS);
+
+		this.currentChatWS.onopen = () => { console.log('ChatWS created!'); };
+		this.currentChatWS.onmessage = callback;
+		this.currentChatWS.onclose = (event) => {
+			console.log(event);
+			if (event.code === 1006) {
+				this.rerender();
+				store.update('profileName');
+				store.update('ava');
+				store.update('premiumBorder');
+				store.update('isAdmin');
+				store.update('isPremium');
+			}
+		};
+	}
+
 	async render(): Promise<void> {
+		this.chatAreaCompounder.delete();
+		this.usersListCompounder.delete();
+
+		this.contentWrapper.innerHTML = '';
+		this.components[0].render();
+		this.parentElement.appendChild(this.contentWrapper);
+		this.components[1].render();
+
 		if (this.notificationWS) {
 			this.notificationWS.close();
 		}
@@ -85,17 +112,8 @@ export default class MessagePage extends BasePage {
 			this.usersListCompounder.add(user);
 		});
 
-		this.contentWrapper.innerHTML = '';
-		this.components[0].render();
-		this.parentElement.appendChild(this.contentWrapper);
-		this.components[1].render();
-
 		this.chatAreaCompounder.addTo(this.contentWrapper);
-		this.usersListCompounder.addTo(this.contentWrapper);
-
-		store.update('profileName');
-		store.update('ava');
-		store.update('premiumBorder');
+		if (usersList.length != 0) this.usersListCompounder.addTo(this.contentWrapper);
 	}
 
 	public getNavMenu(): NavMenu {
@@ -110,7 +128,7 @@ export default class MessagePage extends BasePage {
 		profileId: number
 	) {
 		if (this.currentChatWS) {
-			this.currentChatWS.close();
+			this.currentChatWS.close(4000, 'manual');
 			this.currentChatWS = null;
 		}
 
@@ -142,13 +160,7 @@ export default class MessagePage extends BasePage {
 
 		this.chatAreaCompounder.add(this.messageAreaCompounder);
 
-		this.currentChatWS = new WebSocket(`${api.WS_CHAT_URL}/${chatId}`);
-
-		this.currentChatWS.onopen = () => { };
-
-		this.currentChatWS.onclose = () => { };
-
-		this.currentChatWS.onmessage = (response) => {
+		this.startChatWS(chatId, (response) => {
 			const data = JSON.parse(response.data);
 
 			if (data.type === 'init_messages') {
@@ -195,9 +207,20 @@ export default class MessagePage extends BasePage {
 					}
 				}));
 
+				const textarea1 = document.querySelector<HTMLTextAreaElement>('.chatInput[data-chat-id="2"] textarea');
+				const text = textarea1?.value;
+				const savedStart = textarea1?.selectionStart;
+				const savedEnd = textarea1?.selectionEnd;
+
 				this.chatAreaCompounder.render(this.contentWrapper);
+				const textarea2 = document.querySelector<HTMLTextAreaElement>('.chatInput[data-chat-id="2"] textarea');
+				if (textarea2)
+					textarea2.value = text;
+				if (typeof savedStart === 'number' && typeof savedEnd === 'number')
+					textarea2?.setSelectionRange(savedStart, savedEnd);
+				textarea2?.focus();
 			}
-		};
+		});
 
 		const chatInput = new VChatInput(profileId, () => {
 			const textArea = chatInput.getDOM()?.querySelector('.chatInput__input textarea') as HTMLTextAreaElement | null;
@@ -239,11 +262,11 @@ export default class MessagePage extends BasePage {
 			return { success: false, data: [] };
 		}
 
-		if (!usersList.data) {
+		if (!usersList.data.chats) {
 			return { success: true, data: [] };
 		}
 
-		const usersListWithClick = usersList.data.reverse().map((user) => {
+		const usersListWithClick = usersList.data.chats.reverse().map((user) => {
 			const userItem = new VUserItem(
 				api.BASE_URL_PHOTO + user.profilePicture,
 				user.profileName,
@@ -276,6 +299,8 @@ export default class MessagePage extends BasePage {
 				userItem.update();
 
 				const parent = userItem.getDOM()?.parentElement as HTMLElement;
+
+				if (parent == undefined) return;
 				const element = userItem.getDOM() as HTMLElement;
 				parent.insertBefore(element, parent.firstChild);
 

@@ -36,11 +36,11 @@ export class CReg80_3 extends VBC {
 	public async submit(page?: CReg100): Promise<boolean> {
 		const buffer = store.getState('myProfile') as any;
 
-		const description = this.comp.getValue();
+		const description = this.comp.getValue().trim();
 		if (description === '') {
 			new Notification({
-				headTitle: 'Ошибка валидации',
-				title: 'Описание обязательное поле',
+				headTitle: 'Пустое описание',
+				title: 'Описание обязательный этап регистрации',
 				isWarning: true,
 				isWithButton: true,
 			}).render();
@@ -70,8 +70,13 @@ export class CReg80_3 extends VBC {
 					const data = await api.getProfile(respond.data.user_id);
 					const ava = api.BASE_URL_PHOTO + (data?.data?.photos[0] ?? '');
 					const name = `${data?.data?.firstName} ${data?.data?.lastName}`;
+					const isAdmin = data?.data?.isAdmin;
+					const isPremium = data?.data?.Premium.Status;
+					const premiumBorder = data?.data?.Premium.Border;
 					if (name) { store.setState('profileName', name); }
 					if (ava) { store.setState('ava', ava); }
+					if (isAdmin != undefined) { store.setState('isAdmin', isAdmin); }
+					if (isPremium != undefined) { store.setState('isPremium', isPremium); store.setState('premiumBorder', premiumBorder); }
 
 					page?.updateData();
 				});
@@ -81,6 +86,7 @@ export class CReg80_3 extends VBC {
 					isWithButton: true,
 					title: 'Ошибка сети. Попробуйте позже',
 				}).render();
+				return false;
 			}
 		} else {
 			profile.isMale = (profile.isMale !== store.getState('isMale'));

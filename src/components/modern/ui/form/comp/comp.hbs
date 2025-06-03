@@ -1,4 +1,6 @@
-<div class="comp-form">
+<div class="comp-form 
+	{{#if isResolved}}comp-form--resolved{{/if}} 
+	{{#if isRejected}}comp-form--rejected{{/if}}">
 	<header class="comp-form__header">
 		<div class="header__left">
 			<div class="header__left-1">от кого:</div>

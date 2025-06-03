@@ -76,7 +76,7 @@ export class VPhotoInput extends VBC {
 
 		const confirmComponent = new Confirm({
 			headTitle: 'Согласны?',
-			title: 'Удалить эту фотографию с сервера?',
+			title: 'Удалить эту фотографию?',
 			isWarning: true,
 		});
 		const confirm = await confirmComponent.render();

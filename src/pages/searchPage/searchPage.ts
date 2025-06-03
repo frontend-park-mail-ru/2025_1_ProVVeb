@@ -74,8 +74,8 @@ export default class SearchPage extends BasePage {
 				ageMax: !Number.isNaN(Number(ageMax.value)) ? Number(ageMax.value) : 125,
 				heightMin: !Number.isNaN(Number(heightMin.value)) ? Number(heightMin.value) : 100,
 				heightMax: !Number.isNaN(Number(heightMax.value)) ? Number(heightMax.value) : 250,
-				country: country.value.trim(),
-				city: city.value.trim(),
+				country: '', // country.value.trim(),
+				city: '', // city.value.trim(),
 
 			});
 
@@ -108,7 +108,7 @@ export default class SearchPage extends BasePage {
 
 			if (searchItems.length === 0) {
 				this.pageCompounder.add(new VSearchStart(
-					'Мы не нашли такую (',
+					'Не удалось найти (',
 					'Попробуй изменить параметры поиска'
 				));
 			} else {
@@ -171,9 +171,10 @@ export default class SearchPage extends BasePage {
 		if (!response.success) {
 			return { success: false, data: [] };
 		}
+		console.log('response.data', response.data)
 		return {
 			success: true,
-			data: response.data.map((profile) => new VSearchItem(
+			data: response.data.slice(0, 10).map((profile) => new VSearchItem(
 				api.BASE_URL_PHOTO + profile.firstImgSrc,
 				profile.fullname,
 				profile.age
@@ -204,13 +205,13 @@ export default class SearchPage extends BasePage {
 			return { success: false, data: [] };
 		}
 
-		if (!response.data) {
+		if (response.data?.message !== undefined) {
 			return { success: true, data: [] };
 		}
 
 		return {
 			success: true,
-			data: response.data.map((profile: any) => ({
+			data: response.data.profiles.map((profile: any) => ({
 				idUser: profile.idUser || store.getState('myID') as number,
 				firstImgSrc: profile.firstImgSrc || '/frontend/src/media/error/400x600.jpg',
 				fullname: profile.fullname || 'Мое имя, хи-хи',

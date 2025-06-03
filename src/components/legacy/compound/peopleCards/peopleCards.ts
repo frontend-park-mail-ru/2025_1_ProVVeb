@@ -5,6 +5,7 @@ import { parseBirthday, toPrimeClass } from '@modules/utils';
 import Notification from '@simple/notification/notification';
 import router, { AppPage } from '@modules/router';
 import PersonCard from '../personCard/personCard';
+import { VBC } from '@VDOM/VBC';
 
 interface Listener {
 	event: string;
@@ -33,9 +34,16 @@ export default class PeopleCards extends BaseComponent {
 	}
 
 	private async loadData(): Promise<void> {
+		if (this.currentIndex == this.CARDS.length) {
+			this.currentIndex = 0;
+			this.CARDS = [];
+			this.isDataLoaded = false;
+			this.currentCard = null;
+			this.canGoBack = false;
+		}
 		if (!this.isDataLoaded) {
 			const response = await api.getProfiles(store.getState('myID') as number);
-			this.CARDS = response.data || [];
+			this.CARDS = response.data.profiles || [];
 			this.isDataLoaded = true;
 		}
 	}
@@ -83,6 +91,14 @@ export default class PeopleCards extends BaseComponent {
 			},
 		];
 
+		if (this.CARDS.length == 0) {
+			const follback = new VBC(
+				`<img draggable="false" src="media/error/follback.svg" alt="follback" class="follback" />`
+			);
+			follback.render(this.parentElement);
+			return;
+		}
+
 		this.currentCard = new PersonCard(
 			this.parentElement,
 			{
@@ -123,7 +139,7 @@ export default class PeopleCards extends BaseComponent {
 		this.canGoBack = true;
 
 		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
-		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
+		this.currentIndex = this.currentIndex + 1;
 		await this.render();
 
 		if (btns) {
@@ -146,7 +162,7 @@ export default class PeopleCards extends BaseComponent {
 		this.canGoBack = true;
 
 		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
-		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
+		this.currentIndex = this.currentIndex + 1;
 		await this.render();
 
 		if (btns) {
@@ -187,7 +203,7 @@ export default class PeopleCards extends BaseComponent {
 
 		await api.SuperLike(likeFrom, likeTo);
 		this.canGoBack = false;
-		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
+		this.currentIndex = this.currentIndex + 1;
 		router.navigateTo(AppPage.Matches);
 	}
 
@@ -209,7 +225,7 @@ export default class PeopleCards extends BaseComponent {
 		this.canGoBack = false;
 
 		await new Promise((resolve) => setTimeout(resolve, this.animateDelay));
-		this.currentIndex = (this.currentIndex + 1) % this.CARDS.length;
+		this.currentIndex = this.currentIndex + 1;
 		await this.render();
 
 		if (btns) {

@@ -167,9 +167,16 @@ class Router {
 
 		await this.renderPage(page, state);
 
+		if (page != AppPage.Messenger) {
+			const ws = store.getState('currentChatWS') as WebSocket;
+			if (ws != undefined) ws.close(4000, 'manual');
+		}
+
 		store.update('profileName');
 		store.update('ava');
 		store.update('premiumBorder');
+		store.update('isAdmin');
+		store.update('isPremium');
 	}
 
 	public async start() {
@@ -185,20 +192,23 @@ class Router {
 			return;
 		}
 
-		await this.navigateTo(currentPath);
-		startNotifications();
-
 		const ID = store.getState('myID') as number;
 		const data = await api.getProfile(ID);
 		const ava = api.BASE_URL_PHOTO + (data?.data?.photos[0] ?? '');
 		const name = `${data?.data?.firstName} ${data?.data?.lastName}`;
 		const isPremium = data?.data?.Premium.Status;
 		const premiumBorder = data?.data?.Premium.Border;
+		const isAdmin = data?.data?.isAdmin;
 
-		if (ava) { store.setState('ava', ava); }
-		if (name) { store.setState('profileName', name); }
-		if (data?.data?.isMale) { store.setState('isMale', data?.data?.isMale); }
-		if (isPremium) { store.setState('isPremium', isPremium); store.setState('premiumBorder', premiumBorder); }
+		if (ava != undefined) { store.setState('ava', ava); }
+		if (name != undefined) { store.setState('profileName', name); }
+		if (data?.data?.isMale != undefined) { store.setState('isMale', data?.data?.isMale); }
+		if (isPremium != undefined) { store.setState('isPremium', isPremium); store.setState('premiumBorder', premiumBorder); }
+		if (isAdmin != undefined) { store.setState('isAdmin', isAdmin); }
+
+		await startNotifications();
+		if (currentPath == 'admin') await this.navigateTo(AppPage.Feed);
+		else await this.navigateTo(currentPath);
 	}
 
 	private checkCookie(page: AppPage): AppPage {

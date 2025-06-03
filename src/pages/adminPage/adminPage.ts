@@ -7,12 +7,15 @@ import { VAdminCSAT } from './adminCSAT/adminCSAT';
 import { VOption } from '@ui/option/option';
 import { CSS_center } from '@vstyles';
 import { VirtualElement } from '@VDOM/utils';
+import api from '@network';
+import store from '@store';
+import Notification from '@simple/notification/notification';
+import { statistic_params, VAdminStat } from './adminStat/adminStat';
+import { formatISODate } from "@modules/utils";
 
 export default class AdminPage extends BasePage {
 	private components: Array<HeaderMain | NavMenu>;
-
 	private contentWrapper: HTMLElement;
-
 	private main: Compounder;
 
 	constructor(parentElement: HTMLElement) {
@@ -26,33 +29,135 @@ export default class AdminPage extends BasePage {
 			new NavMenu(this.contentWrapper),
 		];
 
-		const option1 = new VOption('Жалобы');
-		const option2 = new VOption('Отзывы');
-		option1.inject(undefined, '', [{
+		const complaintsOption = new VOption('Жалобы');
+		const feedbackOption = new VOption('Отзывы');
+		const statisticOption = new VOption('Статистика');
+
+		complaintsOption.inject(undefined, '', [{
 			selector: '.option',
 			eventType: 'click',
-			handler: () => {
-				const pageComp = new VAdminComp();
-				option1.getDOM()?.classList.add('option-checked');
-				option2.getDOM()?.classList.remove('option-checked');
-				console.log(this.main);
+			handler: async () => {
+				if (complaintsOption.getDOM()?.classList.contains('option-checked')) return;
+
+				const complaintsData = await api.findComplaints();
+
+				if (!complaintsData.success) {
+					new Notification({
+						headTitle: 'Ошибка сети',
+						title: 'Не удалось получить данные: проверь подключение)',
+						isWarning: false,
+						isWithButton: true,
+					}).render();
+					return;
+				}
+
+				if (complaintsData.data.complaints === null) {
+					new Notification({
+						headTitle: 'Жалобы не найдены',
+						title: 'С текущими параметрами не найдено жалоб',
+						isWarning: false,
+						isWithButton: true,
+					}).render();
+					return;
+				}
+
+				const pageComp = new VAdminComp(complaintsData.data.complaints as []);
+				complaintsOption.getDOM()?.classList.add('option-checked');
+				statisticOption.getDOM()?.classList.remove('option-checked');
+				feedbackOption.getDOM()?.classList.remove('option-checked');
+
 				const link = ((this.main.getVDOM() as VirtualElement).children[0] as VirtualElement).children;
 				if (link.length == 2) link.pop();
+
 				this.main.add(pageComp);
 				this.main.update(true);
 			}
 		}]);
-		option2.inject(undefined, '', [{
+
+		feedbackOption.inject(undefined, '', [{
 			selector: '.option',
 			eventType: 'click',
-			handler: () => {
-				const pageCSAT = new VAdminCSAT();
-				option1.getDOM()?.classList.remove('option-checked');
-				option2.getDOM()?.classList.add('option-checked');
-				console.log(this.main);
+			handler: async () => {
+				if (feedbackOption.getDOM()?.classList.contains('option-checked')) return;
+
+				const feedbacksData = await api.findQueries();
+
+				if (!feedbacksData.success) {
+					new Notification({
+						headTitle: 'Ошибка сети',
+						title: 'Не удалось получить данные: проверь подключение)',
+						isWarning: false,
+						isWithButton: true,
+					}).render();
+					return;
+				}
+
+				if (feedbacksData.data.answers === null) {
+					new Notification({
+						headTitle: 'Нет данных',
+						title: 'Отзывы не найдены',
+						isWarning: false,
+						isWithButton: true,
+					}).render();
+					feedbacksData.data.answers = [];
+				}
+
+				const pageCSAT = new VAdminCSAT(feedbacksData.data.answers as []);
+				complaintsOption.getDOM()?.classList.remove('option-checked');
+				statisticOption.getDOM()?.classList.remove('option-checked');
+				feedbackOption.getDOM()?.classList.add('option-checked');
+
 				const link = ((this.main.getVDOM() as VirtualElement).children[0] as VirtualElement).children;
 				if (link.length == 2) link.pop();
+
 				this.main.add(pageCSAT);
+				this.main.update(true);
+			}
+		}]);
+
+		statisticOption.inject(undefined, '', [{
+			selector: '.option',
+			eventType: 'click',
+			handler: async () => {
+				if (statisticOption.getDOM()?.classList.contains('option-checked')) return;
+
+				const statisticData = await api.getStat();
+
+				if (!statisticData.success) {
+					new Notification({
+						headTitle: 'Ошибка сети',
+						title: 'Не удалось получить данные: проверь подключение или ты просто не админ)',
+						isWarning: false,
+						isWithButton: true,
+					}).render();
+					return;
+				}
+
+				const formattedData = {
+					A_Total: statisticData.queriesData?.TotalAnswers || 0,
+					A_AverageScore: statisticData.queriesData?.AverageScore || 0,
+					A_MinScore: statisticData.queriesData?.MinScore || 0,
+					A_MaxScore: statisticData.queriesData?.MaxScore || 0,
+
+					C_Total: statisticData.complaintsData?.total_complaints || 0,
+					C_Rejected: statisticData.complaintsData?.rejected || 0,
+					C_Pending: statisticData.complaintsData?.pending || 0,
+					C_Approved: statisticData.complaintsData?.closed || 0,
+					С_TotalBy: statisticData.complaintsData?.total_complainants || 0,
+					C_TotalOn: statisticData.complaintsData?.total_reported || 0,
+					C_FirstComplaint: formatISODate(statisticData.complaintsData?.first_complaint || 'N/A'),
+					C_LastComplaint: formatISODate(statisticData.complaintsData?.last_complaint || 'N/A')
+				};
+
+				const pageStat = new VAdminStat(formattedData as statistic_params);
+				complaintsOption.getDOM()?.classList.remove('option-checked');
+				feedbackOption.getDOM()?.classList.remove('option-checked');
+				statisticOption.getDOM()?.classList.add('option-checked');
+
+				const link = ((this.main.getVDOM() as VirtualElement).children[0] as VirtualElement).children;
+				if (link.length == 2) link.pop();
+
+				this.main.add(pageStat);
 				this.main.update(true);
 			}
 		}]);
@@ -64,11 +169,33 @@ export default class AdminPage extends BasePage {
 			height: fit-content;
 			flex-direction: row;
 			gap: 10px;
+			flex-wrap: wrap;
 		${CSS_center}`);
-		this.main.add(option1);
-		this.main.add(option2);
+		this.main.add(complaintsOption);
+		this.main.add(feedbackOption);
+		this.main.add(statisticOption);
 		this.main.up();
 		this.main.setID();
+
+		store.subscribe('newDataForAdminComp', (data) => {
+			const pageComp = new VAdminComp(data as []);
+
+			const link = ((this.main.getVDOM() as VirtualElement).children[0] as VirtualElement).children;
+			if (link.length == 2) link.pop();
+
+			this.main.add(pageComp);
+			this.main.update(true);
+		});
+
+		store.subscribe('newDataForAdminCSAT', (data) => {
+			const pageCSAT = new VAdminCSAT(data as []);
+
+			const link = ((this.main.getVDOM() as VirtualElement).children[0] as VirtualElement).children;
+			if (link.length == 2) link.pop();
+
+			this.main.add(pageCSAT);
+			this.main.update(true);
+		});
 	}
 
 	render(): void {

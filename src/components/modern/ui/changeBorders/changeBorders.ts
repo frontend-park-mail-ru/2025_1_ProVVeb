@@ -18,7 +18,6 @@ export class VChangeBorders extends VBC {
 						const radio = event.target as HTMLInputElement;
 						const radioValue = Number(radio.value) - 1;
 						if (radio.checked) {
-							console.log('Выбран стиль оформления №', radio.value);
 							const response = await api.changeBorder(radioValue);
 							if (!response.success || !response.data) {
 								const notification = new Notification({

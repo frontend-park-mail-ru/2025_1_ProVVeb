@@ -37,13 +37,18 @@ DEFAULT_AUTH_PARAMS_BUTTON.listenButton = {
 
 					const ava = api.BASE_URL_PHOTO + (data?.data?.photos[0] ?? '');
 					const name = `${data?.data?.firstName} ${data?.data?.lastName}`;
+					const isAdmin = data?.data?.isAdmin;
+					const isPremium = data?.data?.Premium.Status;
+					const premiumBorder = data?.data?.Premium.Border;
 
 					if (name) { store.setState('profileName', name); }
 					if (ava) { store.setState('ava', ava); }
 					if (data?.data?.isMale) { store.setState('isMale', data?.data?.isMale); }
+					if (isAdmin != undefined) { store.setState('isAdmin', isAdmin); }
+					if (isPremium != undefined) { store.setState('isPremium', isPremium); store.setState('premiumBorder', premiumBorder); }
 
 					await router.navigateTo(AppPage.Feed);
-					startNotifications();
+					await startNotifications();
 				} else {
 					const JSONans = JSON.parse(respond.message as string);
 

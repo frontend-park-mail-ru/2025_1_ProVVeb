@@ -29,7 +29,7 @@ export default class MatchesCards extends BaseComponent {
 
 	private async loadData(): Promise<void> {
 		const response = await api.getMatches(store.getState('myID') as number);
-		this.DATA = response.data || [];
+		this.DATA = response.data.profiles || [];
 	}
 
 	public async render() {
@@ -42,7 +42,9 @@ export default class MatchesCards extends BaseComponent {
 		const buffer = this.parentElement.querySelector('.mainContent__central');
 		if (buffer) { buffer.innerHTML = ''; }
 
-		if (this.DATA.length === 0 && buffer) { buffer.innerHTML = 'Любовь никогда не дремлет. Она скоро тебя найдет!'; }
+		if ((this.DATA.length === 0 || this.DATA === null) && buffer) {
+			buffer.innerHTML = 'Любовь никогда не дремлет. Она скоро тебя найдет!';
+		}
 
 		(this.DATA as Profile[]).forEach((data) => {
 			currentID++;

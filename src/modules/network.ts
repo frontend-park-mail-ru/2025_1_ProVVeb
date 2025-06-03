@@ -1,15 +1,14 @@
-// const IP = '213.219.214.83';
-const IP = 'localhost';
-// const IP = 'beameye.ru';
+// const IP = 'localhost';
+// const BASE_URL = `http://${IP}/api`;
+// const BASE_URL_PHOTO = `http://${IP}/img/profile-photos`;
+// const WS_CHAT_URL = `ws://${IP}/api/chats`;
+// const WS_NOTIF_URL = `ws://${IP}/api/notifications`;
 
-const BASE_URL = `http://${IP}/api`;
-const BASE_URL_PHOTO = `http://${IP}/img/profile-photos`;
-const WS_CHAT_URL = `ws://${IP}/api/chats`;
-const WS_NOTIF_URL = `ws://${IP}/api/notifications`;
-// const BASE_URL = `http://${IP}:8080`;
-// const BASE_URL_PHOTO = `http://${IP}:8030/profile-photos`;
-// const WS_CHAT_URL = `ws://${IP}:8080/chats`;
-// const WS_NOTIF_URL = `ws://${IP}:8080/notifications`;
+const IP = 'beameye.ru';
+const BASE_URL = `https://${IP}/api`;
+const BASE_URL_PHOTO = `https://${IP}/img/profile-photos`;
+const WS_CHAT_URL = `wss://${IP}/api/chats`;
+const WS_NOTIF_URL = `wss://${IP}/api/notifications`;
 
 interface ApiResponse<T = any> {
 	success: boolean;
@@ -34,6 +33,7 @@ export interface Profile {
 		Status: boolean;
 		Border: number;
 	}
+	isAdmin: boolean;
 }
 
 export interface User {
@@ -322,6 +322,80 @@ function payWithYooMoney(params: {
 	document.body.removeChild(form);
 }
 
+function findComplaints(
+	complaint_by?: number,
+	name_by?: string,
+	complaint_on?: number,
+	name_on?: string,
+	complaint_type?: string,
+	status?: number
+) {
+	const url = `${BASE_URL}/complaints/find`;
+	const params = {
+		complaint_by,
+		name_by,
+		complaint_on,
+		name_on,
+		complaint_type,
+		status
+	};
+	return sendRequest(url, 'POST', params);
+}
+
+function deleteComplaint(complaint_by: number) {
+	const url = `${BASE_URL}/complaints/delete`;
+	return sendRequest(url, 'DELETE', { complaint_by });
+}
+
+function handleComplaint(
+	complaint_id: number,
+	new_status: number
+) {
+	const url = `${BASE_URL}/complaints/handle`;
+	return sendRequest(url, 'POST', { complaint_id, new_status });
+}
+
+function findQueries(
+	name?: string,
+) {
+	const url = `${BASE_URL}/queries/findQuery`;
+	return sendRequest(url, 'POST', { name, query_id: 0 });
+}
+
+function deleteQuery(
+	query_name: string,
+	user_id: number
+) {
+	const url = `${BASE_URL}/queries/deleteAnswer`;
+	return sendRequest(url, 'POST', { query_name, user_id });
+}
+
+function getStatComplaints() {
+	const url = `${BASE_URL}/complaints/getStatistics`;
+	return sendRequest(url, 'POST', {
+		Time_From: '1970-01-01T00:00:00',
+		Time_To: new Date().toISOString()
+	});
+}
+
+function getStatQueries() {
+	const url = `${BASE_URL}/queries/getStatistics`;
+	return sendRequest(url, 'POST', {
+		query_id: 1
+	});
+}
+
+async function getStat() {
+	const raw_data1 = await getStatComplaints();
+	const raw_data2 = await getStatQueries();
+
+	return {
+		success: raw_data1.success && raw_data2.success,
+		complaintsData: raw_data1.success ? raw_data1.data : null,
+		queriesData: raw_data2.success ? raw_data2.data : null
+	};
+}
+
 export default {
 	BASE_URL_PHOTO,
 	BASE_URL,
@@ -348,5 +422,10 @@ export default {
 	createChat,
 	changeBorder,
 	subscribe,
-	SuperLike
+	SuperLike,
+	findComplaints,
+	handleComplaint,
+	findQueries,
+	deleteQuery,
+	getStat
 };

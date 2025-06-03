@@ -18,9 +18,9 @@ const DEFAULT_LOGIN_PARAMS_BUTTON: LoginButtonParams = {
 		eventType: 'click',
 		selector: '.button',
 		callback: () => {
-			const loginValue = store.getState('loginInput') as string;
-			const passwordValue = store.getState('passwordInput') as string;
-			const passwordAgainValue = store.getState('passwordInputAgain') as string;
+			const loginValue = (store.getState('loginInput') as string);
+			const passwordValue = (store.getState('passwordInput') as string);
+			const passwordAgainValue = (store.getState('passwordInputAgain') as string);
 
 			if (checkLogin(loginValue, passwordValue, passwordAgainValue)) {
 				const user = store.getState('myUser') as any;

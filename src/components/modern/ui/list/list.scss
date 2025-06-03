@@ -4,7 +4,8 @@
 	font-family: Arial, sans-serif;
 
 	&__selected {
-		padding: 8px;
+		width: fit-content;
+		padding: 8px 8px 0 0;
 		border: none;
 		background: transparent;
 		text-align: center;
@@ -26,7 +27,7 @@
 		width: 90px;
 		height: 3px;
 		background-color: var(--gray-line);
-		margin: 4px auto 0;
+		margin: 0 auto 0;
 		transition: background-color 0.3s;
 	}
 

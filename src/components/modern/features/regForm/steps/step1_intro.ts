@@ -9,7 +9,7 @@ import Notification from '@notification';
 import {
 	isValidName,
 	isValidSurname,
-	isValidBirthDate
+	validateBirthDate
 } from '@validation';
 
 export class CReg20 extends VBC {
@@ -95,22 +95,22 @@ export class CReg20 extends VBC {
 	public async submit(): Promise<boolean> {
 		const profile = store.getState('myProfile') as any;
 
-		const firstName = this.name.getValue();
+		const firstName = this.name.getValue().trim();
 		if (!isValidName(firstName)) {
 			new Notification({
-				headTitle: 'Ошибка валидации',
-				title: 'Имя должно быть от 3 до 15 букв (англ/рус)',
+				headTitle: 'Некорректное имя',
+				title: 'Имя должно содержать от 3 до 15 символов (только буквы русского или английского алфавита)',
 				isWarning: true,
 				isWithButton: true,
 			}).render();
 			return false;
 		}
 
-		const lastName = this.surname.getValue();
+		const lastName = this.surname.getValue().trim();
 		if (!isValidSurname(lastName)) {
 			new Notification({
-				headTitle: 'Ошибка валидации',
-				title: 'Фамилия должна быть от 3 до 15 букв (англ/рус)',
+				headTitle: 'Некорректная фамилия',
+				title: 'Фамилия должна содержать от 3 до 15 букв (разрешены только русские или английские буквы)',
 				isWarning: true,
 				isWithButton: true,
 			}).render();
@@ -118,10 +118,11 @@ export class CReg20 extends VBC {
 		}
 
 		const birthDate = this.date.getDate();
-		if (!isValidBirthDate(birthDate)) {
+		const validationResult = validateBirthDate(birthDate);
+		if (!validationResult.isValid) {
 			new Notification({
-				headTitle: 'Ошибка валидации',
-				title: 'Некорректная дата. Формат: ДДММГГГГ',
+				headTitle: 'Ошибка в дате рождения',
+				title: validationResult.error || 'Некорректная дата рождения',
 				isWarning: true,
 				isWithButton: true,
 			}).render();
